@@ -9,16 +9,16 @@ namespace Microsoft.Xna.Framework.Content
 {
 	public class ContentManager : Object, IDisposable
 	{
-        const uint8 ContentCompressedLzx = 0x80;
-        const uint8 ContentCompressedLz4 = 0x40;
+		const uint8 ContentCompressedLzx = 0x80;
+		const uint8 ContentCompressedLz4 = 0x40;
 
 		private string _rootDirectory = ""; // string.Empty;
-        private bool disposed;
+		private bool disposed;
 
 
 		public ContentManager()
 		{
-            // AddContentManager(this);
+			// AddContentManager(this);
 		}
 
 		public void Dispose()
@@ -32,10 +32,10 @@ namespace Microsoft.Xna.Framework.Content
 		{
 			if (!disposed)
 			{
-                if (disposing)
-                {
-                    Unload();
-                }
+				if (disposing)
+				{
+					Unload();
+				}
 
 				disposed = true;
 			}
@@ -44,57 +44,57 @@ namespace Microsoft.Xna.Framework.Content
 
 		public virtual T Load<T>(string assetName)
 		{
-            if (assetName == null || assetName == "")
-            {
-                throw new Exception.ArgumentNullException("assetName");
-            }
-            if (disposed)
-            {
-                throw new Exception.ObjectDisposedException("ContentManager");
-            }
-            return Asset.Get(URI(@"$_rootDirectory/$assetName"));
-        }
+			if (assetName == null || assetName == "")
+			{
+				throw new Exception.ArgumentNullException("assetName");
+			}
+			if (disposed)
+			{
+				throw new Exception.ObjectDisposedException("ContentManager");
+			}
+			return Asset.Get(URI(@"$_rootDirectory/$assetName"));
+		}
 
-        /// <summary>
-        /// This API is an extension to XNA.
-        /// loads all assets from an asset folder
-        /// </summary>
-        /// <returns>Load all assets.</returns>
-        public virtual void LoadAll(string assetFolder)
-        {
-            if (assetFolder == null || assetFolder == "")
-            {
-                throw new Exception.ArgumentNullException("assetFolder");
-            }
-            if (disposed)
-            {
-                throw new Exception.ObjectDisposedException("ContentManager");
-            }
-            Folder.Load(URI(@"$_rootDirectory/$assetFolder/"));
-            
-        }
+		/// <summary>
+		/// This API is an extension to XNA.
+		/// loads all assets from an asset folder
+		/// </summary>
+		/// <returns>Load all assets.</returns>
+		public virtual void LoadAll(string assetFolder)
+		{
+			if (assetFolder == null || assetFolder == "")
+			{
+				throw new Exception.ArgumentNullException("assetFolder");
+			}
+			if (disposed)
+			{
+				throw new Exception.ObjectDisposedException("ContentManager");
+			}
+			Folder.Load(URI(@"$_rootDirectory/$assetFolder/"));
+			
+		}
 
-        /// <summary>
-        /// This API is an extension to XNA.
-        /// loads 1 asset
-        /// </summary>
-        /// <returns>Load an asset.</returns>
+		/// <summary>
+		/// This API is an extension to XNA.
+		/// loads 1 asset
+		/// </summary>
+		/// <returns>Load an asset.</returns>
 		public virtual CObject LoadAsset(string assetName)
 		{
-            if (assetName == null || assetName == "")
-            {
-                throw new Exception.ArgumentNullException("assetName");
-            }
-            if (disposed)
-            {
-                throw new Exception.ObjectDisposedException("ContentManager");
-            }
-            return Asset.Get(URI(@"$_rootDirectory/$assetName"));
-        }
+			if (assetName == null || assetName == "")
+			{
+				throw new Exception.ArgumentNullException("assetName");
+			}
+			if (disposed)
+			{
+				throw new Exception.ObjectDisposedException("ContentManager");
+			}
+			return Asset.Get(URI(@"$_rootDirectory/$assetName"));
+		}
 
 		public virtual void Unload()
 		{
-		    // Look for disposable assets.
+			// Look for disposable assets.
 		}
 
 		public string RootDirectory
@@ -109,13 +109,13 @@ namespace Microsoft.Xna.Framework.Content
 			}
 		}
 
-        internal string RootDirectoryFullPath
-        {
-            get
-            {
-                return URI(RootDirectory).Full().ToString();
-            }
-        }
+		internal string RootDirectoryFullPath
+		{
+			get
+			{
+				return URI(RootDirectory).Full().ToString();
+			}
+		}
 		
 	}
 }
