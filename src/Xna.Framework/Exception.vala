@@ -22,39 +22,19 @@
  * TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-
-/**
- * Port of Xna from CSharp to Vala
- *
- *  
- *
- *
- */
- namespace Microsoft.Xna.Framework 
+namespace Microsoft.Xna.Framework 
 {
-    public int FloatGetHashCode(float m_value)
+    public errordomain Exception 
     {
-        float f = m_value;
-        if (f == 0) return 0;
-        long value = *(long*)(&f);
-        return ((int)value) ^ ((int)(value >> 32));
-    }
-    /**
-     *
-     * Initialize the framework.
-     * This makes sure that static values such as:
-     *  TimeSpan.Zero 
-     *  System.EventArgs.Empty
-     *
-     * are initialized.
-     */
-    public void Initialize()
-    {
-        TimeSpan.Initialize();
-        new System.EventArgs();
-        new Microsoft.Xna.Framework.Input.KeyboardUtil();
-        Microsoft.Xna.Framework.Input.MouseCursor.Initialize();
-        Microsoft.Xna.Framework.Input.Joystick.Initialize();
-        Microsoft.Xna.Framework.Input.GamePad.Initialize();
+        ArgumentException,
+        ArgumentNullException,
+        ArgumentOutOfRangeException,
+        Exception,
+        InvalidOperationException,
+        NoSuitableGraphicsDeviceException,
+        NotImplementedException,
+        NotSupportedException,
+        NullReferenceException,
+        ObjectDisposedException
     }
 }

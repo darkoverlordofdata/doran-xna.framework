@@ -1,6 +1,7 @@
 # Doran-Xna.Framework
 
-This is not intended to be MonoGame in Vala.
+Work in progess.
 
-This is a port of Microsoft.Xna.Framework bits that I need for sdl2.
+Partial port of MonoGame to Vala.
 
+Only the partial's that apply to SDL. For now, the opengl related vertex handling is performed by Corange.
