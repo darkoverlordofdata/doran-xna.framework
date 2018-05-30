@@ -56,5 +56,6 @@
         Microsoft.Xna.Framework.Input.MouseCursor.Initialize();
         Microsoft.Xna.Framework.Input.Joystick.Initialize();
         Microsoft.Xna.Framework.Input.GamePad.Initialize();
+        Microsoft.Xna.Framework.Input.KeyboardState.Initialize();
     }
 }

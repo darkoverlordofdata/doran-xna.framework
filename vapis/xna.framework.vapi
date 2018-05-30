@@ -3054,18 +3054,18 @@ namespace Microsoft.Xna.Framework {
 	//  	public int play_at_looped(Vector3 pos, Vector3 cam_pos, Vector3 cam_dir, int loops);
 	//  }
 
-	[CCode (cname = "MAX_STICKS")]
-	public const int MAX_STICKS;
+	// [CCode (cname = "MAX_STICKS")]
+	// public const int MAX_STICKS;
 
-	[SimpleType]
-	[CCode (cname = "joystick")]
-	public struct Joystick {
-		public static void init();
-		public static void finish();
+	// [SimpleType]
+	// [CCode (cname = "joystick")]
+	// public struct Joystick {
+	// 	public static void init();
+	// 	public static void finish();
 		
-		public static int count();
-		public static CObject get(int i);
-	}
+	// 	public static int count();
+	// 	public static CObject get(int i);
+	// }
 	
 	[CCode (cname = "int", cprefix = "HTTP_ERR_")]
 	public enum HttpErr {
@@ -5867,10 +5867,10 @@ namespace Sdl
 		return value;
 	}
 
-	private GLib.IntPtr GetErrorPtr(GLib.IntPtr pointer)
+	private GLib.IntPtr GetErrorPtr(string name, GLib.IntPtr? pointer)
     {
 		if (pointer == GLib.IntPtr.Zero)
-			GLib.stdout.printf(SDL_GetError());
+			GLib.stdout.printf("%s: %s\n", name, SDL_GetError());
 		return pointer;
 	}
 	
@@ -6043,7 +6043,7 @@ namespace Sdl
 
 		public static GLib.IntPtr Create(string title, int x, int y, int w, int h, uint32 flags) 
 		{
-			return GetErrorPtr(SDL_CreateWindow(title, x, y, w, h, flags));
+			return GetErrorPtr("SDL_CreateWindow", SDL_CreateWindow(title, x, y, w, h, flags));
 		}
 
 		[CCode (cname = "SDL_DestroyWindow")]
@@ -6275,7 +6275,7 @@ namespace Sdl
 
         public static GLib.IntPtr CreateContext(GLib.IntPtr window)
         {
-            return GetErrorPtr(SDL_GL_CreateContext(window));
+            return GetErrorPtr("SDL_GL_CreateContext", SDL_GL_CreateContext(window));
         }
 
 		[CCode (cname = "SDL_GL_DeleteContext")]
@@ -6286,7 +6286,7 @@ namespace Sdl
 
 		public static GLib.IntPtr GetCurrentContext()
         {
-            return GetErrorPtr(SDL_GL_GetCurrentContext());
+            return GetErrorPtr("SDL_GL_GetCurrentContext", SDL_GL_GetCurrentContext());
 		}
 
 		[CCode (cname = "SDL_GL_GetSwapInterval")]
@@ -6400,14 +6400,14 @@ namespace Sdl
 
         public static GLib.IntPtr CreateColorCursor(GLib.IntPtr surface, int x, int y)
         {
-            return GetErrorPtr(SDL_CreateColorCursor(surface, x, y));
+            return GetErrorPtr("SDL_CreateColorCursor", SDL_CreateColorCursor(surface, x, y));
         }
 
 		[CCode (cname = "SDL_CreateSystemCursor")]
 		private static GLib.IntPtr SDL_CreateSystemCursor (SystemCursor id);
         public static GLib.IntPtr CreateSystemCursor(SystemCursor id)
         {
-            return GetErrorPtr(SDL_CreateSystemCursor(id));
+            return GetErrorPtr("SDL_CreateSystemCursor", SDL_CreateSystemCursor(id));
         }
 
 		[CCode (cname = "SDL_FreeCursor")]
@@ -6569,7 +6569,7 @@ namespace Sdl
 
         public static GLib.IntPtr FromInstanceID(int joyid)
         {
-            return GetErrorPtr(SDL_JoystickFromInstanceID(joyid));
+            return GetErrorPtr("SDL_JoystickFromInstanceID", SDL_JoystickFromInstanceID(joyid));
         }
 
 		[CCode (cname = "SDL_JoystickGetAxis")]
@@ -6592,7 +6592,7 @@ namespace Sdl
 
         public static GLib.IntPtr Open(int deviceIndex)
         {
-            return GetErrorPtr(SDL_JoystickOpen(deviceIndex));
+            return GetErrorPtr("SDL_JoystickOpen", SDL_JoystickOpen(deviceIndex));
         }
 
 		[CCode (cname = "SDL_JoystickNumAxes")]
@@ -6714,7 +6714,7 @@ namespace Sdl
 	
         public static GLib.IntPtr FromInstanceID(int joyid)
         {
-            return GetErrorPtr(SDL_GameControllerFromInstanceID(joyid));
+            return GetErrorPtr("SDL_JoystickFromInstanceID", SDL_GameControllerFromInstanceID(joyid));
         }
 
 		[CCode (cname = "SDL_GameControllerGetAxis")]
@@ -6728,7 +6728,7 @@ namespace Sdl
 
         public static GLib.IntPtr GetJoystick(GLib.IntPtr gamecontroller)
         {
-            return GetErrorPtr(SDL_GameControllerGetJoystick(gamecontroller));
+            return GetErrorPtr("SDL_GameControllerGetJoystick", SDL_GameControllerGetJoystick(gamecontroller));
         }
 
 		[CCode (cname = "SDL_IsGameController")]
@@ -6743,7 +6743,7 @@ namespace Sdl
 	
         public static GLib.IntPtr Open(int joystickIndex)
         {
-            return GetErrorPtr(SDL_GameControllerOpen(joystickIndex));
+            return GetErrorPtr("SDL_GameControllerOpen", SDL_GameControllerOpen(joystickIndex));
         }
 
 		[CCode (cname = "SDL_GameControllerName")]
@@ -6802,7 +6802,7 @@ namespace Sdl
 		
         public static GLib.IntPtr OpenFromJoystick(GLib.IntPtr joystick)
         {
-            return GetErrorPtr(SDL_HapticOpenfromJoystick(joystick));
+            return GetErrorPtr("SDL_HapticOpenfromJoystick", SDL_HapticOpenfromJoystick(joystick));
 		}
 		
 		[CCode (cname = "SDL_HapticRumbleInit")]
@@ -7029,4 +7029,3 @@ namespace Sdl
 	}
 
 }			
-

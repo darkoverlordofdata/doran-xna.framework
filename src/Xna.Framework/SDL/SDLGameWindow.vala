@@ -45,10 +45,7 @@ namespace Microsoft.Xna.Framework
             //     _width, _height,
             //     // GraphicsDeviceManager.DefaultBackBufferWidth, GraphicsDeviceManager.DefaultBackBufferHeight,
             //     Sdl.Window.State.Hidden);
-
             _handle = Sdl.GetCurrentWindow();
-
-                
         }
 
         internal void CreateWindow() 
@@ -167,6 +164,13 @@ namespace Microsoft.Xna.Framework
         }
         
         public void Dispose() {}
+
+        public void SetCursorVisible(bool visible)
+        {
+            _mouseVisible = visible;
+            Sdl.Mouse.ShowCursor(visible ? 1 : 0);
+        }
+        
     }    
 
 

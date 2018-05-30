@@ -4,6 +4,7 @@
 
 using Gee;
 using System;
+// using System.Collections.Generic;
 using System.Diagnostics;
 // using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
@@ -433,13 +434,20 @@ namespace Microsoft.Xna.Framework
         {
             // print("Game::Draw\n");
             // _drawables.foreach(DrawAction);
+            UIRender();
+            Graphic.Swap(); 
         }
 
         protected virtual void Update(GameTime gameTime)
         {
-            // print("Game::Update\n");
-            // _updateables.foreach(UpdateAction, gameTime);
+            // _updateables.foreach(DrawAction);
+            UIUpdate();
 		}
+
+        internal virtual void Events(Sdl.Event ev)
+        {
+            UIEvent(ev);
+        }
 
         protected virtual void OnExiting(Object sender, EventArgs args)
         {
@@ -469,7 +477,9 @@ namespace Microsoft.Xna.Framework
 
         internal void DoUpdate(GameTime gameTime)
         {
+            Loop.Begin();
             Update(gameTime);
+            Loop.End();
         }
 
         internal void DoDraw(GameTime gameTime)

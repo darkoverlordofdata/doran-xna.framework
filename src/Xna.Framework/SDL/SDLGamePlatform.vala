@@ -4,6 +4,7 @@
 
 using Gee;
 using System;
+// using System.Collections.Generic;
 // using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -34,7 +35,7 @@ namespace Microsoft.Xna.Framework
 
             _game = game;
             _keys = new Gee.ArrayList<Keys>();
-            // Keyboard.SetKeys(_keys);
+            Keyboard.SetKeys(_keys);
 
             Sdl.Version sversion;
             Sdl.GetVersion(out sversion);
@@ -83,7 +84,7 @@ namespace Microsoft.Xna.Framework
 
         protected override void OnIsMouseVisibleChanged()
         {
-            // _view.SetCursorVisible(_game.IsMouseVisible);
+            _view.SetCursorVisible(_game.IsMouseVisible);
         }
 
         internal override void OnPresentationChanged(PresentationParameters pp)
@@ -119,19 +120,15 @@ namespace Microsoft.Xna.Framework
                 if (ev.Type == Sdl.EventType.Quit)
                     _isExiting++;
 
-                else if (ev.Type == Sdl.EventType.KeyDown) 
-                {
-                    print("KeyDown %d\n", ev.Key.Keysym.Sym);
-                    if (ev.Key.Keysym.Sym == 27)
-                        _isExiting++;
-                }   
+                // else if (ev.Type == Sdl.EventType.KeyDown) 
+                //     if (ev.Key.Keysym.Sym == 27) _isExiting++;
                 
                 else if (ev.Type == Sdl.EventType.JoyDeviceAdded)
-                    Microsoft.Xna.Framework.Input.Joystick.AddDevice(ev.JoystickDevice.Which);
-                // else if (ev.Type == Sdl.EventType.ControllerDeviceRemoved)
-                //     GamePad.RemoveDevice(ev.ControllerDevice.Which);
-                // else if (ev.Type == Sdl.EventType.JoyDeviceRemoved)
-                //     Joystick.RemoveDevice(ev.JoystickDevice.Which);
+                    Joystick.AddDevice(ev.JoystickDevice.Which);
+                else if (ev.Type == Sdl.EventType.ControllerDeviceRemoved)
+                    GamePad.RemoveDevice(ev.ControllerDevice.Which);
+                else if (ev.Type == Sdl.EventType.JoyDeviceRemoved)
+                    Joystick.RemoveDevice(ev.JoystickDevice.Which);
                 else if (ev.Type == Sdl.EventType.MouseWheel)
                 {
                     const int wheelDelta = 120;
@@ -190,6 +187,7 @@ namespace Microsoft.Xna.Framework
                         _view.Moved();
                 }
             }
+            Game.Events(ev);
         }
 
         public override void StartRunLoop()
@@ -240,7 +238,7 @@ namespace Microsoft.Xna.Framework
             // if (Game.GraphicsDevice != null)
             //     Game.GraphicsDevice.Present();
 
-            // Sdl.Present();
+            Sdl.Renderer.Present(Window.Handle);
 
         }
 
@@ -251,7 +249,7 @@ namespace Microsoft.Xna.Framework
                 _view.Dispose();
                 _view = null;
 
-                // Joystick.CloseDevices();
+                Joystick.CloseDevices();
 
                 Sdl.Quit();
             }

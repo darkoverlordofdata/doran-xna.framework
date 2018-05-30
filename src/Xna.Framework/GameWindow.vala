@@ -90,7 +90,7 @@ namespace Microsoft.Xna.Framework {
 		/// <remarks>
 		/// This event is only supported on the Windows DirectX, Windows OpenGL and Linux platforms.
 		/// </remarks>
-		public EventHandler<TextInputEventArgs> TextInput;
+		public EventHandler<TextInputEventArgs> TextInput = new EventHandler<TextInputEventArgs>();
 
 		//#endregion Events
 
