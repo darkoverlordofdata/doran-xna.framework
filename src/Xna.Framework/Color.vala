@@ -157,7 +157,7 @@ namespace Microsoft.Xna.Framework
             Turquoise= new Color(0xffd0e040);
             Violet= new Color(0xffee82ee);
             Wheat= new Color(0xffb3def5);
-            White= new Color(uint.MaxValue);
+            White= new Color(uint.MAX);
             WhiteSmoke= new Color(0xfff5f5f5);
             Yellow = new Color(0xff00ffff);
             YellowGreen = new Color(0xff32cd9a);
@@ -174,27 +174,27 @@ namespace Microsoft.Xna.Framework
         /// </summary>
         /// <param name="packedValue">The packed value.</param>
         // [CLSCompliant(false)]
-        public Color(uint packedValue)
+        public Color(int64 packedValue)
         {
-            _packedValue = packedValue;
+            _packedValue = (uint)packedValue;
         }
 
         /// <summary>
         /// Constructs an RGBA color from the XYZW unit length components of a vector.
         /// </summary>
         /// <param name="color">A <see cref="Vector4"/> representing color.</param>
-        public Color.Vector4(Vector4 color)
+        public Color.FromVector4(Vector4 color)
         {
-            this((int)(color.X * 255), (int)(color.Y * 255), (int)(color.Z * 255), (int)(color.W * 255));
+            this.Rgba((int)(color.X * 255), (int)(color.Y * 255), (int)(color.Z * 255), (int)(color.W * 255));
         }
 
         /// <summary>
         /// Constructs an RGBA color from the XYZ unit length components of a vector. Alpha value will be opaque.
         /// </summary>
         /// <param name="color">A <see cref="Vector3"/> representing color.</param>
-        public Color.Vector3(Vector3 color)
+        public Color.FromVector3(Vector3 color)
         {
-            this((int)(color.X * 255), (int)(color.Y * 255), (int)(color.Z * 255));
+            this.Rgb((int)(color.X * 255), (int)(color.Y * 255), (int)(color.Z * 255));
         }
 
         /// <summary>
@@ -257,7 +257,7 @@ namespace Microsoft.Xna.Framework
         /// <param name="b">Blue component value from 0 to 255.</param>
         public Color.Rgb(int r, int g, int b)
         {
-            _packedValue = 0xFF000000; // A = 255
+            _packedValue = (uint)0xFF000000; // A = 255
 
             if (((r | g | b) & 0xFFFFFF00) != 0)
             {
@@ -398,10 +398,10 @@ namespace Microsoft.Xna.Framework
         /// </summary>
         /// <param name="obj">The <see cref="Color"/> to compare.</param>
         /// <returns><c>true</c> if the instances are equal; <c>false</c> otherwise.</returns>
-        public override bool Equals(object obj)
+        public override bool Equals(Object obj)
         {
             if (obj is Color)
-                return this.PackedValue == other.PackedValue;
+                return this.PackedValue == ((Color)obj).PackedValue;
             else
                 return false;
 
@@ -1699,10 +1699,10 @@ namespace Microsoft.Xna.Framework
         /// <param name="value2">Destination <see cref="Color"/>.</param>
         /// <param name="amount">Interpolation factor.</param>
         /// <returns>Interpolated <see cref="Color"/>.</returns>
-        public static Color Lerp(Color value1, Color value2, Single amount)
+        public static Color Lerp(Color value1, Color value2, float amount)
         {
-			amount = MathHelper.Clamp(amount, 0, 1);
-            return new Color(   
+			amount = MathHelper.Clampf(amount, 0, 1);
+            return new Color.Rgba(   
                 (int)MathHelper.Lerp(value1.R, value2.R, amount),
                 (int)MathHelper.Lerp(value1.G, value2.G, amount),
                 (int)MathHelper.Lerp(value1.B, value2.B, amount),
@@ -1717,7 +1717,7 @@ namespace Microsoft.Xna.Framework
         /// <returns>Multiplication result.</returns>
         public static Color Multiply(Color value, float scale)
         {
-            return new Color((int)(value.R * scale), (int)(value.G * scale), (int)(value.B * scale), (int)(value.A * scale));
+            return new Color.Rgba((int)(value.R * scale), (int)(value.G * scale), (int)(value.B * scale), (int)(value.A * scale));
         }
         
 
@@ -1727,7 +1727,7 @@ namespace Microsoft.Xna.Framework
         /// <returns>A <see cref="Vector3"/> representation for this object.</returns>
         public Vector3 ToVector3()
         {
-            return new Vector3(R / 255.0f, G / 255.0f, B / 255.0f);
+            return new Vector3((float)R / 255.0f, G / 255.0f, B / 255.0f);
         }
 
         /// <summary>
@@ -1751,12 +1751,12 @@ namespace Microsoft.Xna.Framework
 
         internal string DebugDisplayString
         {
-            get
+            owned get
             {
-                return string.Joinv(
-                    this.R.to_string(), "  ",
-                    this.G.to_string(), "  ",
-                    this.B.to_string(), "  ",
+                return string.join("  ",
+                    this.R.to_string(),
+                    this.G.to_string(),
+                    this.B.to_string(),
                     this.A.to_string()
                 );
             }
@@ -1770,16 +1770,16 @@ namespace Microsoft.Xna.Framework
     /// <returns><see cref="String"/> representation of this <see cref="Color"/>.</returns>
 	public override string ToString ()
 	{
-        StringBuilder sb = new StringBuilder(25);
-        sb.Append("{R:");
-        sb.Append(R);
-        sb.Append(" G:");
-        sb.Append(G);
-        sb.Append(" B:");
-        sb.Append(B);
-        sb.Append(" A:");
-        sb.Append(A);
-        sb.Append("}");
+        StringBuilder sb = new StringBuilder();
+        sb.append("{R:");
+        sb.append(R.to_string());
+        sb.append(" G:");
+        sb.append(G.to_string());
+        sb.append(" B:");
+        sb.append(B.to_string());
+        sb.append(" A:");
+        sb.append(A.to_string());
+        sb.append("}");
         return sb.str;
 	}
 	
@@ -1790,7 +1790,7 @@ namespace Microsoft.Xna.Framework
         /// <returns>A <see cref="Color"/> which contains premultiplied alpha data.</returns>
         public static Color FromNonPremultiplied(Vector4 vector)
         {
-            return new Color(vector.X * vector.W, vector.Y * vector.W, vector.Z * vector.W, vector.W);
+            return new Color.Rgbaf(vector.X * vector.W, vector.Y * vector.W, vector.Z * vector.W, vector.W);
         }
 	
 	/// <summary>
@@ -1803,7 +1803,7 @@ namespace Microsoft.Xna.Framework
         /// <returns>A <see cref="Color"/> which contains premultiplied alpha data.</returns>
         public static Color FromNonPremultiplied2(int r, int g, int b, int a)
         {
-            return new Color(r * a / 255, g * a / 255, b * a / 255, a);
+            return new Color.Rgbaf(r * a / 255, g * a / 255, b * a / 255, a);
         }
 
         /// <summary>

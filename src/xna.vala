@@ -51,7 +51,9 @@
     public void Initialize()
     {
         TimeSpan.Initialize();
+        
         new System.EventArgs();
+        new Microsoft.Xna.Framework.Color(0);
         new Microsoft.Xna.Framework.Input.KeyboardUtil();
         Microsoft.Xna.Framework.Input.MouseCursor.Initialize();
         Microsoft.Xna.Framework.Input.Joystick.Initialize();

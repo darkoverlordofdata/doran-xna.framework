@@ -11,7 +11,7 @@ namespace Microsoft.Xna.Framework.Graphics
     /// Describes the view bounds for render-target surface.
     /// </summary>
     // [DataContract]
-    public class Viewport
+    public class Viewport : Object
     {
 		private int x;
 		private int y;
@@ -116,32 +116,30 @@ namespace Microsoft.Xna.Framework.Graphics
 			}
 		}
 		
+        //  Referencing Rectangle here causes a symbol redefinition error:
+        //
+        // WINGDIAPI WINBOOL WINAPI Rectangle(HDC hdc,int left,int top,int right,int bottom);
+        //
+        //  Really, Windoze?
+        //
         /// <summary>
         /// Gets or sets a boundary of this <see cref="Viewport"/>.
         /// </summary>
-		public Rectangle Bounds 
-		{
-            get
-            {
-                return new Rectangle(x, y, width, height);
-            }
+		// public Rectangle Bounds 
+		// {
+        //     get
+        //     {
+        //         return new Rectangle(x, y, width, height);
+        //     }
 				
-			set
-			{				
-				x = value.X;
-				y = value.Y;
-				width = value.Width;
-				height = value.Height;
-			}
-		}
-
-        /// <summary>
-        /// Returns the subset of the viewport that is guaranteed to be visible on a lower quality display.
-        /// </summary>
-		public Rectangle TitleSafeArea 
-		{
-			get { return GraphicsDevice.GetTitleSafeArea(x, y, width, height); }
-		}
+		// 	set
+		// 	{				
+		// 		x = value.X;
+		// 		y = value.Y;
+		// 		width = value.Width;
+		// 		height = value.Height;
+		// 	}
+		// }
 
         /// <summary>
         /// Constructs a viewport from the given values. The <see cref="MinDepth"/> will be 0.0 and <see cref="MaxDepth"/> will be 1.0.
@@ -179,27 +177,27 @@ namespace Microsoft.Xna.Framework.Graphics
             this.maxDepth = maxDepth;
         }
 
-        /// <summary>
-        /// Creates a new instance of <see cref="Viewport"/> struct.
-        /// </summary>
-        /// <param name="bounds">A <see cref="Rectangle"/> that defines the location and size of the <see cref="Viewport"/> in a render target.</param>
-		public Viewport.Rectangle(Rectangle bounds) 
-		{
-            this(bounds.X, bounds.Y, bounds.Width, bounds.Height);
-		}
+        // /// <summary>
+        // /// Creates a new instance of <see cref="Viewport"/> struct.
+        // /// </summary>
+        // /// <param name="bounds">A <see cref="Rectangle"/> that defines the location and size of the <see cref="Viewport"/> in a render target.</param>
+		// public Viewport.FromRectangle(Rectangle bounds) 
+		// {
+        //     this(bounds.X, bounds.Y, bounds.Width, bounds.Height);
+		// }
 
         /// <summary>
         /// Projects a <see cref="Vector3"/> from world space into screen space.
         /// </summary>
         /// <param name="source">The <see cref="Vector3"/> to project.</param>
-        /// <param name="projection">The projection <see cref="Matrix"/>.</param>
-        /// <param name="view">The view <see cref="Matrix"/>.</param>
-        /// <param name="world">The world <see cref="Matrix"/>.</param>
+        /// <param name="projection">The projection <see cref="Matrix4"/>.</param>
+        /// <param name="view">The view <see cref="Matrix4"/>.</param>
+        /// <param name="world">The world <see cref="Matrix4"/>.</param>
         /// <returns></returns>
-        public Vector3 Project(Vector3 source, Matrix projection, Matrix view, Matrix world)
+        public Vector3 Project(Vector3 source, Matrix4 projection, Matrix4 view, Matrix4 world)
         {
-            Matrix matrix = Matrix.Multiply(Matrix.Multiply(world, view), projection);
-		    Vector3 vector = Vector3.Transform(source, matrix);
+            Matrix4 matrix = projection.Multiply(world.Multiply(view));
+		    Vector3 vector = Transform(ref source, ref matrix);
 		    float a = (((source.X * matrix.M14) + (source.Y * matrix.M24)) + (source.Z * matrix.M34)) + matrix.M44;
 		    if (!WithinEpsilon(a, 1f))
 		    {
@@ -213,21 +211,30 @@ namespace Microsoft.Xna.Framework.Graphics
 		    return vector;
         }
 
+        Vector3 Transform(ref Vector3 position, ref Matrix4 matrix)
+        {
+            var x = (position.X * matrix.M11) + (position.Y * matrix.M21) + (position.Z * matrix.M31) + matrix.M41;
+            var y = (position.X * matrix.M12) + (position.Y * matrix.M22) + (position.Z * matrix.M32) + matrix.M42;
+            var z = (position.X * matrix.M13) + (position.Y * matrix.M23) + (position.Z * matrix.M33) + matrix.M43;
+            return new Vector3(x, y, z);;
+        }
         /// <summary>
         /// Unprojects a <see cref="Vector3"/> from screen space into world space.
         /// </summary>
         /// <param name="source">The <see cref="Vector3"/> to unproject.</param>
-        /// <param name="projection">The projection <see cref="Matrix"/>.</param>
-        /// <param name="view">The view <see cref="Matrix"/>.</param>
-        /// <param name="world">The world <see cref="Matrix"/>.</param>
+        /// <param name="projection">The projection <see cref="Matrix4"/>.</param>
+        /// <param name="view">The view <see cref="Matrix4"/>.</param>
+        /// <param name="world">The world <see cref="Matrix4"/>.</param>
         /// <returns></returns>
-        public Vector3 Unproject(Vector3 source, Matrix projection, Matrix view, Matrix world)
+        public Vector3 Unproject(Vector3 source, Matrix4 projection, Matrix4 view, Matrix4 world)
         {
-             Matrix matrix = Matrix.Invert(Matrix.Multiply(Matrix.Multiply(world, view), projection));
+            // Matrix4 matrix = Matrix4.Invert(Matrix4.Multiply(Matrix4.Multiply(world, view), projection));
+            var matrix = projection.Multiply(world.Multiply(view)).Invert();
 		    source.X = (((source.X - this.x) / ((float) this.width)) * 2f) - 1f;
 		    source.Y = -((((source.Y - this.y) / ((float) this.height)) * 2f) - 1f);
 		    source.Z = (source.Z - this.minDepth) / (this.maxDepth - this.minDepth);
-		    Vector3 vector = Vector3.Transform(source, matrix);
+		    //Vector3 vector = Vector3.Transform(source, matrix);
+            var vector = Transform(ref source, ref matrix);
 		    float a = (((source.X * matrix.M14) + (source.Y * matrix.M24)) + (source.Z * matrix.M34)) + matrix.M44;
 		    if (!WithinEpsilon(a, 1f))
 		    {

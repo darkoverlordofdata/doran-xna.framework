@@ -933,7 +933,8 @@ namespace GL
 	
 	// Miscellaneous
 	public static void glClearIndex (GLfloat c);
-	public static void glClearColor (GLclampf red, GLclampf green, GLclampf blue, GLclampf alpha);
+	[CCode (cname = "glClearColor")]
+	public static void ClearColor (GLclampf red, GLclampf green, GLclampf blue, GLclampf alpha);
 	// public static void glClear (GLbitfield mask);
 	[CCode (cname = "glClear")]
 	public static void Clear (GLbitfield mask);
@@ -1618,15 +1619,15 @@ namespace GL
 		
 		if (camera == null) {
 		  Ortho(0, 
-				Microsoft.Xna.Framework.Graphic.ViewportWidth(), 
+				Microsoft.Xna.Framework.Corange.GraphicsWidth(), 
 				0, 
-				Microsoft.Xna.Framework.Graphic.ViewportHeight(), 
+				Microsoft.Xna.Framework.Corange.GraphicsHeight(), 
 				nearVal, farVal);
 		} else {
-		  Ortho(camera.X - Microsoft.Xna.Framework.Graphic.ViewportWidth() / 2, 
-				camera.X + Microsoft.Xna.Framework.Graphic.ViewportWidth() / 2,
-				-camera.Y + Microsoft.Xna.Framework.Graphic.ViewportHeight() / 2,
-				-camera.Y - Microsoft.Xna.Framework.Graphic.ViewportHeight() / 2,
+		  Ortho(camera.X - Microsoft.Xna.Framework.Corange.GraphicsWidth() / 2, 
+				camera.X + Microsoft.Xna.Framework.Corange.GraphicsWidth() / 2,
+				-camera.Y + Microsoft.Xna.Framework.Corange.GraphicsHeight() / 2,
+				-camera.Y - Microsoft.Xna.Framework.Corange.GraphicsHeight() / 2,
 				nearVal, farVal);
 		}
 		
@@ -1668,11 +1669,8 @@ namespace Microsoft.Xna.Framework {
 	[CCode (cname = "override_free")]
 	public static void unref_function(void* o) {}
 
-	// [CCode (cname = "corange_init")]
-	// public static void Core (string core_assets_path);
-
-	[CCode (cname = "corange_finish")]
-	public static void Finish();
+	public static void corange_init(string core_assets_path);
+	public static void corange_finish();
 
 	[SimpleType, CCode (cname = "type_id")]
 	public struct TypeId : int {}
@@ -1681,17 +1679,25 @@ namespace Microsoft.Xna.Framework {
 	[SimpleType, CCode (cname = "CObject")]
 	public struct CObject {}
 
-	//  [CCode (cname = "type_find")]
-	//  public int typeFind(string type, size_t size);
-
-	[SimpleType, CCode (cname = "CObject", cprefix="")]
-	public struct Type 
-	{
+	[SimpleType, CCode (cname = "CObject")]
+	public struct Component {
 		[CCode (cname = "type_find")]
-		public static int Registry(string type, size_t size);
+		public static int Register(string type, size_t size);
 		[CCode (cname = "type_id_name")]
 		public static string Name(int id);
 	}
+
+	//  [CCode (cname = "type_find")]
+	//  public int typeFind(string type, size_t size);
+
+	// [SimpleType, CCode (cname = "CObject", cprefix="")]
+	// public struct Type 
+	// {
+	// 	[CCode (cname = "type_find")]
+	// 	public static int Register(string type, size_t size);
+	// 	[CCode (cname = "type_id_name")]
+	// 	public static string Name(int id);
+	// }
 
 	/** 
 	 * URI
@@ -1775,9 +1781,9 @@ namespace Microsoft.Xna.Framework {
 	public void folder_load_recursive(URI folder);
 		
 	[CCode (has_target = false)]
-	public delegate CObject AssetLoader(string filenanme);
+	public delegate Component AssetLoader(string filenanme);
 	[CCode (has_target = false)]
-	public delegate void AssetDeleter(CObject asset);
+	public delegate void AssetDeleter(Component asset);
 	
 	public CObject asset_get_load(URI path);
 	[CCode (cname = "asset_get")]
@@ -1833,10 +1839,10 @@ namespace Microsoft.Xna.Framework {
 	public float audio_music_get_volume();
 
 	[CCode (has_target = false)]
-	public delegate CObject ElemNew();
+	public delegate Component ElemNew();
 
 	[CCode (has_target = false)]
-	public delegate void ElemDel(CObject entity);
+	public delegate void ElemDel(Component entity);
 
 
 	[SimpleType, CCode (cname = "CObject", cprefix="")]
@@ -2110,7 +2116,8 @@ namespace Microsoft.Xna.Framework {
 		[CCode (cname = "vec3_new")]
 		public Vector3 (float x, float y, float z);
 		[CCode (cname = "vec3_zero")]
-		public static Vector3 Zero();
+		public static Vector3 Zero { get { return zero();}}
+		public static Vector3 zero();
 		[CCode (cname = "vec3_one")]
 		public static Vector3 One();
 		[CCode (cname = "vec3_up")]
@@ -2572,7 +2579,7 @@ namespace Microsoft.Xna.Framework {
 		public Matrix4 Transpose();
 		
 		[CCode (cname = "mat4_mul_mat4")]
-		public Matrix4 Mul(Matrix4 other);
+		public Matrix4 Multiply(Matrix4 other);
 		
 		[CCode (cname = "mat4_mul_vec4")]
 		public Vector4 MulVec4(Vector4 v);
@@ -2582,7 +2589,7 @@ namespace Microsoft.Xna.Framework {
 		[CCode (cname = "mat4_det")]
 		public float Det();
 		[CCode (cname = "mat4_inverse")]
-		public Matrix4 Inverse();
+		public Matrix4 Invert();
 		
 		[CCode (cname = "mat3_to_mat4")]
 		public static Matrix4 Matrix3ToMatrix4(Matrix3 m);
@@ -2959,60 +2966,30 @@ namespace Microsoft.Xna.Framework {
 	public Vector3 vec3_tween_approach(Vector3 curr, Vector3 target, float timestep, float steepness);
 	public Vector3 vec3_tween_linear(Vector3 curr, Vector3 target, float timestep, float max);
 	
-	[SimpleType, CCode (cname = "graphics")]
-	public struct Graphic : uint64 
-	{
-		public static void init();
-		public static void finish();
+	public static void graphics_set_vsync(bool vsync);
+	public static void graphics_set_multisamples(int samples);
+	public static void graphics_set_fullscreen(bool fullscreen);
+	public static void graphics_set_antialiasing(int quality);
+	public static GLib.IntPtr graphics_context_new();
+	public static void graphics_context_delete(GLib.IntPtr context);
+	public static void graphics_context_current(GLib.IntPtr context);
+	public static int graphics_get_multisamples();
+	public static bool graphics_get_fullscreen();
+	public static int graphics_get_antialiasing();
+	public static void graphics_viewport_set_title(string title);
+	public static void graphics_viewport_set_icon(URI icon);
+	public static void graphics_viewport_set_position(int x, int y);
+	public static void graphics_viewport_set_size(int w, int h);
+	public static void graphics_viewport_screenshot();
+	public static string graphics_viewport_title();
+	public static int graphics_viewport_height();
+	public static int graphics_viewport_width();
+	public static double graphics_viewport_ratio();
+	public static void graphics_set_cursor_hidden(bool hidden);
+	public static bool graphics_get_cursor_hidden();
+	public static void graphics_swap();
 
-		
-		[CCode (cname = "graphics_set_vsync")]
-		public static void SetVsync(bool vsync);
-		[CCode (cname = "graphics_set_multisamples")]
-		public static void SetMultisamples(int samples);
-		[CCode (cname = "graphics_set_fullscreen")]
-		public static void SetFullscreen(bool fullscreen);
-		[CCode (cname = "graphics_set_antialiasing")]
-		public static void SetAntialiasing(int quality);
-		[CCode (cname = "graphics_context_new")]
-		public CObject Graphic();
-		[CCode (cname = "graphics_context_delete")]
-		public void ContextDelete();
-		[CCode (cname = "graphics_context_current")]
-		public void ContextCurrent();
-		[CCode (cname = "graphics_get_multisamples")]
-		public static int GetMultisamples();
-		[CCode (cname = "graphics_get_fullscreen")]
-		public static bool GetFullscreen();
-		[CCode (cname = "graphics_get_antialiasing")]
-		public static int GetAntialiasing();
-		[CCode (cname = "graphics_viewport_set_title")]
-		public static void ViewportSetTitle(string title);
-		[CCode (cname = "graphics_viewport_set_icon")]
-		public static void ViewportSetIcon(URI icon);
-		[CCode (cname = "graphics_viewport_set_position")]
-		public static void ViewportSetPosition(int x, int y);
-		[CCode (cname = "graphics_viewport_set_size")]
-		public static void ViewportSetSize(int w, int h);
-		[CCode (cname = "graphics_viewport_screenshot")]
-		public static void ViewportScreenshot();
-		[CCode (cname = "graphics_viewport_title")]
-		public static string ViewportTitle();
-		[CCode (cname = "graphics_viewport_height")]
-		public static int ViewportHeight();
-		[CCode (cname = "graphics_viewport_width")]
-		public static int ViewportWidth();
-		[CCode (cname = "graphics_viewport_ratio")]
-		public static float ViewportRatio();
-		[CCode (cname = "graphics_set_cursor_hidden")]
-		public static void SetCursorHidden(bool hidden);
-		[CCode (cname = "graphics_get_cursor_hidden")]
-		public static bool GetCursorHidden();
-		[CCode (cname = "graphics_swap")]
-		public static void Swap();
-		
-	}
-
+	
 	[SimpleType]
 	[CCode (cname = "audio")]
 	public struct Audio : uint64 {
@@ -3132,13 +3109,9 @@ namespace Microsoft.Xna.Framework {
 	[CCode (cname = "ui_set_style")]
 	public void UISetStyle(UI.UIStyle s);
 	/* Pass Event, Update, and Render whole UI */
-	[CCode (cname = "ui_event")]
-	public void UIEvent(Sdl.Event e);
-	[CCode (cname = "ui_update")]
-	public void UIUpdate();
-	[CCode (cname = "ui_render")]
-	public void UIRender();
-
+	public void ui_render();
+	public void ui_update();
+	public void ui_event(Sdl.Event e);
 
 	[Compact]
 	[CCode (cname = "ui_elem", free_function = "override_free")]
@@ -3164,7 +3137,7 @@ namespace Microsoft.Xna.Framework {
 		[CCode (cname = "camera_new")]
 		public Camera();
 
-		public static int type { get { return Type.Registry("camera", sizeof(Camera)); } }
+		public static int type { get { return Component.Register("camera", sizeof(Camera)); } }
 		public static Camera create() {
 			return (Camera)Entity("camera", type);
 		} 
@@ -3194,9 +3167,6 @@ namespace Microsoft.Xna.Framework {
 	}
 	
 	namespace Assets {
-
-		[CCode (cname = "corange_init")]
-		public static void Core (string core_assets_path);
 
 		[Compact, CCode (cname = "animation", cprefix="", free_function = "override_free")]
 		public class Animation 
@@ -5035,8 +5005,8 @@ namespace Microsoft.Xna.Framework {
 		[CCode (has_target = false)]
 		public delegate void OnOptionSelect(UIOption entry);
 
-		[CCode (cname = "ui_button_onclick", instance_pos = 0.1, has_target = false)]
-		public delegate void OnClick(UIButton entry, CObject data);
+		// [CCode (cname = "ui_button_onclick", instance_pos = 0.1, has_target = false)]
+		// public delegate void OnClick(UIButton entry, CObject data);
 
 
 		[Compact, CCode (cname = "ui_button", cprefix="", free_function = "override_free")]	
@@ -5055,7 +5025,7 @@ namespace Microsoft.Xna.Framework {
 			public bool pressed;
 
 			public static UIButton Create(string fmt, ...) {
-				return (UIButton)(new UIElem(fmt, Type.Registry("ui_button", sizeof(UIButton))));
+				return (UIButton)(new UIElem(fmt, Component.Register("ui_button", sizeof(UIButton))));
 			} 
 
 			[CCode (cname = "ui_button_new")]
@@ -5103,6 +5073,75 @@ namespace Microsoft.Xna.Framework {
 			public bool ContainsPoint(Vector2 pos);
 		}
 
+		[CCode (cname = "ui_button_onclick", instance_pos = 0.1, has_target = false)]
+		public delegate void OnClick(Button entry, CObject data);
+
+
+		[Compact, CCode (cname = "ui_button", cprefix="", free_function = "override_free")]	
+		public class Button {
+			public UIRectangle back;
+			public UIText label;
+			[CCode (cname = "up_color")]
+			public Vector4 upColor;
+			[CCode (cname = "down_color")]
+			public Vector4 downColor;
+			public OnClick onclick;
+			[CCode (cname = "onclick_data")]
+			public CObject onclickData;
+			public bool active;
+			public bool enabled;
+			public bool pressed;
+
+			public static Button Create(string fmt, ...) {
+				return (Button)(new UIElem(fmt, Component.Register("ui_button", sizeof(Button))));
+			} 
+
+			[CCode (cname = "ui_button_new")]
+			public Button (string fmt, ...);
+
+			[CCode (cname = "ui_elem_get")]
+			public static Button Get(string fmt);
+			[CCode (cname = "ui_button_delete")]
+			public void Delete();
+			[CCode (cname = "ui_button_move")]
+			public void Move(Vector2 pos);
+			[CCode (cname = "ui_button_resize")]
+			public void Resize(Vector2 size);
+			[CCode (cname = "ui_button_set_label")]
+			public void SetLabel(string label);
+			[CCode (cname = "ui_button_set_label_color")]
+			public void SetLabelColor(Vector4 color);
+			[CCode (cname = "ui_button_set_font")]
+			public void SetFont(AssetHandle f);
+			[CCode (cname = "ui_button_set_onclick")]
+			public void SetOnclick(OnClick onclick);
+			[CCode (cname = "ui_button_set_onclick_data")]
+			public void SetOnclickData(CObject data);
+			[CCode (cname = "ui_button_set_active")]
+			public void SetActive(bool active);
+			[CCode (cname = "ui_button_set_enabled")]
+			public void SetEnabled(bool enabled);
+			[CCode (cname = "ui_button_set_texture")]
+			public void SetTexture(AssetHandle tex, int width, int height, bool tile);
+			[CCode (cname = "ui_button_disable")]
+			public void Disable();
+			[CCode (cname = "ui_button_enable")]
+			public void Enable();
+			[CCode (cname = "ui_button_position")]
+			public Vector2 Position();
+			[CCode (cname = "ui_button_size")]
+			public Vector2 Size();
+			[CCode (cname = "ui_button_event")]
+			public void Event(Sdl.Event e);
+			[CCode (cname = "ui_button_update")]
+			public void Update();
+			[CCode (cname = "ui_button_render")]
+			public void Render();
+			[CCode (cname = "ui_button_contains_point")]
+			public bool ContainsPoint(Vector2 pos);
+		}
+
+
 		[Compact]
 		[CCode (cname = "ui_browser", cprefix="", free_function = "override_free")]
 		public class UIBrowser {
@@ -5114,7 +5153,7 @@ namespace Microsoft.Xna.Framework {
 			[CCode (cname = "ui_browser_new")]
 			public UIBrowser();
 
-			public static int type { get { return Type.Registry("ui_browser", sizeof(UIBrowser)); } }
+			public static int type { get { return Component.Register("ui_browser", sizeof(UIBrowser)); } }
 			public static UIBrowser create(string fmt, ...) {
       			return (UIBrowser)(new UIElem(fmt, type));
 			} 
@@ -5143,7 +5182,7 @@ namespace Microsoft.Xna.Framework {
 
 			[CCode (cname = "ui_dialog_new")]
 			public UIDialog();
-			public static int type { get { return Type.Registry("ui_dialog", sizeof(UIDialog)); } }
+			public static int type { get { return Component.Register("ui_dialog", sizeof(UIDialog)); } }
 			public static UIDialog create(string fmt, ...) {
 				return (UIDialog)(new UIElem(fmt, type));
 			} 
@@ -5183,7 +5222,7 @@ namespace Microsoft.Xna.Framework {
 
 			[CCode (cname = "ui_option_new")]
 			public UIOption();
-			public static int type { get { return Type.Registry("ui_option", sizeof(UIOption)); } }
+			public static int type { get { return Component.Register("ui_option", sizeof(UIOption)); } }
 			public static UIOption create(string fmt, ...) {
 				return (UIOption)(new UIElem(fmt, type));
 			} 
@@ -5224,7 +5263,7 @@ namespace Microsoft.Xna.Framework {
 			public float amount;
 			[CCode (cname = "ui_slider_new")]
 			public UISlider();
-			public static int type { get { return Type.Registry("ui_slider", sizeof(UISlider)); } }
+			public static int type { get { return Component.Register("ui_slider", sizeof(UISlider)); } }
 			public static UISlider create(string fmt, ...) {
 				return (UISlider)(new UIElem(fmt, type));
 			} 
@@ -5237,7 +5276,7 @@ namespace Microsoft.Xna.Framework {
 		public class UISpinner {
 			[CCode (cname = "ui_spinner_new")]
 			public UISpinner();
-			public static int type { get { return Type.Registry("ui_spinner", sizeof(UISpinner)); } }
+			public static int type { get { return Component.Register("ui_spinner", sizeof(UISpinner)); } }
 			public static UISpinner create(string fmt, ...) {
 				return (UISpinner)(new UIElem(fmt, type));
 			} 
@@ -5331,7 +5370,7 @@ namespace Microsoft.Xna.Framework {
 
 			[CCode (cname = "ui_textbox_new")]
 			public UITextbox();
-			public static int type { get { return Type.Registry("ui_textbox", sizeof(UITextbox)); } }
+			public static int type { get { return Component.Register("ui_textbox", sizeof(UITextbox)); } }
 			public static UITextbox create(string fmt, ...) {
 				return (UITextbox)(new UIElem(fmt, type));
 			} 
@@ -5380,7 +5419,7 @@ namespace Microsoft.Xna.Framework {
 
 			[CCode (cname = "ui_toast_new")]
 			public UIToast();
-			public static int type { get { return Type.Registry("ui_toast", sizeof(UIToast)); } }
+			public static int type { get { return Component.Register("ui_toast", sizeof(UIToast)); } }
 			public static UIToast create(string fmt, ...) {
 				return (UIToast)(new UIElem(fmt, type));
 			} 
@@ -5415,7 +5454,7 @@ namespace Microsoft.Xna.Framework {
 
 			[CCode (cname = "ui_listbox_new")]
 			public UIListbox();
-			public static int type { get { return Type.Registry("ui_listbox", sizeof(UIListbox)); } }
+			public static int type { get { return Component.Register("ui_listbox", sizeof(UIListbox)); } }
 			public static UIListbox create(string fmt, ...) {
 				return (UIListbox)(new UIElem(fmt, type));
 			} 
@@ -5476,7 +5515,7 @@ namespace Microsoft.Xna.Framework {
 
 			[CCode (cname = "ui_text_new")]
 			public UIText();
-			public static int type { get { return Type.Registry("ui_text", sizeof(UIText)); } }
+			public static int type { get { return Component.Register("ui_text", sizeof(UIText)); } }
 			public static UIText create(string fmt, ...) {
 				return (UIText)(new UIElem(fmt, type));
 			} 
@@ -5537,7 +5576,7 @@ namespace Microsoft.Xna.Framework {
 
 			[CCode (cname = "ui_rectangle_new")]
 			public UIRectangle();
-			public static int type { get { return Type.Registry("ui_rectangle", sizeof(UIRectangle)); } }
+			public static int type { get { return Component.Register("ui_rectangle", sizeof(UIRectangle)); } }
 			public static UIRectangle create(string fmt, ...) {
 				return (UIRectangle)(new UIElem(fmt, type));
 			} 
@@ -5791,7 +5830,7 @@ namespace Sdl
 
 	[SimpleType]
 	[CCode (cname = "SDL_Rect", cheader_filename = "SDL2/SDL_rect.h")]
-	public struct Rectangle : Point
+	public struct Rect : Point
 	{
 		[CCode (cname = "w")]
 		public int Width;
@@ -6121,9 +6160,9 @@ namespace Sdl
 		}
 	
 		[CCode (cname = "SDL_GetDisplayBounds")]
-		private static int SDL_GetDisplayBounds (int displayIndex, out Rectangle rect);
+		private static int SDL_GetDisplayBounds (int displayIndex, out Rect rect);
 
-        public static void GetBounds(int displayIndex, out Rectangle rect)
+        public static void GetBounds(int displayIndex, out Rect rect)
         {
             GetErrorInt(SDL_GetDisplayBounds(displayIndex, out rect));
 		}
@@ -6203,10 +6242,10 @@ namespace Sdl
 		public static GLib.IntPtr TextureFromSurface (GLib.IntPtr renderer, GLib.IntPtr surface);
 
 		[CCode (cname = "SDL_RenderCopy")]
-		public static int Copy (GLib.IntPtr renderer, GLib.IntPtr texture, Rectangle? srcrect=null, Rectangle? dstrect=null);
+		public static int Copy (GLib.IntPtr renderer, GLib.IntPtr texture, Rect? srcrect=null, Rect? dstrect=null);
 
 		[CCode (cname = "SDL_RenderCopyEx")]
-		public static int CopyEx (GLib.IntPtr renderer, GLib.IntPtr texture, Rectangle? srcrect, Rectangle? dstrect, double angle, Point? center, int flip);
+		public static int CopyEx (GLib.IntPtr renderer, GLib.IntPtr texture, Rect? srcrect, Rect? dstrect, double angle, Point? center, int flip);
 
 		[CCode (cname = "SDL_RenderPresent")]
 		public static void Present (GLib.IntPtr renderer);

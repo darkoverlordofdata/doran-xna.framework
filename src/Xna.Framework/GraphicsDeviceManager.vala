@@ -86,7 +86,7 @@ namespace Microsoft.Xna.Framework
 
             // if (game.services.getService(typeof(IGraphicsDeviceManager)) != null)
             //     throw new MongoException.ArgumentException("A graphics device manager is already registered.  The graphics device manager cannot be changed once it is set.");
-            game.GraphicsDeviceManager = this;
+            game.graphicsDeviceManager = this;
 
             // game.services.addService(typeof(IGraphicsDeviceManager), this);
             // game.services.addService(typeof(IGraphicsDeviceService), this);
@@ -99,8 +99,8 @@ namespace Microsoft.Xna.Framework
 
         //     try
         //     {
-        //         if (!_initialized)
-        //             initialize();
+                if (!_initialized)
+                    Initialize();
 
         //         var gdi = doPreparingDeviceSettings();
         //         CreateDevice2(gdi);
@@ -312,7 +312,10 @@ namespace Microsoft.Xna.Framework
             // _graphicsDevice = null;
         }
 
-        public void PlatformInitialize(PresentationParameters presentationParameters){}
+        public void PlatformInitialize(PresentationParameters presentationParameters)
+        {
+            ((SdlGameWindow)SdlGameWindow.Instance).CreateWindow();
+        }
 
         private void Initialize()
         {

@@ -101,8 +101,10 @@ namespace Microsoft.Xna.Framework
 
             while (true)
             {
+                Game.FrameBegin();
                 SdlRunLoop();
                 Game.Tick();
+                Game.FrameEnd();
                 // Threading.Run();
                 // GraphicsDevice.DisposeContexts();
 
@@ -120,9 +122,6 @@ namespace Microsoft.Xna.Framework
                 if (ev.Type == Sdl.EventType.Quit)
                     _isExiting++;
 
-                // else if (ev.Type == Sdl.EventType.KeyDown) 
-                //     if (ev.Key.Keysym.Sym == 27) _isExiting++;
-                
                 else if (ev.Type == Sdl.EventType.JoyDeviceAdded)
                     Joystick.AddDevice(ev.JoystickDevice.Which);
                 else if (ev.Type == Sdl.EventType.ControllerDeviceRemoved)
@@ -162,10 +161,10 @@ namespace Microsoft.Xna.Framework
                     // while (Marshal.ReadByte ((IntPtr)ev.Text.Text, len) != 0) {
                         len++;
                     }
-                    var buffer = new uint8 [len];
-                    Memory.copy(buffer, ev.Text.Text, len);
                     // Marshal.Copy ((IntPtr)ev.Text.Text, buffer, 0, len);
                     // text = System.Text.Encoding.UTF8.GetString (buffer);
+                    var buffer = new uint8 [len];
+                    Memory.copy(buffer, ev.Text.Text, len);
                     text = (string)buffer;
                     if (text.length == 0)
                         continue;
@@ -225,7 +224,7 @@ namespace Microsoft.Xna.Framework
 
         public override void EndScreenDeviceChange(string screenDeviceName, int clientWidth, int clientHeight)
         {
-            // _view.EndScreenDeviceChange(screenDeviceName, clientWidth, clientHeight);
+            _view.EndScreenDeviceChange(screenDeviceName, clientWidth, clientHeight);
         }
 
         public override void Log(string message)

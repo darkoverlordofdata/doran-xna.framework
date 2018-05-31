@@ -12,6 +12,8 @@ namespace Microsoft.Xna.Framework
     public class SdlGameWindow : GameWindow, IDisposable 
     {
 
+        public static GameWindow Instance;
+        public bool IsFullScreen;
         internal Game _game;
         protected IntPtr _handle;
         private string _title;
@@ -36,6 +38,9 @@ namespace Microsoft.Xna.Framework
         {
             _game = game;
             _screenDeviceName = "";
+
+            Instance = this;
+
             _width = GraphicsDeviceManager.DefaultBackBufferWidth;
             _height = GraphicsDeviceManager.DefaultBackBufferHeight;
             Sdl.SetHint("SDL_VIDEO_MINIMIZE_ON_FOCUS_LOSS", "0");
@@ -56,12 +61,12 @@ namespace Microsoft.Xna.Framework
             //     Sdl.Window.State.InputFocus |
             //     Sdl.Window.State.MouseFocus;
             
-            // var winx = Sdl.Window.PosCentered;
-            // var winy = Sdl.Window.PosCentered;
+            var winx = Sdl.Window.PosCentered;
+            var winy = Sdl.Window.PosCentered;
             
             // _handle = Sdl.Window.Create(_title, winx, winy, _width, _height, initflags);
             _handle = Sdl.GetCurrentWindow();
-
+            // Sdl.Window.SetPosition(Handle, 100, 100);
             if (_icon != null) Sdl.Window.SetIcon(_handle, _icon);
             
         }
@@ -169,6 +174,24 @@ namespace Microsoft.Xna.Framework
         {
             _mouseVisible = visible;
             Sdl.Mouse.ShowCursor(visible ? 1 : 0);
+        }
+
+        public override void BeginScreenDeviceChange(bool willBeFullScreen)
+        {
+            _willBeFullScreen = willBeFullScreen;
+        }
+        
+        public override void EndScreenDeviceChange(string screenDeviceName, int clientWidth, int clientHeight)
+        {
+            _screenDeviceName = screenDeviceName;
+
+            if (!_willBeFullScreen) 
+            {
+                Corange.GraphicsSetSize(clientWidth, clientHeight);
+                _width = clientWidth;
+                _height = clientHeight;
+            }
+
         }
         
     }    

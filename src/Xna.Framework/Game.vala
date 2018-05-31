@@ -38,6 +38,10 @@ namespace Microsoft.Xna.Framework
         private bool _shouldExit;
         private bool _suppressDraw;
 
+        public double FPS { get { return Corange.FrameRate(); } }
+
+        public double Time { get { return Corange.FrameTime(); } }
+
         public Game()
         {
             _instance = this;
@@ -263,7 +267,7 @@ namespace Microsoft.Xna.Framework
             }
 
             if (!_initialized) {
-                Assets.Core(@"$(_content.RootDirectory)/assets_core");
+                corange_init(@"$(_content.RootDirectory)/assets_core");
                 DoInitialize ();
                 _initialized = true;
             }
@@ -406,47 +410,51 @@ namespace Microsoft.Xna.Framework
             
         }
 
+        internal void FrameBegin()
+        {
+            Corange.FrameBegin();
+        }
+
+        internal void FrameEnd()
+        {
+            Corange.FrameEnd();
+        }
+
         protected virtual bool BeginDraw() { return true; }
         protected virtual void EndDraw()
         {
-            // Platform.Present();
+            Corange.GraphicsSwap(); 
         }
 
         protected virtual void BeginRun() { }
         protected virtual void EndRun() 
         {
-            Finish();
+            Corange.Finish();
         }
 
-        protected virtual void LoadContent() 
-        { 
-            // Assets.Core(@"$(_content.RootDirectory)/assets_core");
-        }
+        protected virtual void LoadContent() { }
         protected virtual void UnloadContent() { }
 
         protected virtual void Initialize()
         {
+            applyChanges(graphicsDeviceManager);
             LoadContent();
         }
 
 
         protected virtual void Draw(GameTime gameTime)
         {
-            // print("Game::Draw\n");
-            // _drawables.foreach(DrawAction);
-            UIRender();
-            Graphic.Swap(); 
+            Corange.UIRender();
         }
 
         protected virtual void Update(GameTime gameTime)
         {
-            // _updateables.foreach(DrawAction);
-            UIUpdate();
+            Corange.UIUpdate();
 		}
 
         internal virtual void Events(Sdl.Event ev)
         {
-            UIEvent(ev);
+            Corange.UIEvent(ev);
         }
 
         protected virtual void OnExiting(Object sender, EventArgs args)
@@ -475,11 +483,28 @@ namespace Microsoft.Xna.Framework
 			DoExiting();
         }
 
+        internal void applyChanges(GraphicsDeviceManager manager)
+        {
+
+			// Platform.BeginScreenDeviceChange(GraphicsDevice.PresentationParameters.IsFullScreen);
+
+            // if (GraphicsDevice.PresentationParameters.IsFullScreen)
+            //     Platform.EnterFullScreen();
+            // else
+            //     Platform.ExitFullScreen();
+            // var viewport = new Viewport(0, 0,
+			//                             GraphicsDevice.PresentationParameters.BackBufferWidth,
+			//                             GraphicsDevice.PresentationParameters.BackBufferHeight);
+
+            // GraphicsDevice.Viewport = viewport;
+			Platform.EndScreenDeviceChange("", manager.PreferredBackBufferWidth, manager.PreferredBackBufferHeight);
+            
+        }
+
+
         internal void DoUpdate(GameTime gameTime)
         {
-            Loop.Begin();
             Update(gameTime);
-            Loop.End();
         }
 
         internal void DoDraw(GameTime gameTime)
@@ -496,6 +521,10 @@ namespace Microsoft.Xna.Framework
         {
             AssertNotDisposed();
 
+            // if (GraphicsDevice == null && graphicsDeviceManager != null)
+            if (graphicsDeviceManager != null)
+                _graphicsDeviceManager.CreateDevice();
+
             Platform.BeforeInitialize();
             Initialize();
         }
@@ -506,7 +535,7 @@ namespace Microsoft.Xna.Framework
 			UnloadContent();
 		}
 
-        internal GraphicsDeviceManager GraphicsDeviceManager
+        internal GraphicsDeviceManager graphicsDeviceManager
         {
             get
             {

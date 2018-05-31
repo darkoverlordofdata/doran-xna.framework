@@ -94,12 +94,12 @@ namespace Microsoft.Xna.Framework {
 
 		//#endregion Events
 
-		// public abstract void BeginScreenDeviceChange (bool willBeFullScreen);
+		public abstract void BeginScreenDeviceChange (bool willBeFullScreen);
 
-		// public abstract void EndScreenDeviceChange (
-		// 	string screenDeviceName, 
-		// 	int clientWidth = ClientBounds.Width, 
-		// 	int clientHeight = ClientBounds.Height);
+		public abstract void EndScreenDeviceChange (
+			string screenDeviceName, 
+			int clientWidth = ClientBounds.Width, 
+			int clientHeight = ClientBounds.Height);
 
 
 		protected void OnActivated ()
