@@ -11,6 +11,7 @@ namespace Microsoft.Xna.Framework
     /// </summary>
     public class MathHelper : Object
     {
+
     	/// <summary>
         /// Represents the mathematical constant e(2.71828175).
         /// </summary>

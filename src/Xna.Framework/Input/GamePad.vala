@@ -11,7 +11,7 @@ namespace Microsoft.Xna.Framework.Input
     /// <summary> 
     /// Supports querying the game controllers and setting the vibration motors.
     /// </summary>
-    public class GamePad
+    public class GamePad : Object
     {
         private class GamePadInfo
         {

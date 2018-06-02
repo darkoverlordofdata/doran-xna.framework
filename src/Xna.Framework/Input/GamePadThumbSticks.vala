@@ -131,7 +131,7 @@ namespace Microsoft.Xna.Framework.Input
             if (originalLength <= deadZone)
                 return Vector2.Zero;
             var newLength = (originalLength - deadZone) / (1f - deadZone);
-            return value.Mul(newLength / originalLength);
+            return value.Multiply(newLength / originalLength);
         }
 
         /// <summary>

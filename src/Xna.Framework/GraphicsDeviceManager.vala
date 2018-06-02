@@ -12,7 +12,7 @@ namespace Microsoft.Xna.Framework
                                         IGraphicsDeviceManager 
     {
         public Game game { get; construct; }
-        // private GraphicsDevice _graphicsDevice;
+        private GraphicsDevice _graphicsDevice;
         private bool _initialized = false;
 
         private int _preferredBackBufferHeight;
@@ -94,45 +94,45 @@ namespace Microsoft.Xna.Framework
 
         private void CreateDevice()
         {
-        //     if (_graphicsDevice != null)
-        //         return;
+            if (_graphicsDevice != null)
+                return;
 
-        //     try
-        //     {
+            try
+            {
                 if (!_initialized)
                     Initialize();
 
-        //         var gdi = doPreparingDeviceSettings();
-        //         CreateDevice2(gdi);
-        //     }
-        //     catch (Exception.NoSuitableGraphicsDeviceException ex)
-        //     {
-        //         throw ex;
-        //     }
-        //     catch (Exception ex)
-        //     {
-        //         throw new Exception.NoSuitableGraphicsDeviceException("Failed to create graphics device!", ex);
-        //     }
+                var gdi = DoPreparingDeviceSettings();
+                CreateDevice2(gdi);
+            }
+            catch (Exception.NoSuitableGraphicsDeviceException ex)
+            {
+                throw ex;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception.NoSuitableGraphicsDeviceException("Failed to create graphics device!");
+            }
         }
 
-        // private void CreateDevice2(GraphicsDeviceInformation gdi)
-        // {
-        //     if (_graphicsDevice != null)
-        //         return;
+        private void CreateDevice2(GraphicsDeviceInformation gdi)
+        {
+            if (_graphicsDevice != null)
+                return;
 
-        //     _graphicsDevice = new GraphicsDevice(gdi);
-        //     _shouldApplyChanges = false;
+            _graphicsDevice = new GraphicsDevice.GDI(gdi);
+            _shouldApplyChanges = false;
 
-        //     // hook up reset events
-        //     GraphicsDevice.DeviceReset.add((sender, args) => OnDeviceReset(args));
-        //     GraphicsDevice.DeviceResetting.add((sender, args) => OnDeviceResetting(args));
+            // hook up reset events
+            graphicsDevice.DeviceReset.Add((sender, args) => OnDeviceReset((EventArgs)args));
+            graphicsDevice.DeviceResetting.Add((sender, args) => OnDeviceResetting((EventArgs)args));
 
-        //     // update the touchpanel display size when the graphicsdevice is reset
-        //     _graphicsDevice.deviceReset.add(updateTouchPanel);
-        //     _graphicsDevice.presentationChanged.add(onPresentationChanged);
+            // update the touchpanel display size when the graphicsdevice is reset
+            // _graphicsDevice.DeviceReset.Add(UpdateTouchPanel);
+            // _graphicsDevice.PresentationChanged.Add(OnPresentationChanged);
 
-        //     onDeviceCreated(EventArgs.Empty);
-        // }
+            OnDeviceCreated(EventArgs.Empty);
+        }
 
         // void IGraphicsDeviceManager_CreateDevice()
         // {
@@ -218,11 +218,11 @@ namespace Microsoft.Xna.Framework
             {
                 if (disposing)
                 {
-                    // if (_graphicsDevice != null)
-                    // {
-                    //     _graphicsDevice.dispose();
-                    //     _graphicsDevice = null;
-                    // }
+                    if (_graphicsDevice != null)
+                    {
+                        _graphicsDevice.dispose();
+                        _graphicsDevice = null;
+                    }
                 }
                 _disposed = true;
                 EventHelpers.Raise(this, Disposed, EventArgs.Empty);
@@ -264,7 +264,7 @@ namespace Microsoft.Xna.Framework
 
         private void PrepareGraphicsDeviceInformation(GraphicsDeviceInformation gdi)
         {
-            gdi.Adapter = GraphicsAdapter.DefaultAdapter;
+            // gdi.Adapter = GraphicsAdapter.DefaultAdapter;
             gdi.GraphicsProfile = GraphicsProfile;
             var pp = new PresentationParameters();
             PreparePresentationParameters(pp);
@@ -277,8 +277,8 @@ namespace Microsoft.Xna.Framework
         public void ApplyChanges()
         {
             // If the device hasn't been created then create it now.
-            // if (_graphicsDevice == null)
-            //     CreateDevice();
+            if (_graphicsDevice == null)
+                CreateDevice();
 
             if (!_shouldApplyChanges)
                 return;
@@ -373,13 +373,13 @@ namespace Microsoft.Xna.Framework
         /// <summary>
         /// Returns the graphics device for this manager.
         /// </summary>
-        // public GraphicsDevice GraphicsDevice
-        // {
-        //     get
-        //     {
-        //         return _graphicsDevice;
-        //     }
-        // }
+        public GraphicsDevice graphicsDevice
+        {
+            get
+            {
+                return _graphicsDevice;
+            }
+        }
 
         /// <summary>
         /// Indicates the desire to switch into fullscreen mode.

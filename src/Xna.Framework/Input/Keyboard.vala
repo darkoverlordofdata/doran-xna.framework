@@ -9,7 +9,7 @@ namespace Microsoft.Xna.Framework.Input
     /// <summary>
     /// Allows getting keystrokes from keyboard.
     /// </summary>
-	public class Keyboard
+	public class Keyboard : Object
 	{
         static Gee.List<Keys> _keys;
         /// <summary>

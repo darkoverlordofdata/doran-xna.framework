@@ -2,25 +2,50 @@ namespace Microsoft.Xna.Framework
 {
     internal class Corange : Object
     {
+        internal static double FPS { get { return frame_rate(); } }
+        internal static double Time { get { return frame_time(); } }
+        internal static double Ratio { get { return graphics_viewport_ratio(); } }
+        internal static int Height { get { return graphics_viewport_height(); } }
+        internal static int Width { get { return graphics_viewport_width(); } }
+        internal static string Title { owned get { return graphics_viewport_title(); } }
 
-        internal static void FrameBegin()
+        internal static int Multisamples 
+        { 
+            get { return graphics_get_multisamples(); } 
+            set { graphics_set_multisamples(value); }
+        }
+
+        internal static bool Fullscreen 
+        { 
+            get { return graphics_get_fullscreen(); } 
+            set { graphics_set_fullscreen(value); }
+        }
+
+        internal static int Antialiasing 
+        { 
+            get { return graphics_get_antialiasing(); } 
+            set { graphics_set_antialiasing(value); }
+        }
+
+        internal static bool CursorHidden 
+        { 
+            get { return graphics_get_cursor_hidden(); } 
+            set { graphics_set_cursor_hidden(value); }
+        }
+
+        internal static void Begin()
         {
             frame_begin();
         }
 
-        internal static void FrameEnd()
+        internal static void End()
         {
             frame_end();
         }
 
-        internal static double FrameRate()
+        internal static void Initialize(string assets)
         {
-            return frame_rate();
-        }
-
-        internal static double FrameTime()
-        {
-            return frame_time();
+            corange_init(assets); 
         }
 
         internal static void Finish() 
@@ -42,117 +67,55 @@ namespace Microsoft.Xna.Framework
         {
             ui_event(ev);
         }
-        
-        internal static void GraphicsSetVsync(bool vsync)
-        {
-	        graphics_set_vsync(vsync);
-        }
 
-        internal static void GraphicsSetMultisamples(int samples)
-        {
-	        graphics_set_multisamples(samples);
-        }
-
-        internal static void GraphicsSetFullscreen(bool fullscreen)
-        {
-	        graphics_set_fullscreen(fullscreen);
-        }
-
-        internal static void GraphicsSetAntialiasing(int quality)
-        {
-	        graphics_set_antialiasing(quality);
-        }
-
-        internal static IntPtr GraphicsContextNew()
+        internal static IntPtr ContextNew()
         {
 	        return graphics_context_new();
         }
 
-        internal static void GraphicsContextDelete(GLib.IntPtr context)
+        internal static void ContextDelete(GLib.IntPtr context)
         {
 	        graphics_context_delete(context);
         }
 
-        internal static void GraphicsContextCurrent(GLib.IntPtr context)
+        internal static void ContextCurrent(GLib.IntPtr context)
         {
 	        graphics_context_current(context);
         }
 
-        internal static int GraphicsGetMultisamples()
-        {
-	        return graphics_get_multisamples();
-        }
-
-        internal static bool GraphicsGetFullscreen()
-        {
-	        return graphics_get_fullscreen();
-        }
-
-        internal static int GraphicsGetAntialiasing()
-        {
-	        return graphics_get_antialiasing();
-        }
-
-        internal static void GraphicsSetTitle(string title)
+        internal static void SetTitle(string title)
         {
             graphics_viewport_set_title(title);
         }
 
-        internal static void GraphicsSetIcon(URI icon)
+        internal static void SetIcon(URI icon)
         {
             graphics_viewport_set_icon(icon);
         }
 
-        internal static void GraphicsSetPosition(int x, int y)
+        internal static void SetPosition(int x, int y)
         {
             graphics_viewport_set_position(x, y);
         }
 
-        internal static void GraphicsSetSize(int width, int height)
+        internal static void SetSize(int width, int height)
         {
             graphics_viewport_set_size(width, height);
         }
 
-        internal static void GraphicsScreenshot()
+        internal static void SetVsync(bool vsync)
+        {
+	        graphics_set_vsync(vsync);
+        }
+
+        internal static void Screenshot()
         {
 	        graphics_viewport_screenshot();
         }
-        
-        internal static string GraphicsTitle()
-        {
-	        return graphics_viewport_title();
-        }
-        
-        internal static int GraphicsHeight()
-        {
-	        return graphics_viewport_height();
-        }
 
-        internal static int GraphicsWidth()
-        {
-	        return graphics_viewport_width();
-        }
-
-        internal static double GraphicsRatio()
-        {
-	        return graphics_viewport_ratio();
-        }
-
-        internal static void GraphicsSetCursorHidden(bool hidden)
-        {
-	        graphics_set_cursor_hidden(hidden);
-        }
-
-        internal static bool GraphicsGetCursorHidden(bool hidden)
-        {
-	        return graphics_get_cursor_hidden();
-        }
-
-        internal static void GraphicsSwap()
+        internal static void Swap()
         {
             graphics_swap(); 
         }
-
-
     }
 }

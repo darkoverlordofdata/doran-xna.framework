@@ -10,7 +10,7 @@ namespace Microsoft.Xna.Framework.Input
     /// <summary> 
     /// Allows interaction with joysticks. Unlike <see cref="GamePad"/> the number of Buttons/Axes/DPads is not limited.
     /// </summary>
-    public class Joystick
+    public class Joystick : Object
     {
         public static bool HasFlag(Sdl.Joystick.Hat flag, Sdl.Joystick.Hat bit)
         {

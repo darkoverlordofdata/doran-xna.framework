@@ -9,7 +9,7 @@ namespace Microsoft.Xna.Framework.Input
     /// <summary>
     /// Allows reading position and button click information from mouse.
     /// </summary>
-    public class Mouse
+    public class Mouse : Object
     {
         internal static GameWindow PrimaryWindow;
         internal static int ScrollX;

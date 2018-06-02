@@ -66,7 +66,7 @@ namespace Microsoft.Xna.Framework.Graphics
         public GraphicsMetrics Metrics { get { return _graphicsMetrics; } set { _graphicsMetrics = value; } }
 
 
-        internal GraphicsDevice.Gdi(GraphicsDeviceInformation gdi)
+        internal GraphicsDevice.GDI(GraphicsDeviceInformation gdi)
         {
             this(gdi.Adapter, gdi.GraphicsProfile, gdi.PresentationParameters);
         }
@@ -90,7 +90,7 @@ namespace Microsoft.Xna.Framework.Graphics
         /// <exception cref="ArgumentNullException">
         /// <paramref name="presentationParameters"/> is <see langword="null"/>.
         /// </exception>
-        public GraphicsDevice(GraphicsAdapter adapter, GraphicsProfile graphicsProfile, PresentationParameters presentationParameters)
+        public GraphicsDevice(GraphicsAdapter? adapter, GraphicsProfile graphicsProfile, PresentationParameters presentationParameters)
         {
             // if (adapter == null)
             //     throw new ArgumentNullException("adapter");
@@ -115,12 +115,18 @@ namespace Microsoft.Xna.Framework.Graphics
 
         public void Clear(Color color)
         {
-            // var options = ClearOptions.Target;
-            // options |= ClearOptions.DepthBuffer;
-            // options |= ClearOptions.Stencil;
+            var options = ClearOptions.Target;
+            options |= ClearOptions.DepthBuffer;
+            options |= ClearOptions.Stencil;
+
+            ClearBufferMask bufferMask = 0;
+            bufferMask = bufferMask | ClearBufferMask.DepthBufferBit;
+            bufferMask = bufferMask | ClearBufferMask.ColorBufferBit;
+
             // PlatformClear(options, color.ToVector4(), _viewport.MaxDepth, 0);
             GL.ClearColor(color.R/255, color.G/255, color.B/255, color.A/255);
-            GL.Clear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
+            GL.Clear(bufferMask);
+
             _graphicsMetrics._clearCount++;
         }
 
@@ -173,7 +179,7 @@ namespace Microsoft.Xna.Framework.Graphics
             // OnPresentationChanged();
             
             // EventHelpers.Raise(this, PresentationChanged, new PresentationEventArgs(PresentationParameters));
-            // EventHelpers.Raise(this, DeviceReset, EventArgs.Empty);
+            EventHelpers.Raise(this, DeviceReset, EventArgs.Empty);
        }
 
         public void Reset2(PresentationParameters presentationParameters)

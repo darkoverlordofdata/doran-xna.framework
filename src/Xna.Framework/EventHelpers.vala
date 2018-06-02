@@ -7,7 +7,7 @@ namespace Microsoft.Xna.Framework
      * Provides helper methods to make it easier
      * to safely raise events.
      */
-    internal class EventHelpers
+    internal class EventHelpers : Object
     {
         /**
          * Safely raises an event by storing a copy of the event's delegate

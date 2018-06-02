@@ -3,7 +3,7 @@ using GL;
 
 namespace Microsoft.Xna.Framework.Graphics
 {
-    public class GraphicsExtensions
+    public class GraphicsExtensions : Object
     {
         public static void CheckGLError()
         {

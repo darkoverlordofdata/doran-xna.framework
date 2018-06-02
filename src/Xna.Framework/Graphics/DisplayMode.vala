@@ -35,7 +35,7 @@ using System;
 namespace Microsoft.Xna.Framework.Graphics
 {
     // [DataContract]
-    public class DisplayMode
+    public class DisplayMode : Object
     {
         // #region Fields
 

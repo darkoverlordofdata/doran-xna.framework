@@ -38,9 +38,9 @@ namespace Microsoft.Xna.Framework
         private bool _shouldExit;
         private bool _suppressDraw;
 
-        public double FPS { get { return Corange.FrameRate(); } }
+        public double FPS { get { return Corange.FPS; } }
 
-        public double Time { get { return Corange.FrameTime(); } }
+        public double Time { get { return Corange.Time; } }
 
         public Game()
         {
@@ -267,7 +267,7 @@ namespace Microsoft.Xna.Framework
             }
 
             if (!_initialized) {
-                corange_init(@"$(_content.RootDirectory)/assets_core");
+                Corange.Initialize(@"$(_content.RootDirectory)/assets_core");
                 DoInitialize ();
                 _initialized = true;
             }
@@ -412,18 +412,18 @@ namespace Microsoft.Xna.Framework
 
         internal void FrameBegin()
         {
-            Corange.FrameBegin();
+            Corange.Begin();
         }
 
         internal void FrameEnd()
         {
-            Corange.FrameEnd();
+            Corange.End();
         }
 
         protected virtual bool BeginDraw() { return true; }
         protected virtual void EndDraw()
         {
-            Corange.GraphicsSwap(); 
+            Corange.Swap(); 
         }
 
         protected virtual void BeginRun() { }

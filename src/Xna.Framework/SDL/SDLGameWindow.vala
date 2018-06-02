@@ -187,7 +187,7 @@ namespace Microsoft.Xna.Framework
 
             if (!_willBeFullScreen) 
             {
-                Corange.GraphicsSetSize(clientWidth, clientHeight);
+                Corange.SetSize(clientWidth, clientHeight);
                 _width = clientWidth;
                 _height = clientHeight;
             }

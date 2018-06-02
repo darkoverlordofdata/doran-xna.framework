@@ -185,8 +185,8 @@ namespace Microsoft.Xna.Framework
                     else if (ev.Window.EventID == Sdl.Window.EventId.Moved)
                         _view.Moved();
                 }
+                Corange.UIEvent(ev);
             }
-            Game.Events(ev);
         }
 
         public override void StartRunLoop()

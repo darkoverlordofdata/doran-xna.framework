@@ -17,9 +17,9 @@ namespace Microsoft.Xna.Framework.Content
 		private bool disposed;
 
 
-		public ContentManager()
+		public ContentManager(string rootDirectory="")
 		{
-			// AddContentManager(this);
+			_rootDirectory = rootDirectory;
 		}
 
 		public void Dispose()
@@ -42,7 +42,6 @@ namespace Microsoft.Xna.Framework.Content
 			}
 		}
 
-
 		public virtual T Load<T>(string assetName)
 		{
 			if (assetName == null || assetName == "")
@@ -53,7 +52,7 @@ namespace Microsoft.Xna.Framework.Content
 			{
 				throw new Exception.ObjectDisposedException("ContentManager");
 			}
-			return Asset.Get(URI(@"$_rootDirectory/$assetName"));
+			return (T)Asset.Get(URI(@"$_rootDirectory/$assetName"));
 		}
 
 		/// <summary>
@@ -61,17 +60,17 @@ namespace Microsoft.Xna.Framework.Content
 		/// loads all assets from an asset folder
 		/// </summary>
 		/// <returns>Load all assets.</returns>
-		public virtual void LoadAll(string assetFolder)
+		public virtual void LoadFolder(string folderName)
 		{
-			if (assetFolder == null || assetFolder == "")
+			if (folderName == null || folderName == "")
 			{
-				throw new Exception.ArgumentNullException("assetFolder");
+				throw new Exception.ArgumentNullException("folderName");
 			}
 			if (disposed)
 			{
 				throw new Exception.ObjectDisposedException("ContentManager");
 			}
-			Folder.Load(URI(@"$_rootDirectory/$assetFolder/"));
+			Folder.Load(URI(@"$_rootDirectory/$folderName/"));
 			
 		}
 

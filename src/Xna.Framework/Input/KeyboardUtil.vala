@@ -7,7 +7,7 @@ using Gee;
 
 namespace Microsoft.Xna.Framework.Input
 {
-    internal class KeyboardUtil
+    internal class KeyboardUtil : Object
     {
         static HashMap<int, Keys> _map;
 
