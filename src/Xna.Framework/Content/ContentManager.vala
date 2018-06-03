@@ -5,6 +5,7 @@
 using Gee;
 using System;
 // using System.Collections.Generic;
+using Microsoft.Xna.Framework.Assets;
 
 namespace Microsoft.Xna.Framework.Content
 {
@@ -14,12 +15,18 @@ namespace Microsoft.Xna.Framework.Content
 		const uint8 ContentCompressedLz4 = 0x40;
 
 		private string _rootDirectory = ""; // string.Empty;
+		private IServiceProvider serviceProvider;
 		private bool disposed;
 
 
-		public ContentManager(string rootDirectory="")
+		public ContentManager(IServiceProvider serviceProvider, string rootDirectory="")
 		{
-			_rootDirectory = rootDirectory;
+			if (serviceProvider == null)
+			{
+				throw new Exception.ArgumentNullException("serviceProvider");
+			}
+			this.RootDirectory = rootDirectory;
+			this.serviceProvider = serviceProvider;
 		}
 
 		public void Dispose()
@@ -74,6 +81,19 @@ namespace Microsoft.Xna.Framework.Content
 			
 		}
 
+		public virtual GL.GLuint LoadTexture(string textureName)
+		{
+			if (textureName == null || textureName == "")
+			{
+				throw new Exception.ArgumentNullException("textureName");
+			}
+			if (disposed)
+			{
+				throw new Exception.ObjectDisposedException("ContentManager");
+			}
+			return Texture.GL(URI(@"$_rootDirectory/$textureName").ToString());
+		}
+
 		/// <summary>
 		/// This API is an extension to XNA.
 		/// loads 1 asset
@@ -114,6 +134,14 @@ namespace Microsoft.Xna.Framework.Content
 			get
 			{
 				return URI(RootDirectory).Full().ToString();
+			}
+		}
+		
+		public IServiceProvider ServiceProvider
+		{
+			get
+			{
+				return this.serviceProvider;
 			}
 		}
 		

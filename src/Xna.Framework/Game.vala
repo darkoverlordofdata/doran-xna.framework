@@ -8,7 +8,7 @@ using System;
 using System.Diagnostics;
 // using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
-// using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Graphics;
 // using Microsoft.Xna.Framework.Input.Touch;
 
 
@@ -17,7 +17,7 @@ namespace Microsoft.Xna.Framework
     public class Game : Object, IDisposable
     {
         // private GameComponentCollection _components;
-        // private GameServiceContainer _services;
+        private GameServiceContainer _services;
         private ContentManager _content;
         internal GamePlatform Platform;
 
@@ -25,7 +25,7 @@ namespace Microsoft.Xna.Framework
         // private GenericArray<IDrawable> _drawables;
 
         private IGraphicsDeviceManager _graphicsDeviceManager;
-        // private IGraphicsDeviceService _graphicsDeviceService;
+        private IGraphicsDeviceService _graphicsDeviceService;
 
         private bool _initialized = false;
         private bool _isFixedTimeStep = true;
@@ -44,8 +44,10 @@ namespace Microsoft.Xna.Framework
 
         public Game()
         {
+            GLib.Object(gameTime: new GameTime());
             _instance = this;
-            _content = new ContentManager();
+            _services = new GameServiceContainer();
+            _content = new ContentManager(_services);
             Platform = GamePlatform.PlatformCreate(this);
             Platform.Activated.Add((Event)OnActivated);
             Platform.Deactivated.Add((Event)OnDeactivated);
@@ -159,9 +161,9 @@ namespace Microsoft.Xna.Framework
             set { _isFixedTimeStep = value; }
         }
 
-        // public GameServiceContainer Services {
-        //     get { return _services; }
-        // }
+        public GameServiceContainer Services {
+            get { return _services; }
+        }
 
         public ContentManager Content
         {
@@ -175,21 +177,21 @@ namespace Microsoft.Xna.Framework
             }
         }
 
-        // public GraphicsDevice GraphicsDevice
-        // {
-        //     get
-        //     {
-        //         if (_graphicsDeviceService == null)
-        //         {
-        //             _graphicsDeviceService = (IGraphicsDeviceService)
-        //                 Services.GetService(typeof(IGraphicsDeviceService));
+        public GraphicsDevice GraphicsDevice
+        {
+            get
+            {
+                if (_graphicsDeviceService == null)
+                {
+                    _graphicsDeviceService = (IGraphicsDeviceService)
+                        Services.GetServiceType(typeof(IGraphicsDeviceService));
 
-        //             if (_graphicsDeviceService == null)
-        //                 throw new InvalidOperationException("No Graphics Device Service");
-        //         }
-        //         return _graphicsDeviceService.GraphicsDevice;
-        //     }
-        // }
+                    if (_graphicsDeviceService == null)
+                        throw new Exception.InvalidOperationException("No Graphics Device Service");
+                }
+                return _graphicsDeviceService.GraphicsDevice;
+            }
+        }
 
         public GameWindow Window
         {
@@ -223,7 +225,7 @@ namespace Microsoft.Xna.Framework
             _gameTimer.Reset();
             _gameTimer.Start();
             _accumulatedElapsedTime = TimeSpan.Zero;
-            _gameTime.ElapsedGameTime = TimeSpan.Zero;
+            gameTime.ElapsedGameTime = TimeSpan.Zero;
             _previousTicks = 0L;
         }
 
@@ -299,7 +301,8 @@ namespace Microsoft.Xna.Framework
         }
 
         private TimeSpan _accumulatedElapsedTime = TimeSpan.Zero;
-        private GameTime _gameTime = new GameTime();
+        // private GameTime _gameTime = new GameTime();
+        public GameTime gameTime { get; construct; }
         private Stopwatch _gameTimer;
         private long _previousTicks = 0;
         private int _updateFrameLag;
@@ -344,39 +347,39 @@ namespace Microsoft.Xna.Framework
 
             if (IsFixedTimeStep)
             {
-                _gameTime.ElapsedGameTime = TargetElapsedTime;
+                gameTime.ElapsedGameTime = TargetElapsedTime;
                 var stepCount = 0;
 
                 // Perform as many full fixed length time steps as we can.
                 while (_accumulatedElapsedTime.GE(TargetElapsedTime) && !_shouldExit)
                 {
-                    // _gameTime.TotalGameTime.Plus(_accumulatedElapsedTime);
+                    // gameTime.TotalGameTime.Plus(_accumulatedElapsedTime);
                     // _accumulatedElapsedTime.Minus(TargetElapsedTime);
 
                     // CRITICAL CODE FAILS UNLESS I DO THIS
                     int elapsed = (int)_accumulatedElapsedTime.Ticks;
                     int target = (int)TargetElapsedTime.Ticks;
-                    _gameTime.TotalGameTime._ticks += elapsed;
+                    gameTime.TotalGameTime._ticks += elapsed;
                     _accumulatedElapsedTime._ticks = elapsed - target;
 
                     ++stepCount;
 
-                    DoUpdate(_gameTime);
+                    DoUpdate(gameTime);
                 }
 
                 //Every update after the first accumulates lag
                 _updateFrameLag += int.max(0, stepCount - 1);
 
                 //If we think we are running slowly, wait until the lag clears before resetting it
-                if (_gameTime.IsRunningSlowly)
+                if (gameTime.IsRunningSlowly)
                 {
                     if (_updateFrameLag == 0)
-                        _gameTime.IsRunningSlowly = false;
+                        gameTime.IsRunningSlowly = false;
                 }
                 else if (_updateFrameLag >= 5)
                 {
                     //If we lag more than 5 frames, start thinking we are running slowly
-                    _gameTime.IsRunningSlowly = true;
+                    gameTime.IsRunningSlowly = true;
                 }
 
                 //Every time we just do one update and one draw, then we are not running slowly, so decrease the lag
@@ -385,16 +388,16 @@ namespace Microsoft.Xna.Framework
 
                 // Draw needs to know the total elapsed time
                 // that occured for the fixed length updates.
-                _gameTime.ElapsedGameTime = TimeSpan.FromTicks(TargetElapsedTime.Ticks * stepCount);
+                gameTime.ElapsedGameTime = TimeSpan.FromTicks(TargetElapsedTime.Ticks * stepCount);
             }
             else
             {
                 // Perform a single variable length update.
-                _gameTime.ElapsedGameTime = _accumulatedElapsedTime;
-                _gameTime.TotalGameTime.Plus(_accumulatedElapsedTime);
+                gameTime.ElapsedGameTime = _accumulatedElapsedTime;
+                gameTime.TotalGameTime.Plus(_accumulatedElapsedTime);
                 _accumulatedElapsedTime = TimeSpan.Zero;
 
-                DoUpdate(_gameTime);
+                DoUpdate(gameTime);
             }
 
             // Draw unless the update suppressed it.
@@ -402,7 +405,7 @@ namespace Microsoft.Xna.Framework
                 _suppressDraw = false;
             else
             {
-                DoDraw(_gameTime);
+                DoDraw(gameTime);
             }
 
             if (_shouldExit)

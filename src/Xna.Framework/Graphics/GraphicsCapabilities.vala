@@ -16,7 +16,7 @@ namespace Microsoft.Xna.Framework.Graphics
     {
         internal void Initialize(GraphicsDevice device)
         {
-            PlatformInitialize(device);
+            // PlatformInitialize(device);
         }
 
         /// <summary>

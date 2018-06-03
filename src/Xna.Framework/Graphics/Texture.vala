@@ -3,7 +3,7 @@
 // file 'LICENSE.txt', which is part of this source code package.
 
 using System;
-// using System.Diagnostics;
+using System.Diagnostics;
 // using System.Threading;
 
 namespace Microsoft.Xna.Framework.Graphics
@@ -13,7 +13,8 @@ namespace Microsoft.Xna.Framework.Graphics
 		internal SurfaceFormat _format;
 		internal int _levelCount;
 
-        private int _sortingKey = Interlocked.Increment(ref _lastSortingKey);
+        // private int _sortingKey = GLib.AtomicInt.add (ref _lastSortingKey, 1);
+        public int SortingKey { get; construct; }
         private static int _lastSortingKey;
 
         /// <summary>
@@ -24,10 +25,10 @@ namespace Microsoft.Xna.Framework.Graphics
         /// <para>The value is an implementation detail and may change between application launches or MonoGame versions.
         /// It is only guaranteed to stay consistent during application lifetime.</para>
         /// </remarks>
-        internal int SortingKey
-        {
-            get { return _sortingKey; }
-        }
+        // internal int SortingKey
+        // {
+        //     get { return _sortingKey; }
+        // }
 
 		public SurfaceFormat Format
 		{
@@ -39,10 +40,14 @@ namespace Microsoft.Xna.Framework.Graphics
 			get { return _levelCount; }
 		}
 
+        public Texture() {
+            GLib.Object(SortingKey: GLib.AtomicInt.add (ref _lastSortingKey, 1));
+        }
+
         internal static int CalculateMipLevels(int width, int height = 0, int depth = 0)
         {
             int levels = 1;
-            int size = Math.Max(Math.Max(width, height), depth);
+            int size = int.max(int.max(width, height), depth);
             while (size > 1)
             {
                 size = size / 2;
@@ -51,64 +56,45 @@ namespace Microsoft.Xna.Framework.Graphics
             return levels;
         }
 
-        // internal static void GetSizeForLevel(int width, int height, int level, out int w, out int h)
-        // {
-        //     w = width;
-        //     h = height;
-        //     while (level > 0)
-        //     {
-        //         --level;
-        //         w /= 2;
-        //         h /= 2;
-        //     }
-        //     if (w == 0)
-        //         w = 1;
-        //     if (h == 0)
-        //         h = 1;
-        // }
-
-        internal static void GetSizeForLevel(int width, int height, int depth, int level, out int w, out int h, out int d=null)
+        internal static void GetSizeForLevel(int width, int height, int level, out int w, out int h)
         {
-            if (d == null)
+            w = width;
+            h = height;
+            while (level > 0)
             {
-                w = width;
-                h = height;
-                while (level > 0)
-                {
-                    --level;
-                    w /= 2;
-                    h /= 2;
-                }
-                if (w == 0)
-                    w = 1;
-                if (h == 0)
-                    h = 1;
+                --level;
+                w /= 2;
+                h /= 2;
             }
-            else
+            if (w == 0)
+                w = 1;
+            if (h == 0)
+                h = 1;
+        }
+
+        internal static void GetSizeForLevel2(int width, int height, int depth, int level, out int w, out int h, out int d)
+        {
+            w = width;
+            h = height;
+            d = depth;
+            while (level > 0)
             {
-                
-                w = width;
-                h = height;
-                d = depth;
-                while (level > 0)
-                {
-                    --level;
-                    w /= 2;
-                    h /= 2;
-                    d /= 2;
-                }
-                if (w == 0)
-                    w = 1;
-                if (h == 0)
-                    h = 1;
-                if (d == 0)
-                    d = 1;
+                --level;
+                w /= 2;
+                h /= 2;
+                d /= 2;
             }
+            if (w == 0)
+                w = 1;
+            if (h == 0)
+                h = 1;
+            if (d == 0)
+                d = 1;
         }
 
         internal int GetPitch(int width)
         {
-            Debug.Assert(width > 0, "The width is negative!");
+            assert(width > 0); //, "The width is negative!");
 
             int pitch;
 
@@ -137,14 +123,10 @@ namespace Microsoft.Xna.Framework.Graphics
             return pitch;
         }
 
-        internal abstract void GraphicsDeviceResetting();
-
-        private abstract void PlatformGraphicsDeviceResetting();
-
-        abstract void Dispose(bool disposing);
-
-        abstract private void DeleteGLTexture();
+        internal override void GraphicsDeviceResetting()
+        {
+            // PlatformGraphicsDeviceResetting();
+        }
     }
-
 }
 

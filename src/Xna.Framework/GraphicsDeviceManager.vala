@@ -53,8 +53,8 @@ namespace Microsoft.Xna.Framework
         {
             if (game == null)
                 throw new Exception.ArgumentNullException("Game cannot be null.");
-           GLib.Object (game: game);
-
+            GLib.Object ( game: game );
+            
             _supportedOrientations = DisplayOrientation.Default;
             _preferredBackBufferFormat = SurfaceFormat.Color;
             _preferredDepthStencilFormat = DepthFormat.Depth24;

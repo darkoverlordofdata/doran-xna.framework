@@ -39,11 +39,11 @@
 // #endregion License
 
 using System;
-// using System.Diagnostics;
+using System.Diagnostics;
 
 namespace Microsoft.Xna.Framework.Graphics
 {
-    public abstract class GraphicsResource : IDisposable
+    public abstract class GraphicsResource : Object, IDisposable
     {
         bool disposed;
 
@@ -52,7 +52,7 @@ namespace Microsoft.Xna.Framework.Graphics
         // disposed yet.
         GraphicsDevice graphicsDevice;
 
-        private unowned GraphicsResource _selfReference;
+        private WeakReference _selfReference;
 
         internal GraphicsResource()
         {

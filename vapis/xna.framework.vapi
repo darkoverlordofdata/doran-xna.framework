@@ -1626,20 +1626,24 @@ namespace GL
 			TexCoord2f(1, 1); Vertex3f(pos.X, pos.Y+size.Y, 0);
 			TexCoord2f(0, 1); Vertex3f(pos.X+size.X, pos.Y+size.Y, 0);
 			TexCoord2f(0, 0); Vertex3f(pos.X+size.X, pos.Y, 0);
-			End();
-
 		}
 		else
 		{
+			// bottom left
 			TexCoord2f(0, 1); Vertex3f(pos.X, pos.Y+size.Y, 0);
+			// top left
 			TexCoord2f(0, 0); Vertex3f(pos.X, pos.Y, 0);
+			// top right
 			TexCoord2f(1, 0); Vertex3f(pos.X+size.X, pos.Y, 0);
 			
+			// bottom left
 			TexCoord2f(0, 1); Vertex3f(pos.X, pos.Y+size.Y, 0);
+			// bottom right
 			TexCoord2f(1, 1); Vertex3f(pos.X+size.X, pos.Y+size.Y, 0);
+			// top right
 			TexCoord2f(1, 0); Vertex3f(pos.X+size.X, pos.Y, 0);
-			End();
 		}
+		End();
 	}
 
 	public static void DrawBuffers(
@@ -1667,20 +1671,20 @@ namespace GL
 		DisableClientState(GL_VERTEX_ARRAY);
 	}
 
-	public static int Prolog(Microsoft.Xna.Framework.Vector2? camera=null, GLdouble nearVal=-1, GLdouble farVal=1) 
+	public static int PushState(Microsoft.Xna.Framework.Vector2? camera=null, GLdouble nearVal=-1, GLdouble farVal=1) 
 	{
 		MatrixMode(GL_PROJECTION);
 		PushMatrix();
 		LoadIdentity();
 		
 		if (camera == null) {
-		  Ortho(0, 
+		  	Ortho(0, 
 				Microsoft.Xna.Framework.Corange.Width, 
 				0, 
 				Microsoft.Xna.Framework.Corange.Height, 
 				nearVal, farVal);
 		} else {
-		  Ortho(camera.X - Microsoft.Xna.Framework.Corange.Width / 2, 
+		  	Ortho(camera.X - Microsoft.Xna.Framework.Corange.Width / 2, 
 				camera.X + Microsoft.Xna.Framework.Corange.Width / 2,
 				-camera.Y + Microsoft.Xna.Framework.Corange.Height / 2,
 				-camera.Y - Microsoft.Xna.Framework.Corange.Height / 2,
@@ -1699,7 +1703,7 @@ namespace GL
 	  
 	}
 	  
-	public static void Epilog() 
+	public static void PopState() 
 	{
 		Disable(GL_BLEND);
 		Disable(GL_TEXTURE_2D);  
@@ -1736,24 +1740,8 @@ namespace Microsoft.Xna.Framework {
 	public struct CObject {}
 
 	[SimpleType, CCode (cname = "CObject")]
-	public struct Component {
-		[CCode (cname = "type_find")]
-		public static int Register(string type, size_t size);
-		[CCode (cname = "type_id_name")]
-		public static string Name(int id);
-	}
+	public struct Component { }
 
-	//  [CCode (cname = "type_find")]
-	//  public int typeFind(string type, size_t size);
-
-	// [SimpleType, CCode (cname = "CObject", cprefix="")]
-	// public struct Type 
-	// {
-	// 	[CCode (cname = "type_find")]
-	// 	public static int Register(string type, size_t size);
-	// 	[CCode (cname = "type_id_name")]
-	// 	public static string Name(int id);
-	// }
 
 	/** 
 	 * URI
@@ -1837,9 +1825,9 @@ namespace Microsoft.Xna.Framework {
 	public void folder_load_recursive(URI folder);
 		
 	[CCode (has_target = false)]
-	public delegate Component AssetLoader(string filenanme);
+	public delegate Entity AssetLoader(string filenanme);
 	[CCode (has_target = false)]
-	public delegate void AssetDeleter(Component asset);
+	public delegate void AssetDeleter(Entity asset);
 	
 	public CObject asset_get_load(URI path);
 	[CCode (cname = "asset_get")]
@@ -1895,10 +1883,10 @@ namespace Microsoft.Xna.Framework {
 	public float audio_music_get_volume();
 
 	[CCode (has_target = false)]
-	public delegate Component ElemNew();
+	public delegate Entity ElemNew();
 
 	[CCode (has_target = false)]
-	public delegate void ElemDel(Component entity);
+	public delegate void ElemDel(Entity entity);
 
 
 	[SimpleType, CCode (cname = "CObject", cprefix="")]
@@ -1955,6 +1943,9 @@ namespace Microsoft.Xna.Framework {
 		public static int Count(TypeId id);
 		// [CCode (cname = "entities_get_type_id")]
 		// public static void Array(CObject* result, out int count, TypeId id);
+
+		[CCode (cname = "type_find")]
+		public static int Register(string type, size_t size);
 
 	}
 
@@ -2268,6 +2259,11 @@ namespace Microsoft.Xna.Framework {
 		public Vector3 SmoothStep(Vector3 other, float amount);
 		[CCode (cname = "vec3_smootherstep")]
 		public Vector3 SmootherStep(Vector3 other, float amount);
+
+		public string to_string()
+		{
+			return @"{X:$X, Y:$Y, Z:$Z}";
+		}
 				
 	}
 
@@ -3184,7 +3180,7 @@ namespace Microsoft.Xna.Framework {
 		[CCode (cname = "camera_new")]
 		public Camera();
 
-		public static int type { get { return Component.Register("camera", sizeof(Camera)); } }
+		public static int type { get { return Entity.Register("camera", sizeof(Camera)); } }
 		public static Camera create() {
 			return (Camera)Entity("camera", type);
 		} 
@@ -4976,7 +4972,7 @@ namespace Microsoft.Xna.Framework {
 			public bool pressed;
 
 			public static Button Create(string fmt, ...) {
-				return (Button)(new UIElem(fmt, Component.Register("ui_button", sizeof(Button))));
+				return (Button)(new UIElem(fmt, Entity.Register("ui_button", sizeof(Button))));
 			} 
 
 			[CCode (cname = "ui_button_new")]
@@ -5037,7 +5033,7 @@ namespace Microsoft.Xna.Framework {
 			[CCode (cname = "ui_browser_new")]
 			public Browser();
 
-			public static int type { get { return Component.Register("ui_browser", sizeof(Browser)); } }
+			public static int type { get { return Entity.Register("ui_browser", sizeof(Browser)); } }
 			public static Browser create(string fmt, ...) {
       			return (Browser)(new UIElem(fmt, type));
 			} 
@@ -5065,7 +5061,7 @@ namespace Microsoft.Xna.Framework {
 
 			[CCode (cname = "ui_dialog_new")]
 			public Dialog();
-			public static int type { get { return Component.Register("ui_dialog", sizeof(Dialog)); } }
+			public static int type { get { return Entity.Register("ui_dialog", sizeof(Dialog)); } }
 			public static Dialog create(string fmt, ...) {
 				return (Dialog)(new UIElem(fmt, type));
 			} 
@@ -5104,7 +5100,7 @@ namespace Microsoft.Xna.Framework {
 
 			[CCode (cname = "ui_option_new")]
 			public Option();
-			public static int type { get { return Component.Register("ui_option", sizeof(Option)); } }
+			public static int type { get { return Entity.Register("ui_option", sizeof(Option)); } }
 			public static Option create(string fmt, ...) {
 				return (Option)(new UIElem(fmt, type));
 			} 
@@ -5144,7 +5140,7 @@ namespace Microsoft.Xna.Framework {
 			public float amount;
 			[CCode (cname = "ui_slider_new")]
 			public Slider();
-			public static int type { get { return Component.Register("ui_slider", sizeof(Slider)); } }
+			public static int type { get { return Entity.Register("ui_slider", sizeof(Slider)); } }
 			public static Slider create(string fmt, ...) {
 				return (Slider)(new UIElem(fmt, type));
 			} 
@@ -5156,7 +5152,7 @@ namespace Microsoft.Xna.Framework {
 		public class Spinner {
 			[CCode (cname = "ui_spinner_new")]
 			public Spinner();
-			public static int type { get { return Component.Register("ui_spinner", sizeof(Spinner)); } }
+			public static int type { get { return Entity.Register("ui_spinner", sizeof(Spinner)); } }
 			public static Spinner create(string fmt, ...) {
 				return (Spinner)(new UIElem(fmt, type));
 			} 
@@ -5248,7 +5244,7 @@ namespace Microsoft.Xna.Framework {
 
 			[CCode (cname = "ui_textbox_new")]
 			public Textbox();
-			public static int type { get { return Component.Register("ui_textbox", sizeof(Textbox)); } }
+			public static int type { get { return Entity.Register("ui_textbox", sizeof(Textbox)); } }
 			public static Textbox create(string fmt, ...) {
 				return (Textbox)(new UIElem(fmt, type));
 			} 
@@ -5296,7 +5292,7 @@ namespace Microsoft.Xna.Framework {
 
 			[CCode (cname = "ui_toast_new")]
 			public Toast();
-			public static int type { get { return Component.Register("ui_toast", sizeof(Toast)); } }
+			public static int type { get { return Entity.Register("ui_toast", sizeof(Toast)); } }
 			public static Toast create(string fmt, ...) {
 				return (Toast)(new UIElem(fmt, type));
 			} 
@@ -5330,7 +5326,7 @@ namespace Microsoft.Xna.Framework {
 
 			[CCode (cname = "ui_listbox_new")]
 			public Listbox();
-			public static int type { get { return Component.Register("ui_listbox", sizeof(Listbox)); } }
+			public static int type { get { return Entity.Register("ui_listbox", sizeof(Listbox)); } }
 			public static Listbox create(string fmt, ...) {
 				return (Listbox)(new UIElem(fmt, type));
 			} 
@@ -5390,7 +5386,7 @@ namespace Microsoft.Xna.Framework {
 
 			[CCode (cname = "ui_text_new")]
 			public Text();
-			public static int type { get { return Component.Register("ui_text", sizeof(Text)); } }
+			public static int type { get { return Entity.Register("ui_text", sizeof(Text)); } }
 			public static Text create(string fmt, ...) {
 				return (Text)(new UIElem(fmt, type));
 			} 
@@ -5450,7 +5446,7 @@ namespace Microsoft.Xna.Framework {
 
 			[CCode (cname = "ui_rectangle_new")]
 			public Rectangle();
-			public static int type { get { return Component.Register("ui_rectangle", sizeof(Rectangle)); } }
+			public static int type { get { return Entity.Register("ui_rectangle", sizeof(Rectangle)); } }
 			public static Rectangle create(string fmt, ...) {
 				return (Rectangle)(new UIElem(fmt, type));
 			} 

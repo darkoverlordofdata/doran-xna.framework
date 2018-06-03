@@ -21,18 +21,18 @@ namespace Microsoft.Xna.Framework.Graphics
         internal void BindToGraphicsDevice(GraphicsDevice device)
         {
             if (_defaultStateObject)
-                throw new InvalidOperationException("You cannot bind a default state object.");
+                throw new Exception.InvalidOperationException("You cannot bind a default state object.");
             if (GraphicsDevice != null && GraphicsDevice != device)
-                throw new InvalidOperationException("This blend state is already bound to a different graphics device.");
+                throw new Exception.InvalidOperationException("This blend state is already bound to a different graphics device.");
             GraphicsDevice = device;
         }
 
         internal void ThrowIfBound()
         {
             if (_defaultStateObject)
-                throw new InvalidOperationException("You cannot modify a default blend state object.");
+                throw new Exception.InvalidOperationException("You cannot modify a default blend state object.");
             if (GraphicsDevice != null)
-                throw new InvalidOperationException("You cannot modify the blend state after it has been bound to the graphics device!");
+                throw new Exception.InvalidOperationException("You cannot modify the blend state after it has been bound to the graphics device!");
         }
 
         /// <summary>
@@ -200,7 +200,7 @@ namespace Microsoft.Xna.Framework.Graphics
             _targetBlendState[3] = new TargetBlendState(this);
 
 			_blendFactor = Color.White;
-            _multiSampleMask = Int32.MaxValue;
+            _multiSampleMask = int32.MAX;
             _independentBlendEnable = false;
         }
 
@@ -232,29 +232,29 @@ namespace Microsoft.Xna.Framework.Graphics
 
         static construct
         {
-            Additive = new BlendState("BlendState.Additive", Blend.SourceAlpha, Blend.One);
-            AlphaBlend = new BlendState("BlendState.AlphaBlend", Blend.One, Blend.InverseSourceAlpha);
-            NonPremultiplied = new BlendState("BlendState.NonPremultiplied", Blend.SourceAlpha, Blend.InverseSourceAlpha);
-            Opaque = new BlendState("BlendState.Opaque", Blend.One, Blend.Zero);
+            Additive = new BlendState.Named("BlendState.Additive", Blend.SourceAlpha, Blend.One);
+            AlphaBlend = new BlendState.Named("BlendState.AlphaBlend", Blend.One, Blend.InverseSourceAlpha);
+            NonPremultiplied = new BlendState.Named("BlendState.NonPremultiplied", Blend.SourceAlpha, Blend.InverseSourceAlpha);
+            Opaque = new BlendState.Named("BlendState.Opaque", Blend.One, Blend.Zero);
 		}
 
 	    internal BlendState Clone()
 	    {
-	        return new BlendState(this);
+	        return new BlendState.Cloned(this);
 	    }
 
         public void PlatformDispose(){}
 
-        protected override void Dispose(bool disposing)
+        protected override void Dispose2(bool disposing)
         {
             if (!IsDisposed)
             {
-                for (int i = 0; i < _targetBlendState.Length; ++i)
+                for (int i = 0; i < _targetBlendState.length; ++i)
                     _targetBlendState[i] = null;
 
                 PlatformDispose();
             }
-            base.Dispose(disposing);
+            base.Dispose2(disposing);
         }
     }
 }

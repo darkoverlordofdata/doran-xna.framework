@@ -19,6 +19,10 @@ namespace Microsoft.Xna.Framework.Graphics
 
         private bool _isDisposed;
 
+        internal GraphicsCapabilities GraphicsCapabilities; // { get; private set; }
+
+        public TextureCollection Textures { get; private set; }
+        
         // On Intel Integrated graphics, there is a fast hw unit for doing
         // clears to colors where all components are either 0 or 255.
         // Despite XNA4 using Purple here, we use black (in Release) to avoid
@@ -28,6 +32,14 @@ namespace Microsoft.Xna.Framework.Graphics
 #else
         private static Color DiscardColor = new Color.Rgba(0, 0, 0, 255);
 #endif
+
+        // Resources may be added to and removed from the list from many threads.
+        private Object _resourcesLock = new Object();
+
+        // Use WeakReference for the global resources list as we do not know when a resource
+        // may be disposed and collected. We do not want to prevent a resource from being
+        // collected by holding a strong reference to it in this list.
+        public Gee.List<WeakReference> resources { get; construct; }
 
 		// TODO Graphics Device events need implementing
 		public EventHandler<EventArgs> DeviceLost = new EventHandler<EventArgs>();
@@ -92,6 +104,7 @@ namespace Microsoft.Xna.Framework.Graphics
         /// </exception>
         public GraphicsDevice(GraphicsAdapter? adapter, GraphicsProfile graphicsProfile, PresentationParameters presentationParameters)
         {
+            GLib.Object(resources: new Gee.ArrayList<WeakReference>());
             // if (adapter == null)
             //     throw new ArgumentNullException("adapter");
             // if (!adapter.IsProfileSupported(graphicsProfile))
@@ -149,6 +162,22 @@ namespace Microsoft.Xna.Framework.Graphics
 
                 _isDisposed = true;
                 EventHelpers.Raise(this, Disposing, EventArgs.Empty);
+            }
+        }
+
+        internal void AddResourceReference(WeakReference resourceReference)
+        {
+            lock (_resourcesLock)
+            {
+                resources.add(resourceReference);
+            }
+        }
+
+        internal void RemoveResourceReference(WeakReference resourceReference)
+        {
+            lock (_resourcesLock)
+            {
+                resources.remove(resourceReference);
             }
         }
 
