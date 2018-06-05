@@ -1259,7 +1259,8 @@ namespace GL
 	public static void glGetTexParameterfv (GLenu target, GLenu pname, [CCode (array_length = false)] GLfloat[] params);
 	public static void glGetTexParameteriv (GLenu target, GLenu pname, [CCode (array_length = false)] GLint[] params);
 	public static void glGetTexLevelParameterfv (GLenu target, GLint level, [CCode (array_length = false)] GLenu pname, GLfloat[] params);
-	public static void glGetTexLevelParameteriv (GLenu target, GLint level, GLenu pname,[CCode (array_length = false)]  GLint[] params);
+	[CCode (cname = "glGetTexLevelParameteriv")]
+	public static void GetTexLevelParameteriv (GLenu target, GLint level, GLenu pname,[CCode (array_length = false)]  GLint[] params);
 	public static void glTexImage1D (GLenu target, GLint level, GLint internalFormat, GLsizei width, GLint border, GLenu format, GLenu type, GLvoid* pixels);
 	public static void glTexImage2D (GLenu target, GLint level, GLint internalFormat, GLsizei width, GLsizei height, GLint border, GLenu format, GLenu type, GLvoid* pixels);
 	public static void glGetTexImage (GLenu target, GLint level, GLenu format, GLenu type, GLvoid* pixels);
@@ -1611,24 +1612,85 @@ namespace GL
 	public const GLenu GL_TESS_EVALUATION_SHADER; //0x8E87
 	public const GLenu GL_PATCH_VERTICES; //0x8E72
 
-	public static int Prolog(Microsoft.Xna.Framework.Vector2? camera=null, GLdouble nearVal=-1, GLdouble farVal=1) 
+	public static void Draw(
+		Microsoft.Xna.Framework.Vector2 pos, 
+		Microsoft.Xna.Framework.Vector2 size, 
+		bool reverse = false)
+	{
+		Begin(GL_TRIANGLES);
+		if (reverse)
+		{
+			TexCoord2f(1, 1); Vertex3f(pos.X, pos.Y+size.Y, 0);
+			TexCoord2f(1, 0); Vertex3f(pos.X, pos.Y, 0);
+			TexCoord2f(0, 0); Vertex3f(pos.X+size.X, pos.Y, 0);
+			
+			TexCoord2f(1, 1); Vertex3f(pos.X, pos.Y+size.Y, 0);
+			TexCoord2f(0, 1); Vertex3f(pos.X+size.X, pos.Y+size.Y, 0);
+			TexCoord2f(0, 0); Vertex3f(pos.X+size.X, pos.Y, 0);
+		}
+		else
+		{
+			// bottom left
+			TexCoord2f(0, 1); Vertex3f(pos.X, pos.Y+size.Y, 0);
+			// top left
+			TexCoord2f(0, 0); Vertex3f(pos.X, pos.Y, 0);
+			// top right
+			TexCoord2f(1, 0); Vertex3f(pos.X+size.X, pos.Y, 0);
+			
+			// bottom left
+			TexCoord2f(0, 1); Vertex3f(pos.X, pos.Y+size.Y, 0);
+			// bottom right
+			TexCoord2f(1, 1); Vertex3f(pos.X+size.X, pos.Y+size.Y, 0);
+			// top right
+			TexCoord2f(1, 0); Vertex3f(pos.X+size.X, pos.Y, 0);
+		}
+		End();
+	}
+
+	public static void DrawBuffers(
+		int count, 
+		GLuint positionsBuffer, 
+		GLuint texcoordsBuffer
+		)
+	{
+		TexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, (GLint)GL_CLAMP_TO_EDGE);
+		TexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, (GLint)GL_CLAMP_TO_EDGE);
+		
+		EnableClientState(GL_VERTEX_ARRAY);
+		EnableClientState(GL_TEXTURE_COORD_ARRAY);
+	
+		BindBuffer(GL_ARRAY_BUFFER, positionsBuffer);
+		VertexPointer(3, GL_FLOAT, 0, (GLvoid*)0);
+		
+		BindBuffer(GL_ARRAY_BUFFER, texcoordsBuffer);
+		TexCoordPointer(2, GL_FLOAT, 0, (GLvoid*)0);
+		
+		DrawArrays(GL_TRIANGLES, 0, count * 6);
+		
+		BindBuffer(GL_ARRAY_BUFFER, 0);
+		DisableClientState(GL_TEXTURE_COORD_ARRAY);  
+		DisableClientState(GL_VERTEX_ARRAY);
+	}
+
+	public static int PushState(Microsoft.Xna.Framework.Vector2? camera=null, GLdouble nearVal=-1, GLdouble farVal=1) 
 	{
 		MatrixMode(GL_PROJECTION);
 		PushMatrix();
 		LoadIdentity();
 		
 		if (camera == null) {
-		  Ortho(0, 
-				Microsoft.Xna.Framework.Corange.GraphicsWidth(), 
+		  	Ortho(0, 
+
+				Microsoft.Xna.Framework.corange_graphics_viewport_width(), 
 				0, 
-				Microsoft.Xna.Framework.Corange.GraphicsHeight(), 
+				Microsoft.Xna.Framework.corange_graphics_viewport_height(), 
 				nearVal, farVal);
 		} else {
-		  Ortho(camera.X - Microsoft.Xna.Framework.Corange.GraphicsWidth() / 2, 
-				camera.X + Microsoft.Xna.Framework.Corange.GraphicsWidth() / 2,
-				-camera.Y + Microsoft.Xna.Framework.Corange.GraphicsHeight() / 2,
-				-camera.Y - Microsoft.Xna.Framework.Corange.GraphicsHeight() / 2,
-				nearVal, farVal);
+		  	Ortho(camera.X - Microsoft.Xna.Framework.corange_graphics_viewport_width() / 2, 
+				  camera.X + Microsoft.Xna.Framework.corange_graphics_viewport_width() / 2,
+				 -camera.Y + Microsoft.Xna.Framework.corange_graphics_viewport_height() / 2,
+				 -camera.Y - Microsoft.Xna.Framework.corange_graphics_viewport_height() / 2,
+				 nearVal, farVal);
 		}
 		
 		MatrixMode(GL_MODELVIEW);
@@ -1643,7 +1705,7 @@ namespace GL
 	  
 	}
 	  
-	public static void Epilog() 
+	public static void PopState() 
 	{
 		Disable(GL_BLEND);
 		Disable(GL_TEXTURE_2D);  
@@ -1660,17 +1722,79 @@ namespace GL
 [CCode (cprefix = "", lower_case_cprefix = "", cheader_filename = "corange.h")]
 namespace Microsoft.Xna.Framework {
 
-	[CCode (cname = "override_free")]
-	public static void override_free(void* o) {}
-	
-	[CCode (cname = "override_free")]
-	public static void ref_function(void* o) {}
-
-	[CCode (cname = "override_free")]
-	public static void unref_function(void* o) {}
-
 	public static void corange_init(string core_assets_path);
 	public static void corange_finish();
+
+	[CCode (cname = "ui_render")]
+	public void corange_ui_render();
+	[CCode (cname = "ui_update")]
+	public void corange_ui_update();
+	[CCode (cname = "ui_event")]
+	public void corange_ui_event(Sdl.Event e);
+
+	[CCode (cname = "frame_begin")]
+	public void corange_frame_begin();
+	[CCode (cname = "frame_end")]
+	public void corange_frame_end();
+	[CCode (cname = "frame_rate")]
+	public double corange_frame_rate();
+	[CCode (cname = "frame_time")]
+	public double corange_frame_time();
+
+	[CCode (cname = "texture_handle")]
+	public GL.GLuint corange_texture_handle(CObject texture);
+	[CCode (cname = "asset_get")]
+	public CObject corange_asset_get(URI path);
+	[CCode (cname = "texture_get_image")]
+	public Assets.Image corange_texture_get_image(CObject texture);
+
+	[CCode (cname = "graphics_viewport_ratio")]
+	public static double corange_graphics_viewport_ratio();
+	[CCode (cname = "graphics_viewport_height")]
+	public static int corange_graphics_viewport_height();
+	[CCode (cname = "graphics_viewport_width")]
+	public static int corange_graphics_viewport_width();
+	[CCode (cname = "graphics_viewport_title")]
+	public static string corange_graphics_viewport_title();
+	[CCode (cname = "graphics_get_multisamples")]
+	public static int corange_graphics_get_multisamples();
+	[CCode (cname = "graphics_set_multisamples")]
+	public static void corange_graphics_set_multisamples(int samples);
+	[CCode (cname = "graphics_get_fullscreen")]
+	public static bool corange_graphics_get_fullscreen();
+	[CCode (cname = "graphics_set_fullscreen")]
+	public static void corange_graphics_set_fullscreen(bool fullscreen);
+	[CCode (cname = "graphics_get_antialiasing")]
+	public static int corange_graphics_get_antialiasing();
+	[CCode (cname = "graphics_set_antialiasing")]
+	public static void corange_graphics_set_antialiasing(int quality);
+	[CCode (cname = "graphics_get_cursor_hidden")]
+	public static bool corange_graphics_get_cursor_hidden();
+	[CCode (cname = "graphics_set_cursor_hidden")]
+	public static void corange_graphics_set_cursor_hidden(bool hidden);
+	[CCode (cname = "graphics_context_new")]
+	public static GLib.IntPtr corange_graphics_context_new();
+	[CCode (cname = "graphics_context_delete")]
+	public static void corange_graphics_context_delete(GLib.IntPtr context);
+	[CCode (cname = "graphics_context_current")]
+	public static void corange_graphics_context_current(GLib.IntPtr context);
+	[CCode (cname = "graphics_viewport_set_title")]
+	public static void corange_graphics_viewport_set_title(string title);
+	[CCode (cname = "graphics_viewport_set_icon")]
+	public static void corange_graphics_viewport_set_icon(URI icon);
+	[CCode (cname = "graphics_viewport_set_position")]
+	public static void corange_graphics_viewport_set_position(int x, int y);
+	[CCode (cname = "graphics_viewport_set_size")]
+	public static void corange_graphics_viewport_set_size(int w, int h);
+	[CCode (cname = "graphics_set_vsync")]
+	public static void corange_graphics_set_vsync(bool vsync);
+	[CCode (cname = "graphics_viewport_screenshot")]
+	public static void corange_graphics_viewport_screenshot();
+	[CCode (cname = "graphics_swap")]
+	public static void corange_graphics_swap();
+		
+ 	public void timestamp(string outs);
+	public unowned string frame_rate_string();
 
 	[SimpleType, CCode (cname = "type_id")]
 	public struct TypeId : int {}
@@ -1680,24 +1804,8 @@ namespace Microsoft.Xna.Framework {
 	public struct CObject {}
 
 	[SimpleType, CCode (cname = "CObject")]
-	public struct Component {
-		[CCode (cname = "type_find")]
-		public static int Register(string type, size_t size);
-		[CCode (cname = "type_id_name")]
-		public static string Name(int id);
-	}
+	public struct Component { }
 
-	//  [CCode (cname = "type_find")]
-	//  public int typeFind(string type, size_t size);
-
-	// [SimpleType, CCode (cname = "CObject", cprefix="")]
-	// public struct Type 
-	// {
-	// 	[CCode (cname = "type_find")]
-	// 	public static int Register(string type, size_t size);
-	// 	[CCode (cname = "type_id_name")]
-	// 	public static string Name(int id);
-	// }
 
 	/** 
 	 * URI
@@ -1760,43 +1868,11 @@ namespace Microsoft.Xna.Framework {
 		public bool Equal(AssetHandle other);
 	}
 
-	public Asset* asset_hndl_ptr(ref AssetHandle ah);
-
-	public void asset_cache_flush();
-	public void asset_init();
-	public void asset_finish();
-	public void asset_add_path_variable(URI variable, URI mapping);
-	public URI asset_map_filename(URI filename);
-	public URI asset_unmap_filename(URI filename);
-
-	public void file_load(URI filename);
-	public void file_unload(URI filename);
-	public void file_reload(URI filename);
-	public bool file_isloaded(URI path);
-	public bool file_exists(URI path);
-	
-	public void folder_load(URI folder);
-	public void folder_unload(URI folder);
-	public void folder_reload(URI folder);
-	public void folder_load_recursive(URI folder);
-		
 	[CCode (has_target = false)]
-	public delegate Component AssetLoader(string filenanme);
+	public delegate Entity AssetLoader(string filenanme);
 	[CCode (has_target = false)]
-	public delegate void AssetDeleter(Component asset);
+	public delegate void AssetDeleter(Entity asset);
 	
-	public CObject asset_get_load(URI path);
-	[CCode (cname = "asset_get")]
-	public CObject asset_get(URI path);
-	[CCode (cname = "asset_get_as_type")]
-	public CObject asset_get_as(URI path, TypeId type);
-	public void asset_reload_type_id(TypeId type);
-	public void asset_reload_all();
-	[CCode(cname = "asset_handler_cast")]
-	public void asset_handler(int type, string extension, AssetLoader funca, AssetDeleter funcd);
-	public unowned string asset_ptr_path(CObject asset);
-	public unowned string asset_ptr_typename(CObject asset);
-
 	[SimpleType, CCode (cname = "CObject", cprefix="")]
 	public struct Sound 
 	{
@@ -1822,27 +1898,14 @@ namespace Microsoft.Xna.Framework {
 		[CCode (cname = "audio_music_stop")]
 		public static void Stop();
 	}
-	public void audio_init();
-	public void audio_finish();
 
-	public int audio_sound_play(CObject s, int loops);
-	public void audio_sound_pause(int channel);
-	public void audio_sound_resume(int channel);
-	public void audio_sound_stop(int channel);
 
-	public void audio_music_play(Assets.Music m);
-	public void audio_music_pause();
-	public void audio_music_resume();
-	public void audio_music_stop();
-
-	public void audio_music_set_volume(float volume);
-	public float audio_music_get_volume();
 
 	[CCode (has_target = false)]
-	public delegate Component ElemNew();
+	public delegate Entity ElemNew();
 
 	[CCode (has_target = false)]
-	public delegate void ElemDel(Component entity);
+	public delegate void ElemDel(Entity entity);
 
 
 	[SimpleType, CCode (cname = "CObject", cprefix="")]
@@ -1900,6 +1963,9 @@ namespace Microsoft.Xna.Framework {
 		// [CCode (cname = "entities_get_type_id")]
 		// public static void Array(CObject* result, out int count, TypeId id);
 
+		[CCode (cname = "type_find")]
+		public static int Register(string type, size_t size);
+
 	}
 
 	[SimpleType, CCode (cname = "CObject", cprefix="")]
@@ -1919,45 +1985,7 @@ namespace Microsoft.Xna.Framework {
 	
 	}
 
-	[CCode (cname = "entity_handler_cast")]
-	public void entity_handler(int TypeId, ElemNew entity_new, ElemDel entity_del);
-
-	[CCode (cname = "entity_new_type_id")]
-	public CObject entity_new(string fmt, TypeId id, ...);
-	
-	[CCode (cname = "entities_new_type_id")]
-	public void entities_new(string name_format, int count, TypeId id);
-
-	[CCode (cname = "entities_get_type_id")]
-	public void entities_get(CObject* result, out int count, TypeId id);
-
-	[CCode (cname = "entity_get")]
-	public CObject entity_get(string fmt, ...);
-
-	[CCode (cname = "entity_get_as_type_id")]
-	public CObject entity_get_as(string fmt, TypeId id, ...);
-
-	[CCode (cname = "entity_name")]
-	public unowned string entity_name(CObject* e);
-
-	[CCode (cname = "entity_delete")]
-	public void entity_delete(char* fmt, ...);
-
-	[CCode (cname = "entity_type_count_type_id")]
-	public int entity_type_count(TypeId id);
-
-	[CCode (has_target = false)]
-	public delegate void ErrorFunc (string message);
-
-	[CCode (has_target = false)]
-	public delegate void WarnFunc (string message);
-	
-	[CCode (has_target = false)]
-	public delegate void DebugFunc (string message);
-
-	public void at_error(ErrorFunc func);
-	public void at_warning(WarnFunc func);
-	public void at_debug(DebugFunc func);
+	private void entities_get(CObject* result, out int count, TypeId id);
 
 	[SimpleType, CCode (cname = "timer")]
 	public struct Timer 
@@ -1974,31 +2002,6 @@ namespace Microsoft.Xna.Framework {
 		[CCode (cname = "timer_stop")]
 		public Timer End(string tag);
 	}
-
- 	public void timestamp(string outs);
-	public void frame_begin();
-	public void frame_end();
-	public double frame_rate();
-	public double frame_time();
-	public unowned string frame_rate_string();
-	public int rawcast(float x);
-	public float max(float x, float y);
-	public float min(float x, float y);
-	public float clamp(float x, float bottom, float top);
-	public bool between(float x, float bottom, float top);
-	public bool between_or(float x, float bottom, float top);
-	public float saturate(float x);
-	public float lerp(float p1, float p2, float amount);
-	public float smoothstep(float p1, float p2, float amount);
-	public float smootherstep(float p1, float p2, float amount);
-	public float cosine_interp(float p1, float p2, float amount);
-	public float nearest_interp(float p1, float p2, float amount);
-	public float cubic_interp(float p1, float p2, float p3, float p4, float amount);
-	public float binearest_interp(float tl, float tr, float bl, float br, float x_amount, float y_amount);
-	public float bilinear_interp(float tl, float tr, float bl, float br, float x_amount, float y_amount);
-	public float bicosine_interp(float tl, float tr, float bl, float br, float x_amount, float y_amount);
-	public float bismoothstep_interp(float tl, float tr, float bl, float br, float x_amount, float y_amount);
-	public float bismootherstep_interp(float tl, float tr, float bl, float br, float x_amount, float y_amount);
 
 	[SimpleType, CCode (cname = "vec2")]
 	public struct Vector2 
@@ -2212,6 +2215,11 @@ namespace Microsoft.Xna.Framework {
 		public Vector3 SmoothStep(Vector3 other, float amount);
 		[CCode (cname = "vec3_smootherstep")]
 		public Vector3 SmootherStep(Vector3 other, float amount);
+
+		public string to_string()
+		{
+			return @"{X:$X, Y:$Y, Z:$Z}";
+		}
 				
 	}
 
@@ -2730,8 +2738,7 @@ namespace Microsoft.Xna.Framework {
 					  
 	}
 
-	[SimpleType]
-	[CCode (cname = "frustum")]
+	[SimpleType, CCode (cname = "frustum")]
 	public struct Frustum {
 		public Vector3 ntr;
 		public Vector3 ntl;
@@ -2763,8 +2770,7 @@ namespace Microsoft.Xna.Framework {
 		
 	}
 
-	[SimpleType]
-	[CCode (cname = "sphere")]
+	[SimpleType, CCode (cname = "sphere")]
 	public struct Sphere {
 		public Vector3 center;
 		public float radius;
@@ -2845,8 +2851,7 @@ namespace Microsoft.Xna.Framework {
 		public bool intersects_face(Vector3 v0, Vector3 v1, Vector3 v2, Vector3 norm);
 	}
 
-	[SimpleType]
-	[CCode (cname = "ellipsoid")]
+	[SimpleType, CCode (cname = "ellipsoid")]
 	public struct Ellipsoid {
 		public Vector3 center;
 		public Vector3 radiuses;
@@ -2861,8 +2866,7 @@ namespace Microsoft.Xna.Framework {
 		public Matrix3 invSpace();
 	}
 
-	[SimpleType]
-	[CCode (cname = "capsule")]
+	[SimpleType, CCode (cname = "capsule")]
 	public struct Capsule {
 		public Vector3 start;
 		public Vector3 end;
@@ -2880,8 +2884,7 @@ namespace Microsoft.Xna.Framework {
 				
 	}
 
-	[SimpleType]
-	[CCode (cname = "vertex")]
+	[SimpleType, CCode (cname = "vertex")]
 	public struct Vertex {
 		public Vector3 position;
 		public Vector3 normal;
@@ -2953,49 +2956,8 @@ namespace Microsoft.Xna.Framework {
 		public void scale(float scale);
 	}
 
-	public Vector3 triangle_tangent(Vertex v1, Vertex v2, Vertex v3);
-	public Vector3 triangle_binormal(Vertex v1, Vertex v2, Vertex v3);
-	public Vector3 triangle_normal(Vertex v1, Vertex v2, Vertex v3);
-	public Vector3 triangle_random_position(Vertex v1, Vertex v2, Vertex v3);
-	public float triangle_area(Vertex v1, Vertex v2, Vertex v3);
 	
-	public float triangle_difference_u(Vertex v1, Vertex v2, Vertex v3);
-	public float triangle_difference_v(Vertex v1, Vertex v2, Vertex v3);
-	
-	public Vertex triangle_random_position_interpolation(Vertex v1, Vertex v2, Vertex v3);
-	
-	public float tween_approach(float curr, float target, float timestep, float steepness);
-	public float tween_linear(float curr, float target, float timestep, float max);
-	
-	public Vector3 vec3_tween_approach(Vector3 curr, Vector3 target, float timestep, float steepness);
-	public Vector3 vec3_tween_linear(Vector3 curr, Vector3 target, float timestep, float max);
-	
-	public static void graphics_set_vsync(bool vsync);
-	public static void graphics_set_multisamples(int samples);
-	public static void graphics_set_fullscreen(bool fullscreen);
-	public static void graphics_set_antialiasing(int quality);
-	public static GLib.IntPtr graphics_context_new();
-	public static void graphics_context_delete(GLib.IntPtr context);
-	public static void graphics_context_current(GLib.IntPtr context);
-	public static int graphics_get_multisamples();
-	public static bool graphics_get_fullscreen();
-	public static int graphics_get_antialiasing();
-	public static void graphics_viewport_set_title(string title);
-	public static void graphics_viewport_set_icon(URI icon);
-	public static void graphics_viewport_set_position(int x, int y);
-	public static void graphics_viewport_set_size(int w, int h);
-	public static void graphics_viewport_screenshot();
-	public static string graphics_viewport_title();
-	public static int graphics_viewport_height();
-	public static int graphics_viewport_width();
-	public static double graphics_viewport_ratio();
-	public static void graphics_set_cursor_hidden(bool hidden);
-	public static bool graphics_get_cursor_hidden();
-	public static void graphics_swap();
-
-	
-	[SimpleType]
-	[CCode (cname = "audio")]
+	[SimpleType, CCode (cname = "audio")]
 	public struct Audio : uint64 {
 		public static void init();
 		public static void finish();
@@ -3007,8 +2969,7 @@ namespace Microsoft.Xna.Framework {
 		
 	}
 
-	//  [SimpleType]
-	//  [CCode (cname = "music")]
+	//  [SimpleType, CCode (cname = "music")]
 	//  public struct Music : uint64 {
 	//  	public static Music mp3_load_file(string filename);
 	//  	public static Music ogg_load_file(string filename);
@@ -3022,8 +2983,7 @@ namespace Microsoft.Xna.Framework {
 	//  	public static float get_volume();
 	//  }
 
-	//  [SimpleType]
-	//  [CCode (cname = "sound")]
+	//  [SimpleType, CCode (cname = "sound")]
 	//  public struct Sound : uint64 {
 	//  	public static Sound wav_load_file(string filename);
 	//  	public void delete();
@@ -3038,8 +2998,7 @@ namespace Microsoft.Xna.Framework {
 	// [CCode (cname = "MAX_STICKS")]
 	// public const int MAX_STICKS;
 
-	// [SimpleType]
-	// [CCode (cname = "joystick")]
+	// [SimpleType, CCode (cname = "joystick")]
 	// public struct Joystick {
 	// 	public static void init();
 	// 	public static void finish();
@@ -3053,8 +3012,7 @@ namespace Microsoft.Xna.Framework {
 		NONE, URL, HOST, SOCKET, DATA, NOFILE
 	}
 
-	[SimpleType]
-	[CCode (cname = "net")]
+	[SimpleType, CCode (cname = "net")]
 	public struct Net {
 		public static void init();
 		public static void finish();
@@ -3077,8 +3035,7 @@ namespace Microsoft.Xna.Framework {
 	[CCode (has_target = false)]
 	public delegate Collision ColFunc (CObject obj, ref Vector3 pos, ref Vector3 vel);
 	
-	[SimpleType]
-	[CCode (cname = "collision")]
+	[SimpleType, CCode (cname = "collision")]
 	public struct Collision {
 		[CCode (cname = "collision_new")]
 		public Collision (float time, Vector3 point, Vector3 norm);
@@ -3111,14 +3068,9 @@ namespace Microsoft.Xna.Framework {
 	[CCode (cname = "ui_finish")]
 	public void UIFinish();
 	[CCode (cname = "ui_set_style")]
-	public void UISetStyle(UI.UIStyle s);
-	/* Pass Event, Update, and Render whole UI */
-	public void ui_render();
-	public void ui_update();
-	public void ui_event(Sdl.Event e);
+	public void UISetStyle(UI.Style s);
 
-	[Compact]
-	[CCode (cname = "ui_elem", free_function = "override_free")]
+	[Compact, CCode (cname = "ui_elem", free_function = "override_free")]
 	public class UIElem {
 		[CCode (cname = "ui_elem_new_type_id")]
 		public UIElem(string fmt, int type, ...);
@@ -3127,8 +3079,7 @@ namespace Microsoft.Xna.Framework {
 	}
 
 
-	[Compact]
-	[CCode (cname = "camera", free_function = "override_free")]
+	[Compact, CCode (cname = "camera", free_function = "override_free")]
 	public class Camera {
 		public Vector3 position;
 		public Vector3 target;
@@ -3141,7 +3092,7 @@ namespace Microsoft.Xna.Framework {
 		[CCode (cname = "camera_new")]
 		public Camera();
 
-		public static int type { get { return Component.Register("camera", sizeof(Camera)); } }
+		public static int type { get { return Entity.Register("camera", sizeof(Camera)); } }
 		public static Camera create() {
 			return (Camera)Entity("camera", type);
 		} 
@@ -3408,8 +3359,7 @@ namespace Microsoft.Xna.Framework {
 			public void BmpSaveFile(string filename);
 		}
 
-		[Compact]
-		[CCode (cname = "frame", cprefix="", free_function = "override_free")]
+		[Compact, CCode (cname = "frame", cprefix="", free_function = "override_free")]
 		public class Frame {
 			public int joint_count;
 			[CCode (array_length = false)]
@@ -3430,8 +3380,7 @@ namespace Microsoft.Xna.Framework {
 			public Frame interpolate(Frame other, float amount);
 		}
 
-		[Compact]
-		[CCode (cname = "config", cprefix="", free_function = "override_free")]
+		[Compact, CCode (cname = "config", cprefix="", free_function = "override_free")]
 		public class Config {
 			public Data.Dict entries;
 			[CCode (cname = "cfg_load_file")]
@@ -3464,8 +3413,7 @@ namespace Microsoft.Xna.Framework {
 			public float optionGraphicsFloat(string key, float high, float medium, float low);
 		}
 
-		[SimpleType]
-		[CCode (cname = "effect_key", cprefix="")]
+		[SimpleType, CCode (cname = "effect_key", cprefix="")]
 		public class EffectKey {
 			public float time;
 			public float rotation;
@@ -3483,8 +3431,7 @@ namespace Microsoft.Xna.Framework {
 		}
 		public EffectKey effect_key_lerp(EffectKey x, EffectKey y, float amount);
 		
-		[Compact]
-		[CCode (cname = "effect", cprefix="", free_function = "override_free")]
+		[Compact, CCode (cname = "effect", cprefix="", free_function = "override_free")]
 		public class Effect {
 			public AssetHandle texture;
 			[CCode (cname = "texture_nm")]
@@ -3521,8 +3468,7 @@ namespace Microsoft.Xna.Framework {
 			public EffectKey getKey(float ptime);
 		}
 
-		[Compact]
-		[CCode (cname = "font", cprefix="", free_function = "override_free")]
+		[Compact, CCode (cname = "font", cprefix="", free_function = "override_free")]
 		public class Font {
 			[CCode (cname = "texture_map")]
 			public AssetHandle textureMap;
@@ -3540,8 +3486,7 @@ namespace Microsoft.Xna.Framework {
 			public void delete();
 		}
 
-		[Compact]
-		[CCode (cname = "lang", cprefix="", free_function = "override_free")]
+		[Compact, CCode (cname = "lang", cprefix="", free_function = "override_free")]
 		public class Lang {
 			public Data.Dict map;
 			[CCode (cname = "lang_load_file")]
@@ -3556,8 +3501,7 @@ namespace Microsoft.Xna.Framework {
 			public static string S(string id);
 		}
 		
-		[Compact]
-		[CCode (cname = "shader", cprefix="", free_function = "override_free")]
+		[Compact, CCode (cname = "shader", cprefix="", free_function = "override_free")]
 		public class Shader  {
 			public GL.GLuint shader;
 
@@ -3579,8 +3523,7 @@ namespace Microsoft.Xna.Framework {
 			GL.GLuint handle();
 		}
 
-		[Compact]
-		[CCode (cname = "shader_program", cprefix="", free_function = "override_free")]
+		[Compact, CCode (cname = "shader_program", cprefix="", free_function = "override_free")]
 		public class ShaderProgram {
 			public GL.GLuint shader;
 
@@ -3654,8 +3597,7 @@ namespace Microsoft.Xna.Framework {
 		public const int mat_item_shader;
 		public const int mat_item_texture;
 				
-		[SimpleType]
-		[CCode (cname = "material_item", cprefix="")]
+		[SimpleType, CCode (cname = "material_item", cprefix="")]
 		public struct MaterialItem {
 			[CCode (cname = "as_int")]
 			public int asInt;
@@ -3671,8 +3613,7 @@ namespace Microsoft.Xna.Framework {
 			public AssetHandle asAsset;
 		}
 
-		[Compact]
-		[CCode (cname = "material_entry", cprefix="", free_function = "override_free")]
+		[Compact, CCode (cname = "material_entry", cprefix="", free_function = "override_free")]
 		public class MaterialEntry {
 			public ShaderProgram program;
 			[CCode (cname = "num_items")]
@@ -3694,8 +3635,7 @@ namespace Microsoft.Xna.Framework {
 			public void addItem(string name, int type, MaterialItem mi);
 		}
 
-		[Compact]
-		[CCode (cname = "material", cprefix="", free_function = "override_free")]
+		[Compact, CCode (cname = "material", cprefix="", free_function = "override_free")]
 		public class Material {
 			[CCode (cname = "num_entries")]
 			public int numEntries;
@@ -3716,8 +3656,7 @@ namespace Microsoft.Xna.Framework {
 			public static ShaderProgram firstProgram(void* m);
 		}	
 
-		[Compact]
-		[CCode (cname = "music", cprefix="", free_function = "override_free")]
+		[Compact, CCode (cname = "music", cprefix="", free_function = "override_free")]
 		public class Music {
 			//  public SDLMixer.Music handle;
 			public GLib.Object handle;
@@ -3727,8 +3666,7 @@ namespace Microsoft.Xna.Framework {
 		Music mp3_load_file(string filename);
 		Music ogg_load_file(string filename);
 
-		[SimpleType]
-		[CCode (cname = "vertex_weight", cprefix="")]
+		[SimpleType, CCode (cname = "vertex_weight", cprefix="")]
 		public class VertexWeight {
 			[CCode (cname = "bone_ids")]
 			public int boneIds[3];
@@ -3736,8 +3674,7 @@ namespace Microsoft.Xna.Framework {
 			public float boneWeights[3];
 		}
 
-		[Compact]
-		[CCode (cname = "renderable_surface", cprefix="", free_function = "override_free")]
+		[Compact, CCode (cname = "renderable_surface", cprefix="", free_function = "override_free")]
 		public class RenderableSurface {
 			[CCode (cname = "vertex_vbo")]
 			public GL.GLuint vertexVbo;
@@ -3757,8 +3694,7 @@ namespace Microsoft.Xna.Framework {
 			void delete();
 		}
 
-		[Compact]
-		[CCode (cname = "renderable", cprefix="", free_function = "override_free")]
+		[Compact, CCode (cname = "renderable", cprefix="", free_function = "override_free")]
 		public class Renderable {
 			[CCode (array_length = false)]
 			public RenderableSurface[] surfaces;
@@ -3793,8 +3729,7 @@ namespace Microsoft.Xna.Framework {
 						
 		}
 		
-		[Compact]
-		[CCode (cname = "skeleton", cprefix="", free_function = "override_free")]
+		[Compact, CCode (cname = "skeleton", cprefix="", free_function = "override_free")]
 		public class Skeleton {
 			public int joint_count;
 			[CCode (array_length = false, cname = "joint_names")]
@@ -3813,8 +3748,7 @@ namespace Microsoft.Xna.Framework {
 			public static Skeleton loadFile(string filename);
 		}
 
-		[Compact]
-		[CCode (cname = "sound", cprefix="", free_function = "override_free")]
+		[Compact, CCode (cname = "sound", cprefix="", free_function = "override_free")]
 		public class Sound {
 			//  public SDLMixer.Chunk handle;
 			public GLib.Object handle;
@@ -3832,8 +3766,7 @@ namespace Microsoft.Xna.Framework {
 			public int playAtLooped(Vector3 pos, Vector3 cam_pos, Vector3 cam_dir, int loops);
 		}
 
-		[Compact]
-		[CCode (cname = "terrain_chunk", cprefix="", free_function = "override_free")]
+		[Compact, CCode (cname = "terrain_chunk", cprefix="", free_function = "override_free")]
 		public class TerrainChunk {
 			public int id;
 			public int x;
@@ -3857,8 +3790,7 @@ namespace Microsoft.Xna.Framework {
 			public void delete();
 		}
 
-		[Compact]
-		[CCode (cname = "terrain", cprefix="", free_function = "override_free")]
+		[Compact, CCode (cname = "terrain", cprefix="", free_function = "override_free")]
 		public class Terrain {
 			public int width;
 			[CCode (cname = "height")]
@@ -3896,8 +3828,7 @@ namespace Microsoft.Xna.Framework {
 			public Vector3  normal(Vector2 position);
 		}		
 
-		[Compact]
-		[CCode (cname = "texture", cprefix="", free_function = "override_free")]
+		[Compact, CCode (cname = "texture", cprefix="", free_function = "override_free")]
 		public class Texture {
 			[CCode (cname = "handle")]
 			public GL.GLuint _handle;
@@ -3911,7 +3842,7 @@ namespace Microsoft.Xna.Framework {
 			public void delete();
 			[CCode (cname = "texture_handle")]
 			public GL.GLuint handle();
-			public static GL.GLuint gl(string path) {
+			public static GL.GLuint GL(string path) {
 				return ((Texture)Asset.Get(URI(path))).handle();
 			}			
 			[CCode (cname = "texture_type")]
@@ -3973,8 +3904,7 @@ namespace Microsoft.Xna.Framework {
 		[CCode (has_target = false)]
 		public delegate int FilterFunc();
 
-		[Compact]
-		[CCode (cname = "bucket", cprefix="", free_function = "override_free")]
+		[Compact, CCode (cname = "bucket", cprefix="", free_function = "override_free")]
 		public class Bucket<T> {
 			public string key;
 			public T item;
@@ -3997,8 +3927,7 @@ namespace Microsoft.Xna.Framework {
 		public delegate void DictFunc();
 
 
-		[Compact]
-		[CCode (cname = "dict", cprefix="", free_function = "override_free")]
+		[Compact, CCode (cname = "dict", cprefix="", free_function = "override_free")]
 		public class Dict<T> {
 			public int size;
 			[CCode (array_length = false)]
@@ -4026,57 +3955,7 @@ namespace Microsoft.Xna.Framework {
 			public unowned string find(T item);
 		}		
 
-		//  [Compact]
-		//  [CCode (cname = "bucket", cprefix="", free_function = "override_free")]
-		//  public class Thing {
-		//  	public string key;
-		//  	public CObject item;
-		//  	public Bucket next;
-		//  	[CCode (cname = "bucket_new")]
-		//  	public Thing(string s, CObject item);
-		//  	[CCode (cname = "bucket_map")]
-		//  	public void map(BucketFunc func);
-		//  	[CCode (cname = "bucket_filter_map")]
-		//  	public void filterMap(FilterFunc ffunc , BucketFunc bfunc);
-		//  	[CCode (cname = "bucket_delete_with")]
-		//  	public void deleteWith(FilterFunc func);
-		//  	[CCode (cname = "bucket_delete_recursive")]
-		//  	public void deleteRecursive();
-		//  	[CCode (cname = "bucket_print")]
-		//  	public void print();
-		//  }
-		
-		//  [Compact]
-		//  [CCode (cname = "dict", cprefix="", free_function = "override_free")]
-		//  public class Blackboard {
-		//  	public int size;
-		//  	[CCode (array_length = false)]
-		//  	public Thing[] buckets;
-
-		//  	[CCode (cname = "dict_new")]
-		//  	public Blackboard(int size);
-		//  	[CCode (cname = "dict_delete")]
-		//  	public void delete();
-		//  	[CCode (cname = "dict_contains")]
-		//  	public bool contains(string s);
-		//  	[CCode (cname = "dict_get")]
-		//  	public CObject get(string s);
-		//  	[CCode (cname = "dict_set")]
-		//  	public void set(string s, CObject item);
-		//  	[CCode (cname = "dict_remove_with")]
-		//  	public void removeWith(string s, DictFunc func);
-		//  	[CCode (cname = "dict_mao")]
-		//  	public void map(DictFunc func);
-		//  	[CCode (cname = "dict_filter_map")]
-		//  	public void filterMap(FilterFunc ffunc , DictFunc dfunc);
-		//  	[CCode (cname = "dict_print")]
-		//  	public void print();
-		//  	[CCode (cname = "dict_find")]
-		//  	public unowned string find(CObject item);
-		//  }		
-
-		[Compact]
-		[CCode (cname = "int_list", cprefix="", free_function = "override_free")]
+		[Compact, CCode (cname = "int_list", cprefix="", free_function = "override_free")]
 		public class IntList {
 			[CCode (cname = "num_items")]
 			public int numItems;
@@ -4106,8 +3985,7 @@ namespace Microsoft.Xna.Framework {
 		[CCode (has_target = false)]
 		public delegate void ListFilter();
 
-		[Compact]
-		[CCode (cname = "list", cprefix="", free_function = "override_free")]
+		[Compact, CCode (cname = "list", cprefix="", free_function = "override_free")]
 		public class List<T> {
 			[CCode (cname = "num_items")]
 			public int numItems;
@@ -4142,15 +4020,13 @@ namespace Microsoft.Xna.Framework {
 			public void clearWith(ListFilter func);
 		}		
 
-		[Compact]
-		[CCode (cname = "int_bucket", cprefix="", free_function = "override_free")]
+		[Compact, CCode (cname = "int_bucket", cprefix="", free_function = "override_free")]
 		public struct IntBucket {
 			public List keys;
 			public IntList values;
 		}		
 		
-		[Compact]
-		[CCode (cname = "int_hashtable", cprefix="", free_function = "override_free")]
+		[Compact, CCode (cname = "int_hashtable", cprefix="", free_function = "override_free")]
 		public class IntHashtable {
 			[CCode (array_length = false)]
 			public IntBucket items[];
@@ -4169,8 +4045,7 @@ namespace Microsoft.Xna.Framework {
 			int get(string key);
 		}		
 
-		[Compact]
-		[CCode (cname = "spline", cprefix="", free_function = "override_free")]
+		[Compact, CCode (cname = "spline", cprefix="", free_function = "override_free")]
 		public class Spline {
 			[CCode (cname = "num_points")]
 			public int numPoints;
@@ -4207,8 +4082,7 @@ namespace Microsoft.Xna.Framework {
 			public float getYBetween(int low, int high, float x);
 		}
 
-		[Compact]
-		[CCode (cname = "color_curves", cprefix="", free_function = "override_free")]
+		[Compact, CCode (cname = "color_curves", cprefix="", free_function = "override_free")]
 		public class ColorCurves {
 			[CCode (cname = "rgb_spline")]
 			public Spline rgb_spline;
@@ -4231,8 +4105,7 @@ namespace Microsoft.Xna.Framework {
 			Vector3 map(Vector3 v);
 		}		
 
-		[Compact]
-		[CCode (cname = "vertex_list", cprefix="", free_function = "override_free")]
+		[Compact, CCode (cname = "vertex_list", cprefix="", free_function = "override_free")]
 		public class VertexList {
 			[CCode (cname = "num_items")]
 			public int numItems;
@@ -4257,15 +4130,13 @@ namespace Microsoft.Xna.Framework {
 			public void clear();
 		}		
 		
-		[Compact]
-		[CCode (cname = "vertex_bucket", cprefix="", free_function = "override_free")]
+		[Compact, CCode (cname = "vertex_bucket", cprefix="", free_function = "override_free")]
 		public class VertexBucket {
 			VertexList keys;
 			IntList values;
 		}		
 
-		[Compact]
-		[CCode (cname = "vertex_hashtable", cprefix="", free_function = "override_free")]
+		[Compact, CCode (cname = "vertex_hashtable", cprefix="", free_function = "override_free")]
 		public class VertexHashtable {
 			public VertexBucket items;
 			[CCode (cname = "table_size")]
@@ -4301,8 +4172,7 @@ namespace Microsoft.Xna.Framework {
 		public const float TIME_SUNSET;
 		public const float TIME_MIDNIGHT;
 		
-		[Compact]
-		[CCode (cname = "sky", cprefix="", free_function = "override_free")]
+		[Compact, CCode (cname = "sky", cprefix="", free_function = "override_free")]
 		public class Sky {
 			public float time;
 			public uint32 seed;
@@ -4381,8 +4251,7 @@ namespace Microsoft.Xna.Framework {
 			public void update(float t, uint32 seed);
 		}
 
-		[SimpleType]
-		[CCode (cname = "render_object", cprefix="", destroy_function = "")]
+		[SimpleType, CCode (cname = "render_object", cprefix="", destroy_function = "")]
 		public struct RenderObject {
 			public RoType type;
 			/* Geometry */
@@ -4453,8 +4322,7 @@ namespace Microsoft.Xna.Framework {
 			public static RenderObject point(Vector3 pos, Vector3 color, float size);
 		}
 
-		[Compact]
-		[CCode (cname = "renderer", cprefix="", free_function = "override_free")]
+		[Compact, CCode (cname = "renderer", cprefix="", free_function = "override_free")]
 		public class Renderer {
 			/* Options */
 			public AssetHandle options;
@@ -4690,8 +4558,7 @@ namespace Microsoft.Xna.Framework {
 	}
 
 	namespace entities {
-		[Compact]
-		[CCode (cname = "particles", cprefix="", free_function = "override_free")]
+		[Compact, CCode (cname = "particles", cprefix="", free_function = "override_free")]
 		public class Particles {
 			public Vector3 position;
 			public Quaternion rotation;
@@ -4730,8 +4597,7 @@ namespace Microsoft.Xna.Framework {
 			public void update(float timestep, Camera cam);
 		}
 
-		[Compact]
-		[CCode (cname = "landscape_blobtree", cprefix="", free_function = "override_free")]
+		[Compact, CCode (cname = "landscape_blobtree", cprefix="", free_function = "override_free")]
 		public class LandscapeBlobtree {
 			public Sphere bound;
 			[CCode (cname = "is_leaf")]
@@ -4750,8 +4616,7 @@ namespace Microsoft.Xna.Framework {
 			public static void generate(Landscape* l);
 		}
 
-		[Compact]
-		[CCode (cname = "landscape", cprefix="", free_function = "override_free")]
+		[Compact, CCode (cname = "landscape", cprefix="", free_function = "override_free")]
 		public class Landscape {
 			public AssetHandle heightmap;
 			public AssetHandle attribmap;
@@ -4798,8 +4663,7 @@ namespace Microsoft.Xna.Framework {
 		}
 
 
-		[Compact]
-		[CCode (cname = "light", cprefix="", free_function = "override_free")]
+		[Compact, CCode (cname = "light", cprefix="", free_function = "override_free")]
 		public class Light {
 			[CCode (cname = "position")]
 			public Vector3 _position;
@@ -4861,8 +4725,7 @@ namespace Microsoft.Xna.Framework {
 		}
 
 
-		[Compact]
-		[CCode (cname = "static_object", cprefix="", free_function = "override_free")]
+		[Compact, CCode (cname = "static_object", cprefix="", free_function = "override_free")]
 		public class StaticObject {
 			public Vector3 position;
 			public Vector3 scale;
@@ -4887,8 +4750,7 @@ namespace Microsoft.Xna.Framework {
 
 		}
 
-		[Compact]
-		[CCode (cname = "animated_object", cprefix="", free_function = "override_free")]
+		[Compact, CCode (cname = "animated_object", cprefix="", free_function = "override_free")]
 		public class AnimatedObject {
 			public Vector3 position;
 			public Vector3 scale;
@@ -4910,8 +4772,7 @@ namespace Microsoft.Xna.Framework {
 			public void update(float timestep);
 		}
 
-		[Compact]
-		[CCode (cname = "physics_object", cprefix="", free_function = "override_free")]
+		[Compact, CCode (cname = "physics_object", cprefix="", free_function = "override_free")]
 		public class PhysicsCObject {
 			public Vector3 position;
 			public Vector3 scale;
@@ -4945,8 +4806,7 @@ namespace Microsoft.Xna.Framework {
 		}
 
 		
-		[SimpleType]
-		[CCode (cname = "instance_data", cprefix="")]
+		[SimpleType, CCode (cname = "instance_data", cprefix="")]
 		public class InstanceData {
 			public Vector3 position;
 			public Vector3 scale;
@@ -4957,8 +4817,7 @@ namespace Microsoft.Xna.Framework {
 		}
 
 
-		[Compact]
-		[CCode (cname = "instance_object", cprefix="", free_function = "override_free")]
+		[Compact, CCode (cname = "instance_object", cprefix="", free_function = "override_free")]
 		public class InstanceCObject {
 			[CCode (cname = "num_instances")] 
 			public int numInstances;
@@ -5005,18 +4864,14 @@ namespace Microsoft.Xna.Framework {
 		}
 
 		[CCode (has_target = false)]
-		public delegate void OnTextSelect(UIText entry);
+		public delegate void OnTextSelect(Text entry);
 		[CCode (has_target = false)]
-		public delegate void OnOptionSelect(UIOption entry);
-
-		// [CCode (cname = "ui_button_onclick", instance_pos = 0.1, has_target = false)]
-		// public delegate void OnClick(UIButton entry, CObject data);
-
+		public delegate void OnOptionSelect(Option entry);
 
 		[Compact, CCode (cname = "ui_button", cprefix="", free_function = "override_free")]	
-		public class UIButton {
-			public UIRectangle back;
-			public UIText label;
+		public class Button {
+			public Rectangle back;
+			public Text label;
 			[CCode (cname = "up_color")]
 			public Vector4 upColor;
 			[CCode (cname = "down_color")]
@@ -5028,15 +4883,15 @@ namespace Microsoft.Xna.Framework {
 			public bool enabled;
 			public bool pressed;
 
-			public static UIButton Create(string fmt, ...) {
-				return (UIButton)(new UIElem(fmt, Component.Register("ui_button", sizeof(UIButton))));
+			public static Button Create(string fmt, ...) {
+				return (Button)(new UIElem(fmt, Entity.Register("ui_button", sizeof(Button))));
 			} 
 
 			[CCode (cname = "ui_button_new")]
-			public UIButton (string fmt, ...);
+			public Button (string fmt, ...);
 
 			[CCode (cname = "ui_elem_get")]
-			public static UIButton Get(string fmt);
+			public static Button Get(string fmt);
 			[CCode (cname = "ui_button_delete")]
 			public void Delete();
 			[CCode (cname = "ui_button_move")]
@@ -5078,88 +4933,21 @@ namespace Microsoft.Xna.Framework {
 		}
 
 		[CCode (cname = "ui_button_onclick", instance_pos = 0.1, has_target = false)]
-		public delegate void OnClick(UIButton entry, CObject data);
+		public delegate void OnClick(Button entry, CObject data);
 
-
-		// [Compact, CCode (cname = "ui_button", cprefix="", free_function = "override_free")]	
-		// public class Button {
-		// 	public UIRectangle back;
-		// 	public UIText label;
-		// 	[CCode (cname = "up_color")]
-		// 	public Vector4 upColor;
-		// 	[CCode (cname = "down_color")]
-		// 	public Vector4 downColor;
-		// 	public OnClick onclick;
-		// 	[CCode (cname = "onclick_data")]
-		// 	public CObject onclickData;
-		// 	public bool active;
-		// 	public bool enabled;
-		// 	public bool pressed;
-
-		// 	public static Button Create(string fmt, ...) {
-		// 		return (Button)(new UIElem(fmt, Component.Register("ui_button", sizeof(Button))));
-		// 	} 
-
-		// 	[CCode (cname = "ui_button_new")]
-		// 	public Button (string fmt, ...);
-
-		// 	[CCode (cname = "ui_elem_get")]
-		// 	public static Button Get(string fmt);
-		// 	[CCode (cname = "ui_button_delete")]
-		// 	public void Delete();
-		// 	[CCode (cname = "ui_button_move")]
-		// 	public void Move(Vector2 pos);
-		// 	[CCode (cname = "ui_button_resize")]
-		// 	public void Resize(Vector2 size);
-		// 	[CCode (cname = "ui_button_set_label")]
-		// 	public void SetLabel(string label);
-		// 	[CCode (cname = "ui_button_set_label_color")]
-		// 	public void SetLabelColor(Vector4 color);
-		// 	[CCode (cname = "ui_button_set_font")]
-		// 	public void SetFont(AssetHandle f);
-		// 	[CCode (cname = "ui_button_set_onclick")]
-		// 	public void SetOnclick(OnClick onclick);
-		// 	[CCode (cname = "ui_button_set_onclick_data")]
-		// 	public void SetOnclickData(CObject data);
-		// 	[CCode (cname = "ui_button_set_active")]
-		// 	public void SetActive(bool active);
-		// 	[CCode (cname = "ui_button_set_enabled")]
-		// 	public void SetEnabled(bool enabled);
-		// 	[CCode (cname = "ui_button_set_texture")]
-		// 	public void SetTexture(AssetHandle tex, int width, int height, bool tile);
-		// 	[CCode (cname = "ui_button_disable")]
-		// 	public void Disable();
-		// 	[CCode (cname = "ui_button_enable")]
-		// 	public void Enable();
-		// 	[CCode (cname = "ui_button_position")]
-		// 	public Vector2 Position();
-		// 	[CCode (cname = "ui_button_size")]
-		// 	public Vector2 Size();
-		// 	[CCode (cname = "ui_button_event")]
-		// 	public void Event(Sdl.Event e);
-		// 	[CCode (cname = "ui_button_update")]
-		// 	public void Update();
-		// 	[CCode (cname = "ui_button_render")]
-		// 	public void Render();
-		// 	[CCode (cname = "ui_button_contains_point")]
-		// 	public bool ContainsPoint(Vector2 pos);
-		// }
-
-
-		[Compact]
-		[CCode (cname = "ui_browser", cprefix="", free_function = "override_free")]
-		public class UIBrowser {
-			public UIRectangle outer;
-			public UIListbox inner;
+		[Compact, CCode (cname = "ui_browser", cprefix="", free_function = "override_free")]
+		public class Browser {
+			public Rectangle outer;
+			public Listbox inner;
 			public URI directory;
 			public bool active;
 
 			[CCode (cname = "ui_browser_new")]
-			public UIBrowser();
+			public Browser();
 
-			public static int type { get { return Component.Register("ui_browser", sizeof(UIBrowser)); } }
-			public static UIBrowser create(string fmt, ...) {
-      			return (UIBrowser)(new UIElem(fmt, type));
+			public static int type { get { return Entity.Register("ui_browser", sizeof(Browser)); } }
+			public static Browser create(string fmt, ...) {
+      			return (Browser)(new UIElem(fmt, type));
 			} 
 			[CCode (cname = "ui_browser_delete")]
 			public void delete();
@@ -5173,22 +4961,21 @@ namespace Microsoft.Xna.Framework {
 			public void render();
 		}
 
-		[Compact]
-		[CCode (cname = "ui_dialog", cprefix="", free_function = "override_free")]
-		public class UIDialog {
-			public UIButton back;
-			public UIText title;
-			public UIText contents;
+		[Compact, CCode (cname = "ui_dialog", cprefix="", free_function = "override_free")]
+		public class Dialog {
+			public Button back;
+			public Text title;
+			public Text contents;
 			[CCode (cname = "single_button")]
 			public bool singleButton;
-			public UIButton left;
-			public UIButton right;
+			public Button left;
+			public Button right;
 
 			[CCode (cname = "ui_dialog_new")]
-			public UIDialog();
-			public static int type { get { return Component.Register("ui_dialog", sizeof(UIDialog)); } }
-			public static UIDialog create(string fmt, ...) {
-				return (UIDialog)(new UIElem(fmt, type));
+			public Dialog();
+			public static int type { get { return Entity.Register("ui_dialog", sizeof(Dialog)); } }
+			public static Dialog create(string fmt, ...) {
+				return (Dialog)(new UIElem(fmt, type));
 			} 
 			[CCode (cname = "ui_dialog_delete")]
 			public void delete();
@@ -5212,23 +4999,22 @@ namespace Microsoft.Xna.Framework {
 			public void render();
 		}
 
-		[Compact]
-		[CCode (cname = "ui_option", cprefix="", free_function = "override_free")]
-		public class UIOption {
-			public UIButton label;
+		[Compact, CCode (cname = "ui_option", cprefix="", free_function = "override_free")]
+		public class Option {
+			public Button label;
 			[CCode (cname = "num_options")]
 			public int numOptions;
 			[CCode (array_length = false)]
-			public UIButton[] options;
+			public Button[] options;
 			public bool active;
 			public int selected;
 			public OnOptionSelect onselect;
 
 			[CCode (cname = "ui_option_new")]
-			public UIOption();
-			public static int type { get { return Component.Register("ui_option", sizeof(UIOption)); } }
-			public static UIOption create(string fmt, ...) {
-				return (UIOption)(new UIElem(fmt, type));
+			public Option();
+			public static int type { get { return Entity.Register("ui_option", sizeof(Option)); } }
+			public static Option create(string fmt, ...) {
+				return (Option)(new UIElem(fmt, type));
 			} 
 			[CCode (cname = "ui_option_delete")]
 			public void delete();
@@ -5256,33 +5042,31 @@ namespace Microsoft.Xna.Framework {
 			public void render();
 		}
 
-		[Compact]
-		[CCode (cname = "ui_slider", cprefix="", free_function = "override_free")]
-		public class UISlider {
-			public UIButton label;
-			public UIRectangle slot;
-			public UIRectangle bar;  
+		[Compact, CCode (cname = "ui_slider", cprefix="", free_function = "override_free")]
+		public class Slider {
+			public Button label;
+			public Rectangle slot;
+			public Rectangle bar;  
 			public bool pressed;
 			public bool active;
 			public float amount;
 			[CCode (cname = "ui_slider_new")]
-			public UISlider();
-			public static int type { get { return Component.Register("ui_slider", sizeof(UISlider)); } }
-			public static UISlider create(string fmt, ...) {
-				return (UISlider)(new UIElem(fmt, type));
+			public Slider();
+			public static int type { get { return Entity.Register("ui_slider", sizeof(Slider)); } }
+			public static Slider create(string fmt, ...) {
+				return (Slider)(new UIElem(fmt, type));
 			} 
 			[CCode (cname = "ui_slider_delete")]
 			public void delete();
 		}
 
-		[Compact]
-		[CCode (cname = "ui_spinner", cprefix="", free_function = "override_free")]
-		public class UISpinner {
+		[Compact, CCode (cname = "ui_spinner", cprefix="", free_function = "override_free")]
+		public class Spinner {
 			[CCode (cname = "ui_spinner_new")]
-			public UISpinner();
-			public static int type { get { return Component.Register("ui_spinner", sizeof(UISpinner)); } }
-			public static UISpinner create(string fmt, ...) {
-				return (UISpinner)(new UIElem(fmt, type));
+			public Spinner();
+			public static int type { get { return Entity.Register("ui_spinner", sizeof(Spinner)); } }
+			public static Spinner create(string fmt, ...) {
+				return (Spinner)(new UIElem(fmt, type));
 			} 
 			[CCode (cname = "ui_spinner_delete")]
 			public void delete();
@@ -5308,9 +5092,8 @@ namespace Microsoft.Xna.Framework {
 			public void render();
 		}
 
-		[Compact]
-		[CCode (cname = "ui_style", cprefix="", free_function = "override_free")]
-		public class UIStyle {
+		[Compact, CCode (cname = "ui_style", cprefix="", free_function = "override_free")]
+		public class Style {
 			/* Box */
 			[CCode (cname = "box_back_image")]
 			public URI boxBackImage;
@@ -5358,13 +5141,12 @@ namespace Microsoft.Xna.Framework {
 			public float spinnerSpeed;			
 		}
 
-		[Compact]
-		[CCode (cname = "ui_textbox", cprefix="", free_function = "override_free")]
-		public class UITextbox {
-			public UIRectangle outer;
-			public UIRectangle inner;
-			public UIText contents;
-			public UIText label;
+		[Compact, CCode (cname = "ui_textbox", cprefix="", free_function = "override_free")]
+		public class Textbox {
+			public Rectangle outer;
+			public Rectangle inner;
+			public Text contents;
+			public Text label;
 			public bool password;
 			[CCode (cname = "max_chars")]
 			public int maxChars;
@@ -5373,10 +5155,10 @@ namespace Microsoft.Xna.Framework {
 			public bool enabled;			
 
 			[CCode (cname = "ui_textbox_new")]
-			public UITextbox();
-			public static int type { get { return Component.Register("ui_textbox", sizeof(UITextbox)); } }
-			public static UITextbox create(string fmt, ...) {
-				return (UITextbox)(new UIElem(fmt, type));
+			public Textbox();
+			public static int type { get { return Entity.Register("ui_textbox", sizeof(Textbox)); } }
+			public static Textbox create(string fmt, ...) {
+				return (Textbox)(new UIElem(fmt, type));
 			} 
 			[CCode (cname = "ui_textbox_delete")]
 			public void delete();
@@ -5414,18 +5196,17 @@ namespace Microsoft.Xna.Framework {
 			public bool containsPoint(Vector2 p);
 		}
 
-		[Compact]
-		[CCode (cname = "ui_toast", cprefix="", free_function = "override_free")]
-		public class UIToast {
-			public UIText label;  
+		[Compact, CCode (cname = "ui_toast", cprefix="", free_function = "override_free")]
+		public class Toast {
+			public Text label;  
 			public float opacity;
 			public bool active;
 
 			[CCode (cname = "ui_toast_new")]
-			public UIToast();
-			public static int type { get { return Component.Register("ui_toast", sizeof(UIToast)); } }
-			public static UIToast create(string fmt, ...) {
-				return (UIToast)(new UIElem(fmt, type));
+			public Toast();
+			public static int type { get { return Entity.Register("ui_toast", sizeof(Toast)); } }
+			public static Toast create(string fmt, ...) {
+				return (Toast)(new UIElem(fmt, type));
 			} 
 			[CCode (cname = "ui_toast_delete")]
 			public void delete();
@@ -5444,30 +5225,29 @@ namespace Microsoft.Xna.Framework {
 						
 		}
 
-		[Compact]
-		[CCode (cname = "ui_listbox", cprefix="", free_function = "override_free")]
-		public class UIListbox {
-			public UIRectangle back;
+		[Compact, CCode (cname = "ui_listbox", cprefix="", free_function = "override_free")]
+		public class Listbox {
+			public Rectangle back;
 			public int scroll;  
 			[CCode (cname = "num_items")]
 			public int numItems;
 			[CCode (array_length = false)]
-			public UIText[] items;
+			public Text[] items;
 			public bool active;
 			public OnTextSelect onselect;
 
 			[CCode (cname = "ui_listbox_new")]
-			public UIListbox();
-			public static int type { get { return Component.Register("ui_listbox", sizeof(UIListbox)); } }
-			public static UIListbox create(string fmt, ...) {
-				return (UIListbox)(new UIElem(fmt, type));
+			public Listbox();
+			public static int type { get { return Entity.Register("ui_listbox", sizeof(Listbox)); } }
+			public static Listbox create(string fmt, ...) {
+				return (Listbox)(new UIElem(fmt, type));
 			} 
 			[CCode (cname = "ui_listbox_delete")]
 			public void delete();
 			[CCode (cname = "ui_listbox_clear")]
 			public void clear();
 			[CCode (cname = "ui_listbox_add_item")]
-			public UIText addItem(string item);
+			public Text addItem(string item);
 			[CCode (cname = "ui_listbox_move")]
 			public void move(Vector2 pos);
 			[CCode (cname = "ui_listbox_resize")]
@@ -5482,9 +5262,8 @@ namespace Microsoft.Xna.Framework {
 			public void setOnselect(OnTextSelect onselect);
 		}
 
-		[Compact]
-		[CCode (cname = "ui_text", cprefix="", free_function = "override_free")]
-		public class UIText {
+		[Compact, CCode (cname = "ui_text", cprefix="", free_function = "override_free")]
+		public class Text {
 			[CCode (cname = "string")]
 			public string text;
 			[CCode (cname = "positions_buffer")]
@@ -5518,13 +5297,13 @@ namespace Microsoft.Xna.Framework {
 			public bool active;
 
 			[CCode (cname = "ui_text_new")]
-			public UIText();
-			public static int type { get { return Component.Register("ui_text", sizeof(UIText)); } }
-			public static UIText create(string fmt, ...) {
-				return (UIText)(new UIElem(fmt, type));
+			public Text();
+			public static int type { get { return Entity.Register("ui_text", sizeof(Text)); } }
+			public static Text create(string fmt, ...) {
+				return (Text)(new UIElem(fmt, type));
 			} 
 			[CCode (cname = "ui_text_new_string")]
-			public static UIText fromString(string str);
+			public static Text fromString(string str);
 			[CCode (cname = "ui_text_delete")]
 			public void delete();
 			[CCode (cname = "ui_text_move")]
@@ -5551,9 +5330,8 @@ namespace Microsoft.Xna.Framework {
 			public bool containsPoint(Vector2 position);
 		}
 
-		[Compact]
-		[CCode (cname = "ui_rectangle", cprefix="")]
-		public class UIRectangle {
+		[Compact, CCode (cname = "ui_rectangle", cprefix="")]
+		public class Rectangle {
 			[CCode (cname = "top_left")]
 			public Vector2 topLeft;
 			[CCode (cname = "bottom_right")]
@@ -5579,10 +5357,10 @@ namespace Microsoft.Xna.Framework {
 			public bool active;
 
 			[CCode (cname = "ui_rectangle_new")]
-			public UIRectangle();
-			public static int type { get { return Component.Register("ui_rectangle", sizeof(UIRectangle)); } }
-			public static UIRectangle create(string fmt, ...) {
-				return (UIRectangle)(new UIElem(fmt, type));
+			public Rectangle();
+			public static int type { get { return Entity.Register("ui_rectangle", sizeof(Rectangle)); } }
+			public static Rectangle create(string fmt, ...) {
+				return (Rectangle)(new UIElem(fmt, type));
 			} 
 			[CCode (cname = "ui_rectangle_delete")]
 			public void delete();
@@ -5616,6 +5394,126 @@ namespace Microsoft.Xna.Framework {
 			public Vector2 size();
 		}
 	}
+	// public Asset* asset_hndl_ptr(ref AssetHandle ah);
+
+	// public void asset_cache_flush();
+	// public void asset_init();
+	// public void asset_finish();
+	// public void asset_add_path_variable(URI variable, URI mapping);
+	// public URI asset_map_filename(URI filename);
+	// public URI asset_unmap_filename(URI filename);
+
+	// public void file_load(URI filename);
+	// public void file_unload(URI filename);
+	// public void file_reload(URI filename);
+	// public bool file_isloaded(URI path);
+	// public bool file_exists(URI path);
+	
+	// public void folder_load(URI folder);
+	// public void folder_unload(URI folder);
+	// public void folder_reload(URI folder);
+	// public void folder_load_recursive(URI folder);
+
+
+	// public CObject asset_get_load(URI path);
+	// [CCode (cname = "asset_get_as_type")]
+	// public CObject asset_get_as(URI path, TypeId type);
+	// public void asset_reload_type_id(TypeId type);
+	// public void asset_reload_all();
+	// [CCode(cname = "asset_handler_cast")]
+	// public void asset_handler(int type, string extension, AssetLoader funca, AssetDeleter funcd);
+	// public unowned string asset_ptr_path(CObject asset);
+	// public unowned string asset_ptr_typename(CObject asset);
+
+	// public void audio_init();
+	// public void audio_finish();
+
+	// public int audio_sound_play(CObject s, int loops);
+	// public void audio_sound_pause(int channel);
+	// public void audio_sound_resume(int channel);
+	// public void audio_sound_stop(int channel);
+
+	// public void audio_music_play(Assets.Music m);
+	// public void audio_music_pause();
+	// public void audio_music_resume();
+	// public void audio_music_stop();
+
+	// public void audio_music_set_volume(float volume);
+	// public float audio_music_get_volume();
+
+	// public Vector3 triangle_tangent(Vertex v1, Vertex v2, Vertex v3);
+	// public Vector3 triangle_binormal(Vertex v1, Vertex v2, Vertex v3);
+	// public Vector3 triangle_normal(Vertex v1, Vertex v2, Vertex v3);
+	// public Vector3 triangle_random_position(Vertex v1, Vertex v2, Vertex v3);
+	// public float triangle_area(Vertex v1, Vertex v2, Vertex v3);
+	
+	// public float triangle_difference_u(Vertex v1, Vertex v2, Vertex v3);
+	// public float triangle_difference_v(Vertex v1, Vertex v2, Vertex v3);
+	
+	// public Vertex triangle_random_position_interpolation(Vertex v1, Vertex v2, Vertex v3);
+	
+	// public float tween_approach(float curr, float target, float timestep, float steepness);
+	// public float tween_linear(float curr, float target, float timestep, float max);
+	
+	// public Vector3 vec3_tween_approach(Vector3 curr, Vector3 target, float timestep, float steepness);
+	// public Vector3 vec3_tween_linear(Vector3 curr, Vector3 target, float timestep, float max);
+	
+	// [CCode (cname = "entity_handler_cast")]
+	// public void entity_handler(int TypeId, ElemNew entity_new, ElemDel entity_del);
+
+	// [CCode (cname = "entity_new_type_id")]
+	// public CObject entity_new(string fmt, TypeId id, ...);
+	
+	// [CCode (cname = "entities_new_type_id")]
+	// public void entities_new(string name_format, int count, TypeId id);
+
+	// [CCode (cname = "entities_get_type_id")]
+
+	// [CCode (cname = "entity_get")]
+	// public CObject entity_get(string fmt, ...);
+
+	// [CCode (cname = "entity_get_as_type_id")]
+	// public CObject entity_get_as(string fmt, TypeId id, ...);
+
+	// [CCode (cname = "entity_name")]
+	// public unowned string entity_name(CObject* e);
+
+	// [CCode (cname = "entity_delete")]
+	// public void entity_delete(char* fmt, ...);
+
+	// [CCode (cname = "entity_type_count_type_id")]
+	// public int entity_type_count(TypeId id);
+
+	// [CCode (has_target = false)]
+	// public delegate void ErrorFunc (string message);
+
+	// [CCode (has_target = false)]
+	// public delegate void WarnFunc (string message);
+	
+	// [CCode (has_target = false)]
+	// public delegate void DebugFunc (string message);
+
+	// public void at_error(ErrorFunc func);
+	// public void at_warning(WarnFunc func);
+	// public void at_debug(DebugFunc func);
+	// public int rawcast(float x);
+	// public float max(float x, float y);
+	// public float min(float x, float y);
+	// public float clamp(float x, float bottom, float top);
+	// public bool between(float x, float bottom, float top);
+	// public bool between_or(float x, float bottom, float top);
+	// public float saturate(float x);
+	// public float lerp(float p1, float p2, float amount);
+	// public float smoothstep(float p1, float p2, float amount);
+	// public float smootherstep(float p1, float p2, float amount);
+	// public float cosine_interp(float p1, float p2, float amount);
+	// public float nearest_interp(float p1, float p2, float amount);
+	// public float cubic_interp(float p1, float p2, float p3, float p4, float amount);
+	// public float binearest_interp(float tl, float tr, float bl, float br, float x_amount, float y_amount);
+	// public float bilinear_interp(float tl, float tr, float bl, float br, float x_amount, float y_amount);
+	// public float bicosine_interp(float tl, float tr, float bl, float br, float x_amount, float y_amount);
+	// public float bismoothstep_interp(float tl, float tr, float bl, float br, float x_amount, float y_amount);
+	// public float bismootherstep_interp(float tl, float tr, float bl, float br, float x_amount, float y_amount);
 }
 /**
 The MIT License (MIT)
@@ -5777,8 +5675,7 @@ namespace Sdl
 
 	}
 
-	[SimpleType]
-	[CCode (cname = "SDL_CommonEvent", cheader_filename = "SDL2/SDL_events.h")]
+	[SimpleType, CCode (cname = "SDL_CommonEvent", cheader_filename = "SDL2/SDL_events.h")]
 	public struct CommonEvent  
 	{
 		[CCode (cname = "type")]
@@ -5799,8 +5696,7 @@ namespace Sdl
 		GetEvent
 	}
 
-	[SimpleType]
-	[CCode (cname = "SDL_Event", cheader_filename = "SDL2/SDL_events.h")]
+	[SimpleType, CCode (cname = "SDL_Event", cheader_filename = "SDL2/SDL_events.h")]
 	public struct Event 
 	{
 		[CCode (cname = "type")]
@@ -5823,8 +5719,7 @@ namespace Sdl
 		public Sdl.GameController.DeviceEvent ControllerDevice;
 	}
 
-	[SimpleType]
-	[CCode (cname = "SDL_Point", cheader_filename = "SDL2/SDL_rect.h")]
+	[SimpleType, CCode (cname = "SDL_Point", cheader_filename = "SDL2/SDL_rect.h")]
 	public struct Point {
 		[CCode (cname = "x")]
 		public int X;
@@ -5832,8 +5727,7 @@ namespace Sdl
 		public int Y;
 	}
 
-	[SimpleType]
-	[CCode (cname = "SDL_Rect", cheader_filename = "SDL2/SDL_rect.h")]
+	[SimpleType, CCode (cname = "SDL_Rect", cheader_filename = "SDL2/SDL_rect.h")]
 	public struct Rect : Point
 	{
 		[CCode (cname = "w")]
@@ -5842,8 +5736,7 @@ namespace Sdl
 		public int Height;
 	}
 
-	[SimpleType]
-	[CCode (cname = "SDL_version", cheader_filename = "SDL2/SDL_version.h")]
+	[SimpleType, CCode (cname = "SDL_version", cheader_filename = "SDL2/SDL_version.h")]
 	public struct Version 
 	{
 		[CCode (cname = "major")]
@@ -6031,8 +5924,7 @@ namespace Sdl
 			MouseCapture
 		}
 
-		[SimpleType]
-		[CCode (cname = "SDL_WindowEvent", cheader_filename = "SDL2/SDL_events.h")]
+		[SimpleType, CCode (cname = "SDL_WindowEvent", cheader_filename = "SDL2/SDL_events.h")]
 		public struct Event : CommonEvent
 		{
 			[CCode (cname = "windowID")]
@@ -6400,8 +6292,7 @@ namespace Sdl
             Hand
 		}
 
-		[SimpleType]
-		[CCode (cname = "SDL_MouseMotionEvent", cheader_filename = "SDL2/SDL_events.h")]
+		[SimpleType, CCode (cname = "SDL_MouseMotionEvent", cheader_filename = "SDL2/SDL_events.h")]
 		public struct MotionEvent : CommonEvent
 		{
 			[CCode (cname = "windowID")]
@@ -6422,8 +6313,7 @@ namespace Sdl
 			public int32 Y;
 		}
 		
-		[SimpleType]
-		[CCode (cname = "SDL_MouseWheelEvent", cheader_filename = "SDL2/SDL_events.h")]
+		[SimpleType, CCode (cname = "SDL_MouseWheelEvent", cheader_filename = "SDL2/SDL_events.h")]
 		public struct WheelEvent : CommonEvent
 		{
 			[CCode (cname = "windowID")]
@@ -6475,8 +6365,7 @@ namespace Sdl
 
 	public class Keyboard
 	{
-		[SimpleType]
-		[CCode (cname = "SDL_Keysym", cheader_filename = "SDL2/SDL_keyboard.h")]
+		[SimpleType, CCode (cname = "SDL_Keysym", cheader_filename = "SDL2/SDL_keyboard.h")]
 		public struct Keysym 
 		{
 			[CCode (cname = "scancode")]
@@ -6528,8 +6417,7 @@ namespace Sdl
 			Gui
 		}
 
-		[SimpleType]
-		[CCode (cname = "SDL_KeyboardEvent", cheader_filename = "SDL2/SDL_events.h")]
+		[SimpleType, CCode (cname = "SDL_KeyboardEvent", cheader_filename = "SDL2/SDL_events.h")]
 		public struct Event : CommonEvent
 		{
 			[CCode (cname = "windowID")]
@@ -6546,8 +6434,7 @@ namespace Sdl
             public Keysym Keysym;
 		}
 
-		[SimpleType]
-		[CCode (cname = "SDL_TextEditingEvent", cheader_filename = "SDL2/SDL_events.h")]
+		[SimpleType, CCode (cname = "SDL_TextEditingEvent", cheader_filename = "SDL2/SDL_events.h")]
 		public struct TextEditingEvent : CommonEvent
 		{
 			[CCode (cname = "WindowID")]
@@ -6561,8 +6448,7 @@ namespace Sdl
 
 		}
 		
-		[SimpleType]
-		[CCode (cname = "SDL_TextInputEvent", cheader_filename = "SDL2/SDL_events.h")]
+		[SimpleType, CCode (cname = "SDL_TextInputEvent", cheader_filename = "SDL2/SDL_events.h")]
 		public struct TextInputEvent : CommonEvent
 		{
 			[CCode (cname = "WindowID")]
@@ -6594,8 +6480,7 @@ namespace Sdl
 			Left
 		}
 
-		[SimpleType]
-		[CCode (cname = "SDL_JoyDeviceEvent", cheader_filename = "SDL2/SDL_events.h")]
+		[SimpleType, CCode (cname = "SDL_JoyDeviceEvent", cheader_filename = "SDL2/SDL_events.h")]
 		public struct DeviceEvent : CommonEvent
 		{
 			[CCode (cname = "windowID")]
@@ -6735,8 +6620,7 @@ namespace Sdl
             Max
 		}
 
-		[SimpleType]
-		[CCode (cname = "SDL_ControllerDeviceEvent", cheader_filename = "SDL2/SDL_events.h")]
+		[SimpleType, CCode (cname = "SDL_ControllerDeviceEvent", cheader_filename = "SDL2/SDL_events.h")]
 		public struct DeviceEvent : CommonEvent
 		{
 			[CCode (cname = "which")]

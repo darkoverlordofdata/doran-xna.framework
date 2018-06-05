@@ -189,7 +189,7 @@ namespace Microsoft.Xna.Framework.Graphics
         }
 
         /*
-        public void Present(Rectangle? sourceRectangle, Rectangle? destinationRectangle, IntPtr overrideWindowHandle)
+        public void Present(Quadrangle? sourceRectangle, Quadrangle? destinationRectangle, IntPtr overrideWindowHandle)
         {
             throw new NotImplementedException();
         }

@@ -59,9 +59,9 @@ namespace Microsoft.Xna.Framework.Graphics
         /// <summary>
         /// Get the bounds of the back buffer.
         /// </summary>
-        public Rectangle Bounds 
+        public Quadrangle Bounds 
         {
-            get { return new Rectangle(0, 0, backBufferWidth, backBufferHeight); }
+            get { return new Quadrangle(0, 0, backBufferWidth, backBufferHeight); }
         }
 
         /// <summary>

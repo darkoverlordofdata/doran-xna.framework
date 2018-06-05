@@ -8,10 +8,8 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Microsoft.Xna.Framework 
 {
-
     public class SdlGameWindow : GameWindow, IDisposable 
     {
-
         public static GameWindow Instance;
         public bool IsFullScreen;
         internal Game _game;
@@ -95,11 +93,11 @@ namespace Microsoft.Xna.Framework
             }
         }
 
-        public override Rectangle ClientBounds {
+        public override Quadrangle ClientBounds {
             get {
                 int x = 0, y = 0;
                 Sdl.Window.GetPosition(Handle, out x, out y);
-                return Rectangle(x, y, _width, _height);
+                return Quadrangle(x, y, _width, _height);
             }
         }
 
@@ -187,7 +185,7 @@ namespace Microsoft.Xna.Framework
 
             if (!_willBeFullScreen) 
             {
-                Corange.SetSize(clientWidth, clientHeight);
+                corange_graphics_viewport_set_size(clientWidth, clientHeight);
                 _width = clientWidth;
                 _height = clientHeight;
             }

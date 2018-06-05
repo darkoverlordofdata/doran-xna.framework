@@ -18,14 +18,14 @@ namespace Microsoft.Xna.Framework
             services = new HashMap<Type, Object>();
         }
 
-        public void AddService<T>(T? provider)
+        public void AddServiceType<T>(T? provider)
         {
-            AddServiceType(typeof(T), (Object?)provider);
+            AddService(typeof(T), (Object?)provider);
         }
 
- 	    public T GetService<T>() // where T : class
+ 	    public T GetServiceType<T>() // where T : class
         {
-            var service = GetServiceType(typeof(T));
+            var service = GetService(typeof(T));
 
             if (service == null)
                 return null;
@@ -33,7 +33,7 @@ namespace Microsoft.Xna.Framework
             return (T)service;
         }
 
-        public void AddServiceType(Type? type, Object? provider)
+        public void AddService(Type? type, Object? provider)
         {
             if (type == null)
                 throw new Exception.ArgumentNullException("type");
@@ -45,7 +45,7 @@ namespace Microsoft.Xna.Framework
             services.set(type, provider);
         }
 
-        public Object GetServiceType(Type? type)
+        public Object GetService(Type? type)
         {
             if (type == null)
                 throw new Exception.ArgumentNullException("type");
@@ -63,6 +63,5 @@ namespace Microsoft.Xna.Framework
 
             services.unset(type);
         }
-        
     }
 }

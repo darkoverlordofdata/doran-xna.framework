@@ -1259,7 +1259,8 @@ namespace GL
 	public static void glGetTexParameterfv (GLenu target, GLenu pname, [CCode (array_length = false)] GLfloat[] params);
 	public static void glGetTexParameteriv (GLenu target, GLenu pname, [CCode (array_length = false)] GLint[] params);
 	public static void glGetTexLevelParameterfv (GLenu target, GLint level, [CCode (array_length = false)] GLenu pname, GLfloat[] params);
-	public static void glGetTexLevelParameteriv (GLenu target, GLint level, GLenu pname,[CCode (array_length = false)]  GLint[] params);
+	[CCode (cname = "glGetTexLevelParameteriv")]
+	public static void GetTexLevelParameteriv (GLenu target, GLint level, GLenu pname,[CCode (array_length = false)]  GLint[] params);
 	public static void glTexImage1D (GLenu target, GLint level, GLint internalFormat, GLsizei width, GLint border, GLenu format, GLenu type, GLvoid* pixels);
 	public static void glTexImage2D (GLenu target, GLint level, GLint internalFormat, GLsizei width, GLsizei height, GLint border, GLenu format, GLenu type, GLvoid* pixels);
 	public static void glGetTexImage (GLenu target, GLint level, GLenu format, GLenu type, GLvoid* pixels);
@@ -1679,16 +1680,17 @@ namespace GL
 		
 		if (camera == null) {
 		  	Ortho(0, 
-				Microsoft.Xna.Framework.Corange.Width, 
+
+				Microsoft.Xna.Framework.corange_graphics_viewport_width(), 
 				0, 
-				Microsoft.Xna.Framework.Corange.Height, 
+				Microsoft.Xna.Framework.corange_graphics_viewport_height(), 
 				nearVal, farVal);
 		} else {
-		  	Ortho(camera.X - Microsoft.Xna.Framework.Corange.Width / 2, 
-				camera.X + Microsoft.Xna.Framework.Corange.Width / 2,
-				-camera.Y + Microsoft.Xna.Framework.Corange.Height / 2,
-				-camera.Y - Microsoft.Xna.Framework.Corange.Height / 2,
-				nearVal, farVal);
+		  	Ortho(camera.X - Microsoft.Xna.Framework.corange_graphics_viewport_width() / 2, 
+				  camera.X + Microsoft.Xna.Framework.corange_graphics_viewport_width() / 2,
+				 -camera.Y + Microsoft.Xna.Framework.corange_graphics_viewport_height() / 2,
+				 -camera.Y - Microsoft.Xna.Framework.corange_graphics_viewport_height() / 2,
+				 nearVal, farVal);
 		}
 		
 		MatrixMode(GL_MODELVIEW);
@@ -1731,6 +1733,74 @@ namespace Microsoft.Xna.Framework {
 
 	public static void corange_init(string core_assets_path);
 	public static void corange_finish();
+
+	[CCode (cname = "ui_render")]
+	public void corange_ui_render();
+	[CCode (cname = "ui_update")]
+	public void corange_ui_update();
+	[CCode (cname = "ui_event")]
+	public void corange_ui_event(Sdl.Event e);
+
+	[CCode (cname = "frame_begin")]
+	public void corange_frame_begin();
+	[CCode (cname = "frame_end")]
+	public void corange_frame_end();
+	[CCode (cname = "frame_rate")]
+	public double corange_frame_rate();
+	[CCode (cname = "frame_time")]
+	public double corange_frame_time();
+
+	[CCode (cname = "texture_handle")]
+	public GL.GLuint corange_texture_handle(CObject texture);
+	[CCode (cname = "asset_get")]
+	public CObject corange_asset_get(URI path);
+	[CCode (cname = "texture_get_image")]
+	public Assets.Image corange_texture_get_image(CObject texture);
+
+	[CCode (cname = "graphics_viewport_ratio")]
+	public static double corange_graphics_viewport_ratio();
+	[CCode (cname = "graphics_viewport_height")]
+	public static int corange_graphics_viewport_height();
+	[CCode (cname = "graphics_viewport_width")]
+	public static int corange_graphics_viewport_width();
+	[CCode (cname = "graphics_viewport_title")]
+	public static string corange_graphics_viewport_title();
+	[CCode (cname = "graphics_get_multisamples")]
+	public static int corange_graphics_get_multisamples();
+	[CCode (cname = "graphics_set_multisamples")]
+	public static void corange_graphics_set_multisamples(int samples);
+	[CCode (cname = "graphics_get_fullscreen")]
+	public static bool corange_graphics_get_fullscreen();
+	[CCode (cname = "graphics_set_fullscreen")]
+	public static void corange_graphics_set_fullscreen(bool fullscreen);
+	[CCode (cname = "graphics_get_antialiasing")]
+	public static int corange_graphics_get_antialiasing();
+	[CCode (cname = "graphics_set_antialiasing")]
+	public static void corange_graphics_set_antialiasing(int quality);
+	[CCode (cname = "graphics_get_cursor_hidden")]
+	public static bool corange_graphics_get_cursor_hidden();
+	[CCode (cname = "graphics_set_cursor_hidden")]
+	public static void corange_graphics_set_cursor_hidden(bool hidden);
+	[CCode (cname = "graphics_context_new")]
+	public static GLib.IntPtr corange_graphics_context_new();
+	[CCode (cname = "graphics_context_delete")]
+	public static void corange_graphics_context_delete(GLib.IntPtr context);
+	[CCode (cname = "graphics_context_current")]
+	public static void corange_graphics_context_current(GLib.IntPtr context);
+	[CCode (cname = "graphics_viewport_set_title")]
+	public static void corange_graphics_viewport_set_title(string title);
+	[CCode (cname = "graphics_viewport_set_icon")]
+	public static void corange_graphics_viewport_set_icon(URI icon);
+	[CCode (cname = "graphics_viewport_set_position")]
+	public static void corange_graphics_viewport_set_position(int x, int y);
+	[CCode (cname = "graphics_viewport_set_size")]
+	public static void corange_graphics_viewport_set_size(int w, int h);
+	[CCode (cname = "graphics_set_vsync")]
+	public static void corange_graphics_set_vsync(bool vsync);
+	[CCode (cname = "graphics_viewport_screenshot")]
+	public static void corange_graphics_viewport_screenshot();
+	[CCode (cname = "graphics_swap")]
+	public static void corange_graphics_swap();
 
 	[SimpleType, CCode (cname = "type_id")]
 	public struct TypeId : int {}

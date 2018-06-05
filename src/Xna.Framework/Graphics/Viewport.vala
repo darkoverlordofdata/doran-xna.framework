@@ -116,30 +116,25 @@ namespace Microsoft.Xna.Framework.Graphics
 			}
 		}
 		
-        //  Referencing Rectangle here causes a symbol redefinition error:
-        //
-        // WINGDIAPI WINBOOL WINAPI Rectangle(HDC hdc,int left,int top,int right,int bottom);
-        //
-        //  Really, Windoze?
         //
         /// <summary>
         /// Gets or sets a boundary of this <see cref="Viewport"/>.
         /// </summary>
-		// public Rectangle Bounds 
-		// {
-        //     get
-        //     {
-        //         return new Rectangle(x, y, width, height);
-        //     }
+		public Quadrangle Bounds 
+		{
+            get
+            {
+                return new Quadrangle(x, y, width, height);
+            }
 				
-		// 	set
-		// 	{				
-		// 		x = value.X;
-		// 		y = value.Y;
-		// 		width = value.Width;
-		// 		height = value.Height;
-		// 	}
-		// }
+			set
+			{				
+				x = value.X;
+				y = value.Y;
+				width = value.Width;
+				height = value.Height;
+			}
+		}
 
         /// <summary>
         /// Constructs a viewport from the given values. The <see cref="MinDepth"/> will be 0.0 and <see cref="MaxDepth"/> will be 1.0.
@@ -180,8 +175,8 @@ namespace Microsoft.Xna.Framework.Graphics
         // /// <summary>
         // /// Creates a new instance of <see cref="Viewport"/> struct.
         // /// </summary>
-        // /// <param name="bounds">A <see cref="Rectangle"/> that defines the location and size of the <see cref="Viewport"/> in a render target.</param>
-		// public Viewport.FromRectangle(Rectangle bounds) 
+        // /// <param name="bounds">A <see cref="Quadrangle"/> that defines the location and size of the <see cref="Viewport"/> in a render target.</param>
+		// public Viewport.FromRectangle(Quadrangle bounds) 
 		// {
         //     this(bounds.X, bounds.Y, bounds.Width, bounds.Height);
 		// }

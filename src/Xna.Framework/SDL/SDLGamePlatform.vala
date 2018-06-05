@@ -185,7 +185,7 @@ namespace Microsoft.Xna.Framework
                     else if (ev.Window.EventID == Sdl.Window.EventId.Moved)
                         _view.Moved();
                 }
-                Corange.UIEvent(ev);
+                corange_ui_event(ev);
             }
         }
 

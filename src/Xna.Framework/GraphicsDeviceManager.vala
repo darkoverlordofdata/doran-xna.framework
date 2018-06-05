@@ -7,7 +7,7 @@ namespace Microsoft.Xna.Framework
      * Used to initialize and control the presentation of the graphics device.
      */ 
     public class GraphicsDeviceManager : Object, 
-                                        // IGraphicsDeviceService, 
+                                        IGraphicsDeviceService, 
                                         IDisposable, 
                                         IGraphicsDeviceManager 
     {
@@ -39,7 +39,6 @@ namespace Microsoft.Xna.Framework
          * The default back buffer height.
          */
         public const int DefaultBackBufferHeight = 480;
-
         
         /// <summary>
         /// Optional override for platform specific defaults.
@@ -88,8 +87,8 @@ namespace Microsoft.Xna.Framework
             //     throw new MongoException.ArgumentException("A graphics device manager is already registered.  The graphics device manager cannot be changed once it is set.");
             game.graphicsDeviceManager = this;
 
-            // game.services.addService(typeof(IGraphicsDeviceManager), this);
-            // game.services.addService(typeof(IGraphicsDeviceService), this);
+            game.Services.AddService(typeof(IGraphicsDeviceManager), this);
+            game.Services.AddService(typeof(IGraphicsDeviceService), this);
         }
 
         private void CreateDevice()
@@ -124,8 +123,8 @@ namespace Microsoft.Xna.Framework
             _shouldApplyChanges = false;
 
             // hook up reset events
-            graphicsDevice.DeviceReset.Add((sender, args) => OnDeviceReset((EventArgs)args));
-            graphicsDevice.DeviceResetting.Add((sender, args) => OnDeviceResetting((EventArgs)args));
+            GraphicsDevice.DeviceReset.Add((sender, args) => OnDeviceReset((EventArgs)args));
+            GraphicsDevice.DeviceResetting.Add((sender, args) => OnDeviceResetting((EventArgs)args));
 
             // update the touchpanel display size when the graphicsdevice is reset
             // _graphicsDevice.DeviceReset.Add(UpdateTouchPanel);
@@ -373,7 +372,7 @@ namespace Microsoft.Xna.Framework
         /// <summary>
         /// Returns the graphics device for this manager.
         /// </summary>
-        public GraphicsDevice graphicsDevice
+        public GraphicsDevice GraphicsDevice
         {
             get
             {

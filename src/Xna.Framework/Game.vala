@@ -24,8 +24,8 @@ namespace Microsoft.Xna.Framework
         // private GenericArray<IUpdateable> _updateables;
         // private GenericArray<IDrawable> _drawables;
 
-        private IGraphicsDeviceManager _graphicsDeviceManager;
-        private IGraphicsDeviceService _graphicsDeviceService;
+        private IGraphicsDeviceManager? _graphicsDeviceManager;
+        private IGraphicsDeviceService? _graphicsDeviceService;
 
         private bool _initialized = false;
         private bool _isFixedTimeStep = true;
@@ -38,9 +38,9 @@ namespace Microsoft.Xna.Framework
         private bool _shouldExit;
         private bool _suppressDraw;
 
-        public double FPS { get { return Corange.FPS; } }
+        public double FPS { get { return corange_frame_rate(); } }
 
-        public double Time { get { return Corange.Time; } }
+        public double Time { get { return corange_frame_time(); } }
 
         public Game()
         {
@@ -184,7 +184,7 @@ namespace Microsoft.Xna.Framework
                 if (_graphicsDeviceService == null)
                 {
                     _graphicsDeviceService = (IGraphicsDeviceService)
-                        Services.GetServiceType(typeof(IGraphicsDeviceService));
+                        Services.GetService(typeof(IGraphicsDeviceService));
 
                     if (_graphicsDeviceService == null)
                         throw new Exception.InvalidOperationException("No Graphics Device Service");
@@ -269,7 +269,7 @@ namespace Microsoft.Xna.Framework
             }
 
             if (!_initialized) {
-                Corange.Initialize(@"$(_content.RootDirectory)/assets_core");
+                corange_init(@"$(_content.RootDirectory)/assets_core");
                 DoInitialize ();
                 _initialized = true;
             }
@@ -415,24 +415,24 @@ namespace Microsoft.Xna.Framework
 
         internal void FrameBegin()
         {
-            Corange.Begin();
+            corange_frame_begin();
         }
 
         internal void FrameEnd()
         {
-            Corange.End();
+            corange_frame_end();
         }
 
         protected virtual bool BeginDraw() { return true; }
         protected virtual void EndDraw()
         {
-            Corange.Swap(); 
+            corange_graphics_swap(); 
         }
 
         protected virtual void BeginRun() { }
         protected virtual void EndRun() 
         {
-            Corange.Finish();
+            corange_finish();
         }
 
         protected virtual void LoadContent() { }
@@ -447,18 +447,13 @@ namespace Microsoft.Xna.Framework
 
         protected virtual void Draw(GameTime gameTime)
         {
-            Corange.UIRender();
+            corange_ui_render();
         }
 
         protected virtual void Update(GameTime gameTime)
         {
-            Corange.UIUpdate();
+            corange_ui_update();
 		}
-
-        internal virtual void Events(Sdl.Event ev)
-        {
-            Corange.UIEvent(ev);
-        }
 
         protected virtual void OnExiting(Object sender, EventArgs args)
         {
@@ -489,17 +484,17 @@ namespace Microsoft.Xna.Framework
         internal void applyChanges(GraphicsDeviceManager manager)
         {
 
-			// Platform.BeginScreenDeviceChange(GraphicsDevice.PresentationParameters.IsFullScreen);
+			Platform.BeginScreenDeviceChange(GraphicsDevice.PresentationParameters.IsFullScreen);
 
-            // if (GraphicsDevice.PresentationParameters.IsFullScreen)
-            //     Platform.EnterFullScreen();
-            // else
-            //     Platform.ExitFullScreen();
-            // var viewport = new Viewport(0, 0,
-			//                             GraphicsDevice.PresentationParameters.BackBufferWidth,
-			//                             GraphicsDevice.PresentationParameters.BackBufferHeight);
+            if (GraphicsDevice.PresentationParameters.IsFullScreen)
+                Platform.EnterFullScreen();
+            else
+                Platform.ExitFullScreen();
+            var viewport = new Viewport(0, 0,
+			                            GraphicsDevice.PresentationParameters.BackBufferWidth,
+			                            GraphicsDevice.PresentationParameters.BackBufferHeight);
 
-            // GraphicsDevice.Viewport = viewport;
+            GraphicsDevice.Viewport = viewport;
 			Platform.EndScreenDeviceChange("", manager.PreferredBackBufferWidth, manager.PreferredBackBufferHeight);
             
         }
@@ -524,8 +519,7 @@ namespace Microsoft.Xna.Framework
         {
             AssertNotDisposed();
 
-            // if (GraphicsDevice == null && graphicsDeviceManager != null)
-            if (graphicsDeviceManager != null)
+            if (GraphicsDevice == null && graphicsDeviceManager != null)
                 _graphicsDeviceManager.CreateDevice();
 
             Platform.BeforeInitialize();
@@ -542,11 +536,11 @@ namespace Microsoft.Xna.Framework
         {
             get
             {
-                // if (_graphicsDeviceManager == null)
-                // {
-                //     _graphicsDeviceManager = (IGraphicsDeviceManager)
-                //         Services.GetService(typeof(IGraphicsDeviceManager));
-                // }
+                if (_graphicsDeviceManager == null)
+                {
+                    _graphicsDeviceManager = (IGraphicsDeviceManager)
+                        Services.GetService(typeof(IGraphicsDeviceManager));
+                }
                 return (GraphicsDeviceManager)_graphicsDeviceManager;
             }
             set

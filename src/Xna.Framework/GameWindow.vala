@@ -13,7 +13,7 @@ namespace Microsoft.Xna.Framework {
 
 		public abstract bool AllowUserResizing { get; set; }
 
-		public abstract Rectangle ClientBounds { get; }
+		public abstract Quadrangle ClientBounds { get; }
 
 	    internal bool _allowAltF4 = true;
 

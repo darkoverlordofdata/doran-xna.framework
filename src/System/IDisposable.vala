@@ -22,7 +22,7 @@ namespace System
 
     public interface IServiceProvider : Object
     {
- 	    public abstract T GetService<T>(); 
+ 	    public abstract Object GetService(Type? type); 
     }
 
 }

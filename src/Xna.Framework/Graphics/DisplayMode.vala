@@ -63,7 +63,7 @@ namespace Microsoft.Xna.Framework.Graphics
             get { return this.width; }
         }
         
-        // public Rectangle TitleSafeArea {
+        // public  TitleSafeArea {
         //     get { return GraphicsDevice.GetTitleSafeArea(0, 0, width, height); }
         // }
 

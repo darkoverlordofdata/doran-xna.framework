@@ -72,7 +72,7 @@ namespace Microsoft.Xna.Framework.Graphics
             // Setup things now so a user can change them.
             if (sortMode == SpriteSortMode.Immediate)
             {
-                // Setup();
+                Setup();
             }
 
             _beginCalled = true;
@@ -90,9 +90,13 @@ namespace Microsoft.Xna.Framework.Graphics
 			_beginCalled = false;
 
 			if (_sortMode != SpriteSortMode.Immediate)
-				// Setup();
+				Setup();
             
             batcher.DrawBatch(_sortMode);
+        }
+
+		void Setup() 
+        {
         }
 
         void CheckValid(Texture2D texture)
