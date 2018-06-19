@@ -7,6 +7,7 @@ using System;
 // using System.Collections.Generic;
 using Microsoft.Xna.Framework.Assets;
 using Microsoft.Xna.Framework.Graphics;
+using ValaGame.OpenGL;
 
 namespace Microsoft.Xna.Framework.Content
 {
@@ -150,7 +151,7 @@ namespace Microsoft.Xna.Framework.Content
 			
 		}
 
-		public virtual GL.GLuint LoadTexture(string textureName)
+		public virtual uint LoadTexture(string textureName)
 		{
 			if (textureName == null || textureName == "")
 			{

@@ -210,7 +210,7 @@
             return new TimeSpan(_ticks >= 0? _ticks: -_ticks);
         }
  
-        public override bool Equals(Object value) {
+        public override bool Equals(Object? value) {
             if (value is TimeSpan) {
                 return _ticks == ((TimeSpan)value)._ticks;
             }

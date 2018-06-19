@@ -1,8 +1,9 @@
 // MonoGame - Copyright (C) The MonoGame Team
 // This file is subject to the terms and conditions defined in
 // file 'LICENSE.txt', which is part of this source code package.
-using GL;
+// using GL;
 using System;
+using ValaGame.OpenGL;
 // // using System.Collections.Generic;
 // using System.Diagnostics;
 // using System.Globalization;
@@ -47,6 +48,10 @@ namespace Microsoft.Xna.Framework.Graphics
 		public EventHandler<EventArgs> DeviceResetting = new EventHandler<EventArgs>();
         public EventHandler<EventArgs> Disposing = new EventHandler<EventArgs>();
 
+        private int _maxVertexBufferSlots;
+        internal int MaxTextureSlots = 16;
+        internal int MaxVertexTextureSlots;
+
         public bool IsDisposed
         {
             get
@@ -87,10 +92,10 @@ namespace Microsoft.Xna.Framework.Graphics
 		{
             // PresentationParameters = new Microsoft.Xna.Framework.Graphics.PresentationParameters();
             // PresentationParameters.DepthStencilFormat = DepthFormat.Depth24;
-            // Setup();
+            Setup();
             // GraphicsCapabilities = new GraphicsCapabilities();
             // GraphicsCapabilities.Initialize(this);
-            // Initialize();
+            Initialize();
         }
 
         /// <summary>
@@ -114,12 +119,18 @@ namespace Microsoft.Xna.Framework.Graphics
             Adapter = adapter;
             PresentationParameters = presentationParameters;
             _graphicsProfile = graphicsProfile;
-            // Setup();
+            Setup();
             // GraphicsCapabilities = new GraphicsCapabilities();
             // GraphicsCapabilities.Initialize(this);
 
             Initialize();
 
+        }
+
+        private void Setup()
+        {
+            Textures = new TextureCollection(this, MaxTextureSlots, false);
+            
         }
 
         internal void Initialize()
@@ -137,8 +148,8 @@ namespace Microsoft.Xna.Framework.Graphics
             bufferMask = bufferMask | ClearBufferMask.ColorBufferBit;
 
             // PlatformClear(options, color.ToVector4(), _viewport.MaxDepth, 0);
-            GL.ClearColor(color.R/255, color.G/255, color.B/255, color.A/255);
-            GL.Clear(bufferMask);
+            ValaGame.OpenGL.GL.ClearColor(color.R/255, color.G/255, color.B/255, color.A/255);
+            ValaGame.OpenGL.GL.Clear(bufferMask);
 
             _graphicsMetrics._clearCount++;
         }
@@ -169,7 +180,7 @@ namespace Microsoft.Xna.Framework.Graphics
         {
             lock (_resourcesLock)
             {
-                resources.add(resourceReference);
+                _resources.add(resourceReference);
             }
         }
 
@@ -177,7 +188,7 @@ namespace Microsoft.Xna.Framework.Graphics
         {
             lock (_resourcesLock)
             {
-                resources.remove(resourceReference);
+                _resources.remove(resourceReference);
             }
         }
 
@@ -281,5 +292,33 @@ namespace Microsoft.Xna.Framework.Graphics
             get { return _graphicsProfile; }
         }
 
+        /// <summary>
+        /// Draw primitives of the specified type by indexing into the given array of vertices with 32-bit indices.
+        /// </summary>
+        /// <typeparam name="T">The type of the vertices.</typeparam>
+        /// <param name="primitiveType">The type of primitives to draw with the vertices.</param>
+        /// <param name="vertexData">An array of vertices to draw.</param>
+        /// <param name="vertexOffset">The index in the array of the first vertex to draw.</param>
+        /// <param name="numVertices">The number of vertices to draw.</param>
+        /// <param name="indexData">The index data.</param>
+        /// <param name="indexOffset">The index in the array of indices of the first index to use</param>
+        /// <param name="primitiveCount">The number of primitives to draw.</param>
+        /// <param name="vertexDeclaration">The layout of the vertices.</param>
+        /// <remarks>All indices in the vertex buffer are interpreted relative to the specified <paramref name="vertexOffset"/>.
+        /// For example value of zero in the array of indices points to the vertex at index <paramref name="vertexOffset"/>
+        /// in the array of vertices.</remarks>
+        public void DrawUserIndexedPrimitives(
+            ValaGame.OpenGL.PrimitiveType primitiveType, 
+            VertexPositionColorTexture[] vertexData, 
+            int vertexOffset, 
+            int numVertices, 
+            short[] indexData, 
+            int indexOffset, 
+            int primitiveCount, 
+            VertexDeclaration? vertexDeclaration
+        )
+        {
+
+        }
     }
 }

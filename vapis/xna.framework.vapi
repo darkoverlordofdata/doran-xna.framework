@@ -3,6 +3,9 @@ The MIT License (MIT)
 
 Copyright (c) <2018> <xna.framework vapi>
 
+Combined Corange, SDL2 and GLib definitions used for xna port.
+
+
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
 in the Software without restriction, including without limitation the rights
@@ -21,1703 +24,30 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
+// [CCode (cprefix = "", lower_case_cprefix = "", cheader_filename = "valagame.h")]
+// namespace Vala 
+// {
+// 	public const int MajorVersion;
+// 	public const int MinorVersion;
+// 	public const int BuildVersion;
 
-/* gl.vapi
- *
- * Copyright (C) 2008  Matias De la Puente
- *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public
- * License as published by the Free Software Foundation; either
- * version 2.1 of the License, or (at your option) any later version.
-
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Lesser General Public License for more details.
-
- * You should have received a copy of the GNU Lesser General Public
- * License along with this library; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301  USA
- *
- * Author:
- * 	Matias De la Puente <mfpuente.ar@gmail.com>
- */
-[CCode (cprefix = "", lower_case_cprefix = "", cheader_filename="SDL2/SDL_opengl.h,SDL2/SDL_local.h")]
-namespace GL
-{
-
-	[CCode (cname="GLenu")]
-	public struct GLenu : uint { }
-	[CCode (cname="GLboolean")]
-	public struct GLboolean : bool { }
-	[CCode (cname="GLbitfield")]
-	public struct GLbitfield : uint { }
-	[CCode (cname="GLvoid")]
-	public struct GLvoid { }
-	[CCode (cname="GLbyte")]
-	public struct GLbyte : char { }
-	[CCode (cname="GLshort")]
-	public struct GLshort : short { }
-	[CCode (cname="GLint")]
-	public struct GLint : int { }
-	[CCode (cname="GLubyte")]
-	public struct GLubyte : uchar { }
-	[CCode (cname="GLushort")]
-	public struct GLushort : ushort { }
-	[CCode (cname="GLuint")]
-	public struct GLuint : uint { }
-	[CCode (cname="GLsizei")]
-	public struct GLsizei : int { }
-	[CCode (cname="GLfloat")]
-	[FloatingType (rank = 1)]
-	public struct GLfloat : float { }
-	[CCode (cname="GLclampf")]
-	[FloatingType (rank = 1)]
-	public struct GLclampf : float { }
-	[CCode (cname="GLdouble")]
-	[FloatingType (rank = 2)]
-	public struct GLdouble : double { }
-	[CCode (cname="GLclampd")]
-	[FloatingType (rank = 2)]
-	public struct GLclampd : double { }
-	
-	
-	// Data Types
-	public const GLenu GL_BYTE;
-	public const GLenu GL_UNSIGNED_BYTE;
-	public const GLenu GL_SHORT;
-	public const GLenu GL_UNSIGNED_SHORT;
-	public const GLenu GL_INT;
-	public const GLenu GL_UNSIGNED_INT;
-	public const GLenu GL_FLOAT;
-	public const GLenu GL_2_BYTES;
-	public const GLenu GL_3_BYTES;
-	public const GLenu GL_4_BYTES;
-	public const GLenu GL_DOUBLE;
-	
-	// Primitives
-	public const GLenu GL_POINTS;
-	public const GLenu GL_LINES;
-	public const GLenu GL_LINE_LOOP;
-	public const GLenu GL_LINE_STRIP;
-	public const GLenu GL_TRIANGLES;
-	public const GLenu GL_TRIANGLE_STRIP;
-	public const GLenu GL_TRIANGLE_FAN;
-	public const GLenu GL_QUADS;
-	public const GLenu GL_QUAD_STRIP;
-	public const GLenu GL_POLYGON;
-	
-	// Vertex Arrays
-	public const GLenu GL_VERTEX_ARRAY;
-	public const GLenu GL_NORMAL_ARRAY;
-	public const GLenu GL_COLOR_ARRAY;
-	public const GLenu GL_INDEX_ARRAY;
-	public const GLenu GL_TEXTURE_COORD_ARRAY;
-	public const GLenu GL_EDGE_FLAG_ARRAY;
-	public const GLenu GL_VERTEX_ARRAY_SIZE;
-	public const GLenu GL_VERTEX_ARRAY_TYPE;
-	public const GLenu GL_VERTEX_ARRAY_STRIDE;
-	public const GLenu GL_NORMAL_ARRAY_TYPE;
-	public const GLenu GL_NORMAL_ARRAY_STRIDE;
-	public const GLenu GL_COLOR_ARRAY_SIZE;
-	public const GLenu GL_COLOR_ARRAY_TYPE;
-	public const GLenu GL_COLOR_ARRAY_STRIDE;
-	public const GLenu GL_INDEX_ARRAY_TYPE;
-	public const GLenu GL_INDEX_ARRAY_STRIDE;
-	public const GLenu GL_TEXTURE_COORD_ARRAY_SIZE;
-	public const GLenu GL_TEXTURE_COORD_ARRAY_TYPE;
-	public const GLenu GL_TEXTURE_COORD_ARRAY_STRIDE;
-	public const GLenu GL_EDGE_FLAG_ARRAY_STRIDE;
-	public const GLenu GL_VERTEX_ARRAY_POINTER;
-	public const GLenu GL_NORMAL_ARRAY_POINTER;
-	public const GLenu GL_COLOR_ARRAY_POINTER;
-	public const GLenu GL_INDEX_ARRAY_POINTER;
-	public const GLenu GL_TEXTURE_COORD_ARRAY_POINTER;
-	public const GLenu GL_EDGE_FLAG_ARRAY_POINTER;
-	public const GLenu GL_V2F;
-	public const GLenu GL_V3F;
-	public const GLenu GL_C4UB_V2F;
-	public const GLenu GL_C4UB_V3F;
-	public const GLenu GL_C3F_V3F;
-	public const GLenu GL_N3F_V3F;
-	public const GLenu GL_C4F_N3F_V3F;
-	public const GLenu GL_T2F_V3F;
-	public const GLenu GL_T4F_V4F;
-	public const GLenu GL_T2F_C4UB_V3F;
-	public const GLenu GL_T2F_C3F_V3F;
-	public const GLenu GL_T2F_N3F_V3F;
-	public const GLenu GL_T2F_C4F_N3F_V3F;
-	public const GLenu GL_T4F_C4F_N3F_V4F;
-	
-	// Matrix Mode
-	public const GLenu GL_MATRIX_MODE;
-	public const GLenu GL_MODELVIEW;
-	public const GLenu GL_PROJECTION;
-	public const GLenu GL_TEXTURE;
-	
-	// Points
-	public const GLenu GL_POINT_SMOOTH;
-	public const GLenu GL_POINT_SIZE;
-	public const GLenu GL_POINT_SIZE_GRANULARITY;
-	public const GLenu GL_POINT_SIZE_RANGE;
-	
-	// Lines
-	public const GLenu GL_LINE_SMOOTH;
-	public const GLenu GL_LINE_STIPPLE;
-	public const GLenu GL_LINE_STIPPLE_PATTERN;
-	public const GLenu GL_LINE_STIPPLE_REPEAT;
-	public const GLenu GL_LINE_WIDTH;
-	public const GLenu GL_LINE_WIDTH_GRANULARITY;
-	public const GLenu GL_LINE_WIDTH_RANGE;
-	
-	// Polygons
-	public const GLenu GL_POINT;
-	public const GLenu GL_LINE;
-	public const GLenu GL_FILL;
-	public const GLenu GL_CW;
-	public const GLenu GL_CCW;
-	public const GLenu GL_FRONT;
-	public const GLenu GL_BACK;
-	public const GLenu GL_POLYGON_MODE;
-	public const GLenu GL_POLYGON_SMOOTH;
-	public const GLenu GL_POLYGON_STIPPLE;
-	public const GLenu GL_EDGE_FLAG;
-	public const GLenu GL_CULL_FACE;
-	public const GLenu GL_CULL_FACE_MODE;
-	public const GLenu GL_FRONT_FACE;
-	public const GLenu GL_POLYGON_OFFSET_FACTOR;
-	public const GLenu GL_POLYGON_OFFSET_UNITS;
-	public const GLenu GL_POLYGON_OFFSET_POINT;
-	public const GLenu GL_POLYGON_OFFSET_LINE;
-	public const GLenu GL_POLYGON_OFFSET_FILL;
-	
-	// Display Lists
-	public const GLenu GL_COMPILE;
-	public const GLenu GL_COMPILE_AND_EXECUTE;
-	public const GLenu GL_LIST_BASE;
-	public const GLenu GL_LIST_INDEX;
-	public const GLenu GL_LIST_MODE;
-	
-	// Depth Buffer
-	public const GLenu GL_NEVER;
-	public const GLenu GL_LESS;
-	public const GLenu GL_EQUAL;
-	public const GLenu GL_LEQUAL;
-	public const GLenu GL_GREATER;
-	public const GLenu GL_NOTEQUAL;
-	public const GLenu GL_GEQUAL;
-	public const GLenu GL_ALWAYS;
-	public const GLenu GL_DEPTH_TEST;
-	public const GLenu GL_DEPTH_BITS;
-	public const GLenu GL_DEPTH_CLEAR_VALUE;
-	public const GLenu GL_DEPTH_FUNC;
-	public const GLenu GL_DEPTH_RANGE;
-	public const GLenu GL_DEPTH_WRITEMASK;
-	public const GLenu GL_DEPTH_COMPONENT;
-	
-	// Lighting
-	public const GLenu GL_LIGHTING;
-	public const GLenu GL_LIGHT0;
-	public const GLenu GL_LIGHT1;
-	public const GLenu GL_LIGHT2;
-	public const GLenu GL_LIGHT3;
-	public const GLenu GL_LIGHT4;
-	public const GLenu GL_LIGHT5;
-	public const GLenu GL_LIGHT6;
-	public const GLenu GL_LIGHT7;
-	public const GLenu GL_SPOT_EXPONENT;
-	public const GLenu GL_SPOT_CUTOFF;
-	public const GLenu GL_CONSTANT_ATTENUATION;
-	public const GLenu GL_LINEAR_ATTENUATION;
-	public const GLenu GL_QUADRATIC_ATTENUATION;
-	public const GLenu GL_AMBIENT;
-	public const GLenu GL_DIFFUSE;
-	public const GLenu GL_SPECULAR;
-	public const GLenu GL_SHININESS;
-	public const GLenu GL_EMISSION;
-	public const GLenu GL_POSITION;
-	public const GLenu GL_SPOT_DIRECTION;
-	public const GLenu GL_AMBIENT_AND_DIFFUSE;
-	public const GLenu GL_COLOR_INDEXES;
-	public const GLenu GL_LIGHT_MODEL_TWO_SIDE;
-	public const GLenu GL_LIGHT_MODEL_LOCAL_VIEWER;
-	public const GLenu GL_LIGHT_MODEL_AMBIENT;
-	public const GLenu GL_FRONT_AND_BACK;
-	public const GLenu GL_SHADE_MODEL;
-	public const GLenu GL_FLAT;
-	public const GLenu GL_SMOOTH;
-	public const GLenu GL_COLOR_MATERIAL;
-	public const GLenu GL_COLOR_MATERIAL_FACE;
-	public const GLenu GL_COLOR_MATERIAL_PARAMETER;
-	public const GLenu GL_NORMALIZE;
-	
-	// User Clipping Planes
-	public const GLenu GL_CLIP_PLANE0;
-	public const GLenu GL_CLIP_PLANE1;
-	public const GLenu GL_CLIP_PLANE2;
-	public const GLenu GL_CLIP_PLANE3;
-	public const GLenu GL_CLIP_PLANE4;
-	public const GLenu GL_CLIP_PLANE5;
-	
-	// Accumulation Buffer
-	public const GLenu GL_ACCUM_RED_BITS;
-	public const GLenu GL_ACCUM_GREEN_BITS;
-	public const GLenu GL_ACCUM_BLUE_BITS;
-	public const GLenu GL_ACCUM_ALPHA_BITS;
-	public const GLenu GL_ACCUM_CLEAR_VALUE;
-	public const GLenu GL_ACCUM;
-	public const GLenu GL_ADD;
-	public const GLenu GL_LOAD;
-	public const GLenu GL_MULT;
-	public const GLenu GL_RETURN;
-	
-	// Alpha Testing
-	public const GLenu GL_ALPHA_TEST;
-	public const GLenu GL_ALPHA_TEST_REF;
-	public const GLenu GL_ALPHA_TEST_FUNC;
-	
-	// Blending
-	public const GLenu GL_BLEND;
-	public const GLenu GL_BLEND_SRC;
-	public const GLenu GL_BLEND_DST;
-	public const GLenu GL_ZERO;
-	public const GLenu GL_ONE;
-	public const GLenu GL_SRC_COLOR;
-	public const GLenu GL_ONE_MINUS_SRC_COLOR;
-	public const GLenu GL_SRC_ALPHA;
-	public const GLenu GL_ONE_MINUS_SRC_ALPHA;
-	public const GLenu GL_DST_ALPHA;
-	public const GLenu GL_ONE_MINUS_DST_ALPHA;
-	public const GLenu GL_DST_COLOR;
-	public const GLenu GL_ONE_MINUS_DST_COLOR;
-	public const GLenu GL_SRC_ALPHA_SATURATE;
-	
-	// Render Mode
-	public const GLenu GL_FEEDBACK;
-	public const GLenu GL_RENDER;
-	public const GLenu GL_SELECT;
-	
-	// Feedback
-	public const GLenu GL_2D;
-	public const GLenu GL_3D;
-	public const GLenu GL_3D_COLOR;
-	public const GLenu GL_3D_COLOR_TEXTURE;
-	public const GLenu GL_4D_COLOR_TEXTURE;
-	public const GLenu GL_POINT_TOKEN;
-	public const GLenu GL_LINE_TOKEN;
-	public const GLenu GL_LINE_RESET_TOKEN;
-	public const GLenu GL_POLYGON_TOKEN;
-	public const GLenu GL_BITMAP_TOKEN;
-	public const GLenu GL_DRAW_PIXEL_TOKEN;
-	public const GLenu GL_COPY_PIXEL_TOKEN;
-	public const GLenu GL_PASS_THROUGH_TOKEN;
-	public const GLenu GL_FEEDBACK_BUFFER_POINTER;
-	public const GLenu GL_FEEDBACK_BUFFER_SIZE;
-	public const GLenu GL_FEEDBACK_BUFFER_TYPE;
-	
-	// Selection Buffer
-	public const GLenu GL_SELECTION_BUFFER_POINTER;
-	public const GLenu GL_SELECTION_BUFFER_SIZE;
-	
-	// Fog
-	public const GLenu GL_FOG;
-	public const GLenu GL_FOG_MODE;
-	public const GLenu GL_FOG_DENSITY;
-	public const GLenu GL_FOG_COLOR;
-	public const GLenu GL_FOG_INDEX;
-	public const GLenu GL_FOG_START;
-	public const GLenu GL_FOG_END;
-	public const GLenu GL_LINEAR;
-	public const GLenu GL_EXP;
-	public const GLenu GL_EXP2;
-	
-	// Logic Ops
-	public const GLenu GL_LOGIC_OP;
-	public const GLenu GL_INDEX_LOGIC_OP;
-	public const GLenu GL_COLOR_LOGIC_OP;
-	public const GLenu GL_LOGIC_OP_MODE;
-	public const GLenu GL_CLEAR;
-	public const GLenu GL_SET;
-	public const GLenu GL_COPY;
-	public const GLenu GL_COPY_INVERTED;
-	public const GLenu GL_NOOP;
-	public const GLenu GL_INVERT;
-	public const GLenu GL_AND;
-	public const GLenu GL_NAND;
-	public const GLenu GL_OR;
-	public const GLenu GL_NOR;
-	public const GLenu GL_XOR;
-	public const GLenu GL_EQUIV;
-	public const GLenu GL_AND_REVERSE;
-	public const GLenu GL_AND_INVERTED;
-	public const GLenu GL_OR_REVERSE;
-	public const GLenu GL_OR_INVERTED;
-	
-	// Stencil
-	public const GLenu GL_STENCIL_BITS;
-	public const GLenu GL_STENCIL_TEST;
-	public const GLenu GL_STENCIL_CLEAR_VALUE;
-	public const GLenu GL_STENCIL_FUNC;
-	public const GLenu GL_STENCIL_VALUE_MASK;
-	public const GLenu GL_STENCIL_FAIL;
-	public const GLenu GL_STENCIL_PASS_DEPTH_FAIL;
-	public const GLenu GL_STENCIL_PASS_DEPTH_PASS;
-	public const GLenu GL_STENCIL_REF;
-	public const GLenu GL_STENCIL_WRITEMASK;
-	public const GLenu GL_STENCIL_INDEX;
-	public const GLenu GL_KEEP;
-	public const GLenu GL_REPLACE;
-	public const GLenu GL_INCR;
-	public const GLenu GL_DECR;
-	
-	// Buffers, Pixel Drawing/Reading
-	public const GLenu GL_NONE;
-	public const GLenu GL_LEFT;
-	public const GLenu GL_RIGHT;
-	public const GLenu GL_FRONT_LEFT;
-	public const GLenu GL_FRONT_RIGHT;
-	public const GLenu GL_BACK_LEFT;
-	public const GLenu GL_BACK_RIGHT;
-	public const GLenu GL_AUX0;
-	public const GLenu GL_AUX1;
-	public const GLenu GL_AUX2;
-	public const GLenu GL_AUX3;
-	public const GLenu GL_COLOR_INDEX;
-	public const GLenu GL_RED;
-	public const GLenu GL_GREEN;
-	public const GLenu GL_BLUE;
-	public const GLenu GL_ALPHA;
-	public const GLenu GL_LUMINANCE;
-	public const GLenu GL_LUMINANCE_ALPHA;
-	public const GLenu GL_ALPHA_BITS;
-	public const GLenu GL_RED_BITS;
-	public const GLenu GL_GREEN_BITS;
-	public const GLenu GL_BLUE_BITS;
-	public const GLenu GL_INDEX_BITS;
-	public const GLenu GL_SUBPIXEL_BITS;
-	public const GLenu GL_AUX_BUFFERS;
-	public const GLenu GL_READ_BUFFER;
-	public const GLenu GL_DRAW_BUFFER;
-	public const GLenu GL_DOUBLEBUFFER;
-	public const GLenu GL_STEREO;
-	public const GLenu GL_BITMAP;
-	public const GLenu GL_COLOR;
-	public const GLenu GL_DEPTH;
-	public const GLenu GL_STENCIL;
-	public const GLenu GL_DITHER;
-	public const GLenu GL_RGB;
-	public const GLenu GL_RGBA;
-	
-	// Implementation Limits
-	public const GLenu GL_MAX_LIST_NESTING;
-	public const GLenu GL_MAX_EVAL_ORDER;
-	public const GLenu GL_MAX_LIGHTS;
-	public const GLenu GL_MAX_CLIP_PLANES;
-	public const GLenu GL_MAX_TEXTURE_SIZE;
-	public const GLenu GL_MAX_PIXEL_MAP_TABLE;
-	public const GLenu GL_MAX_ATTRIB_STACK_DEPTH;
-	public const GLenu GL_MAX_MODELVIEW_STACK_DEPTH;
-	public const GLenu GL_MAX_NAME_STACK_DEPTH;
-	public const GLenu GL_MAX_PROJECTION_STACK_DEPTH;
-	public const GLenu GL_MAX_TEXTURE_STACK_DEPTH;
-	public const GLenu GL_MAX_VIEWPORT_DIMS;
-	public const GLenu GL_MAX_CLIENT_ATTRIB_STACK_DEPTH;
-	
-	// Gets
-	public const GLenu GL_ATTRIB_STACK_DEPTH;
-	public const GLenu GL_CLIENT_ATTRIB_STACK_DEPTH;
-	public const GLenu GL_COLOR_CLEAR_VALUE;
-	public const GLenu GL_COLOR_WRITEMASK;
-	public const GLenu GL_CURRENT_INDEX;
-	public const GLenu GL_CURRENT_COLOR;
-	public const GLenu GL_CURRENT_NORMAL;
-	public const GLenu GL_CURRENT_RASTER_COLOR;
-	public const GLenu GL_CURRENT_RASTER_DISTANCE;
-	public const GLenu GL_CURRENT_RASTER_INDEX;
-	public const GLenu GL_CURRENT_RASTER_POSITION;
-	public const GLenu GL_CURRENT_RASTER_TEXTURE_COORDS;
-	public const GLenu GL_CURRENT_RASTER_POSITION_VALID;
-	public const GLenu GL_CURRENT_TEXTURE_COORDS;
-	public const GLenu GL_INDEX_CLEAR_VALUE;
-	public const GLenu GL_INDEX_MODE;
-	public const GLenu GL_INDEX_WRITEMASK;
-	public const GLenu GL_MODELVIEW_MATRIX;
-	public const GLenu GL_MODELVIEW_STACK_DEPTH;
-	public const GLenu GL_NAME_STACK_DEPTH;
-	public const GLenu GL_PROJECTION_MATRIX;
-	public const GLenu GL_PROJECTION_STACK_DEPTH;
-	public const GLenu GL_RENDER_MODE;
-	public const GLenu GL_RGBA_MODE;
-	public const GLenu GL_TEXTURE_MATRIX;
-	public const GLenu GL_TEXTURE_STACK_DEPTH;
-	public const GLenu GL_VIEWPORT;
-	
-	// Evaluators
-	public const GLenu GL_AUTO_NORMAL;
-	public const GLenu GL_MAP1_COLOR_4;
-	public const GLenu GL_MAP1_INDEX;
-	public const GLenu GL_MAP1_NORMAL;
-	public const GLenu GL_MAP1_TEXTURE_COORD_1;
-	public const GLenu GL_MAP1_TEXTURE_COORD_2;
-	public const GLenu GL_MAP1_TEXTURE_COORD_3;
-	public const GLenu GL_MAP1_TEXTURE_COORD_4;
-	public const GLenu GL_MAP1_VERTEX_3;
-	public const GLenu GL_MAP1_VERTEX_4;
-	public const GLenu GL_MAP2_COLOR_4;
-	public const GLenu GL_MAP2_INDEX;
-	public const GLenu GL_MAP2_NORMAL;
-	public const GLenu GL_MAP2_TEXTURE_COORD_1;
-	public const GLenu GL_MAP2_TEXTURE_COORD_2;
-	public const GLenu GL_MAP2_TEXTURE_COORD_3;
-	public const GLenu GL_MAP2_TEXTURE_COORD_4;
-	public const GLenu GL_MAP2_VERTEX_3;
-	public const GLenu GL_MAP2_VERTEX_4;
-	public const GLenu GL_MAP1_GRID_DOMAIN;
-	public const GLenu GL_MAP1_GRID_SEGMENTS;
-	public const GLenu GL_MAP2_GRID_DOMAIN;
-	public const GLenu GL_MAP2_GRID_SEGMENTS;
-	public const GLenu GL_COEFF;
-	public const GLenu GL_ORDER;
-	public const GLenu GL_DOMAIN;
-	
-	// Hints
-	public const GLenu GL_PERSPECTIVE_CORRECTION_HINT;
-	public const GLenu GL_POINT_SMOOTH_HINT;
-	public const GLenu GL_LINE_SMOOTH_HINT;
-	public const GLenu GL_POLYGON_SMOOTH_HINT;
-	public const GLenu GL_FOG_HINT;
-	public const GLenu GL_DONT_CARE;
-	public const GLenu GL_FASTEST;
-	public const GLenu GL_NICEST;
-	
-	// Scissor box
-	public const GLenu GL_SCISSOR_BOX;
-	public const GLenu GL_SCISSOR_TEST;
-	
-	// Pixel Mode / Transfer
-	public const GLenu GL_MAP_COLOR;
-	public const GLenu GL_MAP_STENCIL;
-	public const GLenu GL_INDEX_SHIFT;
-	public const GLenu GL_INDEX_OFFSET;
-	public const GLenu GL_RED_SCALE;
-	public const GLenu GL_RED_BIAS;
-	public const GLenu GL_GREEN_SCALE;
-	public const GLenu GL_GREEN_BIAS;
-	public const GLenu GL_BLUE_SCALE;
-	public const GLenu GL_BLUE_BIAS;
-	public const GLenu GL_ALPHA_SCALE;
-	public const GLenu GL_ALPHA_BIAS;
-	public const GLenu GL_DEPTH_SCALE;
-	public const GLenu GL_DEPTH_BIAS;
-	public const GLenu GL_PIXEL_MAP_S_TO_S_SIZE;
-	public const GLenu GL_PIXEL_MAP_I_TO_I_SIZE;
-	public const GLenu GL_PIXEL_MAP_I_TO_R_SIZE;
-	public const GLenu GL_PIXEL_MAP_I_TO_G_SIZE;
-	public const GLenu GL_PIXEL_MAP_I_TO_B_SIZE;
-	public const GLenu GL_PIXEL_MAP_I_TO_A_SIZE;
-	public const GLenu GL_PIXEL_MAP_R_TO_R_SIZE;
-	public const GLenu GL_PIXEL_MAP_G_TO_G_SIZE;
-	public const GLenu GL_PIXEL_MAP_B_TO_B_SIZE;
-	public const GLenu GL_PIXEL_MAP_A_TO_A_SIZE;
-	public const GLenu GL_PIXEL_MAP_S_TO_S;
-	public const GLenu GL_PIXEL_MAP_I_TO_I;
-	public const GLenu GL_PIXEL_MAP_I_TO_R;
-	public const GLenu GL_PIXEL_MAP_I_TO_G;
-	public const GLenu GL_PIXEL_MAP_I_TO_B;
-	public const GLenu GL_PIXEL_MAP_I_TO_A;
-	public const GLenu GL_PIXEL_MAP_R_TO_R;
-	public const GLenu GL_PIXEL_MAP_G_TO_G;
-	public const GLenu GL_PIXEL_MAP_B_TO_B;
-	public const GLenu GL_PIXEL_MAP_A_TO_A;
-	public const GLenu GL_PACK_ALIGNMENT;
-	public const GLenu GL_PACK_LSB_FIRST;
-	public const GLenu GL_PACK_ROW_LENGTH;
-	public const GLenu GL_PACK_SKIP_PIXELS;
-	public const GLenu GL_PACK_SKIP_ROWS;
-	public const GLenu GL_PACK_SWAP_BYTES;
-	public const GLenu GL_UNPACK_ALIGNMENT;
-	public const GLenu GL_UNPACK_LSB_FIRST;
-	public const GLenu GL_UNPACK_ROW_LENGTH;
-	public const GLenu GL_UNPACK_SKIP_PIXELS;
-	public const GLenu GL_UNPACK_SKIP_ROWS;
-	public const GLenu GL_UNPACK_SWAP_BYTES;
-	public const GLenu GL_ZOOM_X;
-	public const GLenu GL_ZOOM_Y;
-	
-	// Texture Mapping
-	public const GLenu GL_TEXTURE_ENV;
-	public const GLenu GL_TEXTURE_ENV_MODE;
-	public const GLenu GL_TEXTURE_1D;
-	public const GLenu GL_TEXTURE_2D;
-	public const GLenu GL_TEXTURE_WRAP_S;
-	public const GLenu GL_TEXTURE_WRAP_T;
-	public const GLenu GL_TEXTURE_MAG_FILTER;
-	public const GLenu GL_TEXTURE_MIN_FILTER;
-	public const GLenu GL_TEXTURE_ENV_COLOR;
-	public const GLenu GL_TEXTURE_GEN_S;
-	public const GLenu GL_TEXTURE_GEN_T;
-	public const GLenu GL_TEXTURE_GEN_MODE;
-	public const GLenu GL_TEXTURE_BORDER_COLOR;
-	public const GLenu GL_TEXTURE_WIDTH;
-	public const GLenu GL_TEXTURE_HEIGHT;
-	public const GLenu GL_TEXTURE_BORDER;
-	public const GLenu GL_TEXTURE_COMPONENTS;
-	public const GLenu GL_TEXTURE_RED_SIZE;
-	public const GLenu GL_TEXTURE_GREEN_SIZE;
-	public const GLenu GL_TEXTURE_BLUE_SIZE;
-	public const GLenu GL_TEXTURE_ALPHA_SIZE;
-	public const GLenu GL_TEXTURE_LUMINANCE_SIZE;
-	public const GLenu GL_TEXTURE_INTENSITY_SIZE;
-	public const GLenu GL_NEAREST_MIPMAP_NEAREST;
-	public const GLenu GL_NEAREST_MIPMAP_LINEAR;
-	public const GLenu GL_LINEAR_MIPMAP_NEAREST;
-	public const GLenu GL_LINEAR_MIPMAP_LINEAR;
-	public const GLenu GL_OBJECT_LINEAR;
-	public const GLenu GL_OBJECT_PLANE;
-	public const GLenu GL_EYE_LINEAR;
-	public const GLenu GL_EYE_PLANE;
-	public const GLenu GL_SPHERE_MAP;
-	public const GLenu GL_DECAL;
-	public const GLenu GL_MODULATE;
-	public const GLenu GL_NEAREST;
-	public const GLenu GL_REPEAT;
-	public const GLenu GL_CLAMP;
-	public const GLenu GL_S;
-	public const GLenu GL_T;
-	public const GLenu GL_R;
-	public const GLenu GL_Q;
-	public const GLenu GL_TEXTURE_GEN_R;
-	public const GLenu GL_TEXTURE_GEN_Q;
-	
-	// Utility
-	public const GLenu GL_VENDOR;
-	public const GLenu GL_RENDERER;
-	public const GLenu GL_VERSION;
-	public const GLenu GL_EXTENSIONS;
-	
-	// Errors
-	public const GLenu GL_NO_ERROR;
-	public const GLenu GL_INVALID_ENUM;
-	public const GLenu GL_INVALID_VALUE;
-	public const GLenu GL_INVALID_OPERATION;
-	public const GLenu GL_STACK_OVERFLOW;
-	public const GLenu GL_STACK_UNDERFLOW;
-	public const GLenu GL_OUT_OF_MEMORY;
-	
-	// glPush/Pop Attrib Bits
-	public const GLenu GL_CURRENT_BIT;
-	public const GLenu GL_POINT_BIT;
-	public const GLenu GL_LINE_BIT;
-	public const GLenu GL_POLYGON_BIT;
-	public const GLenu GL_POLYGON_STIPPLE_BIT;
-	public const GLenu GL_PIXEL_MODE_BIT;
-	public const GLenu GL_LIGHTING_BIT;
-	public const GLenu GL_FOG_BIT;
-	public const GLenu GL_DEPTH_BUFFER_BIT;
-	public const GLenu GL_ACCUM_BUFFER_BIT;
-	public const GLenu GL_STENCIL_BUFFER_BIT;
-	public const GLenu GL_VIEWPORT_BIT;
-	public const GLenu GL_TRANSFORM_BIT;
-	public const GLenu GL_ENABLE_BIT;
-	public const GLenu GL_COLOR_BUFFER_BIT;
-	public const GLenu GL_HINT_BIT;
-	public const GLenu GL_EVAL_BIT;
-	public const GLenu GL_LIST_BIT;
-	public const GLenu GL_TEXTURE_BIT;
-	public const GLenu GL_SCISSOR_BIT;
-	public const GLenu GL_ALL_ATTRIB_BITS;
-	
-	// OpenGL 1.1
-	public const GLenu GL_PROXY_TEXTURE_1D;
-	public const GLenu GL_PROXY_TEXTURE_2D;
-	public const GLenu GL_TEXTURE_PRIORITY;
-	public const GLenu GL_TEXTURE_RESIDENT;
-	public const GLenu GL_TEXTURE_BINDING_1D;
-	public const GLenu GL_TEXTURE_BINDING_2D;
-	public const GLenu GL_TEXTURE_INTERNAL_FORMAT;
-	public const GLenu GL_ALPHA4;
-	public const GLenu GL_ALPHA8;
-	public const GLenu GL_ALPHA12;
-	public const GLenu GL_ALPHA16;
-	public const GLenu GL_LUMINANCE4;
-	public const GLenu GL_LUMINANCE8;
-	public const GLenu GL_LUMINANCE12;
-	public const GLenu GL_LUMINANCE16;
-	public const GLenu GL_LUMINANCE4_ALPHA4;
-	public const GLenu GL_LUMINANCE6_ALPHA2;
-	public const GLenu GL_LUMINANCE8_ALPHA8;
-	public const GLenu GL_LUMINANCE12_ALPHA4;
-	public const GLenu GL_LUMINANCE12_ALPHA12;
-	public const GLenu GL_LUMINANCE16_ALPHA16;
-	public const GLenu GL_INTENSITY;
-	public const GLenu GL_INTENSITY4;
-	public const GLenu GL_INTENSITY8;
-	public const GLenu GL_INTENSITY12;
-	public const GLenu GL_INTENSITY16;
-	public const GLenu GL_R3_G3_B2;
-	public const GLenu GL_RGB4;
-	public const GLenu GL_RGB5;
-	public const GLenu GL_RGB8;
-	public const GLenu GL_RGB10;
-	public const GLenu GL_RGB12;
-	public const GLenu GL_RGB16;
-	public const GLenu GL_RGBA2;
-	public const GLenu GL_RGBA4;
-	public const GLenu GL_RGB5_A1;
-	public const GLenu GL_RGBA8;
-	public const GLenu GL_RGB10_A2;
-	public const GLenu GL_RGBA12;
-	public const GLenu GL_RGBA16;
-	public const GLenu GL_CLIENT_PIXEL_STORE_BIT;
-	public const GLenu GL_CLIENT_VERTEX_ARRAY_BIT;
-	public const GLenu GL_ALL_CLIENT_ATTRIB_BITS;
-	public const GLenu GL_CLIENT_ALL_ATTRIB_BITS;
-	
-	// OpenGL 1.2
-	public const GLenu GL_RESCALE_NORMAL;
-	public const GLenu GL_CLAMP_TO_EDGE;
-	public const GLenu GL_MAX_ELEMENTS_VERTICES;
-	public const GLenu GL_MAX_ELEMENTS_INDICES;
-	public const GLenu GL_BGR;
-	public const GLenu GL_BGRA;
-	public const GLenu GL_UNSIGNED_BYTE_3_3_2;
-	public const GLenu GL_UNSIGNED_BYTE_2_3_3_REV;
-	public const GLenu GL_UNSIGNED_SHORT_5_6_5;
-	public const GLenu GL_UNSIGNED_SHORT_5_6_5_REV;
-	public const GLenu GL_UNSIGNED_SHORT_4_4_4_4;
-	public const GLenu GL_UNSIGNED_SHORT_4_4_4_4_REV;
-	public const GLenu GL_UNSIGNED_SHORT_5_5_5_1;
-	public const GLenu GL_UNSIGNED_SHORT_1_5_5_5_REV;
-	public const GLenu GL_UNSIGNED_INT_8_8_8_8;
-	public const GLenu GL_UNSIGNED_INT_8_8_8_8_REV;
-	public const GLenu GL_UNSIGNED_INT_10_10_10_2;
-	public const GLenu GL_UNSIGNED_INT_2_10_10_10_REV;
-	public const GLenu GL_LIGHT_MODEL_COLOR_CONTROL;
-	public const GLenu GL_SINGLE_COLOR;
-	public const GLenu GL_SEPARATE_SPECULAR_COLOR;
-	public const GLenu GL_TEXTURE_MIN_LOD;
-	public const GLenu GL_TEXTURE_MAX_LOD;
-	public const GLenu GL_TEXTURE_BASE_LEVEL;
-	public const GLenu GL_TEXTURE_MAX_LEVEL;
-	public const GLenu GL_SMOOTH_POINT_SIZE_RANGE;
-	public const GLenu GL_SMOOTH_POINT_SIZE_GRANULARITY;
-	public const GLenu GL_SMOOTH_LINE_WIDTH_RANGE;
-	public const GLenu GL_SMOOTH_LINE_WIDTH_GRANULARITY;
-	public const GLenu GL_ALIASED_POINT_SIZE_RANGE;
-	public const GLenu GL_ALIASED_LINE_WIDTH_RANGE;
-	public const GLenu GL_PACK_SKIP_IMAGES;
-	public const GLenu GL_PACK_IMAGE_HEIGHT;
-	public const GLenu GL_UNPACK_SKIP_IMAGES;
-	public const GLenu GL_UNPACK_IMAGE_HEIGHT;
-	public const GLenu GL_TEXTURE_3D;
-	public const GLenu GL_PROXY_TEXTURE_3D;
-	public const GLenu GL_TEXTURE_DEPTH;
-	public const GLenu GL_TEXTURE_WRAP_R;
-	public const GLenu GL_MAX_3D_TEXTURE_SIZE;
-	public const GLenu GL_TEXTURE_BINDING_3D;
-	
-	// GL_ARB_imaging
-	public const GLenu GL_ARB_imaging;
-	public const GLenu GL_CONSTANT_COLOR;
-	public const GLenu GL_ONE_MINUS_CONSTANT_COLOR;
-	public const GLenu GL_CONSTANT_ALPHA;
-	public const GLenu GL_ONE_MINUS_CONSTANT_ALPHA;
-	public const GLenu GL_COLOR_TABLE;
-	public const GLenu GL_POST_CONVOLUTION_COLOR_TABLE;
-	public const GLenu GL_POST_COLOR_MATRIX_COLOR_TABLE;
-	public const GLenu GL_PROXY_COLOR_TABLE;
-	public const GLenu GL_PROXY_POST_CONVOLUTION_COLOR_TABLE;
-	public const GLenu GL_PROXY_POST_COLOR_MATRIX_COLOR_TABLE;
-	public const GLenu GL_COLOR_TABLE_SCALE;
-	public const GLenu GL_COLOR_TABLE_BIAS;
-	public const GLenu GL_COLOR_TABLE_FORMAT;
-	public const GLenu GL_COLOR_TABLE_WIDTH;
-	public const GLenu GL_COLOR_TABLE_RED_SIZE;
-	public const GLenu GL_COLOR_TABLE_GREEN_SIZE;
-	public const GLenu GL_COLOR_TABLE_BLUE_SIZE;
-	public const GLenu GL_COLOR_TABLE_ALPHA_SIZE;
-	public const GLenu GL_COLOR_TABLE_LUMINANCE_SIZE;
-	public const GLenu GL_COLOR_TABLE_INTENSITY_SIZE;
-	public const GLenu GL_CONVOLUTION_1D;
-	public const GLenu GL_CONVOLUTION_2D;
-	public const GLenu GL_SEPARABLE_2D;
-	public const GLenu GL_CONVOLUTION_BORDER_MODE;
-	public const GLenu GL_CONVOLUTION_FILTER_SCALE;
-	public const GLenu GL_CONVOLUTION_FILTER_BIAS;
-	public const GLenu GL_REDUCE;
-	public const GLenu GL_CONVOLUTION_FORMAT;
-	public const GLenu GL_CONVOLUTION_WIDTH;
-	public const GLenu GL_CONVOLUTION_HEIGHT;
-	public const GLenu GL_MAX_CONVOLUTION_WIDTH;
-	public const GLenu GL_MAX_CONVOLUTION_HEIGHT;
-	public const GLenu GL_POST_CONVOLUTION_RED_SCALE;
-	public const GLenu GL_POST_CONVOLUTION_GREEN_SCALE;
-	public const GLenu GL_POST_CONVOLUTION_BLUE_SCALE;
-	public const GLenu GL_POST_CONVOLUTION_ALPHA_SCALE;
-	public const GLenu GL_POST_CONVOLUTION_RED_BIAS;
-	public const GLenu GL_POST_CONVOLUTION_GREEN_BIAS;
-	public const GLenu GL_POST_CONVOLUTION_BLUE_BIAS;
-	public const GLenu GL_POST_CONVOLUTION_ALPHA_BIAS;
-	public const GLenu GL_CONSTANT_BORDER;
-	public const GLenu GL_REPLICATE_BORDER;
-	public const GLenu GL_CONVOLUTION_BORDER_COLOR;
-	public const GLenu GL_COLOR_MATRIX;
-	public const GLenu GL_COLOR_MATRIX_STACK_DEPTH;
-	public const GLenu GL_MAX_COLOR_MATRIX_STACK_DEPTH;
-	public const GLenu GL_POST_COLOR_MATRIX_RED_SCALE;
-	public const GLenu GL_POST_COLOR_MATRIX_GREEN_SCALE;
-	public const GLenu GL_POST_COLOR_MATRIX_BLUE_SCALE;
-	public const GLenu GL_POST_COLOR_MATRIX_ALPHA_SCALE;
-	public const GLenu GL_POST_COLOR_MATRIX_RED_BIAS;
-	public const GLenu GL_POST_COLOR_MATRIX_GREEN_BIAS;
-	public const GLenu GL_POST_COLOR_MATRIX_BLUE_BIAS;
-	public const GLenu GL_POST_COLOR_MATRIX_ALPHA_BIAS;
-	public const GLenu GL_HISTOGRAM;
-	public const GLenu GL_PROXY_HISTOGRAM;
-	public const GLenu GL_HISTOGRAM_WIDTH;
-	public const GLenu GL_HISTOGRAM_FORMAT;
-	public const GLenu GL_HISTOGRAM_RED_SIZE;
-	public const GLenu GL_HISTOGRAM_GREEN_SIZE;
-	public const GLenu GL_HISTOGRAM_BLUE_SIZE;
-	public const GLenu GL_HISTOGRAM_ALPHA_SIZE;
-	public const GLenu GL_HISTOGRAM_LUMINANCE_SIZE;
-	public const GLenu GL_HISTOGRAM_SINK;
-	public const GLenu GL_MINMAX;
-	public const GLenu GL_MINMAX_FORMAT;
-	public const GLenu GL_MINMAX_SINK;
-	public const GLenu GL_TABLE_TOO_LARGE;
-	public const GLenu GL_BLEND_EQUATION;
-	public const GLenu GL_MIN;
-	public const GLenu GL_MAX;
-	public const GLenu GL_FUNC_ADD;
-	public const GLenu GL_FUNC_SUBTRACT;
-	public const GLenu GL_FUNC_REVERSE_SUBTRACT;
-	public const GLenu GL_BLEND_COLOR;
-	
-	// OpenGL 1.3
-	public const GLenu GL_TEXTURE0;
-	public const GLenu GL_TEXTURE1;
-	public const GLenu GL_TEXTURE2;
-	public const GLenu GL_TEXTURE3;
-	public const GLenu GL_TEXTURE4;
-	public const GLenu GL_TEXTURE5;
-	public const GLenu GL_TEXTURE6;
-	public const GLenu GL_TEXTURE7;
-	public const GLenu GL_TEXTURE8;
-	public const GLenu GL_TEXTURE9;
-	public const GLenu GL_TEXTURE10;
-	public const GLenu GL_TEXTURE11;
-	public const GLenu GL_TEXTURE12;
-	public const GLenu GL_TEXTURE13;
-	public const GLenu GL_TEXTURE14;
-	public const GLenu GL_TEXTURE15;
-	public const GLenu GL_TEXTURE16;
-	public const GLenu GL_TEXTURE17;
-	public const GLenu GL_TEXTURE18;
-	public const GLenu GL_TEXTURE19;
-	public const GLenu GL_TEXTURE20;
-	public const GLenu GL_TEXTURE21;
-	public const GLenu GL_TEXTURE22;
-	public const GLenu GL_TEXTURE23;
-	public const GLenu GL_TEXTURE24;
-	public const GLenu GL_TEXTURE25;
-	public const GLenu GL_TEXTURE26;
-	public const GLenu GL_TEXTURE27;
-	public const GLenu GL_TEXTURE28;
-	public const GLenu GL_TEXTURE29;
-	public const GLenu GL_TEXTURE30;
-	public const GLenu GL_TEXTURE31;
-	public const GLenu GL_ACTIVE_TEXTURE;
-	public const GLenu GL_CLIENT_ACTIVE_TEXTURE;
-	public const GLenu GL_MAX_TEXTURE_UNITS;
-	public const GLenu GL_NORMAL_MAP;
-	public const GLenu GL_REFLECTION_MAP;
-	public const GLenu GL_TEXTURE_CUBE_MAP;
-	public const GLenu GL_TEXTURE_BINDING_CUBE_MAP;
-	public const GLenu GL_TEXTURE_CUBE_MAP_POSITIVE_X;
-	public const GLenu GL_TEXTURE_CUBE_MAP_NEGATIVE_X;
-	public const GLenu GL_TEXTURE_CUBE_MAP_POSITIVE_Y;
-	public const GLenu GL_TEXTURE_CUBE_MAP_NEGATIVE_Y;
-	public const GLenu GL_TEXTURE_CUBE_MAP_POSITIVE_Z;
-	public const GLenu GL_TEXTURE_CUBE_MAP_NEGATIVE_Z;
-	public const GLenu GL_PROXY_TEXTURE_CUBE_MAP;
-	public const GLenu GL_MAX_CUBE_MAP_TEXTURE_SIZE;
-	public const GLenu GL_COMPRESSED_ALPHA;
-	public const GLenu GL_COMPRESSED_LUMINANCE;
-	public const GLenu GL_COMPRESSED_LUMINANCE_ALPHA;
-	public const GLenu GL_COMPRESSED_INTENSITY;
-	public const GLenu GL_COMPRESSED_RGB;
-	public const GLenu GL_COMPRESSED_RGBA;
-	public const GLenu GL_TEXTURE_COMPRESSION_HINT;
-	public const GLenu GL_TEXTURE_COMPRESSED_IMAGE_SIZE;
-	public const GLenu GL_TEXTURE_COMPRESSED;
-	public const GLenu GL_NUM_COMPRESSED_TEXTURE_FORMATS;
-	public const GLenu GL_COMPRESSED_TEXTURE_FORMATS;
-	public const GLenu GL_MULTISAMPLE;
-	public const GLenu GL_SAMPLE_ALPHA_TO_COVERAGE;
-	public const GLenu GL_SAMPLE_ALPHA_TO_ONE;
-	public const GLenu GL_SAMPLE_COVERAGE;
-	public const GLenu GL_SAMPLE_BUFFERS;
-	public const GLenu GL_SAMPLES;
-	public const GLenu GL_SAMPLE_COVERAGE_VALUE;
-	public const GLenu GL_SAMPLE_COVERAGE_INVERT;
-	public const GLenu GL_MULTISAMPLE_BIT;
-	public const GLenu GL_TRANSPOSE_MODELVIEW_MATRIX;
-	public const GLenu GL_TRANSPOSE_PROJECTION_MATRIX;
-	public const GLenu GL_TRANSPOSE_TEXTURE_MATRIX;
-	public const GLenu GL_TRANSPOSE_COLOR_MATRIX;
-	public const GLenu GL_COMBINE;
-	public const GLenu GL_COMBINE_RGB;
-	public const GLenu GL_COMBINE_ALPHA;
-	public const GLenu GL_SOURCE0_RGB;
-	public const GLenu GL_SOURCE1_RGB;
-	public const GLenu GL_SOURCE2_RGB;
-	public const GLenu GL_SOURCE0_ALPHA;
-	public const GLenu GL_SOURCE1_ALPHA;
-	public const GLenu GL_SOURCE2_ALPHA;
-	public const GLenu GL_OPERAND0_RGB;
-	public const GLenu GL_OPERAND1_RGB;
-	public const GLenu GL_OPERAND2_RGB;
-	public const GLenu GL_OPERAND0_ALPHA;
-	public const GLenu GL_OPERAND1_ALPHA;
-	public const GLenu GL_OPERAND2_ALPHA;
-	public const GLenu GL_RGB_SCALE;
-	public const GLenu GL_ADD_SIGNED;
-	public const GLenu GL_INTERPOLATE;
-	public const GLenu GL_SUBTRACT;
-	public const GLenu GL_CONSTANT;
-	public const GLenu GL_PRIMARY_COLOR;
-	public const GLenu GL_PREVIOUS;
-	public const GLenu GL_DOT3_RGB;
-	public const GLenu GL_DOT3_RGBA;
-	public const GLenu GL_CLAMP_TO_BORDER;
-	
-	// GL_ARB_multitexture (ARB extension 1 and OpenGL 1.2.1)
-	public const GLenu GL_TEXTURE0_ARB;
-	public const GLenu GL_TEXTURE1_ARB;
-	public const GLenu GL_TEXTURE2_ARB;
-	public const GLenu GL_TEXTURE3_ARB;
-	public const GLenu GL_TEXTURE4_ARB;
-	public const GLenu GL_TEXTURE5_ARB;
-	public const GLenu GL_TEXTURE6_ARB;
-	public const GLenu GL_TEXTURE7_ARB;
-	public const GLenu GL_TEXTURE8_ARB;
-	public const GLenu GL_TEXTURE9_ARB;
-	public const GLenu GL_TEXTURE10_ARB;
-	public const GLenu GL_TEXTURE11_ARB;
-	public const GLenu GL_TEXTURE12_ARB;
-	public const GLenu GL_TEXTURE13_ARB;
-	public const GLenu GL_TEXTURE14_ARB;
-	public const GLenu GL_TEXTURE15_ARB;
-	public const GLenu GL_TEXTURE16_ARB;
-	public const GLenu GL_TEXTURE17_ARB;
-	public const GLenu GL_TEXTURE18_ARB;
-	public const GLenu GL_TEXTURE19_ARB;
-	public const GLenu GL_TEXTURE20_ARB;
-	public const GLenu GL_TEXTURE21_ARB;
-	public const GLenu GL_TEXTURE22_ARB;
-	public const GLenu GL_TEXTURE23_ARB;
-	public const GLenu GL_TEXTURE24_ARB;
-	public const GLenu GL_TEXTURE25_ARB;
-	public const GLenu GL_TEXTURE26_ARB;
-	public const GLenu GL_TEXTURE27_ARB;
-	public const GLenu GL_TEXTURE28_ARB;
-	public const GLenu GL_TEXTURE29_ARB;
-	public const GLenu GL_TEXTURE30_ARB;
-	public const GLenu GL_TEXTURE31_ARB;
-	public const GLenu GL_ACTIVE_TEXTURE_ARB;
-	public const GLenu GL_CLIENT_ACTIVE_TEXTURE_ARB;
-	public const GLenu GL_MAX_TEXTURE_UNITS_ARB;
-
-	
-	// Miscellaneous
-	public static void glClearIndex (GLfloat c);
-	[CCode (cname = "glClearColor")]
-	public static void ClearColor (GLclampf red, GLclampf green, GLclampf blue, GLclampf alpha);
-	// public static void glClear (GLbitfield mask);
-	[CCode (cname = "glClear")]
-	public static void Clear (GLbitfield mask);
-	public static void glIndexMask (GLuint mask);
-	public static void glColorMask (GLboolean red, GLboolean green, GLboolean blue, GLboolean alpha);
-	public static void glAlphaFunc (GLenu func, GLclampf @ref);
-	[CCode (cname = "glBlendFunc")]
-	public static void BlendFunc (GLenu sfactor, GLenu dfactor);
-	public static void glLogicOp (GLenu opcode);
-	public static void glCullFace (GLenu mode);
-	public static void glFrontFace (GLenu mode);
-	public static void glPointSize (GLfloat size);
-	public static void glLineWidth (GLfloat width);
-	public static void glLineStipple (GLint factor, GLushort pattern);
-	public static void glPolygonMode (GLenu face, GLenu mode);
-	public static void glPolygonOffset (GLfloat factor, GLfloat units);
-	public static void glPolygonStipple ([CCode (array_length = false)] GLubyte[] mask);
-	public static void glGetPolygonStipple (out GLubyte mask);
-	public static void glEdgeFlag (GLboolean flag);
-	public static void glEdgeFlagv ([CCode (array_length = false)] GLboolean[] flag);
-	public static void glScissor (GLint x, GLint y, GLsizei width, GLsizei height);
-	public static void glClipPlane (GLenu plane, [CCode (array_length = false)] GLdouble[] equation);
-	public static void glGetClipPlane (GLenu plane, [CCode (array_length = false)] GLdouble[] equation);
-	public static void glDrawBuffer (GLenu mode);
-	public static void glReadBuffer (GLenu mode);
-	[CCode (cname = "glEnable")]
-	public static void Enable (GLenu cap);
-	[CCode (cname = "glDisable")]
-	public static void Disable (GLenu cap);
-	public static GLboolean glIsEnabled (GLenu cap);
-	[CCode (cname = "glEnableClientState")]
-	public static void EnableClientState (GLenu cap);
-	[CCode (cname = "glDisableClientState")]
-	public static void DisableClientState (GLenu cap);
-	public static void glGetBooleanv (GLenu pname, [CCode (array_length = false)] GLboolean[] params);
-	public static void glGetDoublev (GLenu pname, [CCode (array_length = false)] GLdouble[] params);
-	public static void glGetFloatv (GLenu pname, [CCode (array_length = false)] GLfloat[] params);
-	public static void glGetIntegerv (GLenu pname, [CCode (array_length = false)] GLint[] params);
-	public static void glPushAttrib (GLbitfield mask);
-	public static void glPopAttrib ();
-	public static void glPushClientAttrib (GLbitfield mask);
-	public static void glPopClientAttrib ();
-	public static GLint glRenderMode (GLenu mode);
-	public static GLenu glGetError ();
-	public static unowned string glGetString (GLenu name);
-	public static void glFinish ();
-	public static void glFlush ();
-	public static void glHint (GLenu target, GLenu mode);
-
-	// Depth Buffer
-	public static void glClearDepth (GLclampd depth);
-	public static void glDepthFunc (GLenu func);
-	public static void glDepthMask (GLboolean flag);
-	public static void glDepthRange (GLclampd near_val, GLclampd far_val);
-
-	// Accumulation Buffer
-	public static void glClearAccum (GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha);
-	public static void glAccum (GLenu op, GLfloat @value);
-
-	// Transformation
-	[CCode (cname = "glMatrixMode")]
-	public static void MatrixMode (GLenu mode);
-	[CCode (cname = "glOrtho")]
-	public static void Ortho (GLdouble left, GLdouble right, GLdouble bottom, GLdouble top, GLdouble near_val, GLdouble far_val);
-	public static void glFrustum (GLdouble left, GLdouble right, GLdouble bottom, GLdouble top, GLdouble near_val, GLdouble far_val);
-	public static void glViewport (GLint x, GLint y, GLsizei width, GLsizei height);
-	[CCode (cname = "glPushMatrix")]
-	public static void PushMatrix ();
-	[CCode (cname = "glPopMatrix")]
-	public static void PopMatrix ();
-	[CCode (cname = "glLoadIdentity")]
-	public static void LoadIdentity ();
-	public static void glLoadMatrixd ([CCode (array_length = false)] GLdouble[] m);
-	public static void glLoadMatrixf ([CCode (array_length = false)] GLfloat[] m);
-	public static void glMultMatrixd ([CCode (array_length = false)] GLdouble[] m);
-	public static void glMultMatrixf ([CCode (array_length = false)] GLfloat[] m);
-	public static void glRotated (GLdouble angle, GLdouble x, GLdouble y, GLdouble z);
-	public static void glRotatef (GLfloat angle, GLfloat x, GLfloat y, GLfloat z);
-	public static void glScaled (GLdouble x, GLdouble y, GLdouble z);
-	public static void glScalef (GLfloat x, GLfloat y, GLfloat z);
-	public static void glTranslated (GLdouble x, GLdouble y, GLdouble z);
-	public static void glTranslatef (GLfloat x, GLfloat y, GLfloat z);
-
-	// Display Lists
-	public static GLboolean glIsList (GLuint list);
-	public static void glDeleteLists (GLuint list, GLsizei range);
-	public static GLuint glGenLists (GLsizei range);
-	public static void glNewList (GLuint list, GLenu mode);
-	public static void glEndList ();
-	public static void glCallList (GLuint list);
-	public static void glCallLists (GLsizei n, GLenu type, [CCode (array_length = false)] GLvoid[] lists);
-	public static void glListBase (GLuint @base);
-
-	// Drawing Functions
-	[CCode (cname = "glBegin")]
-	public static void Begin (GLenu mode);
-	[CCode (cname = "glEnd")]
-	public static void End ();
-	public static void glVertex2d (GLdouble x, GLdouble y);
-	public static void glVertex2f (GLfloat x, GLfloat y);
-	public static void glVertex2i (GLint x, GLint y);
-	public static void glVertex2s (GLshort x, GLshort y);
-	public static void glVertex3d (GLdouble x, GLdouble y, GLdouble z);
-	[CCode (cname = "glVertex3f")]
-	public static void Vertex3f (GLfloat x, GLfloat y, GLfloat z);
-	public static void glVertex3i (GLint x, GLint y, GLint z);
-	public static void glVertex3s (GLshort x, GLshort y, GLshort z);
-	public static void glVertex4d (GLdouble x, GLdouble y, GLdouble z, GLdouble w);
-	public static void glVertex4f (GLfloat x, GLfloat y, GLfloat z, GLfloat w);
-	public static void glVertex4i (GLint x, GLint y, GLint z, GLint w);
-	public static void glVertex4s (GLshort x, GLshort y, GLshort z, GLshort w);
-	public static void glVertex2dv ([CCode (array_length = false)] GLdouble[] v);
-	public static void glVertex2fv ([CCode (array_length = false)] GLfloat[] v);
-	public static void glVertex2iv ([CCode (array_length = false)] GLint[] v);
-	public static void glVertex2sv ([CCode (array_length = false)] GLshort[] v);
-	public static void glVertex3dv ([CCode (array_length = false)] GLdouble[] v);
-	public static void glVertex3fv ([CCode (array_length = false)] GLfloat[] v);
-	public static void glVertex3iv ([CCode (array_length = false)] GLint[] v);
-	public static void glVertex3sv ([CCode (array_length = false)] GLshort[] v);
-	public static void glVertex4dv ([CCode (array_length = false)] GLdouble[] v);
-	public static void glVertex4fv ([CCode (array_length = false)] GLfloat[] v);
-	public static void glVertex4iv ([CCode (array_length = false)] GLint[] v);
-	public static void glVertex4sv ([CCode (array_length = false)] GLshort[] v);
-	public static void glNormal3b (GLbyte nx, GLbyte ny, GLbyte nz);
-	public static void glNormal3d (GLdouble nx, GLdouble ny, GLdouble nz);
-	public static void glNormal3f (GLfloat nx, GLfloat ny, GLfloat nz);
-	public static void glNormal3i (GLint nx, GLint ny, GLint nz);
-	public static void glNormal3s (GLshort nx, GLshort ny, GLshort nz);
-	public static void glNormal3bv ([CCode (array_length = false)] GLbyte[] v);
-	public static void glNormal3dv ([CCode (array_length = false)] GLdouble[] v);
-	public static void glNormal3fv ([CCode (array_length = false)] GLfloat[] v);
-	public static void glNormal3iv ([CCode (array_length = false)] GLint[] v);
-	public static void glNormal3sv ([CCode (array_length = false)] GLshort[] v);
-	public static void glIndexd (GLdouble c);
-	public static void glIndexf (GLfloat c);
-	public static void glIndexi (GLint c);
-	public static void glIndexs (GLshort c);
-	public static void glIndexub (GLubyte c);
-	public static void glIndexdv ([CCode (array_length = false)] GLdouble[] c);
-	public static void glIndexfv ([CCode (array_length = false)] GLfloat[] c);
-	public static void glIndexiv ([CCode (array_length = false)] GLint[] c);
-	public static void glIndexsv ([CCode (array_length = false)] GLshort[] c);
-	public static void glIndexubv ([CCode (array_length = false)] GLubyte[] c);
-	public static void glColor3b (GLbyte red, GLbyte green, GLbyte blue);
-	public static void glColor3d (GLdouble red, GLdouble green, GLdouble blue);
-	public static void glColor3f (GLfloat red, GLfloat green, GLfloat blue);
-	public static void glColor3i (GLint red, GLint green, GLint blue);
-	public static void glColor3s (GLshort red, GLshort green, GLshort blue);
-	public static void glColor3ub (GLubyte red, GLubyte green, GLubyte blue);
-	public static void glColor3ui (GLuint red, GLuint green, GLuint blue);
-	public static void glColor3us (GLushort red, GLushort green, GLushort blue);
-	public static void glColor4b (GLbyte red, GLbyte green, GLbyte blue, GLbyte alpha);
-	public static void glColor4d (GLdouble red, GLdouble green, GLdouble blue, GLdouble alpha);
-	public static void glColor4f (GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha);
-	public static void glColor4i (GLint red, GLint green, GLint blue, GLint alpha);
-	public static void glColor4s (GLshort red, GLshort green, GLshort blue, GLshort alpha);
-	public static void glColor4ub (GLubyte red, GLubyte green, GLubyte blue, GLubyte alpha);
-	public static void glColor4ui (GLuint red, GLuint green, GLuint blue, GLuint alpha);
-	public static void glColor4us (GLushort red, GLushort green, GLushort blue, GLushort alpha);
-	public static void glColor3bv ([CCode (array_length = false)] GLbyte[] v);
-	public static void glColor3dv ([CCode (array_length = false)] GLdouble[] v);
-	public static void glColor3fv ([CCode (array_length = false)] GLfloat[] v);
-	public static void glColor3iv ([CCode (array_length = false)] GLint[] v);
-	public static void glColor3sv ([CCode (array_length = false)] GLshort[] v);
-	public static void glColor3ubv ([CCode (array_length = false)] GLubyte[] v);
-	public static void glColor3uiv ([CCode (array_length = false)] GLuint[] v);
-	public static void glColor3usv ([CCode (array_length = false)] GLushort[] v);
-	public static void glColor4bv ([CCode (array_length = false)] GLbyte[] v);
-	public static void glColor4dv ([CCode (array_length = false)] GLdouble[] v);
-	public static void glColor4fv ([CCode (array_length = false)] GLfloat[] v);
-	public static void glColor4iv ([CCode (array_length = false)] GLint[] v);
-	public static void glColor4sv ([CCode (array_length = false)] GLshort[] v);
-	public static void glColor4ubv ([CCode (array_length = false)] GLubyte[] v);
-	public static void glColor4uiv ([CCode (array_length = false)] GLuint[] v);
-	public static void glColor4usv ([CCode (array_length = false)] GLushort[] v);
-	public static void glTexCoord1d (GLdouble s);
-	public static void glTexCoord1f (GLfloat s);
-	public static void glTexCoord1i (GLint s);
-	public static void glTexCoord1s (GLshort s);
-	public static void glTexCoord2d (GLdouble s, GLdouble t);
-	[CCode (cname = "glTexCoord2f")]
-	public static void TexCoord2f (GLfloat s, GLfloat t);
-	public static void glTexCoord2i (GLint s, GLint t);
-	public static void glTexCoord2s (GLshort s, GLshort t);
-	public static void glTexCoord3d (GLdouble s, GLdouble t, GLdouble r);
-	public static void glTexCoord3f (GLfloat s, GLfloat t, GLfloat r);
-	public static void glTexCoord3i (GLint s, GLint t, GLint r);
-	public static void glTexCoord3s (GLshort s, GLshort t, GLshort r);
-	public static void glTexCoord4d (GLdouble s, GLdouble t, GLdouble r, GLdouble q);
-	public static void glTexCoord4f (GLfloat s, GLfloat t, GLfloat r, GLfloat q);
-	public static void glTexCoord4i (GLint s, GLint t, GLint r, GLint q);
-	public static void glTexCoord4s (GLshort s, GLshort t, GLshort r, GLshort q);
-	public static void glTexCoord1dv ([CCode (array_length = false)] GLdouble[] v);
-	public static void glTexCoord1fv ([CCode (array_length = false)] GLfloat[] v);
-	public static void glTexCoord1iv ([CCode (array_length = false)] GLint[] v);
-	public static void glTexCoord1sv ([CCode (array_length = false)] GLshort[] v);
-	public static void glTexCoord2dv ([CCode (array_length = false)] GLdouble[] v);
-	public static void glTexCoord2fv ([CCode (array_length = false)] GLfloat[] v);
-	public static void glTexCoord2iv ([CCode (array_length = false)] GLint[] v);
-	public static void glTexCoord2sv ([CCode (array_length = false)] GLshort[] v);
-	public static void glTexCoord3dv ([CCode (array_length = false)] GLdouble[] v);
-	public static void glTexCoord3fv ([CCode (array_length = false)] GLfloat[] v);
-	public static void glTexCoord3iv ([CCode (array_length = false)] GLint[] v);
-	public static void glTexCoord3sv ([CCode (array_length = false)] GLshort[] v);
-	public static void glTexCoord4dv ([CCode (array_length = false)] GLdouble[] v);
-	public static void glTexCoord4fv ([CCode (array_length = false)] GLfloat[] v);
-	public static void glTexCoord4iv ([CCode (array_length = false)] GLint[] v);
-	public static void glTexCoord4sv ([CCode (array_length = false)] GLshort[] v);
-	public static void glRasterPos2d (GLdouble x, GLdouble y);
-	public static void glRasterPos2f (GLfloat x, GLfloat y);
-	public static void glRasterPos2i (GLint x, GLint y);
-	public static void glRasterPos2s (GLshort x, GLshort y);
-	public static void glRasterPos3d (GLdouble x, GLdouble y, GLdouble z);
-	public static void glRasterPos3f (GLfloat x, GLfloat y, GLfloat z);
-	public static void glRasterPos3i (GLint x, GLint y, GLint z);
-	public static void glRasterPos3s (GLshort x, GLshort y, GLshort z);
-	public static void glRasterPos4d (GLdouble x, GLdouble y, GLdouble z, GLdouble w);
-	public static void glRasterPos4f (GLfloat x, GLfloat y, GLfloat z, GLfloat w);
-	public static void glRasterPos4i (GLint x, GLint y, GLint z, GLint w);
-	public static void glRasterPos4s (GLshort x, GLshort y, GLshort z, GLshort w);
-	public static void glRasterPos2dv ([CCode (array_length = false)] GLdouble[] v);
-	public static void glRasterPos2fv ([CCode (array_length = false)] GLfloat[] v);
-	public static void glRasterPos2iv ([CCode (array_length = false)] GLint[] v);
-	public static void glRasterPos2sv ([CCode (array_length = false)] GLshort[] v);
-	public static void glRasterPos3dv ([CCode (array_length = false)] GLdouble[] v);
-	public static void glRasterPos3fv ([CCode (array_length = false)] GLfloat[] v);
-	public static void glRasterPos3iv ([CCode (array_length = false)] GLint[] v);
-	public static void glRasterPos3sv ([CCode (array_length = false)] GLshort[] v);
-	public static void glRasterPos4dv ([CCode (array_length = false)] GLdouble[] v);
-	public static void glRasterPos4fv ([CCode (array_length = false)] GLfloat[] v);
-	public static void glRasterPos4iv ([CCode (array_length = false)] GLint[] v);
-	public static void glRasterPos4sv ([CCode (array_length = false)] GLshort[] v);
-	public static void glRectd (GLdouble x1, GLdouble y1, GLdouble x2, GLdouble y2);
-	public static void glRectf (GLfloat x1, GLfloat y1, GLfloat x2, GLfloat y2);
-	public static void glRecti (GLint x1, GLint y1, GLint x2, GLint y2);
-	public static void glRects (GLshort x1, GLshort y1, GLshort x2, GLshort y2);
-	public static void glRectdv ([CCode (array_length = false)] GLdouble[] v1, [CCode (array_length = false)] GLdouble[] v2);
-	public static void glRectfv ([CCode (array_length = false)] GLfloat[] v1, [CCode (array_length = false)] GLfloat[] v2);
-	public static void glRectiv ([CCode (array_length = false)] GLint[] v1, [CCode (array_length = false)] GLint[] v2);
-	public static void glRectsv ([CCode (array_length = false)] GLshort[] v1, [CCode (array_length = false)] GLshort[] v2);
-
-	// Vertex Arrays  (1.1)
-	[CCode (cname = "glVertexPointer")]
-	public static void VertexPointer (GLint size, GLenu type, GLsizei stride, GLvoid* ptr);
-	public static void glNormalPointer (GLenu type, GLsizei stride, GLvoid* ptr);
-	public static void glColorPointer (GLint size, GLenu type, GLsizei stride, GLvoid* ptr);
-	public static void glIndexPointer (GLenu type, GLsizei stride, GLvoid* ptr);
-	[CCode (cname = "glTexCoordPointer")]
-	public static void TexCoordPointer (GLint size, GLenu type, GLsizei stride, GLvoid* ptr);
-	public static void glEdgeFlagPointer (GLsizei stride, GLvoid* ptr);
-	public static void glGetPointerv (GLenu pname, GLvoid** params); 
-	public static void glArrayElement (GLint i);
-	[CCode (cname = "glDrawArrays")]
-	public static void DrawArrays (GLenu mode, GLint first, GLsizei count);
-	public static void glDrawElements (GLenu mode, GLsizei count, GLenu type, GLvoid* indices);
-	public static void glInterleavedArrays (GLenu format, GLsizei stride, GLvoid* pointer);
-
-	// Lighting
-	public static void glShadeModel (GLenu mode);
-	public static void glLightf (GLenu light, GLenu pname, GLfloat param);
-	public static void glLighti (GLenu light, GLenu pname, GLint param);
-	public static void glLightfv (GLenu light, GLenu pname, [CCode (array_length = false)] GLfloat[] params);
-	public static void glLightiv (GLenu light, GLenu pname, [CCode (array_length = false)] GLint[] params);
-	public static void glGetLightfv (GLenu light, GLenu pname, [CCode (array_length = false)] GLfloat[] params);
-	public static void glGetLightiv (GLenu light, GLenu pname, [CCode (array_length = false)] GLint[] params);
-	public static void glLightModelf (GLenu pname, GLfloat param);
-	public static void glLightModeli (GLenu pname, GLint param);
-	public static void glLightModelfv (GLenu pname, [CCode (array_length = false)] GLfloat[] params);
-	public static void glLightModeliv (GLenu pname, [CCode (array_length = false)] GLint[] params);
-	public static void glMaterialf (GLenu face, GLenu pname, GLfloat param);
-	public static void glMateriali (GLenu face, GLenu pname, GLint param);
-	public static void glMaterialfv (GLenu face, GLenu pname, [CCode (array_length = false)] GLfloat[] params);
-	public static void glMaterialiv (GLenu face, GLenu pname, [CCode (array_length = false)] GLint[] params);
-	public static void glGetMaterialfv (GLenu face, GLenu pname, [CCode (array_length = false)] GLfloat[] params);
-	public static void glGetMaterialiv (GLenu face, GLenu pname, [CCode (array_length = false)] GLint[] params);
-	public static void glColorMaterial (GLenu face, GLenu mode);
-
-	// Raster functions
-	public static void glPixelZoom (GLfloat xfactor, GLfloat yfactor);
-	public static void glPixelStoref (GLenu pname, GLfloat param);
-	public static void glPixelStorei (GLenu pname, GLint param);
-	public static void glPixelTransferf (GLenu pname, GLfloat param);
-	public static void glPixelTransferi (GLenu pname, GLint param);
-	public static void glPixelMapfv (GLenu map, GLsizei mapsize, [CCode (array_length = false)] GLfloat[] values);
-	public static void glPixelMapuiv (GLenu map, GLsizei mapsize, [CCode (array_length = false)] GLuint[] values);
-	public static void glPixelMapusv (GLenu map, GLsizei mapsize, [CCode (array_length = false)] GLushort[] values);
-	public static void glGetPixelMapfv (GLenu map, [CCode (array_length = false)] GLfloat[] values);
-	public static void glGetPixelMapuiv (GLenu map, [CCode (array_length = false)] GLuint[] values);
-	public static void glGetPixelMapusv (GLenu map, [CCode (array_length = false)] GLushort[] values);
-	public static void glBitmap (GLsizei width, GLsizei height, GLfloat xorig, GLfloat yorig, GLfloat xmove, GLfloat ymove, GLubyte* bitmap);
-	public static void glReadPixels (GLint x, GLint y, GLsizei width, GLsizei height, GLenu format, GLenu type, GLvoid* pixels);
-	public static void glDrawPixels (GLsizei width, GLsizei height, GLenu format, GLenu type, GLvoid* pixels);
-	public static void glCopyPixels (GLint x, GLint y, GLsizei width, GLsizei height, GLenu type);
-
-	// Stenciling
-	public static void glStencilFunc (GLenu func, GLint @ref, GLuint mask);
-	public static void glStencilMask (GLuint mask);
-	public static void glStencilOp (GLenu fail, GLenu zfail, GLenu zpass);
-	public static void glClearStencil (GLint s);
-
-	// Texture mapping
-	public static void glTexGend (GLenu coord, GLenu pname, GLdouble param);
-	public static void glTexGenf (GLenu coord, GLenu pname, GLfloat param);
-	public static void glTexGeni (GLenu coord, GLenu pname, GLint param);
-	public static void glTexGendv (GLenu coord, GLenu pname, [CCode (array_length = false)] GLdouble[] params);
-	public static void glTexGenfv (GLenu coord, GLenu pname, [CCode (array_length = false)] GLfloat[] params);
-	public static void glTexGeniv (GLenu coord, GLenu pname, [CCode (array_length = false)] GLint[] params);
-	public static void glGetTexGendv (GLenu coord, GLenu pname, [CCode (array_length = false)] GLdouble[] params);
-	public static void glGetTexGenfv (GLenu coord, GLenu pname, [CCode (array_length = false)] GLfloat[] params);
-	public static void glGetTexGeniv (GLenu coord, GLenu pname, [CCode (array_length = false)] GLint[] params);
-	public static void glTexEnvf (GLenu target, GLenu pname, GLfloat param);
-	public static void glTexEnvi (GLenu target, GLenu pname, GLint param);
-	public static void glTexEnvfv (GLenu target, GLenu pname, [CCode (array_length = false)] GLfloat[] params);
-	public static void glTexEnviv (GLenu target, GLenu pname, [CCode (array_length = false)] GLint[] params);
-	public static void glGetTexEnvfv (GLenu target, GLenu pname, [CCode (array_length = false)] GLfloat[] params);
-	public static void glGetTexEnviv (GLenu target, GLenu pname, [CCode (array_length = false)] GLint[] params);
-	public static void glTexParameterf (GLenu target, GLenu pname, GLfloat param);
-	[CCode (cname = "glTexParameteri")]
-	public static void TexParameteri (GLenu target, GLenu pname, GLint param);
-	public static void glTexParameterfv (GLenu target, GLenu pname, [CCode (array_length = false)] GLfloat[] params);
-	public static void glTexParameteriv (GLenu target, GLenu pname, [CCode (array_length = false)] GLint[] params);
-	public static void glGetTexParameterfv (GLenu target, GLenu pname, [CCode (array_length = false)] GLfloat[] params);
-	public static void glGetTexParameteriv (GLenu target, GLenu pname, [CCode (array_length = false)] GLint[] params);
-	public static void glGetTexLevelParameterfv (GLenu target, GLint level, [CCode (array_length = false)] GLenu pname, GLfloat[] params);
-	[CCode (cname = "glGetTexLevelParameteriv")]
-	public static void GetTexLevelParameteriv (GLenu target, GLint level, GLenu pname,[CCode (array_length = false)]  GLint[] params);
-	public static void glTexImage1D (GLenu target, GLint level, GLint internalFormat, GLsizei width, GLint border, GLenu format, GLenu type, GLvoid* pixels);
-	public static void glTexImage2D (GLenu target, GLint level, GLint internalFormat, GLsizei width, GLsizei height, GLint border, GLenu format, GLenu type, GLvoid* pixels);
-	public static void glGetTexImage (GLenu target, GLint level, GLenu format, GLenu type, GLvoid* pixels);
-
-	// 1.1 functions
-	public static void glGenTextures (GLsizei n, [CCode (array_length = false)] GLuint[] textures);
-	public static void glDeleteTextures (GLsizei n, [CCode (array_length = false)] GLuint[] textures);
-	[CCode (cname = "glBindTexture")]
-	public static void BindTexture (GLenu target, GLuint texture);
-	public static void glPrioritizeTextures (GLsizei n, [CCode (array_length = false)] GLuint[] textures, [CCode (array_length = false)] GLclampf[] priorities);
-	public static GLboolean glAreTexturesResident (GLsizei n, [CCode (array_length = false)] GLuint[] textures, [CCode (array_length = false)] GLboolean[] residences);
-	public static GLboolean glIsTexture (GLuint texture);
-	public static void glTexSubImage1D (GLenu target, GLint level, GLint xoffset, GLsizei width, GLenu format, GLenu type, GLvoid* pixels);
-	public static void glTexSubImage2D (GLenu target, GLint level, GLint xoffset, GLint yoffset, GLsizei width, GLsizei height, GLenu format, GLenu type, GLvoid* pixels);
-	public static void glCopyTexImage1D (GLenu target, GLint level, GLenu internalformat, GLint x, GLint y, GLsizei width, GLint border);
-	public static void glCopyTexImage2D (GLenu target, GLint level, GLenu internalformat, GLint x, GLint y, GLsizei width, GLsizei height, GLint border);
-	public static void glCopyTexSubImage1D (GLenu target, GLint level, GLint xoffset, GLint x, GLint y, GLsizei width);
-	public static void glCopyTexSubImage2D (GLenu target, GLint level, GLint xoffset, GLint yoffset, GLint x, GLint y, GLsizei width, GLsizei height);
-
-	// Evaluators
-	public static void glMap1d (GLenu target, GLdouble u1, GLdouble u2, GLint stride, GLint order, [CCode (array_length = false)] GLdouble[] points);
-	public static void glMap1f (GLenu target, GLfloat u1, GLfloat u2, GLint stride, GLint order, [CCode (array_length = false)] GLfloat[] points);
-	public static void glMap2d (GLenu target, GLdouble u1, GLdouble u2, GLint ustride, GLint uorder, GLdouble v1, GLdouble v2, GLint vstride, GLint vorder,[CCode (array_length = false)]  GLdouble[] points);
-	public static void glMap2f (GLenu target, GLfloat u1, GLfloat u2, GLint ustride, GLint uorder, GLfloat v1, GLfloat v2, GLint vstride, GLint vorder, [CCode (array_length = false)] GLfloat[] points);
-	public static void glGetMapdv (GLenu target, GLenu query, [CCode (array_length = false)] GLdouble[] v);
-	public static void glGetMapfv (GLenu target, GLenu query, [CCode (array_length = false)] GLfloat[] v);
-	public static void glGetMapiv (GLenu target, GLenu query, [CCode (array_length = false)] GLint[] v);
-	public static void glEvalCoord1d (GLdouble u);
-	public static void glEvalCoord1f (GLfloat u);
-	public static void glEvalCoord1dv ([CCode (array_length = false)] GLdouble[] u);
-	public static void glEvalCoord1fv ([CCode (array_length = false)] GLfloat[] u);
-	public static void glEvalCoord2d (GLdouble u, GLdouble v);
-	public static void glEvalCoord2f (GLfloat u, GLfloat v);
-	public static void glEvalCoord2dv ([CCode (array_length = false)] GLdouble[] u);
-	public static void glEvalCoord2fv ([CCode (array_length = false)] GLfloat[] u);
-	public static void glMapGrid1d (GLint un, GLdouble u1, GLdouble u2);
-	public static void glMapGrid1f (GLint un, GLfloat u1, GLfloat u2);
-	public static void glMapGrid2d (GLint un, GLdouble u1, GLdouble u2, GLint vn, GLdouble v1, GLdouble v2);
-	public static void glMapGrid2f (GLint un, GLfloat u1, GLfloat u2, GLint vn, GLfloat v1, GLfloat v2);
-	public static void glEvalPoint1 (GLint i);
-	public static void glEvalPoint2 (GLint i, GLint j);
-	public static void glEvalMesh1 (GLenu mode, GLint i1, GLint i2);
-	public static void glEvalMesh2 (GLenu mode, GLint i1, GLint i2, GLint j1, GLint j2);
-
-	// Fog
-	public static void glFogf (GLenu pname, GLfloat param);
-	public static void glFogi (GLenu pname, GLint param);
-	public static void glFogfv (GLenu pname, [CCode (array_length = false)] GLfloat[] params);
-	public static void glFogiv (GLenu pname, [CCode (array_length = false)] GLint[] params);
-
-	// Selection and Feedback
-	public static void glFeedbackBuffer (GLsizei size, GLenu type, [CCode (array_length = false)] GLfloat[] buffer);
-	public static void glPassThrough (GLfloat token);
-	public static void glSelectBuffer (GLsizei size, [CCode (array_length = false)] GLuint[] buffer);
-	public static void glInitNames ();
-	public static void glLoadName (GLuint name);
-	public static void glPushName (GLuint name);
-	public static void glPopName ();
-	
-	// OpenGL 1.2
-	public static void glDrawRangeElements (GLenu mode, GLuint start, GLuint end, GLsizei count, GLenu type, GLvoid* indices);
-	public static void glTexImage3D (GLenu target, GLint level, GLint internalFormat, GLsizei width, GLsizei height, GLsizei depth, GLint border, GLenu format, GLenu type, GLvoid* pixels);
-	public static void glTexSubImage3D (GLenu target, GLint level, GLint xoffset, GLint yoffset, GLint zoffset, GLsizei width, GLsizei height, GLsizei depth, GLenu format, GLenu type, GLvoid* pixels);
-	public static void glCopyTexSubImage3D (GLenu target, GLint level, GLint xoffset, GLint yoffset, GLint zoffset, GLint x, GLint y, GLsizei width, GLsizei height);
-	
-	// GL_ARB_imaging
-	public static void glColorTable (GLenu target, GLenu internalformat, GLsizei width, GLenu format, GLenu type, GLvoid* table);
-	public static void glColorSubTable (GLenu target, GLsizei start, GLsizei count, GLenu format, GLenu type, GLvoid* data);
-	public static void glColorTableParameteriv (GLenu target, GLenu pname, [CCode (array_length = false)] GLint[] params);
-	public static void glColorTableParameterfv (GLenu target, GLenu pname, [CCode (array_length = false)] GLfloat[] params);
-	public static void glCopyColorSubTable (GLenu target, GLsizei start, GLint x, GLint y, GLsizei width);
-	public static void glCopyColorTable (GLenu target, GLenu internalformat, GLint x, GLint y, GLsizei width);
-	public static void glGetColorTable (GLenu target, GLenu format, GLenu type, out GLvoid table);
-	public static void glGetColorTableParameterfv (GLenu target, GLenu pname, out GLfloat params);
-	public static void glGetColorTableParameteriv (GLenu target, GLenu pname, out GLint params);
-	public static void glBlendEquation (GLenu mode);
-	public static void glBlendColor (GLclampf red, GLclampf green, GLclampf blue, GLclampf alpha);
-	public static void glHistogram (GLenu target, GLsizei width, GLenu internalformat, GLboolean sink);
-	public static void glResetHistogram (GLenu target);
-	public static void glGetHistogram (GLenu target, GLboolean reset, GLenu format, GLenu type, out GLvoid values);
-	public static void glGetHistogramParameterfv (GLenu target, GLenu pname, out GLfloat params);
-	public static void glGetHistogramParameteriv (GLenu target, GLenu pname, out GLint params);
-	public static void glMinmax (GLenu target, GLenu internalformat, GLboolean sink);
-	public static void glResetMinmax (GLenu target);
-	public static void glGetMinmax (GLenu target, GLboolean reset, GLenu format, GLenu types, out GLvoid values);
-	public static void glGetMinmaxParameterfv (GLenu target, GLenu pname, [CCode (array_length = false)] GLfloat[] params);
-	public static void glGetMinmaxParameteriv (GLenu target, GLenu pname, [CCode (array_length = false)] GLint[] params);
-	public static void glConvolutionFilter1D (GLenu target, GLenu internalformat, GLsizei width, GLenu format, GLenu type, GLvoid* image);
-	public static void glConvolutionFilter2D (GLenu target, GLenu internalformat, GLsizei width, GLsizei height, GLenu format, GLenu type, GLvoid* image);
-	public static void glConvolutionParameterf (GLenu target, GLenu pname, GLfloat params);
-	public static void glConvolutionParameterfv (GLenu target, GLenu pname, [CCode (array_length = false)] GLfloat[] params);
-	public static void glConvolutionParameteri (GLenu target, GLenu pname, GLint params);
-	public static void glConvolutionParameteriv (GLenu target, GLenu pname, [CCode (array_length = false)] GLint[] params);
-	public static void glCopyConvolutionFilter1D (GLenu target, GLenu internalformat, GLint x, GLint y, GLsizei width);
-	public static void glCopyConvolutionFilter2D (GLenu target, GLenu internalformat, GLint x, GLint y, GLsizei width, GLsizei height);
-	public static void glGetConvolutionFilter (GLenu target, GLenu format, GLenu type, GLvoid *image);
-	public static void glGetConvolutionParameterfv (GLenu target, GLenu pname, [CCode (array_length = false)] GLfloat[] params);
-	public static void glGetConvolutionParameteriv (GLenu target, GLenu pname, [CCode (array_length = false)] GLint[] params);
-	public static void glSeparableFilter2D (GLenu target, GLenu internalformat, GLsizei width, GLsizei height, GLenu format, GLenu type, GLvoid* row, GLvoid* column);
-	public static void glGetSeparableFilter (GLenu target, GLenu format, GLenu type, out GLvoid row, out GLvoid column, out GLvoid span);
-
-	//OpenGL 1.3
-	public static void glActiveTexture (GLenu texture);
-	public static void glClientActiveTexture (GLenu texture);
-	public static void glCompressedTexImage1D (GLenu target, GLint level, GLenu internalformat, GLsizei width, GLint border, GLsizei imageSize, GLvoid* data);
-	public static void glCompressedTexImage2D (GLenu target, GLint level, GLenu internalformat, GLsizei width, GLsizei height, GLint border, GLsizei imageSize, GLvoid* data);
-	public static void glCompressedTexImage3D (GLenu target, GLint level, GLenu internalformat, GLsizei width, GLsizei height, GLsizei depth, GLint border, GLsizei imageSize, GLvoid* data);
-	public static void glCompressedTexSubImage1D (GLenu target, GLint level, GLint xoffset, GLsizei width, GLenu format, GLsizei imageSize, GLvoid* data);
-	public static void glCompressedTexSubImage2D (GLenu target, GLint level, GLint xoffset, GLint yoffset, GLsizei width, GLsizei height, GLenu format, GLsizei imageSize, GLvoid* data);
-	public static void glCompressedTexSubImage3D (GLenu target, GLint level, GLint xoffset, GLint yoffset, GLint zoffset, GLsizei width, GLsizei height, GLsizei depth, GLenu format, GLsizei imageSize, GLvoid* data);
-	public static void glGetCompressedTexImage (GLenu target, GLint lod, out GLvoid img);
-	public static void glMultiTexCoord1d (GLenu target, GLdouble s);
-	public static void glMultiTexCoord1dv (GLenu target, [CCode (array_length = false)] GLdouble[] v);
-	public static void glMultiTexCoord1f (GLenu target, GLfloat s);
-	public static void glMultiTexCoord1fv (GLenu target, [CCode (array_length = false)] GLfloat[] v);
-	public static void glMultiTexCoord1i (GLenu target, GLint s);
-	public static void glMultiTexCoord1iv (GLenu target, [CCode (array_length = false)] GLint[] v);
-	public static void glMultiTexCoord1s (GLenu target, GLshort s);
-	public static void glMultiTexCoord1sv (GLenu target, [CCode (array_length = false)] GLshort[] v);
-	public static void glMultiTexCoord2d (GLenu target, GLdouble s, GLdouble t);
-	public static void glMultiTexCoord2dv (GLenu target, [CCode (array_length = false)] GLdouble[] v);
-	public static void glMultiTexCoord2f (GLenu target, GLfloat s, GLfloat t);
-	public static void glMultiTexCoord2fv (GLenu target, [CCode (array_length = false)] GLfloat[] v);
-	public static void glMultiTexCoord2i (GLenu target, GLint s, GLint t);
-	public static void glMultiTexCoord2iv (GLenu target, [CCode (array_length = false)] GLint[] v);
-	public static void glMultiTexCoord2s (GLenu target, GLshort s, GLshort t);
-	public static void glMultiTexCoord2sv (GLenu target, [CCode (array_length = false)] GLshort[] v);
-	public static void glMultiTexCoord3d (GLenu target, GLdouble s, GLdouble t, GLdouble r);
-	public static void glMultiTexCoord3dv (GLenu target, [CCode (array_length = false)] GLdouble[] v);
-	public static void glMultiTexCoord3f (GLenu target, GLfloat s, GLfloat t, GLfloat r);
-	public static void glMultiTexCoord3fv (GLenu target, [CCode (array_length = false)] GLfloat[] v);
-	public static void glMultiTexCoord3i (GLenu target, GLint s, GLint t, GLint r);
-	public static void glMultiTexCoord3iv (GLenu target, [CCode (array_length = false)] GLint[] v);
-	public static void glMultiTexCoord3s (GLenu target, GLshort s, GLshort t, GLshort r);
-	public static void glMultiTexCoord3sv (GLenu target, [CCode (array_length = false)] GLshort[] v);
-	public static void glMultiTexCoord4d (GLenu target, GLdouble s, GLdouble t, GLdouble r, GLdouble q);
-	public static void glMultiTexCoord4dv (GLenu target, [CCode (array_length = false)] GLdouble[] v);
-	public static void glMultiTexCoord4f (GLenu target, GLfloat s, GLfloat t, GLfloat r, GLfloat q);
-	public static void glMultiTexCoord4fv (GLenu target, [CCode (array_length = false)] GLfloat[] v);
-	public static void glMultiTexCoord4i (GLenu target, GLint s, GLint t, GLint r, GLint q);
-	public static void glMultiTexCoord4iv (GLenu target, [CCode (array_length = false)] GLint[] v);
-	public static void glMultiTexCoord4s (GLenu target, GLshort s, GLshort t, GLshort r, GLshort q);
-	public static void glMultiTexCoord4sv (GLenu target, [CCode (array_length = false)] GLshort[] v);
-	public static void glLoadTransposeMatrixd ([CCode (array_length = false)] GLdouble[] m);
-	public static void glLoadTransposeMatrixf ([CCode (array_length = false)] GLfloat[] m);
-	public static void glMultTransposeMatrixd ([CCode (array_length = false)] GLdouble[] m);
-	public static void glMultTransposeMatrixf ([CCode (array_length = false)] GLfloat[] m);
-	public static void glSampleCoverage (GLclampf @value, GLboolean invert);
-	
-	// GL_ARB_multitexture (ARB extension 1 and OpenGL 1.2.1)
-	public static void glActiveTextureARB (GLenu texture);
-	public static void glClientActiveTextureARB (GLenu texture);
-	public static void glMultiTexCoord1dARB (GLenu target, GLdouble s);
-	public static void glMultiTexCoord1dvARB (GLenu target, [CCode (array_length = false)] GLdouble[] v);
-	public static void glMultiTexCoord1fARB (GLenu target, GLfloat s);
-	public static void glMultiTexCoord1fvARB (GLenu target, [CCode (array_length = false)] GLfloat[] v);
-	public static void glMultiTexCoord1iARB (GLenu target, GLint s);
-	public static void glMultiTexCoord1ivARB (GLenu target, [CCode (array_length = false)] GLint[] v);
-	public static void glMultiTexCoord1sARB (GLenu target, GLshort s);
-	public static void glMultiTexCoord1svARB (GLenu target, [CCode (array_length = false)] GLshort[] v);
-	public static void glMultiTexCoord2dARB (GLenu target, GLdouble s, GLdouble t);
-	public static void glMultiTexCoord2dvARB (GLenu target, [CCode (array_length = false)] GLdouble[] v);
-	public static void glMultiTexCoord2fARB (GLenu target, GLfloat s, GLfloat t);
-	public static void glMultiTexCoord2fvARB (GLenu target, [CCode (array_length = false)] GLfloat[] v);
-	public static void glMultiTexCoord2iARB (GLenu target, GLint s, GLint t);
-	public static void glMultiTexCoord2ivARB (GLenu target, [CCode (array_length = false)] GLint[] v);
-	public static void glMultiTexCoord2sARB (GLenu target, GLshort s, GLshort t);
-	public static void glMultiTexCoord2svARB (GLenu target, [CCode (array_length = false)] GLshort[] v);
-	public static void glMultiTexCoord3dARB (GLenu target, GLdouble s, GLdouble t, GLdouble r);
-	public static void glMultiTexCoord3dvARB (GLenu target, [CCode (array_length = false)] GLdouble[] v);
-	public static void glMultiTexCoord3fARB (GLenu target, GLfloat s, GLfloat t, GLfloat r);
-	public static void glMultiTexCoord3fvARB (GLenu target, [CCode (array_length = false)] GLfloat[] v);
-	public static void glMultiTexCoord3iARB (GLenu target, GLint s, GLint t, GLint r);
-	public static void glMultiTexCoord3ivARB (GLenu target, [CCode (array_length = false)] GLint[] v);
-	public static void glMultiTexCoord3sARB (GLenu target, GLshort s, GLshort t, GLshort r);
-	public static void glMultiTexCoord3svARB (GLenu target, [CCode (array_length = false)] GLshort[] v);
-	public static void glMultiTexCoord4dARB (GLenu target, GLdouble s, GLdouble t, GLdouble r, GLdouble q);
-	public static void glMultiTexCoord4dvARB (GLenu target, [CCode (array_length = false)] GLdouble[] v);
-	public static void glMultiTexCoord4fARB (GLenu target, GLfloat s, GLfloat t, GLfloat r, GLfloat q);
-	public static void glMultiTexCoord4fvARB (GLenu target, [CCode (array_length = false)] GLfloat[] v);
-	public static void glMultiTexCoord4iARB (GLenu target, GLint s, GLint t, GLint r, GLint q);
-	public static void glMultiTexCoord4ivARB (GLenu target, [CCode (array_length = false)] GLint[] v);
-	public static void glMultiTexCoord4sARB (GLenu target, GLshort s, GLshort t, GLshort r, GLshort q);
-	public static void glMultiTexCoord4svARB (GLenu target, [CCode (array_length = false)] GLshort[] v);
+// 	[Compact]
+// 	[CCode (cname = "Vala_Object", ref_function = "Vala_Object_AddRef", unref_function = "Vala_Object_Release")]
+// 	public class Object
+// 	{
+// 		[CCode (cname = "Vala_Object_New")]
+// 		public Object();
+// 		[CCode (cname = "Vala_Object_ToString")]
+// 		public unowned string ToString();
+// 		[CCode (cname = "Vala_Object_GetHashCode")]
+// 		public int GetHashCode();
+// 		[CCode (cname = "Vala_Object_Equals")]
+// 		public bool Equals(Object other);
+// 	}
 
 
-	// Corange SDL_local.h values
-	
-	[CCode (cname="GLchar")]
-	public struct GLchar : char { }
-	[CCode (cname="GLsizeiptr")]
-	public struct GLsizeiptr : size_t { }
 
-	public static GLuint glCreateShader( GLenu type );
-	public static GLuint glCreateProgram( );
-	public static void glShaderSource( GLuint shader, GLsizei count, GLchar** string, GLint* length );
-	public static void glCompileShader( GLuint shader );
-	public static void glGetShaderInfoLog( GLuint shader, GLsizei bufsize,GLsizei* length, GLchar* infolog );
-	public static void glAttachShader( GLuint program, GLuint shader );
-	public static void glLinkProgram( GLuint program );
-	public static void glGetProgramInfoLog( GLuint program, GLsizei bufsize,GLsizei* length, GLchar* infolog );
-	public static GLboolean glIsProgram( GLuint program );
-	public static GLboolean glIsShader( GLuint shader );
-	public static void glGetAttachedShaders(GLuint program, GLsizei maxCount, GLsizei* count, GLuint* shaders);
-	public static GLint glGetUniformLocation( GLuint program, GLchar* name );
-	//  public static void glActiveTexture( GLenu texture );
-	public static void glUniform1f( GLint location, GLfloat x );
-	public static void glUniform1i( GLint location, GLint x );
-	public static void glDeleteShader( GLuint shader );
-	public static void glDeleteProgram( GLuint program );
-	public static void glUseProgram( GLuint program );
-	public static void glVertexAttribPointer( GLuint indx, GLint size, GLenu type,GLboolean normalized, GLsizei stride, GLvoid* ptr );
-	public static void glVertexAttribDivisor( GLuint indx, GLuint divisor );
-	public static void glEnableVertexAttribArray( GLuint index );
-	public static void glDisableVertexAttribArray( GLuint index );
-	public static void glUniform2f( GLint location, GLfloat x, GLfloat y);
-	public static void glUniform3f( GLint location, GLfloat x, GLfloat y, GLfloat z);
-	public static void glUniform4f( GLint location, GLfloat x, GLfloat y, GLfloat z, GLfloat w );
-	public static void glUniformMatrix3fv( GLint location, GLsizei count,GLboolean transpose, GLfloat* value );
-	public static void glUniformMatrix4fv( GLint location, GLsizei count,GLboolean transpose, GLfloat* value );
-	public static void glUniform1fv( GLint location, GLsizei count, GLfloat* value );
-	public static void glUniform2fv( GLint location, GLsizei count, GLfloat* value );
-	public static void glUniform3fv( GLint location, GLsizei count, GLfloat* value );
-	public static void glUniform4fv( GLint location, GLsizei count, GLfloat* value );
-	public static void glGetShaderiv( GLuint shader, GLenu pname, GLint* params );
-	public static void glGetProgramiv( GLuint program, GLenu pname, GLint* params );
-	public static void glProgramParameteri( GLuint program, GLenu pname, GLint value );
-	public static void glBindAttribLocation( GLuint program, GLuint index, GLchar* name );
-	public static void glGenFramebuffers( GLsizei n, GLuint* ids );
-	public static void glBindFramebuffer( GLenu target, GLuint framebuffer );
-	public static void glBlitFramebuffer( GLint srcX0, GLint srcY0, GLint srcX1, GLint srcY1, GLint dstX0, GLint dstY0, GLint dstX1, GLint dstY1, GLbitfield mask, GLenu filter);
-	public static void glFramebufferTexture( GLenu target, GLenu attachment, GLuint texture, GLint level );
-	public static void glFramebufferTexture2D( GLenu target, GLenu attachment, GLenu textarget, GLuint texture, GLint level );
-	public static void glDeleteFramebuffers( GLsizei n, GLuint* framebuffers );
-	public static GLenu glCheckFramebufferStatus( GLenu target );
-
-	[CCode (cname = "glGenBuffers")]
-	public static void GenBuffers( GLsizei n, GLuint* buffers );
-	public static void glGenRenderbuffers( GLsizei n, GLuint* buffers );
-	[CCode (cname = "glDeleteBuffers")]
-	public static void DeleteBuffers( GLsizei n, GLuint* buffers );
-	public static void glDeleteRenderbuffers( GLsizei n, GLuint* buffers );
-	[CCode (cname = "glBindBuffer")]
-	public static void BindBuffer( GLenu target, GLuint buffer );
-	public static void glBindRenderbuffer( GLenu target, GLuint buffer );
-	[CCode (cname = "glBufferData")]
-	public static void BufferData( GLenu target, GLsizeiptr size, GLvoid* data, GLenu usage );
-	//  public static void glGetBufferSubData( GLenu target, GLintptr offset, GLsizeiptr size, GLvoid* data);
-	public static void glGetBufferSubData( GLenu target, GLint* offset, GLsizeiptr size, GLvoid* data);
-	public static void glFramebufferRenderbuffer( GLenu target, GLenu attachment, GLenu renderbuffertarget, GLuint renderbuffer );
-	public static GLint glGetAttribLocation( GLuint program, GLchar* name );
-	public static void glRenderbufferStorage( GLenu target, GLenu format, GLsizei width, GLsizei height);
-	public static void glRenderbufferStorageMultisample( GLenu target, GLuint samples, GLenu format, GLsizei width, GLsizei height);
-	public static void GLDRAWglDrawBuffersBUFFERS(GLsizei n, GLenu* buffers);
-	public static void glGenerateMipmap(GLenu target);
-	//  public static void glCompressedTexImage2D(GLenu target, GLint level, GLenu format, GLsizei width, GLsizei height, GLint border, GLsizei imagesize, GLvoid* data);
-	//  public static void glTexImage3D(GLenu target, GLint level, GLint internalFormat, GLsizei width, GLsizei height, GLsizei depth, GLint border, GLenu format, GLenu type, GLvoid* data);
-	public static void glDrawElementsInstanced(GLenu mode, GLsizei count, GLenu type, void* indicies, GLsizei primcount);
-	public static void glPatchParameteri(GLenu pname, GLint value);
-	public static void glPatchParameterfv(GLenu pname, GLfloat* values);
-	
-	public static void glBrokenExtension();
-
-	//  public const GLenu GL_TABLE_TOO_LARGE; //0x8031
-	public const GLenu GL_INVALID_FRAMEBUFFER_OPERATION; //0x0506
-	
-	public const GLenu GL_SHADING_LANGUAGE_VERSION; //0x8B8C
-	
-	public const GLenu GL_VERTEX_SHADER; //0x8B31
-	public const GLenu GL_FRAGMENT_SHADER; //0x8B30
-	public const GLenu GL_GEOMETRY_SHADER; //0x8DD9
-	public const GLenu GL_COMPILE_STATUS; //0x8B81
-	public const GLenu GL_LINK_STATUS; //0x8B82
-	
-	public const GLenu GL_GEOMETRY_VERTICES_OUT; //0x8DDA
-	public const GLenu GL_GEOMETRY_INPUT_TYPE; //0x8DDB
-	public const GLenu GL_GEOMETRY_OUTPUT_TYPE; //0x8DDC
-	public const GLenu GL_MAX_GEOMETRY_OUTPUT_VERTICES; //0x8DE0
-	public const GLenu GL_MAX_GEOMETRY_TOTAL_OUTPUT_COMPONENTS; //0x8DE1
-	
-	public const GLenu GL_FRAMEBUFFER; //0x8D40
-	public const GLenu GL_RENDERBUFFER; //0x8D41
-	public const GLenu GL_READ_FRAMEBUFFER; //0x8CA8
-	public const GLenu GL_DRAW_FRAMEBUFFER; //0x8CA9
-	public const GLenu GL_ARRAY_BUFFER; //0x8892
-	public const GLenu GL_ELEMENT_ARRAY_BUFFER; //0x8893
-	
-	public const GLenu GL_FRAMEBUFFER_COMPLETE; //0x8CD5
-	public const GLenu GL_FRAMEBUFFER_UNDEFINED; //0x8219
-	public const GLenu GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT; //0x8CD6
-	public const GLenu GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT; //0x8CD7
-	public const GLenu GL_FRAMEBUFFER_INCOMPLETE_DRAW_BUFFER; //0x8CDB
-	public const GLenu GL_FRAMEBUFFER_INCOMPLETE_READ_BUFFER; //0x8CDC
-	public const GLenu GL_FRAMEBUFFER_UNSUPPORTED; //0x8CDD
-	public const GLenu GL_FRAMEBUFFER_INCOMPLETE_MULTISAMPLE; //0x8D56
-	public const GLenu GL_FRAMEBUFFER_INCOMPLETE_LAYER_TARGETS; //0x8DA8
-	
-	public const GLenu GL_STATIC_DRAW; //0x88E4
-	public const GLenu GL_DYNAMIC_COPY; //0x88EA
-	
-	public const GLenu GL_MAX_COLOR_ATTACHMENTS; //0x8CDF
-	public const GLenu GL_COLOR_ATTACHMENT0; //0x8CE0
-	public const GLenu GL_COLOR_ATTACHMENT1; //0x8CE1
-	public const GLenu GL_COLOR_ATTACHMENT2; //0x8CE2
-	public const GLenu GL_COLOR_ATTACHMENT3; //0x8CE3
-	public const GLenu GL_COLOR_ATTACHMENT4; //0x8CE4
-	public const GLenu GL_COLOR_ATTACHMENT5; //0x8CE5
-	public const GLenu GL_COLOR_ATTACHMENT6; //0x8CE6
-	public const GLenu GL_COLOR_ATTACHMENT7; //0x8CE7
-	public const GLenu GL_COLOR_ATTACHMENT8; //0x8CE8
-	public const GLenu GL_COLOR_ATTACHMENT9; //0x8CE9
-	public const GLenu GL_COLOR_ATTACHMENT10; //0x8CEA
-	public const GLenu GL_COLOR_ATTACHMENT11; //0x8CEB
-	public const GLenu GL_COLOR_ATTACHMENT12; //0x8CEC
-	public const GLenu GL_COLOR_ATTACHMENT13; //0x8CED
-	public const GLenu GL_COLOR_ATTACHMENT14; //0x8CEE
-	public const GLenu GL_COLOR_ATTACHMENT15; //0x8CEF
-	public const GLenu GL_DEPTH_ATTACHMENT; //0x8D00
-	public const GLenu GL_STENCIL_ATTACHMENT; //0x8D20
-	
-	public const GLenu GL_RGBA32F; //0x8814
-	public const GLenu GL_RGBA16F; //0x881A
-	//  public const GLenu GL_BGRA; //0x80E1
-	//  public const GLenu GL_BGR; //0x80E0
-	public const GLenu GL_COMPRESSED_RGBA_S3TC_DXT1; //0x83F1
-	public const GLenu GL_COMPRESSED_RGBA_S3TC_DXT3; //0x83F2
-	public const GLenu GL_COMPRESSED_RGBA_S3TC_DXT5; //0x83F3
-	
-	//  public const GLenu GL_UNSIGNED_SHORT_1_5_5_5_REV; //0x8366
-	//  public const GLenu GL_UNSIGNED_SHORT_5_6_5; //0x8363
-	public const GLenu GL_DEPTH_COMPONENT24; //0x81A6
-	
-	//  public const GLenu GL_CLAMP_TO_EDGE; //0x812F
-	//  public const GLenu GL_TEXTURE_WRAP_R; //0x8072
-	public const GLenu GL_MIRRORED_REPEAT; //0x8370
-	//  public const GLenu GL_TEXTURE_DEPTH; //0x8071
-	public const GLenu GL_TEXTURE_MAX_ANISOTROPY; //0x84FE
-	public const GLenu GL_MAX_TEXTURE_MAX_ANISOTROPY; //0x84FF
-	public const GLenu GL_GENERATE_MIPMAP; //0x8191
-	//  public const GLenu GL_TEXTURE_MAX_LEVEL; //0x813D
-	
-	//  public const GLenu GL_TEXTURE0; //0x84C0
-	//  public const GLenu GL_TEXTURE_3D; //0x806F
-	public const GLenu GL_TEXTURE_CUBE_MAP_SEAMLESS; //0x884F
-	
-	//  public const GLenu GL_MULTISAMPLE; //0x809D
-	
-	public const GLenu GL_TESS_CONTROL_SHADER; //0x8E88
-	public const GLenu GL_TESS_EVALUATION_SHADER; //0x8E87
-	public const GLenu GL_PATCH_VERTICES; //0x8E72
-
-	public static void Draw(
-		Microsoft.Xna.Framework.Vector2 pos, 
-		Microsoft.Xna.Framework.Vector2 size, 
-		bool reverse = false)
-	{
-		Begin(GL_TRIANGLES);
-		if (reverse)
-		{
-			TexCoord2f(1, 1); Vertex3f(pos.X, pos.Y+size.Y, 0);
-			TexCoord2f(1, 0); Vertex3f(pos.X, pos.Y, 0);
-			TexCoord2f(0, 0); Vertex3f(pos.X+size.X, pos.Y, 0);
-			
-			TexCoord2f(1, 1); Vertex3f(pos.X, pos.Y+size.Y, 0);
-			TexCoord2f(0, 1); Vertex3f(pos.X+size.X, pos.Y+size.Y, 0);
-			TexCoord2f(0, 0); Vertex3f(pos.X+size.X, pos.Y, 0);
-		}
-		else
-		{
-			// bottom left
-			TexCoord2f(0, 1); Vertex3f(pos.X, pos.Y+size.Y, 0);
-			// top left
-			TexCoord2f(0, 0); Vertex3f(pos.X, pos.Y, 0);
-			// top right
-			TexCoord2f(1, 0); Vertex3f(pos.X+size.X, pos.Y, 0);
-			
-			// bottom left
-			TexCoord2f(0, 1); Vertex3f(pos.X, pos.Y+size.Y, 0);
-			// bottom right
-			TexCoord2f(1, 1); Vertex3f(pos.X+size.X, pos.Y+size.Y, 0);
-			// top right
-			TexCoord2f(1, 0); Vertex3f(pos.X+size.X, pos.Y, 0);
-		}
-		End();
-	}
-
-	public static void DrawBuffers(
-		int count, 
-		GLuint positionsBuffer, 
-		GLuint texcoordsBuffer
-		)
-	{
-		TexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, (GLint)GL_CLAMP_TO_EDGE);
-		TexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, (GLint)GL_CLAMP_TO_EDGE);
-		
-		EnableClientState(GL_VERTEX_ARRAY);
-		EnableClientState(GL_TEXTURE_COORD_ARRAY);
-	
-		BindBuffer(GL_ARRAY_BUFFER, positionsBuffer);
-		VertexPointer(3, GL_FLOAT, 0, (GLvoid*)0);
-		
-		BindBuffer(GL_ARRAY_BUFFER, texcoordsBuffer);
-		TexCoordPointer(2, GL_FLOAT, 0, (GLvoid*)0);
-		
-		DrawArrays(GL_TRIANGLES, 0, count * 6);
-		
-		BindBuffer(GL_ARRAY_BUFFER, 0);
-		DisableClientState(GL_TEXTURE_COORD_ARRAY);  
-		DisableClientState(GL_VERTEX_ARRAY);
-	}
-
-	public static int PushState(Microsoft.Xna.Framework.Vector2? camera=null, GLdouble nearVal=-1, GLdouble farVal=1) 
-	{
-		MatrixMode(GL_PROJECTION);
-		PushMatrix();
-		LoadIdentity();
-		
-		if (camera == null) {
-		  	Ortho(0, 
-
-				Microsoft.Xna.Framework.corange_graphics_viewport_width(), 
-				0, 
-				Microsoft.Xna.Framework.corange_graphics_viewport_height(), 
-				nearVal, farVal);
-		} else {
-		  	Ortho(camera.X - Microsoft.Xna.Framework.corange_graphics_viewport_width() / 2, 
-				  camera.X + Microsoft.Xna.Framework.corange_graphics_viewport_width() / 2,
-				 -camera.Y + Microsoft.Xna.Framework.corange_graphics_viewport_height() / 2,
-				 -camera.Y - Microsoft.Xna.Framework.corange_graphics_viewport_height() / 2,
-				 nearVal, farVal);
-		}
-		
-		MatrixMode(GL_MODELVIEW);
-		PushMatrix();
-		LoadIdentity();
-		
-		Enable(GL_TEXTURE_2D);
-		
-		Enable(GL_BLEND);
-		BlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-		return 0;
-	  
-	}
-	  
-	public static void PopState() 
-	{
-		Disable(GL_BLEND);
-		Disable(GL_TEXTURE_2D);  
-		
-		MatrixMode(GL_PROJECTION);
-		PopMatrix();
-		
-		MatrixMode(GL_MODELVIEW);
-		PopMatrix();
-	}
-}
-
+// }
 [Version (since = "0.8.0")]
 [CCode (cprefix = "", lower_case_cprefix = "", cheader_filename = "corange.h")]
 namespace Microsoft.Xna.Framework {
@@ -1725,12 +55,6 @@ namespace Microsoft.Xna.Framework {
 	[CCode (cname = "override_free")]
 	public static void override_free(void* o) {}
 	
-	[CCode (cname = "override_free")]
-	public static void ref_function(void* o) {}
-
-	[CCode (cname = "override_free")]
-	public static void unref_function(void* o) {}
-
 	public static void corange_init(string core_assets_path);
 	public static void corange_finish();
 
@@ -1751,7 +75,7 @@ namespace Microsoft.Xna.Framework {
 	public double corange_frame_time();
 
 	[CCode (cname = "texture_handle")]
-	public GL.GLuint corange_texture_handle(CObject texture);
+	public uint corange_texture_handle(CObject texture);
 	[CCode (cname = "asset_get")]
 	public CObject corange_asset_get(URI path);
 	[CCode (cname = "texture_get_image")]
@@ -1805,13 +129,8 @@ namespace Microsoft.Xna.Framework {
 	[SimpleType, CCode (cname = "type_id")]
 	public struct TypeId : int {}
 
-	// base pseudo class for void* based objects
 	[SimpleType, CCode (cname = "CObject")]
 	public struct CObject {}
-
-	[SimpleType, CCode (cname = "CObject")]
-	public struct Component { }
-
 
 	/** 
 	 * URI
@@ -1874,43 +193,11 @@ namespace Microsoft.Xna.Framework {
 		public bool Equal(AssetHandle other);
 	}
 
-	public Asset* asset_hndl_ptr(ref AssetHandle ah);
-
-	public void asset_cache_flush();
-	public void asset_init();
-	public void asset_finish();
-	public void asset_add_path_variable(URI variable, URI mapping);
-	public URI asset_map_filename(URI filename);
-	public URI asset_unmap_filename(URI filename);
-
-	public void file_load(URI filename);
-	public void file_unload(URI filename);
-	public void file_reload(URI filename);
-	public bool file_isloaded(URI path);
-	public bool file_exists(URI path);
-	
-	public void folder_load(URI folder);
-	public void folder_unload(URI folder);
-	public void folder_reload(URI folder);
-	public void folder_load_recursive(URI folder);
-		
 	[CCode (has_target = false)]
 	public delegate Entity AssetLoader(string filenanme);
 	[CCode (has_target = false)]
 	public delegate void AssetDeleter(Entity asset);
 	
-	public CObject asset_get_load(URI path);
-	[CCode (cname = "asset_get")]
-	public CObject asset_get(URI path);
-	[CCode (cname = "asset_get_as_type")]
-	public CObject asset_get_as(URI path, TypeId type);
-	public void asset_reload_type_id(TypeId type);
-	public void asset_reload_all();
-	[CCode(cname = "asset_handler_cast")]
-	public void asset_handler(int type, string extension, AssetLoader funca, AssetDeleter funcd);
-	public unowned string asset_ptr_path(CObject asset);
-	public unowned string asset_ptr_typename(CObject asset);
-
 	[SimpleType, CCode (cname = "CObject", cprefix="")]
 	public struct Sound 
 	{
@@ -1936,28 +223,12 @@ namespace Microsoft.Xna.Framework {
 		[CCode (cname = "audio_music_stop")]
 		public static void Stop();
 	}
-	public void audio_init();
-	public void audio_finish();
-
-	public int audio_sound_play(CObject s, int loops);
-	public void audio_sound_pause(int channel);
-	public void audio_sound_resume(int channel);
-	public void audio_sound_stop(int channel);
-
-	public void audio_music_play(Assets.Music m);
-	public void audio_music_pause();
-	public void audio_music_resume();
-	public void audio_music_stop();
-
-	public void audio_music_set_volume(float volume);
-	public float audio_music_get_volume();
 
 	[CCode (has_target = false)]
 	public delegate Entity ElemNew();
 
 	[CCode (has_target = false)]
 	public delegate void ElemDel(Entity entity);
-
 
 	[SimpleType, CCode (cname = "CObject", cprefix="")]
 	public struct Folder 
@@ -2011,9 +282,6 @@ namespace Microsoft.Xna.Framework {
 		public static void Delete(char* fmt, ...);
 		[CCode (cname = "entity_type_count_type_id")]
 		public static int Count(TypeId id);
-		// [CCode (cname = "entities_get_type_id")]
-		// public static void Array(CObject* result, out int count, TypeId id);
-
 		[CCode (cname = "type_find")]
 		public static int Register(string type, size_t size);
 
@@ -2031,50 +299,10 @@ namespace Microsoft.Xna.Framework {
 			return count;
 
 		}
-		// [CCode (cname = "entities_get_type_id")]
-		// public static void Get(CObject* result, out int count, TypeId id);
-	
 	}
 
-	[CCode (cname = "entity_handler_cast")]
-	public void entity_handler(int TypeId, ElemNew entity_new, ElemDel entity_del);
-
-	[CCode (cname = "entity_new_type_id")]
-	public CObject entity_new(string fmt, TypeId id, ...);
-	
-	[CCode (cname = "entities_new_type_id")]
-	public void entities_new(string name_format, int count, TypeId id);
-
 	[CCode (cname = "entities_get_type_id")]
-	public void entities_get(CObject* result, out int count, TypeId id);
-
-	[CCode (cname = "entity_get")]
-	public CObject entity_get(string fmt, ...);
-
-	[CCode (cname = "entity_get_as_type_id")]
-	public CObject entity_get_as(string fmt, TypeId id, ...);
-
-	[CCode (cname = "entity_name")]
-	public unowned string entity_name(CObject* e);
-
-	[CCode (cname = "entity_delete")]
-	public void entity_delete(char* fmt, ...);
-
-	[CCode (cname = "entity_type_count_type_id")]
-	public int entity_type_count(TypeId id);
-
-	[CCode (has_target = false)]
-	public delegate void ErrorFunc (string message);
-
-	[CCode (has_target = false)]
-	public delegate void WarnFunc (string message);
-	
-	[CCode (has_target = false)]
-	public delegate void DebugFunc (string message);
-
-	public void at_error(ErrorFunc func);
-	public void at_warning(WarnFunc func);
-	public void at_debug(DebugFunc func);
+	private void entities_get(CObject* result, out int count, TypeId id);
 
 	[SimpleType, CCode (cname = "timer")]
 	public struct Timer 
@@ -2091,31 +319,6 @@ namespace Microsoft.Xna.Framework {
 		[CCode (cname = "timer_stop")]
 		public Timer End(string tag);
 	}
-
- 	public void timestamp(string outs);
-	public void frame_begin();
-	public void frame_end();
-	public double frame_rate();
-	public double frame_time();
-	public unowned string frame_rate_string();
-	public int rawcast(float x);
-	public float max(float x, float y);
-	public float min(float x, float y);
-	public float clamp(float x, float bottom, float top);
-	public bool between(float x, float bottom, float top);
-	public bool between_or(float x, float bottom, float top);
-	public float saturate(float x);
-	public float lerp(float p1, float p2, float amount);
-	public float smoothstep(float p1, float p2, float amount);
-	public float smootherstep(float p1, float p2, float amount);
-	public float cosine_interp(float p1, float p2, float amount);
-	public float nearest_interp(float p1, float p2, float amount);
-	public float cubic_interp(float p1, float p2, float p3, float p4, float amount);
-	public float binearest_interp(float tl, float tr, float bl, float br, float x_amount, float y_amount);
-	public float bilinear_interp(float tl, float tr, float bl, float br, float x_amount, float y_amount);
-	public float bicosine_interp(float tl, float tr, float bl, float br, float x_amount, float y_amount);
-	public float bismoothstep_interp(float tl, float tr, float bl, float br, float x_amount, float y_amount);
-	public float bismootherstep_interp(float tl, float tr, float bl, float br, float x_amount, float y_amount);
 
 	[SimpleType, CCode (cname = "vec2")]
 	public struct Vector2 
@@ -3069,47 +1272,6 @@ namespace Microsoft.Xna.Framework {
 		public void translate(Vector3 translation);
 		public void scale(float scale);
 	}
-
-	public Vector3 triangle_tangent(Vertex v1, Vertex v2, Vertex v3);
-	public Vector3 triangle_binormal(Vertex v1, Vertex v2, Vertex v3);
-	public Vector3 triangle_normal(Vertex v1, Vertex v2, Vertex v3);
-	public Vector3 triangle_random_position(Vertex v1, Vertex v2, Vertex v3);
-	public float triangle_area(Vertex v1, Vertex v2, Vertex v3);
-	
-	public float triangle_difference_u(Vertex v1, Vertex v2, Vertex v3);
-	public float triangle_difference_v(Vertex v1, Vertex v2, Vertex v3);
-	
-	public Vertex triangle_random_position_interpolation(Vertex v1, Vertex v2, Vertex v3);
-	
-	public float tween_approach(float curr, float target, float timestep, float steepness);
-	public float tween_linear(float curr, float target, float timestep, float max);
-	
-	public Vector3 vec3_tween_approach(Vector3 curr, Vector3 target, float timestep, float steepness);
-	public Vector3 vec3_tween_linear(Vector3 curr, Vector3 target, float timestep, float max);
-	
-	public static void graphics_set_vsync(bool vsync);
-	public static void graphics_set_multisamples(int samples);
-	public static void graphics_set_fullscreen(bool fullscreen);
-	public static void graphics_set_antialiasing(int quality);
-	public static GLib.IntPtr graphics_context_new();
-	public static void graphics_context_delete(GLib.IntPtr context);
-	public static void graphics_context_current(GLib.IntPtr context);
-	public static int graphics_get_multisamples();
-	public static bool graphics_get_fullscreen();
-	public static int graphics_get_antialiasing();
-	public static void graphics_viewport_set_title(string title);
-	public static void graphics_viewport_set_icon(URI icon);
-	public static void graphics_viewport_set_position(int x, int y);
-	public static void graphics_viewport_set_size(int w, int h);
-	public static void graphics_viewport_screenshot();
-	public static string graphics_viewport_title();
-	public static int graphics_viewport_height();
-	public static int graphics_viewport_width();
-	public static double graphics_viewport_ratio();
-	public static void graphics_set_cursor_hidden(bool hidden);
-	public static bool graphics_get_cursor_hidden();
-	public static void graphics_swap();
-
 	
 	[SimpleType, CCode (cname = "audio")]
 	public struct Audio : uint64 {
@@ -3122,44 +1284,6 @@ namespace Microsoft.Xna.Framework {
 		public static void stop(int channel);
 		
 	}
-
-	//  [SimpleType, CCode (cname = "music")]
-	//  public struct Music : uint64 {
-	//  	public static Music mp3_load_file(string filename);
-	//  	public static Music ogg_load_file(string filename);
-	//  	public void delete();
-	//  	public void play();
-	//  	public static void pause();
-	//  	public static void resume();
-	//  	public static void stop();
-		
-	//  	public static void set_volume(float volume);
-	//  	public static float get_volume();
-	//  }
-
-	//  [SimpleType, CCode (cname = "sound")]
-	//  public struct Sound : uint64 {
-	//  	public static Sound wav_load_file(string filename);
-	//  	public void delete();
-		
-	//  	public int play();
-	//  	public int play_looped(int loops);
-		
-	//  	public int play_at(Vector3 pos, Vector3 cam_pos, Vector3 cam_dir);
-	//  	public int play_at_looped(Vector3 pos, Vector3 cam_pos, Vector3 cam_dir, int loops);
-	//  }
-
-	// [CCode (cname = "MAX_STICKS")]
-	// public const int MAX_STICKS;
-
-	// [SimpleType, CCode (cname = "joystick")]
-	// public struct Joystick {
-	// 	public static void init();
-	// 	public static void finish();
-		
-	// 	public static int count();
-	// 	public static CObject get(int i);
-	// }
 	
 	[CCode (cname = "int", cprefix = "HTTP_ERR_")]
 	public enum HttpErr {
@@ -3183,8 +1307,6 @@ namespace Microsoft.Xna.Framework {
 		public static HttpErr httpUpload(string filename, string fmt, ...);
 
 	}
-
-	//  collision (*colfunc)(CObject x, vec3* pos, vec3* vel)
 
 	[CCode (has_target = false)]
 	public delegate Collision ColFunc (CObject obj, ref Vector3 pos, ref Vector3 vel);
@@ -3595,9 +1717,9 @@ namespace Microsoft.Xna.Framework {
 			[CCode (cname = "texture_nm")]
 			public AssetHandle textureNm;
 			[CCode (cname = "blend_src")]
-			public GL.GLuint blendSrc;
+			public uint blendSrc;
 			[CCode (cname = "blend_dst")]
-			public GL.GLuint blendDst;
+			public uint blendDst;
 			public int count;
 			public float depth;
 			public float thickness;
@@ -3661,7 +1783,7 @@ namespace Microsoft.Xna.Framework {
 		
 		[Compact, CCode (cname = "shader", cprefix="", free_function = "override_free")]
 		public class Shader  {
-			public GL.GLuint shader;
+			public uint shader;
 
 			[CCode (cname = "vs_load_file")]
 			public static Shader vsLoadFile(string filename);
@@ -3678,12 +1800,12 @@ namespace Microsoft.Xna.Framework {
 			[CCode (cname = "shader_print_log")]
 			void printLog();
 			[CCode (cname = "shader_handle")]
-			GL.GLuint handle();
+			uint handle();
 		}
 
 		[Compact, CCode (cname = "shader_program", cprefix="", free_function = "override_free")]
 		public class ShaderProgram {
-			public GL.GLuint shader;
+			public uint shader;
 
 			[CCode (cname = "shader_program_new")]
 			public ShaderProgram();
@@ -3700,9 +1822,9 @@ namespace Microsoft.Xna.Framework {
 			[CCode (cname = "shader_program_print_log")]
 			public void printLog();
 			[CCode (cname = "shader_program_handle")]
-			public GL.GLuint handle();
+			public uint handle();
 			[CCode (cname = "shader_program_get_attribute")]
-			public GL.GLint getAttribute(string name);
+			public int getAttribute(string name);
 			[CCode (cname = "shader_program_enable")]
 			public void enable();
 			[CCode (cname = "shader_program_disable")]
@@ -3734,7 +1856,7 @@ namespace Microsoft.Xna.Framework {
 			[CCode (cname = "shader_program_set_texture")]
 			public void setTexture(string name, int index, AssetHandle t);
 			[CCode (cname = "shader_program_set_texture_id")]
-			public void setTextureId(string name, int index, GL.GLint t);
+			public void setTextureId(string name, int index, int t);
 			[CCode (cname = "shader_program_enable_attribute")]
 			public void enableAttribute(string name, int count, int stride, void* ptr);
 			[CCode (cname = "shader_program_enable_attribute_instance")]
@@ -3835,9 +1957,9 @@ namespace Microsoft.Xna.Framework {
 		[Compact, CCode (cname = "renderable_surface", cprefix="", free_function = "override_free")]
 		public class RenderableSurface {
 			[CCode (cname = "vertex_vbo")]
-			public GL.GLuint vertexVbo;
+			public uint vertexVbo;
 			[CCode (cname = "triangle_vbo")]
-			public GL.GLuint triangleVbo;
+			public uint triangleVbo;
 			[CCode (cname = "num_verticies")]
 			public int numVerticies;
 			[CCode (cname = "num_triangles")]
@@ -3940,11 +2062,11 @@ namespace Microsoft.Xna.Framework {
 			[CCode (cname = "num_verts")]
 			public int numVerts;
 			[CCode (cname = "vertex_buffer")]
-			public GL.GLuint vertexBuffer;
+			public uint vertexBuffer;
 			[CCode (cname = "num_indicies")]
 			public int numIndicies[7];
 			[CCode (cname = "index_buffers")]
-			public GL.GLuint indexBuffers[7];
+			public uint indexBuffers[7];
 			public void delete();
 		}
 
@@ -3989,22 +2111,22 @@ namespace Microsoft.Xna.Framework {
 		[Compact, CCode (cname = "texture", cprefix="", free_function = "override_free")]
 		public class Texture {
 			[CCode (cname = "handle")]
-			public GL.GLuint _handle;
+			public uint _handle;
 			[CCode (cname = "type")]
-			public GL.GLenu _type;
+			public int _type;
 			[CCode (cname = "texture_new")]
 			public Texture();
 			[CCode (cname = "texture_new_handle")]
-			public static Texture new_handle(GL.GLuint h);
+			public static Texture new_handle(uint h);
 			[CCode (cname = "texture_delete")]
 			public void delete();
 			[CCode (cname = "texture_handle")]
-			public GL.GLuint handle();
-			public static GL.GLuint GL(string path) {
+			public uint handle();
+			public static uint GL(string path) {
 				return ((Texture)Asset.Get(URI(path))).handle();
 			}			
 			[CCode (cname = "texture_type")]
-			public GL.GLenu type();
+			public int type();
 			[CCode (cname = "texture_set_image")]
 			public void setImage(Image i);
 			[CCode (cname = "texture_get_image")]
@@ -4579,55 +2701,55 @@ namespace Microsoft.Xna.Framework {
 			[CCode (cname = "tex_skin_lookup")]
 			public AssetHandle texSkinLookup;
 			/* Buffers */
-			public GL.GLuint gfbo;
+			public uint gfbo;
 			[CCode (cname = "gdepth_buffer")]
-			public GL.GLuint gdepthBuffer;
+			public uint gdepthBuffer;
 			[CCode (cname = "gdiffuse_buffer")]
-			public GL.GLuint gdiffuseBuffer;
+			public uint gdiffuseBuffer;
 			[CCode (cname = "gnormals_buffer")]
-			public GL.GLuint gnormalsBuffer;
+			public uint gnormalsBuffer;
 
 			[CCode (cname = "gdiffuse_texture")]
-			public GL.GLuint gdiffuseTexture;
+			public uint gdiffuseTexture;
 			[CCode (cname = "gnormals_texture")]
-			public GL.GLuint gnormalsTexture;
+			public uint gnormalsTexture;
 			[CCode (cname = "gdepth_texture")]
-			public GL.GLuint gdepthTexture;
+			public uint gdepthTexture;
 
 			[CCode (cname = "ssao_fbo")]
-			public GL.GLuint ssaoFbo;
+			public uint ssaoFbo;
 			[CCode (cname = "ssao_buffer")]
-			public GL.GLuint ssaoBuffer;
+			public uint ssaoBuffer;
 			[CCode (cname = "ssao_texture")]
-			public GL.GLuint ssaoTexture;
+			public uint ssaoTexture;
 
 			[CCode (cname = "hdr_fbo")]
-			public GL.GLuint hdrFbo;
+			public uint hdrFbo;
 			[CCode (cname = "hdr_buffer")]
-			public GL.GLuint hdrBuffer;
+			public uint hdrBuffer;
 			[CCode (cname = "hdr_texture")]
-			public GL.GLuint hdrTexture;
+			public uint hdrTexture;
 
 			[CCode (cname = "ldr_front_fbo")]
-			public GL.GLuint ldrFrontFbo;
+			public uint ldrFrontFbo;
 			[CCode (cname = "ldr_front_buffer")]
-			public GL.GLuint ldrFrontBuffer;
+			public uint ldrFrontBuffer;
 			[CCode (cname = "ldr_front_texture")]
-			public GL.GLuint ldrFrontTexture;
+			public uint ldrFrontTexture;
 
 			[CCode (cname = "ldr_back_fbo")]
-			public GL.GLuint ldrBackFbo;
+			public uint ldrBackFbo;
 			[CCode (cname = "ldr_back_buffer")]
-			public GL.GLuint ldrBackBuffer;
+			public uint ldrBackBuffer;
 			[CCode (cname = "ldr_back_texture")]
-			public GL.GLuint ldrBackTexture;
+			public uint ldrBackTexture;
 
 			[CCode (cname = "shadows_fbo")]
-			public GL.GLuint shadowsFbo[3];
+			public uint shadowsFbo[3];
 			[CCode (cname = "shadows_buffer")]
-			public GL.GLuint shadowsBuffer[3];
+			public uint shadowsBuffer[3];
 			[CCode (cname = "shadows_texture")]
-			public GL.GLuint shadowsTexture[3];
+			public uint shadowsTexture[3];
 
 			/* Shadows */
 			[CCode (cname = "shadows_start")]
@@ -4741,7 +2863,7 @@ namespace Microsoft.Xna.Framework {
 			[CCode (array_length = false)]
 			public Vector3[]  velocities;
 			[CCode (cname = "vertex_buff")]
-			public GL.GLuint vertexBuff;
+			public uint vertexBuff;
 			[CCode (array_length = false, cname = "vertexData")]
 			public float[] vertex_data;
 
@@ -4982,7 +3104,7 @@ namespace Microsoft.Xna.Framework {
 			[CCode (array_length = false)]
 			public InstanceData[] instances;
 			[CCode (cname = "world_buffer")] 
-			public GL.GLuint worldBuffer;
+			public uint worldBuffer;
 			public Sphere bound;
 			public AssetHandle renderable;
 			[CCode (cname = "collision_body")] 
@@ -5425,11 +3547,11 @@ namespace Microsoft.Xna.Framework {
 			[CCode (cname = "string")]
 			public string text;
 			[CCode (cname = "positions_buffer")]
-			public GL.GLuint positionsBuffer;
+			public uint positionsBuffer;
 			[CCode (cname = "texcoords_buffer")]
-			public GL.GLuint texcoordsBuffer;
+			public uint texcoordsBuffer;
 			[CCode (cname = "colors_buffer")]
-			public GL.GLuint colorsBuffer;
+			public uint colorsBuffer;
 			[CCode (cname = "num_positions")]
 			public int numPositions;
 			[CCode (cname = "num_texcoords")]
@@ -5509,9 +3631,9 @@ namespace Microsoft.Xna.Framework {
 			public float glitch;
 			public float time;
 			[CCode (cname = "blend_src")]
-			public GL.GLenu blendSrc;
+			public int blendSrc;
 			[CCode (cname = "blend_dst")]
-			public GL.GLenu blendDst;
+			public int blendDst;
 			public bool active;
 
 			[CCode (cname = "ui_rectangle_new")]
@@ -5545,7 +3667,7 @@ namespace Microsoft.Xna.Framework {
 			[CCode (cname = "ui_rectangle_contains_point")]
 			public bool containsPoint(Vector2 pos);
 			[CCode (cname = "ui_rectangle_blend")]
-			public void blend(GL.GLenu blend_src, GL.GLenu blend_dst);
+			public void blend(int blend_src, int blend_dst);
 			[CCode (cname = "ui_rectangle_position")]
 			public Vector2 position();
 			[CCode (cname = "ui_rectangle_size")]
@@ -5574,6 +3696,11 @@ namespace GLib
 [CCode (cheader_filename = "SDL2/SDL.h")]
 namespace Sdl 
 {
+	[CCode (cname = "SDL_GL_GetProcAddress")]
+	public void* SDL_GL_GetProcAddress(string proc);
+
+	[CCode (cname = "SDL_GL_GetProcAddress")]
+	public T LoadEntryPoint<T>(string proc);
 
 	private unowned string GetString(GLib.IntPtr handle)
 	{
@@ -5979,7 +4106,7 @@ namespace Sdl
 		public enum SysWMType 
 		{
 			[CCode (cname = "SDL_SYSWM_UNKNOWN")] 
-            Unknow,
+            Unknown,
 			[CCode (cname = "SDL_SYSWM_WINDOWS")] 
             Windows,
 			[CCode (cname = "SDL_SYSWM_X11")] 

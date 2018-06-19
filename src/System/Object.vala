@@ -11,7 +11,7 @@
 public delegate string ToStringDelegate();
 
 // namespace System 
-// { // make global to hine GLib.Object
+// { // make global to hide GLib.Object
 public class Object : GLib.Object
 {
     // Returns a String which represents the object instance.  The default
@@ -27,12 +27,12 @@ public class Object : GLib.Object
     // types and bitwise equality for value types using a loader trick to
     // replace Equals with EqualsValue for value types).
     //     
-    public virtual bool Equals(Object other)
+    public virtual bool Equals(Object? other)
     {
         return this == other;
     }
 
-    public static bool InstanceEquals(Object objA, Object objB)
+    public static bool InstanceEquals(Object? objA, Object? objB)
     {
         if (objA==objB) {
             return true;
@@ -43,7 +43,7 @@ public class Object : GLib.Object
         return objA.Equals(objB);
     }
 
-    public static bool ReferenceEquals(Object objA, Object objB)
+    public static bool ReferenceEquals(Object? objA, Object? objB)
     {
         return objA == objB;
     }

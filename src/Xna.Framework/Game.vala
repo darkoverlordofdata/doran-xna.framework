@@ -16,6 +16,7 @@ namespace Microsoft.Xna.Framework
 {
     public class Game : Object, IDisposable
     {
+        public GameTime gameTime { get; construct; }
         // private GameComponentCollection _components;
         private GameServiceContainer _services;
         private ContentManager _content;
@@ -42,6 +43,9 @@ namespace Microsoft.Xna.Framework
 
         public double Time { get { return corange_frame_time(); } }
 
+        static construct 
+        {
+        }
         public Game()
         {
             GLib.Object(gameTime: new GameTime());
@@ -59,7 +63,7 @@ namespace Microsoft.Xna.Framework
 		}
 
         private bool _isDisposed;
-        public void Dispose()
+        public virtual void Dispose()
         {
             Dispose2(true);
             EventHelpers.Raise(this, Disposed, EventArgs.Empty);
@@ -225,7 +229,7 @@ namespace Microsoft.Xna.Framework
             _gameTimer.Reset();
             _gameTimer.Start();
             _accumulatedElapsedTime = TimeSpan.Zero;
-            gameTime.ElapsedGameTime = TimeSpan.Zero;
+            _gameTime.ElapsedGameTime = TimeSpan.Zero;
             _previousTicks = 0L;
         }
 
@@ -270,6 +274,7 @@ namespace Microsoft.Xna.Framework
 
             if (!_initialized) {
                 corange_init(@"$(_content.RootDirectory)/assets_core");
+                ValaGame.OpenGL.GL.LoadEntryPoints();
                 DoInitialize ();
                 _initialized = true;
             }
@@ -302,7 +307,7 @@ namespace Microsoft.Xna.Framework
 
         private TimeSpan _accumulatedElapsedTime = TimeSpan.Zero;
         // private GameTime _gameTime = new GameTime();
-        public GameTime gameTime { get; construct; }
+        // public GameTime gameTime { get; construct; }
         private Stopwatch _gameTimer;
         private long _previousTicks = 0;
         private int _updateFrameLag;
@@ -347,7 +352,7 @@ namespace Microsoft.Xna.Framework
 
             if (IsFixedTimeStep)
             {
-                gameTime.ElapsedGameTime = TargetElapsedTime;
+                _gameTime.ElapsedGameTime = TargetElapsedTime;
                 var stepCount = 0;
 
                 // Perform as many full fixed length time steps as we can.
@@ -359,27 +364,27 @@ namespace Microsoft.Xna.Framework
                     // CRITICAL CODE FAILS UNLESS I DO THIS
                     int elapsed = (int)_accumulatedElapsedTime.Ticks;
                     int target = (int)TargetElapsedTime.Ticks;
-                    gameTime.TotalGameTime._ticks += elapsed;
+                    _gameTime.TotalGameTime._ticks += elapsed;
                     _accumulatedElapsedTime._ticks = elapsed - target;
 
                     ++stepCount;
 
-                    DoUpdate(gameTime);
+                    DoUpdate(_gameTime);
                 }
 
                 //Every update after the first accumulates lag
                 _updateFrameLag += int.max(0, stepCount - 1);
 
                 //If we think we are running slowly, wait until the lag clears before resetting it
-                if (gameTime.IsRunningSlowly)
+                if (_gameTime.IsRunningSlowly)
                 {
                     if (_updateFrameLag == 0)
-                        gameTime.IsRunningSlowly = false;
+                        _gameTime.IsRunningSlowly = false;
                 }
                 else if (_updateFrameLag >= 5)
                 {
                     //If we lag more than 5 frames, start thinking we are running slowly
-                    gameTime.IsRunningSlowly = true;
+                    _gameTime.IsRunningSlowly = true;
                 }
 
                 //Every time we just do one update and one draw, then we are not running slowly, so decrease the lag
@@ -388,16 +393,16 @@ namespace Microsoft.Xna.Framework
 
                 // Draw needs to know the total elapsed time
                 // that occured for the fixed length updates.
-                gameTime.ElapsedGameTime = TimeSpan.FromTicks(TargetElapsedTime.Ticks * stepCount);
+                _gameTime.ElapsedGameTime = TimeSpan.FromTicks(TargetElapsedTime.Ticks * stepCount);
             }
             else
             {
                 // Perform a single variable length update.
-                gameTime.ElapsedGameTime = _accumulatedElapsedTime;
-                gameTime.TotalGameTime.Plus(_accumulatedElapsedTime);
+                _gameTime.ElapsedGameTime = _accumulatedElapsedTime;
+                _gameTime.TotalGameTime.Plus(_accumulatedElapsedTime);
                 _accumulatedElapsedTime = TimeSpan.Zero;
 
-                DoUpdate(gameTime);
+                DoUpdate(_gameTime);
             }
 
             // Draw unless the update suppressed it.
@@ -405,7 +410,7 @@ namespace Microsoft.Xna.Framework
                 _suppressDraw = false;
             else
             {
-                DoDraw(gameTime);
+                DoDraw(_gameTime);
             }
 
             if (_shouldExit)

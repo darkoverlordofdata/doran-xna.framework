@@ -97,6 +97,7 @@ typedef void (APIENTRY * GLDELETERENDERBUFFERSFN)( GLsizei n, const GLuint* buff
 typedef void (APIENTRY * GLBINDBUFFERFN)( GLenum target, GLuint buffer );
 typedef void (APIENTRY * GLBINDRENDERBUFFERFN)( GLenum target, GLuint buffer );
 typedef void (APIENTRY * GLBUFFERDATAFN)( GLenum target, GLsizeiptr size, const GLvoid* data, GLenum usage );
+typedef void (APIENTRY * GLBUFFERSUBDATAFN)( GLenum target, GLintptr offset, GLsizeiptr size, const GLvoid* data);
 typedef void (APIENTRY * GLGETBUFFERSUBDATAFN)( GLenum target, GLintptr offset, GLsizeiptr size, const GLvoid* data);
 typedef void (APIENTRY * GLFRAMEBUFFERRENDERBUFFERFN)( GLenum target, GLenum attachment, GLenum renderbuffertarget, GLuint renderbuffer );
 typedef GLint (APIENTRY * GLGETATTRIBLOCATIONFN)( GLuint program, const GLchar* name );
@@ -165,6 +166,7 @@ extern GLDELETERENDERBUFFERSFN glDeleteRenderbuffers;
 extern GLBINDBUFFERFN glBindBuffer;
 extern GLBINDRENDERBUFFERFN glBindRenderbuffer;
 extern GLBUFFERDATAFN glBufferData;
+extern GLBUFFERSUBDATAFN glBufferSubData;
 extern GLGETBUFFERSUBDATAFN glGetBufferSubData;
 extern GLFRAMEBUFFERRENDERBUFFERFN glFramebufferRenderbuffer;
 extern GLGETATTRIBLOCATIONFN glGetAttribLocation;

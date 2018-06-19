@@ -31,6 +31,7 @@ namespace Microsoft.Xna.Framework
         ArgumentOutOfRangeException,
         ContentLoadException,
         Exception,
+        GLError,
         InvalidOperationException,
         NoSuitableGraphicsDeviceException,
         NotImplementedException,

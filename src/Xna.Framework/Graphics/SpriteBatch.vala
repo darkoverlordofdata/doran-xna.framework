@@ -21,6 +21,8 @@ namespace Microsoft.Xna.Framework.Graphics
         bool _beginCalled;
 
 		Matrix4? _matrix;
+		Vector2 _texCoordTL = new Vector2 (0, 0);
+		Vector2 _texCoordBR = new Vector2 (0, 0);
 
         /// <summary>
         /// Constructs a <see cref="SpriteBatch"/>.
@@ -56,9 +58,9 @@ namespace Microsoft.Xna.Framework.Graphics
         /// <remarks>The <see cref="Begin"/> Begin should be called before drawing commands, and you cannot call it again before subsequent <see cref="End"/>.</remarks>
         public void Begin
         (
-             SpriteSortMode sortMode = SpriteSortMode.Deferred,
-             BlendState blendState = null,
-             Matrix4? transformMatrix = null
+            SpriteSortMode sortMode = SpriteSortMode.Deferred,
+            BlendState? blendState = null,
+            Matrix4? transformMatrix = null
         )
         {
             if (_beginCalled)
@@ -92,7 +94,7 @@ namespace Microsoft.Xna.Framework.Graphics
 			if (_sortMode != SpriteSortMode.Immediate)
 				Setup();
             
-            batcher.DrawBatch(_sortMode);
+            _batcher.DrawBatch(_sortMode);
         }
 
 		void Setup() 
@@ -112,7 +114,7 @@ namespace Microsoft.Xna.Framework.Graphics
 		{
 			if (_sortMode == SpriteSortMode.Immediate)
 			{
-				batcher.DrawBatch(_sortMode);
+				_batcher.DrawBatch(_sortMode);
 			}
 		}
 
@@ -120,13 +122,33 @@ namespace Microsoft.Xna.Framework.Graphics
         /// Submit a sprite for drawing in the current batch.
         /// </summary>
         /// <param name="texture">A texture.</param>
-        /// <param name="position">The drawing location on screen.</param>
-        /// <param name="color">A color mask.</param>
-		public void Draw (Texture2D texture, Vector2 position, Color color)
+        /// <param name="position">The drawing location on screen or null if <paramref name="destinationRectangle"> is used.</paramref></param>
+        /// <param name="destinationRectangle">The drawing bounds on screen or null if <paramref name="position"> is used.</paramref></param>
+        /// <param name="sourceRectangle">An optional region on the texture which will be rendered. If null - draws full texture.</param>
+        /// <param name="origin">An optional center of rotation. Uses <see cref="Vector2.Zero"/> if null.</param>
+        /// <param name="rotation">An optional rotation of this sprite. 0 by default.</param>
+        /// <param name="scale">An optional scale vector. Uses <see cref="Vector2.One"/> if null.</param>
+        /// <param name="color">An optional color mask. Uses <see cref="Color.White"/> if null.</param>
+        /// <param name="effects">The optional drawing modificators. <see cref="SpriteEffects.None"/> by default.</param>
+        /// <param name="layerDepth">An optional depth of the layer of this sprite. 0 by default.</param>
+        /// <exception cref="InvalidOperationException">Throwns if both <paramref name="position"/> and <paramref name="destinationRectangle"/> been used.</exception>
+        /// <remarks>This overload uses optional parameters. This overload requires only one of <paramref name="position"/> and <paramref name="destinationRectangle"/> been used.</remarks>
+        public void Draw (
+                Texture2D texture,
+                Vector2? position = null,
+                Quadrangle? destinationRectangle = null,
+                Quadrangle? sourceRectangle = null,
+                Vector2? origin = null,
+                float rotation = 0f,
+                Vector2? scale = null,
+                Color? color = null,
+                Object effects = null,
+                float layerDepth = 0f
+        )
 		{
 			CheckValid(texture);
             
-			var item = batcher.CreateBatchItem();
+			var item = _batcher.CreateBatchItem();
 			item.Texture = texture;
             
             // set SortKey based on SpriteSortMode.
@@ -137,9 +159,9 @@ namespace Microsoft.Xna.Framework.Graphics
                      texture.Width,
                      texture.Height,
                      color,
-                     Vector2.Zero,
-                     Vector2.One,
-                     0);
+                     Vector2.Zero,  // _texCoordTL
+                     Vector2.One,   // _texCoordBR
+                     layerDepth);
 
             FlushIfNeeded();
 		}

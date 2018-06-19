@@ -3,6 +3,7 @@
 // file 'LICENSE.txt', which is part of this source code package.
 
 using System;
+using ValaGame.OpenGL;
 
 namespace Microsoft.Xna.Framework.Graphics
 {
@@ -33,7 +34,7 @@ namespace Microsoft.Xna.Framework.Graphics
 
         public void @set(int index, Texture value)
         {
-            if (applyToVertexStage && !graphicsDevice.GraphicsCapabilities.SupportsVertexTextures)
+            if (_applyToVertexStage && !_graphicsDevice.GraphicsCapabilities.SupportsVertexTextures)
                 throw new Exception.NotSupportedException("Vertex textures are not supported on this device.");
 
             if (textures[index] == value)
@@ -62,7 +63,7 @@ namespace Microsoft.Xna.Framework.Graphics
 
         internal void SetTextures(GraphicsDevice device)
         {
-            if (applyToVertexStage && !device.GraphicsCapabilities.SupportsVertexTextures)
+            if (_applyToVertexStage && !device.GraphicsCapabilities.SupportsVertexTextures)
                 return;
             PlatformSetTextures(device);
         }

@@ -10,7 +10,7 @@ using System;
 namespace System.Diagnostics 
 {
  
-    public class Stopwatch 
+    public class Stopwatch : Object
     {
         private const long TicksPerMillisecond = 10000;
         private const long TicksPerSecond = TicksPerMillisecond * 1000;

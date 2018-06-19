@@ -138,7 +138,6 @@ namespace Microsoft.Xna.Framework.Graphics
                 *(indexPtr + 5) = (short)(i * 4 + 2);
             }
             _index = newIndex;
-
             _vertexArray = new VertexPositionColorTexture[4 * numBatchItems];
         }
                 
@@ -234,10 +233,10 @@ namespace Microsoft.Xna.Framework.Graphics
         // private void FlushVertexArray(int start, int end, Effect effect, Texture2D texture)
         private void FlushVertexArray(int start, int end, Texture2D? texture)
         {
-            // if (start == end)
-            //     return;
+            if (start == end)
+                return;
 
-            // var vertexCount = end - start;
+            var vertexCount = end - start;
 
             // // If the effect is not null, then apply each pass and render the geometry
             // if (effect != null)
@@ -265,15 +264,15 @@ namespace Microsoft.Xna.Framework.Graphics
             // else
             // {
             //     If no custom effect is defined, then simply render.
-            //     _device.DrawUserIndexedPrimitives(
-            //         PrimitiveType.TriangleList,
-            //         _vertexArray,
-            //         0,
-            //         vertexCount,
-            //         _index,
-            //         0,
-            //         (vertexCount / 4) * 2,
-            //         VertexPositionColorTexture.VertexDeclaration);
+                _device.DrawUserIndexedPrimitives(
+                    ValaGame.OpenGL.PrimitiveType.Triangles,
+                    _vertexArray,
+                    0,
+                    vertexCount,
+                    _index,
+                    0,
+                    (vertexCount / 4) * 2,
+                    VertexPositionColorTexture.VertexDeclaration);
             // }
         }
 	}

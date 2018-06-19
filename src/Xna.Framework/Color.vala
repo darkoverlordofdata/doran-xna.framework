@@ -398,7 +398,7 @@ namespace Microsoft.Xna.Framework
         /// </summary>
         /// <param name="obj">The <see cref="Color"/> to compare.</param>
         /// <returns><c>true</c> if the instances are equal; <c>false</c> otherwise.</returns>
-        public override bool Equals(Object obj)
+        public override bool Equals(Object? obj)
         {
             if (obj is Color)
                 return this.PackedValue == ((Color)obj).PackedValue;
