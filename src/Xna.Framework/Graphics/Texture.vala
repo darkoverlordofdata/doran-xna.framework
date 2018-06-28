@@ -41,7 +41,8 @@ namespace Microsoft.Xna.Framework.Graphics
 		}
 
         public Texture() {
-            GLib.Object(SortingKey: GLib.AtomicInt.add (ref _lastSortingKey, 1));
+            // GLib.Object(SortingKey: GLib.AtomicInt.add (ref _lastSortingKey, 1));
+            _SortingKey = GLib.AtomicInt.add (ref _lastSortingKey, 1);
         }
 
         internal static int CalculateMipLevels(int width, int height = 0, int depth = 0)

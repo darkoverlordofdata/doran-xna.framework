@@ -47,7 +47,8 @@ namespace Microsoft.Xna.Framework
         }
         public Game()
         {
-            GLib.Object(gameTime: new GameTime());
+            // GLib.Object(gameTime: new GameTime());
+            _gameTime = new GameTime();
             _instance = this;
             _services = new GameServiceContainer();
             _content = new ContentManager(_services);
@@ -523,8 +524,9 @@ namespace Microsoft.Xna.Framework
         {
             AssertNotDisposed();
 
-            if (GraphicsDevice == null && graphicsDeviceManager != null)
+            if (GraphicsDevice == null && graphicsDeviceManager != null) {
                 _graphicsDeviceManager.CreateDevice();
+            }
 
             Platform.BeforeInitialize();
             Initialize();

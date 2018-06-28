@@ -109,7 +109,8 @@ namespace Microsoft.Xna.Framework.Graphics
         /// </exception>
         public GraphicsDevice(GraphicsAdapter? adapter, GraphicsProfile graphicsProfile, PresentationParameters presentationParameters)
         {
-            GLib.Object(resources: new ArrayList<WeakReference>());
+            // GLib.Object(resources: new ArrayList<WeakReference>());
+            _resources = new ArrayList<WeakReference>();
             // if (adapter == null)
             //     throw new ArgumentNullException("adapter");
             // if (!adapter.IsProfileSupported(graphicsProfile))
@@ -178,18 +179,18 @@ namespace Microsoft.Xna.Framework.Graphics
 
         internal void AddResourceReference(WeakReference resourceReference)
         {
-            lock (_resourcesLock)
-            {
+            // lock (_resourcesLock)
+            // {
                 _resources.add(resourceReference);
-            }
+            // }
         }
 
         internal void RemoveResourceReference(WeakReference resourceReference)
         {
-            lock (_resourcesLock)
-            {
+            // lock (_resourcesLock)
+            // {
                 _resources.remove(resourceReference);
-            }
+            // }
         }
 
         public void Present()

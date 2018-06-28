@@ -36,7 +36,8 @@ namespace Microsoft.Xna.Framework.Graphics
 				throw new Exception.ArgumentNullException ("graphicsDevice FrameworkResources.ResourceCreationWhenDeviceIsNull");
 			}	
 
-            GLib.Object(batcher: new SpriteBatcher(graphicsDevice));
+            // GLib.Object(batcher: new SpriteBatcher(graphicsDevice));
+            _batcher = new SpriteBatcher(graphicsDevice);
 
 			this.GraphicsDevice = graphicsDevice;
             _beginCalled = false;

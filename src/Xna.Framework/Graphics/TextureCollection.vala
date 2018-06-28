@@ -17,10 +17,12 @@ namespace Microsoft.Xna.Framework.Graphics
 
         internal TextureCollection(GraphicsDevice graphicsDevice, int maxTextures, bool applyToVertexStage)
         {
-            GLib.Object (
-                graphicsDevice : graphicsDevice,
-                applyToVertexStage : applyToVertexStage
-            );
+            // GLib.Object (
+            //     graphicsDevice : graphicsDevice,
+            //     applyToVertexStage : applyToVertexStage
+            // );
+            _graphicsDevice = graphicsDevice;
+            _applyToVertexStage = applyToVertexStage;
             textures = new Texture[maxTextures];
             
             _dirty = int.MAX;

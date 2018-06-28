@@ -60,7 +60,8 @@ namespace Microsoft.Xna.Framework.Graphics
 
 		public SpriteBatcher (GraphicsDevice device)
 		{
-            GLib.Object(device: device);
+            // GLib.Object(device: device);
+            _device = device;
 
 			_batchItemList = new SpriteBatchItem[InitialBatchSize];
             _batchItemCount = 0;
