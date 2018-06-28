@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-using Gee;
+using System.Collections.Generic;
 
 namespace Microsoft.Xna.Framework.Utilities
 {
@@ -125,13 +125,18 @@ namespace Microsoft.Xna.Framework.Utilities
                     var partial = new string[length];
 
                     // iterate through all of the keys in the object.
-                    var keys = value.object.keys;
+                    var it = value.object.map_iterator ();
+                    // var keys = value.object.keys;
                     var i = 0;
-                    // for (var i = 0; i < keys.length; i++) {
-                    foreach(var k in keys) {
-                        // var k = keys[i];
+                    for (var has_next = it.next (); has_next; has_next = it.next ())
+                    {
+                        var k = it.get_key();
                         partial[i++] = quote(k) + (gap.length>0 ? ": " : ":") + str(k, value);
                     }
+                    // foreach(var k in keys) {
+                    //     // var k = keys[i];
+                    //     partial[i++] = quote(k) + (gap.length>0 ? ": " : ":") + str(k, value);
+                    // }
                     // Join all of the member texts together, separated with commas,
                     // and wrap them in braces.
                     var v = "";
@@ -372,7 +377,7 @@ namespace Microsoft.Xna.Framework.Utilities
                     key = getString().string;
                     skipWhite();
                     next(':');
-                    if (result.object.has_key(key)) {
+                    if (result.object.contains(key)) {
                         throw new JsonException.DuplicateKey("");
                     }
                     result.object[key] = getValue();

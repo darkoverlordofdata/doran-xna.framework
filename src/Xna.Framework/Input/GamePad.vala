@@ -2,9 +2,8 @@
 // This file is subject to the terms and conditions defined in
 // file 'LICENSE.txt', which is part of this source code package.
 
-using Gee;
 using System;
-// using System.Collections.Generic;
+using System.Collections.Generic;
 
 namespace Microsoft.Xna.Framework.Input
 {
@@ -120,7 +119,7 @@ namespace Microsoft.Xna.Framework.Input
             gamepad.HapticDevice = Sdl.Haptic.Open(deviceId);
 
             var id = 0;
-            while (Gamepads.has_key(id))
+            while (Gamepads.contains(id))
                 id++;
 
             Gamepads.set(id, gamepad);
@@ -153,15 +152,25 @@ namespace Microsoft.Xna.Framework.Input
 
         internal static void RemoveDevice(int instanceid)
         {
-            foreach (var entry in Gamepads.entries)
+            var entry = Gamepads.map_iterator ();
+            for (var has_next = entry.next (); has_next; has_next = entry.next ())
             {
-                if (Sdl.Joystick.InstanceID(Sdl.GameController.GetJoystick(entry.value.Device)) == instanceid)
+                if (Sdl.Joystick.InstanceID(Sdl.GameController.GetJoystick(entry.get_value().Device)) == instanceid)
                 {
-                    Gamepads.unset(entry.key);
-                    DisposeDevice(entry.value);
+                    Gamepads.remove(entry.get_key());
+                    DisposeDevice(entry.get_value());
                     break;
                 }
             }
+            // foreach (var entry in Gam.epads.entries)
+            // {
+            //     if (Sdl.Joystick.InstanceID(Sdl.GameController.GetJoystick(entry.value.Device)) == instanceid)
+            //     {
+            //         Gamepads.unset(entry.key);
+            //         DisposeDevice(entry.value);
+            //         break;
+            //     }
+            // }
         }
 
         private static void DisposeDevice(GamePadInfo info)
@@ -173,8 +182,13 @@ namespace Microsoft.Xna.Framework.Input
 
         internal static void CloseDevices()
         {
-            foreach (var entry in Gamepads.entries)
-                DisposeDevice(entry.value);
+            var entry = Gamepads.map_iterator ();
+            for (var has_next = entry.next (); has_next; has_next = entry.next ())
+            {
+                DisposeDevice(entry.get_value());
+            }
+            // foreach (var entry in Gamepads.entries)
+            //     DisposeDevice(entry.value);
 
             Gamepads.clear();
         }
@@ -186,7 +200,7 @@ namespace Microsoft.Xna.Framework.Input
 
         private static GamePadCapabilities PlatformGetCapabilities(int index)
         {
-            if (!Gamepads.has_key(index))
+            if (!Gamepads.contains(index))
                 return new GamePadCapabilities();
 
             var gamecontroller = Gamepads[index].Device;
@@ -287,7 +301,7 @@ namespace Microsoft.Xna.Framework.Input
 
         private static GamePadState PlatformGetState(int index, GamePadDeadZone deadZoneMode)
         {
-            if (!Gamepads.has_key(index))
+            if (!Gamepads.contains(index))
                 return GamePadState.Default;
 
             var gdevice = Gamepads[index].Device;
@@ -341,7 +355,7 @@ namespace Microsoft.Xna.Framework.Input
 
         private static bool PlatformSetVibration(int index, float leftMotor, float rightMotor)
         {
-            if (!Gamepads.has_key(index))
+            if (!Gamepads.contains(index))
                 return false;
 
             var gamepad = Gamepads[index];

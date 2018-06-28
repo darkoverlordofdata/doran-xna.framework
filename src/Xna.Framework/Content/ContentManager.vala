@@ -2,9 +2,8 @@
 // This file is subject to the terms and conditions defined in
 // file 'LICENSE.txt', which is part of this source code package.
 
-using Gee;
 using System;
-// using System.Collections.Generic;
+using System.Collections.Generic;
 using Microsoft.Xna.Framework.Assets;
 using Microsoft.Xna.Framework.Graphics;
 using ValaGame.OpenGL;
@@ -73,7 +72,7 @@ namespace Microsoft.Xna.Framework.Content
 
             // Check for a previously loaded asset first
             Object? asset = null;
-            if (loadedAssets.has_key(key))
+            if (loadedAssets.contains(key))
             {
 				asset = loadedAssets[key];
                 if (asset is T)

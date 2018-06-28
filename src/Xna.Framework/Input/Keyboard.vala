@@ -11,7 +11,7 @@ namespace Microsoft.Xna.Framework.Input
     /// </summary>
 	public class Keyboard : Object
 	{
-        static Gee.List<Keys> _keys;
+        static System.Collections.Generic.List<Keys> _keys;
         /// <summary>
         /// Returns the current keyboard state.
         /// </summary>
@@ -40,7 +40,7 @@ namespace Microsoft.Xna.Framework.Input
                                      (modifiers & Sdl.Keyboard.Keymod.NumLock) == Sdl.Keyboard.Keymod.NumLock);
         }
 
-        internal static void SetKeys(Gee.List<Keys> keys)
+        internal static void SetKeys(System.Collections.Generic.List<Keys> keys)
         {
             _keys = keys;
         }

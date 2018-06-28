@@ -21,6 +21,19 @@ list ( APPEND SOURCE .lib/xna.framework/src/System/TimeSpan.vala )
 list ( APPEND SOURCE .lib/xna.framework/src/System/WeakReference.vala )
 list ( APPEND SOURCE .lib/xna.framework/src/System/Diagnostics/Stopwatch.vala )
 
+list ( APPEND SOURCE .lib/xna.framework/src/System.Collections.Generic/ArrayList.vala )
+list ( APPEND SOURCE .lib/xna.framework/src/System.Collections.Generic/Collection.vala )
+list ( APPEND SOURCE .lib/xna.framework/src/System.Collections.Generic/HashMap.vala )
+list ( APPEND SOURCE .lib/xna.framework/src/System.Collections.Generic/HashSet.vala )
+list ( APPEND SOURCE .lib/xna.framework/src/System.Collections.Generic/Iterator.vala )
+list ( APPEND SOURCE .lib/xna.framework/src/System.Collections.Generic/Iterable.vala )
+list ( APPEND SOURCE .lib/xna.framework/src/System.Collections.Generic/List.vala )
+list ( APPEND SOURCE .lib/xna.framework/src/System.Collections.Generic/Map.vala )
+list ( APPEND SOURCE .lib/xna.framework/src/System.Collections.Generic/MapIterator.vala )
+list ( APPEND SOURCE .lib/xna.framework/src/System.Collections.Generic/Set.vala )
+list ( APPEND SOURCE .lib/xna.framework/src/System.Collections.Generic/TimSort.vala )
+
+
 ## Xna.Framework namespace
 list ( APPEND SOURCE .lib/xna.framework/src/Xna.Framework/Content/ContentManager.vala )
 list ( APPEND SOURCE .lib/xna.framework/src/Xna.Framework/SDL/SDL2.vala )
@@ -109,7 +122,7 @@ list ( APPEND SOURCE .lib/xna.framework/src/Xna.Framework/Point.vala )
 list ( APPEND SOURCE .lib/xna.framework/src/Xna.Framework/Quadrangle.vala )
 list ( APPEND SOURCE .lib/xna.framework/src/Xna.Framework/TextInputEventArgs.vala )
 
-list ( APPEND PACKAGE gee-0.8 )
+# list ( APPEND PACKAGE gee-0.8 )
 
 list ( APPEND VAPI .lib/xna.framework/vapis/xna.framework.vapi )
 

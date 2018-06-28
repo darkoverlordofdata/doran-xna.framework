@@ -2,9 +2,8 @@
 // This file is subject to the terms and conditions defined in
 // file 'LICENSE.txt', which is part of this source code package.
 
-using Gee;
 using System;
-// using System.Collections.Generic;
+using System.Collections.Generic;
 // using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -20,7 +19,7 @@ namespace Microsoft.Xna.Framework
 
         private Game _game;
         // private OpenALSoundController _soundControllerInstance;
-        private Gee.List<Keys> _keys;
+        private System.Collections.Generic.List<Keys> _keys;
 
         private int _isExiting;
         private SdlGameWindow _view;
@@ -34,7 +33,7 @@ namespace Microsoft.Xna.Framework
             //     NativeHelper.InitDllDirectory();
 
             _game = game;
-            _keys = new Gee.ArrayList<Keys>();
+            _keys = new ArrayList<Keys>();
             Keyboard.SetKeys(_keys);
 
             Sdl.Version sversion;

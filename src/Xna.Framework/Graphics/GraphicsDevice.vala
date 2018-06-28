@@ -4,7 +4,7 @@
 // using GL;
 using System;
 using ValaGame.OpenGL;
-// // using System.Collections.Generic;
+using System.Collections.Generic;
 // using System.Diagnostics;
 // using System.Globalization;
 // using Microsoft.Xna.Framework.Utilities;
@@ -40,7 +40,7 @@ namespace Microsoft.Xna.Framework.Graphics
         // Use WeakReference for the global resources list as we do not know when a resource
         // may be disposed and collected. We do not want to prevent a resource from being
         // collected by holding a strong reference to it in this list.
-        public Gee.List<WeakReference> resources { get; construct; }
+        public System.Collections.Generic.List<WeakReference> resources { get; construct; }
 
 		// TODO Graphics Device events need implementing
 		public EventHandler<EventArgs> DeviceLost = new EventHandler<EventArgs>();
@@ -109,7 +109,7 @@ namespace Microsoft.Xna.Framework.Graphics
         /// </exception>
         public GraphicsDevice(GraphicsAdapter? adapter, GraphicsProfile graphicsProfile, PresentationParameters presentationParameters)
         {
-            GLib.Object(resources: new Gee.ArrayList<WeakReference>());
+            GLib.Object(resources: new ArrayList<WeakReference>());
             // if (adapter == null)
             //     throw new ArgumentNullException("adapter");
             // if (!adapter.IsProfileSupported(graphicsProfile))

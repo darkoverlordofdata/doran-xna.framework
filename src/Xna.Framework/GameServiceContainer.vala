@@ -2,9 +2,8 @@
 // This file is subject to the terms and conditions defined in
 // file 'LICENSE.txt', which is part of this source code package.
 
-using Gee;
 using System;
-// using System.Collections.Generic;
+using System.Collections.Generic;
 // using Microsoft.Xna.Framework.Utilities;
 
 namespace Microsoft.Xna.Framework
@@ -50,7 +49,7 @@ namespace Microsoft.Xna.Framework
             if (type == null)
                 throw new Exception.ArgumentNullException("type");
 						
-            if (services.has_key(type))
+            if (services.contains(type))
                 return services[type];
             else
                 return null;
@@ -61,7 +60,7 @@ namespace Microsoft.Xna.Framework
             if (type == null)
                 throw new Exception.ArgumentNullException("type");
 
-            services.unset(type);
+            services.remove(type);
         }
     }
 }

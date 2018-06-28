@@ -1,9 +1,8 @@
 // MonoGame - Copyright (C) The MonoGame Team
 // This file is subject to the terms and conditions defined in
 // file 'LICENSE.txt', which is part of this source code package.
-using Gee;
 using System;
-// using System.Collections.Generic;
+using System.Collections.Generic;
 
 namespace Microsoft.Xna.Framework.Input
 {
@@ -56,7 +55,7 @@ namespace Microsoft.Xna.Framework.Input
             var jdevice = Sdl.Joystick.Open(deviceId);
             var id = 0;
 
-            while (Joysticks.has_key(id))
+            while (Joysticks.contains(id))
                 id++;
 
             Joysticks.set(id, jdevice);
@@ -67,23 +66,39 @@ namespace Microsoft.Xna.Framework.Input
 
         internal static void RemoveDevice(int instanceid)
         {
-            foreach (var entry in Joysticks.entries)
+            var entry = Joysticks.map_iterator ();
+            for (var has_next = entry.next (); has_next; has_next = entry.next ())
             {
-                if (Sdl.Joystick.InstanceID(entry.value) == instanceid)
+                if (Sdl.Joystick.InstanceID(entry.get_value()) == instanceid)
                 {
-                    Sdl.Joystick.Close(Joysticks[entry.key]);
-                    Joysticks.unset(entry.key);
+                    Sdl.Joystick.Close(Joysticks[entry.get_key()]);
+                    Joysticks.remove(entry.get_key());
                     break;
                 }
             }
+
+            // foreach (var entry in Joysticks.entries)
+            // {
+            //     if (Sdl.Joystick.InstanceID(entry.value) == instanceid)
+            //     {
+            //         Sdl.Joystick.Close(Joysticks[entry.key]);
+            //         Joysticks.unset(entry.key);
+            //         break;
+            //     }
+            // }
         }
 
         internal static void CloseDevices()
         {
             GamePad.CloseDevices();
 
-            foreach (var entry in Joysticks.entries)
-                Sdl.Joystick.Close(entry.value);
+            var entry = Joysticks.map_iterator ();
+            for (var has_next = entry.next (); has_next; has_next = entry.next ())
+            {
+                Sdl.Joystick.Close(entry.get_value());
+            }
+            // foreach (var entry in Joysticks.entries)
+            //     Sdl.Joystick.Close(entry.value);
 
             Joysticks.clear ();
         }
@@ -92,7 +107,7 @@ namespace Microsoft.Xna.Framework.Input
 
         private static JoystickCapabilities PlatformGetCapabilities(int index)
         {
-            if (!Joysticks.has_key(index))
+            if (!Joysticks.contains(index))
                 return new JoystickCapabilities()
                 {
                     IsConnected = false,
@@ -117,7 +132,7 @@ namespace Microsoft.Xna.Framework.Input
 
         private static JoystickState PlatformGetState(int index)
         {
-            if (!Joysticks.has_key(index))
+            if (!Joysticks.contains(index))
                 return new JoystickState()
                 {
                     IsConnected = false,
