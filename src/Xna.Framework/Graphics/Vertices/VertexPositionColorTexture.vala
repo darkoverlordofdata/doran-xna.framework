@@ -26,11 +26,13 @@ namespace Microsoft.Xna.Framework.Graphics
         public string ToString()
         {
             return @"{{Position: $Position Color: $Color TextureCoordinate: $TextureCoordinate }}";
+            // return @"{{Position: $Position TextureCoordinate: $TextureCoordinate }}";
         }
 
         public bool Equals(VertexPositionColorTexture obj)
         {
             return (Position.Equals(obj.Position) && Color.Equals(obj.Color) && TextureCoordinate.Equals(TextureCoordinate));
+            // return (Position.Equals(obj.Position) && TextureCoordinate.Equals(TextureCoordinate));
         }
     }
 }

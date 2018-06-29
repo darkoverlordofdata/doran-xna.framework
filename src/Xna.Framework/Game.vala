@@ -45,6 +45,7 @@ namespace Microsoft.Xna.Framework
         static construct 
         {
         }
+
         public Game()
         {
             // GLib.Object(gameTime: new GameTime());
@@ -80,7 +81,6 @@ namespace Microsoft.Xna.Framework
         {
             if (_isDisposed)
             {
-                // string name = GetType().Name;
                 string name = get_type().name();
                 throw new Exception.ObjectDisposedException(
                     "The %s object was used after being Disposed.".printf(name));

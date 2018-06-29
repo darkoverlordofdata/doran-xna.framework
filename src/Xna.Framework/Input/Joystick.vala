@@ -17,10 +17,10 @@ namespace Microsoft.Xna.Framework.Input
         }
         public static void Initialize()
         {
-            Joysticks = new HashMap<int, IntPtr>();
+            Joysticks = new Dictionary<int, IntPtr>();
         }
 
-        internal static HashMap<int, IntPtr> Joysticks;
+        internal static Dictionary<int, IntPtr> Joysticks;
         /// <summary>
         /// Gets a value indicating whether the current platform supports reading raw joystick data.
         /// </summary>

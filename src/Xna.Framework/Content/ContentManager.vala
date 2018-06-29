@@ -17,7 +17,7 @@ namespace Microsoft.Xna.Framework.Content
 
 		private string _rootDirectory = ""; // string.Empty;
 		private IServiceProvider serviceProvider;
-        private HashMap<string, Object> loadedAssets = new HashMap<string, Object>(); // StringComparer.OrdinalIgnoreCase);
+        private Dictionary<string, Object> loadedAssets = new Dictionary<string, Object>(); // StringComparer.OrdinalIgnoreCase);
 		private bool disposed;
 
 

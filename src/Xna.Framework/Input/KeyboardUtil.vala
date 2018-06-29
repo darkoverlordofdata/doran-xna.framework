@@ -9,11 +9,11 @@ namespace Microsoft.Xna.Framework.Input
 {
     internal class KeyboardUtil : Object
     {
-        static HashMap<int, Keys> _map;
+        static Dictionary<int, Keys> _map;
 
         static construct
         {
-            _map = new HashMap<int, Keys>();
+            _map = new Dictionary<int, Keys>();
             _map.set(8, Keys.Back);
             _map.set(9, Keys.Tab);
             _map.set(13, Keys.Enter);

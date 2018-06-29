@@ -399,14 +399,14 @@ namespace Microsoft.Xna.Framework.Utilities
      * Wrap a Json object
      * 
      * Arrays are represented as ArrayList<JsVariant>
-     * Objects are represented as HashMap<string, JsVariant>
+     * Objects are represented as Dictionary<string, JsVariant>
      */
     public class JsVariant : Object {
 
         public bool boolean;
         public double number;
         public string string;
-        public HashMap<string, JsVariant> object;
+        public Dictionary<string, JsVariant> object;
         public ArrayList<JsVariant> array;
 
         public JsType type;
@@ -442,7 +442,7 @@ namespace Microsoft.Xna.Framework.Utilities
                     string = "";
                     break;
                 case JsType.JS_OBJECT:
-                    object = isNull ? null : new HashMap<string, JsVariant>();
+                    object = isNull ? null : new Dictionary<string, JsVariant>();
                     break;
                 case JsType.JS_ARRAY:
                     array = new ArrayList<JsVariant>();

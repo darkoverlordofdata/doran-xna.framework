@@ -14,16 +14,17 @@ namespace Microsoft.Xna.Framework.Input
     {
         private class GamePadInfo
         {
+            // public int Id;
             public IntPtr Device;
             public IntPtr HapticDevice;
             public int HapticType;
         }
 
-        private static HashMap<int, GamePadInfo> Gamepads;
+        private static Dictionary<int, GamePadInfo> Gamepads;
         
         public static void Initialize()
         {
-            Gamepads = new HashMap<int, GamePadInfo>();
+            Gamepads = new Dictionary<int, GamePadInfo>();
         }
 
         /// <summary>
@@ -150,24 +151,36 @@ namespace Microsoft.Xna.Framework.Input
             }
         }
 
+            // foreach (KeyValuePair<int, GamePadInfo> entry in Gamepads)
+            // {
+            //     if (Sdl.Joystick.InstanceID(Sdl.GameController.GetJoystick(entry.Value.Device)) == instanceid)
+            //     {
+            //         Gamepads.Remove(entry.Key);
+            //         DisposeDevice(entry.Value);
+            //         break;
+            //     }
+            // }
+
         internal static void RemoveDevice(int instanceid)
         {
-            var entry = Gamepads.map_iterator ();
-            for (var has_next = entry.next (); has_next; has_next = entry.next ())
+
+            foreach (var id in Gamepads.get_keys())
             {
-                if (Sdl.Joystick.InstanceID(Sdl.GameController.GetJoystick(entry.get_value().Device)) == instanceid)
+                var entry = Gamepads[id];
+                if (Sdl.Joystick.InstanceID(Sdl.GameController.GetJoystick(entry.Device)) == instanceid)
                 {
-                    Gamepads.remove(entry.get_key());
-                    DisposeDevice(entry.get_value());
+                    Gamepads.remove(id);
+                    DisposeDevice(entry);
                     break;
                 }
             }
-            // foreach (var entry in Gam.epads.entries)
+
+            // foreach (var entry in Gamepads)
             // {
-            //     if (Sdl.Joystick.InstanceID(Sdl.GameController.GetJoystick(entry.value.Device)) == instanceid)
+            //     if (Sdl.Joystick.InstanceID(Sdl.GameController.GetJoystick(entry.Device)) == instanceid)
             //     {
-            //         Gamepads.unset(entry.key);
-            //         DisposeDevice(entry.value);
+            //         Gamepads.remove(entry.Id);
+            //         DisposeDevice(entry);
             //         break;
             //     }
             // }

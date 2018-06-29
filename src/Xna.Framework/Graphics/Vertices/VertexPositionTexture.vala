@@ -12,7 +12,7 @@ namespace Microsoft.Xna.Framework.Graphics
             Position = position ?? Vector3.Zero;
             TextureCoordinate = textureCoordinate ?? Vector2.Zero;
         }
-		
+
         public int GetHashCode()
         {
             var hashCode = Position.GetHashCode();

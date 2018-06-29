@@ -10,11 +10,11 @@ namespace Microsoft.Xna.Framework
 {
     public class GameServiceContainer : Object, IServiceProvider
     {
-        HashMap<Type, Object> services;
+        Dictionary<Type, Object> services;
 
         public GameServiceContainer()
         {
-            services = new HashMap<Type, Object>();
+            services = new Dictionary<Type, Object>();
         }
 
         public void AddServiceType<T>(T? provider)

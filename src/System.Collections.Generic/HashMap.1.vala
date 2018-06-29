@@ -27,7 +27,7 @@ using GLib;
 /**
  * Hashtable implementation of the Map interface.
  */
-public class System.Collections.Generic.Dictionary<K,V> : Map<K,V> {
+public class System.Collections.Generic.HashMap<K,V> : Map<K,V> {
 	public override int size {
 		get { return _nnodes; }
 	}
@@ -58,7 +58,7 @@ public class System.Collections.Generic.Dictionary<K,V> : Map<K,V> {
 	private const int MIN_SIZE = 11;
 	private const int MAX_SIZE = 13845163;
 
-	public Dictionary (HashFunc<K> key_hash_func = GLib.direct_hash, EqualFunc<K> key_equal_func = GLib.direct_equal, EqualFunc<V> value_equal_func = GLib.direct_equal) {
+	public HashMap (HashFunc<K> key_hash_func = GLib.direct_hash, EqualFunc<K> key_equal_func = GLib.direct_equal, EqualFunc<V> value_equal_func = GLib.direct_equal) {
 		this.key_hash_func = key_hash_func;
 		this.key_equal_func = key_equal_func;
 		this.value_equal_func = value_equal_func;
@@ -170,7 +170,7 @@ public class System.Collections.Generic.Dictionary<K,V> : Map<K,V> {
 		}
 	}
 
-	~Dictionary () {
+	~HashMap () {
 		clear ();
 	}
 
@@ -189,13 +189,13 @@ public class System.Collections.Generic.Dictionary<K,V> : Map<K,V> {
 	}
 
 	private class KeySet<K,V> : Set<K> {
-		public Dictionary<K,V> map {
+		public HashMap<K,V> map {
 			set { _map = value; }
 		}
 
-		private Dictionary<K,V> _map;
+		private HashMap<K,V> _map;
 
-		public KeySet (Dictionary map) {
+		public KeySet (HashMap map) {
 			this.map = map;
 		}
 
@@ -229,21 +229,21 @@ public class System.Collections.Generic.Dictionary<K,V> : Map<K,V> {
 	}
 
 	private class MapIterator<K,V> : System.Collections.Generic.MapIterator<K, V> {
-		public Dictionary<K,V> map {
+		public HashMap<K,V> map {
 			set {
 				_map = value;
 				_stamp = _map._stamp;
 			}
 		}
 
-		private Dictionary<K,V> _map;
+		private HashMap<K,V> _map;
 		private int _index = -1;
 		private weak Node<K,V> _node;
 
 		// concurrent modification protection
 		private int _stamp;
 
-		public MapIterator (Dictionary map) {
+		public MapIterator (HashMap map) {
 			this.map = map;
 		}
 
@@ -272,14 +272,14 @@ public class System.Collections.Generic.Dictionary<K,V> : Map<K,V> {
 	}
 
 	private class KeyIterator<K,V> : Iterator<K> {
-		public Dictionary<K,V> map {
+		public HashMap<K,V> map {
 			set {
 				_map = value;
 				_stamp = _map._stamp;
 			}
 		}
 
-		private Dictionary<K,V> _map;
+		private HashMap<K,V> _map;
 		private int _index = -1;
 		private weak Node<K,V> _node;
 		private weak Node<K,V> _next;
@@ -287,7 +287,7 @@ public class System.Collections.Generic.Dictionary<K,V> : Map<K,V> {
 		// concurrent modification protection
 		private int _stamp;
 
-		public KeyIterator (Dictionary map) {
+		public KeyIterator (HashMap map) {
 			this.map = map;
 		}
 
@@ -334,13 +334,13 @@ public class System.Collections.Generic.Dictionary<K,V> : Map<K,V> {
 	}
 
 	private class ValueCollection<K,V> : Collection<V> {
-		public Dictionary<K,V> map {
+		public HashMap<K,V> map {
 			set { _map = value; }
 		}
 
-		private Dictionary<K,V> _map;
+		private HashMap<K,V> _map;
 
-		public ValueCollection (Dictionary map) {
+		public ValueCollection (HashMap map) {
 			this.map = map;
 		}
 
@@ -380,14 +380,14 @@ public class System.Collections.Generic.Dictionary<K,V> : Map<K,V> {
 	}
 
 	private class ValueIterator<K,V> : Iterator<V> {
-		public Dictionary<K,V> map {
+		public HashMap<K,V> map {
 			set {
 				_map = value;
 				_stamp = _map._stamp;
 			}
 		}
 
-		private Dictionary<V,K> _map;
+		private HashMap<V,K> _map;
 		private int _index = -1;
 		private weak Node<K,V> _node;
 		private weak Node<K,V> _next;
@@ -395,7 +395,7 @@ public class System.Collections.Generic.Dictionary<K,V> : Map<K,V> {
 		// concurrent modification protection
 		private int _stamp;
 
-		public ValueIterator (Dictionary map) {
+		public ValueIterator (HashMap map) {
 			this.map = map;
 		}
 
