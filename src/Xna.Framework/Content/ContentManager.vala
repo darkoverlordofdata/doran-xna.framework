@@ -171,7 +171,7 @@ namespace Microsoft.Xna.Framework.Content
 		/// loads 1 asset
 		/// </summary>
 		/// <returns>Load an asset.</returns>
-		public virtual CObject LoadResource(string assetName)
+		public virtual IntPtr LoadResource(string assetName)
 		{
 			if (assetName == null || assetName == "")
 			{

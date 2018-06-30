@@ -24,7 +24,7 @@
  * Implemented by classes that support a simple iteration over instances of the
  * collection.
  */
-public abstract class System.Collections.Generic.Iterator<G> {
+public abstract class System.Collections.Generic.Iterator<G> : Object {
 	/**
 	 * Advances to the next element in the iteration.
 	 *

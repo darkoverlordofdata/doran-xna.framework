@@ -26,7 +26,7 @@ using GLib;
  * Implemented by classes that support a simple iteration over instances of the
  * collection.
  */
-public abstract class System.Collections.Generic.Iterable<G> {
+public abstract class System.Collections.Generic.Iterable<G> : Object {
 	public abstract Type get_element_type ();
 
 	/**

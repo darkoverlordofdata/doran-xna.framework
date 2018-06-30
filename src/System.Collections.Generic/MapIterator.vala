@@ -25,7 +25,7 @@
 /**
  * An iterator over a map.
  */
-public abstract class System.Collections.Generic.MapIterator<K,V> {
+public abstract class System.Collections.Generic.MapIterator<K,V> : Object {
 	/**
 	 * Advances to the next element in the iteration.
 	 *

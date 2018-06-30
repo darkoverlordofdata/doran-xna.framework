@@ -125,6 +125,7 @@ list ( APPEND SOURCE .lib/xna.framework/src/Xna.Framework/TextInputEventArgs.val
 # list ( APPEND PACKAGE gee-0.8 )
 
 list ( APPEND VAPI .lib/xna.framework/vapis/xna.framework.vapi )
+list ( APPEND VAPI .lib/xna.framework/vapis/sdl.vapi )
 
 ## Export to the parent scope:
 
@@ -134,4 +135,3 @@ set ( CUSTOM_VAPIS "${CUSTOM_VAPIS};${VAPI}" PARENT_SCOPE )
 set ( INCLUDES "${INCLUDES}; ${CMAKE_SOURCE_DIR}/.lib/xna.framework/include" PARENT_SCOPE )
 set ( DEPS_LIBRARIES "${DEPS_LIBRARIES};-lopengl32 -lmingw32 -lSDL2main -lSDL2 -lSDL2_mixer -lSDL2_net -lcorange" PARENT_SCOPE)
 set ( PACKAGES "${PACKAGES};${PACKAGE}" PARENT_SCOPE )
-set ( VALAC_OPTIONS "${VALAC_OPTIONS};--vapidir=${CMAKE_SOURCE_DIR}/src/vapis" PARENT_SCOPE )

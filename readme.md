@@ -4,4 +4,6 @@ Work in progess.
 
 Partial port of MonoGame to Vala.
 
-Only the partial's that apply to SDL. For now, the opengl related vertex handling is performed by Corange.
+Based the partial classes that apply to SDL/OpenGL. 
+
+The content pipeline is not ported over. In it's place I'm using Corange.

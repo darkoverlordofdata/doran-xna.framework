@@ -23,7 +23,7 @@
 /**
  * A map is a generic collection of key/value pairs.
  */
-public abstract class System.Collections.Generic.Map<K,V> {
+public abstract class System.Collections.Generic.Map<K,V> : Object {
 	/**
 	 * The number of items in this map.
 	 */
