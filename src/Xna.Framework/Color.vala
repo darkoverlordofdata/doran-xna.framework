@@ -16,7 +16,7 @@ namespace Microsoft.Xna.Framework
     // [DebuggerDisplay("{DebugDisplayString,nq}")]
     public class Color : Object //, IEquatable<Color>
     {
-        static construct
+        public static void Initialize()
         {
             TransparentBlack = new Color(0);
             Transparent = new Color(0);

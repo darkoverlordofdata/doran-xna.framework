@@ -44,13 +44,14 @@ namespace Microsoft.Xna.Framework
 
         static construct 
         {
+            Microsoft.Xna.Framework.Initialize();
         }
 
         public Game()
         {
             // GLib.Object(gameTime: new GameTime());
-            _gameTime = new GameTime();
             _instance = this;
+            _gameTime = new GameTime();
             _services = new GameServiceContainer();
             _content = new ContentManager(_services);
             Platform = GamePlatform.PlatformCreate(this);

@@ -1,6 +1,12 @@
+using System.Collections.Generic;
+
 namespace System {
     public class EventArgs : Object {
-        public static EventArgs Empty = new EventArgs();
+        public static void Initialize()
+        {
+            Empty = new EventArgs();
+        }
+        public static EventArgs Empty;
     }
 
     public delegate void Event<E>(Object sender, E e);
@@ -12,13 +18,14 @@ namespace System {
                 this.Event = evt;
             }
         }
-        public GenericArray<Listener> Listeners;
+        public ArrayList<Listener> Listeners;
 
         public Event Dispatch = (o, e) => {};
         public EventHandler() {
-            Listeners = new GenericArray<Listener>();
+            Listeners = new ArrayList<Listener>();
             Dispatch = (o, e) => {
-                Listeners.foreach(listener => listener.Event(o, e));
+                foreach (var listener in Listeners)
+                    listener.Event(o, e);
             };
         }
 
@@ -27,15 +34,15 @@ namespace System {
         }
 
         public void Remove(Event evt) {
-            for (var i=0; i<Listeners.length; i++) {
+            for (var i=0; i<Listeners.size; i++) {
                 if (Listeners[i].Event == evt) {
-                    Listeners.remove_index_fast(i);
+                    Listeners.remove_at(i);
                     return;
                 }
             }
         }
         public void Clear() {
-            Listeners.remove_range(0, Listeners.length);
+            Listeners.clear();
         }
     }
 }

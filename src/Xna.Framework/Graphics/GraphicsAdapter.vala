@@ -24,7 +24,7 @@ namespace Microsoft.Xna.Framework.Graphics
             FastSoftware
         }
 
-        private static GenericArray<GraphicsAdapter> _adapters;
+        private static ArrayList<GraphicsAdapter> _adapters;
 
         private DisplayModeCollection _supportedDisplayModes;
 
@@ -42,10 +42,10 @@ namespace Microsoft.Xna.Framework.Graphics
 
         public static GraphicsAdapter DefaultAdapter
         {
-            get { return _adapters[0]; }
+            owned get { return _adapters[0]; }
         }
         
-        public static GenericArray<GraphicsAdapter> Adapters 
+        public static ArrayList<GraphicsAdapter> Adapters 
         {
             get  { return _adapters; }
         }
@@ -173,7 +173,7 @@ namespace Microsoft.Xna.Framework.Graphics
             // nothing to do... just here for XNA compatibility.
         }
 
-        private static void PlatformInitializeAdapters(out GenericArray<GraphicsAdapter> adapters)
+        private static void PlatformInitializeAdapters(out ArrayList<GraphicsAdapter> adapters)
         {
 
         }

@@ -163,9 +163,9 @@ namespace Microsoft.Xna.Framework
 	}
 
 	[CCode (has_target = false)]
-	public delegate Entity AssetLoader(string filenanme);
+	public delegate GLib.Object AssetLoader(string filenanme);
 	[CCode (has_target = false)]
-	public delegate void AssetDeleter(Entity asset);
+	public delegate void AssetDeleter(GLib.Object asset);
 	
 	[SimpleType, CCode (cname = "IntPtr", cprefix="")]
 	public struct Sound 
@@ -194,10 +194,10 @@ namespace Microsoft.Xna.Framework
 	}
 
 	[CCode (has_target = false)]
-	public delegate Entity ElemNew();
+	public delegate GLib.Object ElemNew();
 
 	[CCode (has_target = false)]
-	public delegate void ElemDel(Entity entity);
+	public delegate void ElemDel(GLib.Object entity);
 
 
 	[SimpleType, CCode (cname = "IntPtr", cprefix="")]
@@ -234,7 +234,7 @@ namespace Microsoft.Xna.Framework
 		public static unowned string PtrTypename(IntPtr asset);
 	}
 
-	[SimpleType, CCode (cname = "IntPtr", cprefix="")]
+	[SimpleType, CCode (cname = "gconstpointer", cprefix="")]
 	public struct Entity 
 	{
 		[CCode (cname = "entity_new_type_id")]

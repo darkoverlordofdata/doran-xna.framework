@@ -11,7 +11,7 @@ namespace Microsoft.Xna.Framework.Input
     {
         static Dictionary<int, Keys> _map;
 
-        static construct
+        public static void Initialize()
         {
             _map = new Dictionary<int, Keys>();
             _map.set(8, Keys.Back);

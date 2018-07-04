@@ -49,8 +49,7 @@ namespace Microsoft.Xna.Framework.Input
         /// hash table.</returns>
         public int GetHashCode()
         {
-            return (FloatGetHashCode(Left) * 397) ^ FloatGetHashCode(Right);
-            // return (Left.GetHashCode() * 397) ^ Right.GetHashCode();
+            return (Left.GetHashCode() * 397) ^ Right.GetHashCode();
         }
 
         /// <summary>

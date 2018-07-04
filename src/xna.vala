@@ -30,34 +30,20 @@
  *
  *
  */
- namespace Microsoft.Xna.Framework 
+namespace Microsoft.Xna.Framework 
 {
-    public int FloatGetHashCode(float m_value)
-    {
-        float f = m_value;
-        if (f == 0) return 0;
-        long value = *(long*)(&f);
-        return ((int)value) ^ ((int)(value >> 32));
-    }
     /**
      *
      * Initialize the framework.
-     * This makes sure that static values such as:
-     *  TimeSpan.Zero 
-     *  System.EventArgs.Empty
-     *
-     * are initialized.
      */
     public void Initialize()
     {
-        TimeSpan.Initialize();
-        
-        new System.EventArgs();
-        new Microsoft.Xna.Framework.Color(0);
-        new Microsoft.Xna.Framework.Input.KeyboardUtil();
-        Microsoft.Xna.Framework.Input.MouseCursor.Initialize();
-        Microsoft.Xna.Framework.Input.Joystick.Initialize();
-        Microsoft.Xna.Framework.Input.GamePad.Initialize();
-        Microsoft.Xna.Framework.Input.KeyboardState.Initialize();
+        System.Initialize();
+        Color.Initialize();
+        Input.GamePad.Initialize();
+        Input.Joystick.Initialize();
+        Input.MouseCursor.Initialize();
+        Input.KeyboardUtil.Initialize();
+        Input.KeyboardState.Initialize();
     }
 }
