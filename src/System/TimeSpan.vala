@@ -1,5 +1,5 @@
-// namespace System 
-// { // make global to hine GLib.TimeSpan
+namespace System 
+{ 
     // TimeSpan represents a duration of time.  A TimeSpan can be negative
     // or positive.
     //
@@ -269,22 +269,22 @@
             return new TimeSpan(value);
         }
  
-        public string ToString(string format = "") {
-            var t = new DateTime.from_unix_local(_ticks);
-            return format == ""
-                ? t.to_string()
-                : t.format(format);
-        }
+        // public string ToString(string format = "") {
+        //     var t = new DateTime.from_unix_local(_ticks);
+        //     return format == ""
+        //         ? t.to_string()
+        //         : t.format(format);
+        // }
 
-        public string to_string(string format = "") {
-            var t = new DateTime.from_unix_local(_ticks);
-            return format == ""
-                ? t.to_string()
-                : t.format(format);
-        }
+        // public string to_string(string format = "") {
+        //     var t = new DateTime.from_unix_local(_ticks);
+        //     return format == ""
+        //         ? t.to_string()
+        //         : t.format(format);
+        // }
 
          
 
    }
 
-// }
+}
