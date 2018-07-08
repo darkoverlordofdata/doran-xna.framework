@@ -181,7 +181,7 @@ namespace Microsoft.Xna.Framework.Graphics
         {
             // lock (_resourcesLock)
             // {
-                _resources.add(resourceReference);
+                _resources.Add(resourceReference);
             // }
         }
 
@@ -189,7 +189,7 @@ namespace Microsoft.Xna.Framework.Graphics
         {
             // lock (_resourcesLock)
             // {
-                _resources.remove(resourceReference);
+                _resources.Remove(resourceReference);
             // }
         }
 

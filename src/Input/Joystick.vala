@@ -55,7 +55,7 @@ namespace Microsoft.Xna.Framework.Input
             var jdevice = Sdl.Joystick.Open(deviceId);
             var id = 0;
 
-            while (Joysticks.contains(id))
+            while (Joysticks.Contains(id))
                 id++;
 
             Joysticks.set(id, jdevice);
@@ -72,7 +72,7 @@ namespace Microsoft.Xna.Framework.Input
                 if (Sdl.Joystick.InstanceID(entry.get_value()) == instanceid)
                 {
                     Sdl.Joystick.Close(Joysticks[entry.get_key()]);
-                    Joysticks.remove(entry.get_key());
+                    Joysticks.Remove(entry.get_key());
                     break;
                 }
             }
@@ -100,14 +100,14 @@ namespace Microsoft.Xna.Framework.Input
             // foreach (var entry in Joysticks.entries)
             //     Sdl.Joystick.Close(entry.value);
 
-            Joysticks.clear ();
+            Joysticks.Clear ();
         }
 
         private const bool PlatformIsSupported = true;
 
         private static JoystickCapabilities PlatformGetCapabilities(int index)
         {
-            if (!Joysticks.contains(index))
+            if (!Joysticks.Contains(index))
                 return new JoystickCapabilities()
                 {
                     IsConnected = false,
@@ -132,7 +132,7 @@ namespace Microsoft.Xna.Framework.Input
 
         private static JoystickState PlatformGetState(int index)
         {
-            if (!Joysticks.contains(index))
+            if (!Joysticks.Contains(index))
                 return new JoystickState()
                 {
                     IsConnected = false,

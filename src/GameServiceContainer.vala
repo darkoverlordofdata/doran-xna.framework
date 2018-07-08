@@ -49,7 +49,7 @@ namespace Microsoft.Xna.Framework
             if (type == null)
                 throw new Exception.ArgumentNullException("type");
 						
-            if (services.contains(type))
+            if (services.Contains(type))
                 return services[type];
             else
                 return null;
@@ -60,7 +60,7 @@ namespace Microsoft.Xna.Framework
             if (type == null)
                 throw new Exception.ArgumentNullException("type");
 
-            services.remove(type);
+            services.Remove(type);
         }
     }
 }

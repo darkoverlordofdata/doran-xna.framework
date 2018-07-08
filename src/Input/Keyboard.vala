@@ -35,7 +35,7 @@ namespace Microsoft.Xna.Framework.Input
         private static KeyboardState PlatformGetState()
         {
             var modifiers = Sdl.Keyboard.GetModState();
-            return new KeyboardState(_keys.to_array(),
+            return new KeyboardState(_keys.ToArray(),
                                      (modifiers & Sdl.Keyboard.Keymod.CapsLock) == Sdl.Keyboard.Keymod.CapsLock,
                                      (modifiers & Sdl.Keyboard.Keymod.NumLock) == Sdl.Keyboard.Keymod.NumLock);
         }

@@ -121,7 +121,7 @@ namespace Microsoft.Xna.Framework.Utilities
                 case JsType.JS_OBJECT:
                     if (value.object == null) return "null";
                     gap += indent;
-                    length = (int)value.object.size;
+                    length = (int)value.object.Count;
                     var partial = new string[length];
 
                     // iterate through all of the keys in the object.
@@ -156,7 +156,7 @@ namespace Microsoft.Xna.Framework.Utilities
                     gap += indent;
                     
                     // The value is an array. Stringify every element                    
-                    length = (int)value.array.size;
+                    length = (int)value.array.Count;
                     var partial = new string[length];
                     for (var i = 0; i < length; i++) {
                         partial[i] = str(i.to_string(), value);
@@ -348,7 +348,7 @@ namespace Microsoft.Xna.Framework.Utilities
                     return result;
                 }
                 while (ch != 0) {
-                    result.array.add(getValue());
+                    result.array.Add(getValue());
                     skipWhite();
                     if (ch == ']') {
                         next(']');
@@ -377,7 +377,7 @@ namespace Microsoft.Xna.Framework.Utilities
                     key = getString().string;
                     skipWhite();
                     next(':');
-                    if (result.object.contains(key)) {
+                    if (result.object.Contains(key)) {
                         throw new JsonException.DuplicateKey("");
                     }
                     result.object[key] = getValue();

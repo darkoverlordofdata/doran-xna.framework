@@ -120,7 +120,7 @@ namespace Microsoft.Xna.Framework.Input
             gamepad.HapticDevice = Sdl.Haptic.Open(deviceId);
 
             var id = 0;
-            while (Gamepads.contains(id))
+            while (Gamepads.Contains(id))
                 id++;
 
             Gamepads.set(id, gamepad);
@@ -164,12 +164,12 @@ namespace Microsoft.Xna.Framework.Input
         internal static void RemoveDevice(int instanceid)
         {
 
-            foreach (var id in Gamepads.get_keys())
+            foreach (var id in Gamepads.Keys)
             {
                 var entry = Gamepads[id];
                 if (Sdl.Joystick.InstanceID(Sdl.GameController.GetJoystick(entry.Device)) == instanceid)
                 {
-                    Gamepads.remove(id);
+                    Gamepads.Remove(id);
                     DisposeDevice(entry);
                     break;
                 }
@@ -203,7 +203,7 @@ namespace Microsoft.Xna.Framework.Input
             // foreach (var entry in Gamepads.entries)
             //     DisposeDevice(entry.value);
 
-            Gamepads.clear();
+            Gamepads.Clear();
         }
 
         private static int PlatformGetMaxNumberOfGamePads()
@@ -213,7 +213,7 @@ namespace Microsoft.Xna.Framework.Input
 
         private static GamePadCapabilities PlatformGetCapabilities(int index)
         {
-            if (!Gamepads.contains(index))
+            if (!Gamepads.Contains(index))
                 return new GamePadCapabilities();
 
             var gamecontroller = Gamepads[index].Device;
@@ -314,7 +314,7 @@ namespace Microsoft.Xna.Framework.Input
 
         private static GamePadState PlatformGetState(int index, GamePadDeadZone deadZoneMode)
         {
-            if (!Gamepads.contains(index))
+            if (!Gamepads.Contains(index))
                 return GamePadState.Default;
 
             var gdevice = Gamepads[index].Device;
@@ -368,7 +368,7 @@ namespace Microsoft.Xna.Framework.Input
 
         private static bool PlatformSetVibration(int index, float leftMotor, float rightMotor)
         {
-            if (!Gamepads.contains(index))
+            if (!Gamepads.Contains(index))
                 return false;
 
             var gamepad = Gamepads[index];
