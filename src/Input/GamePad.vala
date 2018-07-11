@@ -120,7 +120,7 @@ namespace Microsoft.Xna.Framework.Input
             gamepad.HapticDevice = Sdl.Haptic.Open(deviceId);
 
             var id = 0;
-            while (Gamepads.Contains(id))
+            while (Gamepads.ContainsKey(id))
                 id++;
 
             Gamepads.set(id, gamepad);
@@ -213,7 +213,7 @@ namespace Microsoft.Xna.Framework.Input
 
         private static GamePadCapabilities PlatformGetCapabilities(int index)
         {
-            if (!Gamepads.Contains(index))
+            if (!Gamepads.ContainsKey(index))
                 return new GamePadCapabilities();
 
             var gamecontroller = Gamepads[index].Device;
@@ -314,7 +314,7 @@ namespace Microsoft.Xna.Framework.Input
 
         private static GamePadState PlatformGetState(int index, GamePadDeadZone deadZoneMode)
         {
-            if (!Gamepads.Contains(index))
+            if (!Gamepads.ContainsKey(index))
                 return GamePadState.Default;
 
             var gdevice = Gamepads[index].Device;
@@ -368,7 +368,7 @@ namespace Microsoft.Xna.Framework.Input
 
         private static bool PlatformSetVibration(int index, float leftMotor, float rightMotor)
         {
-            if (!Gamepads.Contains(index))
+            if (!Gamepads.ContainsKey(index))
                 return false;
 
             var gamepad = Gamepads[index];

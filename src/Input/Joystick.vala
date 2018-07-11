@@ -55,7 +55,7 @@ namespace Microsoft.Xna.Framework.Input
             var jdevice = Sdl.Joystick.Open(deviceId);
             var id = 0;
 
-            while (Joysticks.Contains(id))
+            while (Joysticks.ContainsKey(id))
                 id++;
 
             Joysticks.set(id, jdevice);
@@ -107,7 +107,7 @@ namespace Microsoft.Xna.Framework.Input
 
         private static JoystickCapabilities PlatformGetCapabilities(int index)
         {
-            if (!Joysticks.Contains(index))
+            if (!Joysticks.ContainsKey(index))
                 return new JoystickCapabilities()
                 {
                     IsConnected = false,
@@ -132,7 +132,7 @@ namespace Microsoft.Xna.Framework.Input
 
         private static JoystickState PlatformGetState(int index)
         {
-            if (!Joysticks.Contains(index))
+            if (!Joysticks.ContainsKey(index))
                 return new JoystickState()
                 {
                     IsConnected = false,

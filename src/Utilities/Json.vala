@@ -377,7 +377,7 @@ namespace Microsoft.Xna.Framework.Utilities
                     key = getString().string;
                     skipWhite();
                     next(':');
-                    if (result.object.Contains(key)) {
+                    if (result.object.ContainsKey(key)) {
                         throw new JsonException.DuplicateKey("");
                     }
                     result.object[key] = getValue();

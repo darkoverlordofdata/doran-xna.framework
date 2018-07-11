@@ -72,7 +72,7 @@ namespace Microsoft.Xna.Framework.Content
 
             // Check for a previously loaded asset first
             Object? asset = null;
-            if (loadedAssets.Contains(key))
+            if (loadedAssets.ContainsKey(key))
             {
 				asset = loadedAssets[key];
                 if (asset is T)

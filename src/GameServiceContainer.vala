@@ -49,7 +49,7 @@ namespace Microsoft.Xna.Framework
             if (type == null)
                 throw new Exception.ArgumentNullException("type");
 						
-            if (services.Contains(type))
+            if (services.ContainsKey(type))
                 return services[type];
             else
                 return null;
