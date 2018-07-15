@@ -302,10 +302,10 @@ namespace Microsoft.Xna.Framework
 		public Vector2 (float x, float y);
 		[CCode (cname = "vec2_zero")]
 		private static Vector2 zero();
-		public static Vector2 Zero { get { return zero();}}
+		public static Vector2 Zero { owned get { return zero();}}
 		[CCode (cname = "vec2_one")]
 		private static Vector2 one();
-		public static Vector2 One { get { return one();}}
+		public static Vector2 One { owned get { return one();}}
 		
 		[CCode (cname = "vec2_add")]
 		public Vector2 Add(Vector2 other);
