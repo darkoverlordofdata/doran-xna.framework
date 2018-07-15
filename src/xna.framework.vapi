@@ -1555,11 +1555,11 @@ namespace Microsoft.Xna.Framework
 			[CCode (cname = "image_alpha_mean")]
 			public Vector4 AlphaMean();
 			[CCode (cname = "image_get_subimage")]
-			public Image GetSubimage(int left, int top, int width, int height);
+			public Image GetSubImage(int left, int top, int width, int height);
 			[CCode (cname = "image_set_subimage")]
-			public void SetSubimage(int left, int top, Image src);
+			public void SetSubImage(int left, int top, Image src);
 			[CCode (cname = "image_paste_subimage")]
-			public void PasteSubimage(int left, int top, Image src);
+			public void PasteSubImage(int left, int top, Image src);
 			[CCode (cname = "image_paste_subimage")]
 			public Vector4 Sample(Vector2 uv);
 			[CCode (cname = "image_sample")]
@@ -1597,11 +1597,11 @@ namespace Microsoft.Xna.Framework
 			[CCode (cname = "image_mask_random")]
 			public void MaskRandom(ref int u, ref int v);
 			[CCode (cname = "image_read_from_file")]
-			public Image ReadFromFile(string filename);
+			public static Image ReadFromFile(string filename);
 			[CCode (cname = "image_tga_load_file")]
-			public Image TgaLoadFile(string filename);
+			public static Image TgaLoadFile(string filename);
 			[CCode (cname = "image_bmp_load_file")]
-			public Image BmpLoadFile(string filename);
+			public static Image BmpLoadFile(string filename);
 			[CCode (cname = "image_write_to_file")]
 			public void WriteToFile(string filename);
 			[CCode (cname = "image_tga_save_file")]
@@ -2099,7 +2099,7 @@ namespace Microsoft.Xna.Framework
 			[CCode (cname = "texture_type")]
 			public int type();
 			[CCode (cname = "texture_set_image")]
-			public void setImage(Image i);
+			public void SetImage(Image i);
 			[CCode (cname = "texture_get_image")]
 			public Image getImage();
 			[CCode (cname = "texture_generate_mipmaps")]

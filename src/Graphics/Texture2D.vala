@@ -55,6 +55,8 @@ namespace Microsoft.Xna.Framework.Graphics
 
             this.width = width[0];
             this.height = height[0];
+            this.TexelWidth = 1f / (float)this.width;
+            this.TexelHeight = 1f / (float)this.height;
         }
 
 
