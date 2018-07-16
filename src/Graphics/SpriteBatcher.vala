@@ -126,7 +126,6 @@ namespace Microsoft.Xna.Framework.Graphics
             // Determine how many iterations through the drawing code we need to make
             int batchIndex = 0;
             int batchCount = _batchItemCount;
-            
             // Why??
             // _device._graphicsMetrics._spriteCount += batchCount;
 
@@ -164,7 +163,6 @@ namespace Microsoft.Xna.Framework.Graphics
                     item.Texture = null;
                 }
                 // flush the remaining vertexArray data
-
                 FlushVertexArray(startIndex, index, tex);
 
                 // Update our batch count to continue the process of culling down
@@ -274,13 +272,13 @@ namespace Microsoft.Xna.Framework.Graphics
             
         }
 
-        private void DrawUserIndexedPrimitives(Texture2D? texture)
+        private void DrawUserIndexedPrimitives(Texture2D texture)
         {
             // ApplyState(true);
 
-            _positions.SetData<float?>(_vertexPositions, _vertexPositions.length);
-            _texCoords.SetData<float?>(_vertexTexCoords, _vertexTexCoords.length);
-            
+            _positions.SetFloatData(_vertexPositions, _vertexPositions.length);
+            _texCoords.SetFloatData(_vertexTexCoords, _vertexTexCoords.length);
+
             GL.Use2DCamera(Camera);
             GL.BindTexture(TextureTarget.Texture2D, texture.Handle);
             GL.DrawUserArrays(_batchItemCount, _positions.vbo, _texCoords.vbo);
@@ -313,12 +311,12 @@ namespace Microsoft.Xna.Framework.Graphics
              }
         }
 
-        public void SetData<T>(T* data, int length)
+        public void SetFloatData(float* data, int length)
         {
             GenerateIfRequired();
             GL.BindBuffer(BufferTarget.ArrayBuffer, vbo);
             GraphicsExtensions.CheckGLError();
-            GL.BufferData(BufferTarget.ArrayBuffer, length*sizeof(T), (GL.void*)data, BufferUsageHint.StaticDraw);
+            GL.BufferData(BufferTarget.ArrayBuffer, length*sizeof(float), (GL.void*)data, BufferUsageHint.StaticDraw);
             GraphicsExtensions.CheckGLError();
         }
 

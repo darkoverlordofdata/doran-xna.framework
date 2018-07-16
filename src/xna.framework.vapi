@@ -305,6 +305,7 @@ namespace Microsoft.Xna.Framework
 		public static Vector2 Zero { owned get { return zero();}}
 		[CCode (cname = "vec2_one")]
 		private static Vector2 one();
+		// needs ownership or it will reset to zero due to disposal
 		public static Vector2 One { owned get { return one();}}
 		
 		[CCode (cname = "vec2_add")]

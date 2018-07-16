@@ -6,9 +6,6 @@ namespace Microsoft.Xna.Framework.Graphics
 {
     public class SpriteBatch : Object, IDisposable
     {
-        private const Vector2 UnitY = { 0, 1 };
-        private const Vector2 UnitX = { 1, 0 };
-
         private Texture2D? _texture;
         private Vector2 _camera;
         private bool _beginCalled;
