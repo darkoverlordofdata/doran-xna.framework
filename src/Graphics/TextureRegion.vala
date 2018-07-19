@@ -21,7 +21,7 @@ namespace Microsoft.Xna.Framework.Graphics
     // using System.Runtime.InteropServices;
     // using Microsoft.Xna.Framework.Utilities;
 
-    public class Texture2D : Texture, ISetData
+    public class TextureRegion : Texture, ISetData
     {
         public enum SurfaceType
         {
@@ -60,9 +60,9 @@ namespace Microsoft.Xna.Framework.Graphics
             var height = new int[1];
             Handle = corange_texture_handle(corange_asset_get(URI(path)));
 
-            GL.BindTexture(TextureTarget.Texture2D, Handle);
-            GL.GetTexLevelParameteriv(TextureTarget.Texture2D, 0, TextureParameter.Width, width);
-            GL.GetTexLevelParameteriv(TextureTarget.Texture2D, 0, TextureParameter.Height, height);
+            GL.BindTexture(TextureTarget.TextureRegion, Handle);
+            GL.GetTexLevelParameteriv(TextureTarget.TextureRegion, 0, TextureParameter.Width, width);
+            GL.GetTexLevelParameteriv(TextureTarget.TextureRegion, 0, TextureParameter.Height, height);
 
             this.width = width[0];
             this.height = height[0];
