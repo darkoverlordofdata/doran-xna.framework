@@ -26,6 +26,8 @@ namespace Microsoft.Xna.Framework
         internal Game _game;
         protected IntPtr _handle;
         private string _title;
+        private int _x;
+        private int _y;
         private int _width;
         private int _height;
         private bool _wasMoved;
@@ -104,7 +106,8 @@ namespace Microsoft.Xna.Framework
             }
         }
 
-        public override Quadrangle ClientBounds {
+        public override Quadrangle ClientBounds 
+        {
             get {
                 int x = 0, y = 0;
                 Sdl.Window.GetPosition(Handle, out x, out y);
@@ -117,11 +120,17 @@ namespace Microsoft.Xna.Framework
             get { return DisplayOrientation.Default; }
         }
 
-        public Point Position {
+        public override Point Size
+        {
+            get { return new Point(_width, _height); }
+        }
+
+        public override Point Position 
+        {
             get {
                 int x = 0, y = 0;
                 Sdl.Window.GetPosition(Handle, out x, out y);
-                return Point(x, y);
+                return new Point(x, y);
             }
             set {
                 Sdl.Window.SetPosition(Handle, value.X, value.Y);
@@ -190,20 +199,24 @@ namespace Microsoft.Xna.Framework
             _willBeFullScreen = willBeFullScreen;
         }
         
-        public override void EndScreenDeviceChange(string screenDeviceName, int clientWidth, int clientHeight)
+        public override void EndScreenDeviceChange(
+            string screenDeviceName, 
+            int clientX,
+            int clientY,
+            int clientWidth, 
+            int clientHeight)
         {
             _screenDeviceName = screenDeviceName;
 
             if (!_willBeFullScreen) 
             {
+                Sdl.Window.SetPosition(Handle, clientX, clientY);
                 corange_graphics_viewport_set_size(clientWidth, clientHeight);
                 _width = clientWidth;
                 _height = clientHeight;
+                _x = clientX;
+                _y = clientY;
             }
-
         }
-        
     }    
-
-
 }

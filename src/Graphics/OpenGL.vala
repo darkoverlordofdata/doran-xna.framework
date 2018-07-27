@@ -447,41 +447,22 @@ namespace ValaGame.OpenGL
             DisableClientState(EnableCap.TextureCoordArray);  
             DisableClientState(EnableCap.VertexArray);
         }
-
         /**
          *  Set 2D Camera with Orthographic display
          *
          */
-        public static int Use2DCamera(Microsoft.Xna.Framework.Vector2? camera=null) 
+        public static void Use2DCamera(Microsoft.Xna.Framework.Graphics.OrthoCamera? ortho=null) 
         {
-            int w;
-            int h;
-            Sdl.Window.GetSize(Sdl.GetCurrentWindow(), out w, out h);
+            ortho = ortho ?? Microsoft.Xna.Framework.Graphics.OrthoCamera.Default;
 
-            // var w = Microsoft.Xna.Framework.corange_graphics_viewport_width();
-            // var h = Microsoft.Xna.Framework.corange_graphics_viewport_height();
-            
             MatrixMode(Mode.Projection);
             LoadIdentity();
-
-            if (camera == null) {
-                Ortho(0, w, 0, h, -1, 1);
-            } else {
-                w /= 2;
-                h /= 2;
-                Ortho(camera.X-w, camera.X+w, -camera.Y+h, -camera.Y-h , -1, 1);
-            }
-            
+            Ortho(ortho.Left, ortho.Right, ortho.Bottom, ortho.Top, ortho.Near, ortho.Far);
             MatrixMode(Mode.ModelView);
             LoadIdentity();
-
-            // Enable Blending
-            
             Enable(EnableCap.Texture2D);
             Enable(EnableCap.Blend);
             BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
-            return 0;
-        
         }
     }
 }

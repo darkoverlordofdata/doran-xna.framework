@@ -32,6 +32,8 @@ namespace Microsoft.Xna.Framework
 
         private int _preferredBackBufferHeight;
         private int _preferredBackBufferWidth;  
+        private int _preferredWindowPositionX;
+        private int _preferredWindowPositionY;
         private SurfaceFormat _preferredBackBufferFormat;
         private DepthFormat _preferredDepthStencilFormat;
         private bool _preferMultiSampling;
@@ -44,6 +46,9 @@ namespace Microsoft.Xna.Framework
         private GraphicsProfile _graphicsProfile;
         // dirty flag for ApplyChanges
         private bool _shouldApplyChanges;
+
+        public const int DefaultWindowPositionX = 0;
+        public const int DefaultWindowPositionY = 0;
 
         /**
          * The default back buffer width.
@@ -63,13 +68,15 @@ namespace Microsoft.Xna.Framework
         /// Associates this graphics device manager to a game instances.
         /// </summary>
         /// <param name="game">The game instance to attach.</param>
-        public GraphicsDeviceManager(Game game)
+        public GraphicsDeviceManager(
+            Game? game,
+            Quadrangle? bounds = null)
         {
             if (game == null)
                 throw new Exception.ArgumentNullException("Game cannot be null.");
             // GLib.Object ( game: game );
             _game = game;
-            
+
             _supportedOrientations = DisplayOrientation.Default;
             _preferredBackBufferFormat = SurfaceFormat.Color;
             _preferredDepthStencilFormat = DepthFormat.Depth24;
@@ -89,6 +96,9 @@ namespace Microsoft.Xna.Framework
                 _preferredBackBufferHeight = clientBounds.Width;
             }
 
+            _preferredWindowPositionX = DefaultWindowPositionX;
+            _preferredWindowPositionY = DefaultWindowPositionY;
+
             // Default to windowed mode... this is ignored on platforms that don't support it.
             _wantFullScreen = false;
 
@@ -105,6 +115,15 @@ namespace Microsoft.Xna.Framework
 
             game.Services.AddService(typeof(IGraphicsDeviceManager), this);
             game.Services.AddService(typeof(IGraphicsDeviceService), this);
+
+            if (bounds != null)
+            {
+                PreferredWindowPositionX = bounds.X;
+                PreferredWindowPositionY = bounds.Y;
+                PreferredBackBufferWidth = bounds.Width;
+                PreferredBackBufferHeight = bounds.Height;
+            }
+
         }
 
         private void CreateDevice()
@@ -251,6 +270,8 @@ namespace Microsoft.Xna.Framework
         private void PreparePresentationParameters(PresentationParameters presentationParameters)
         {
             presentationParameters.BackBufferFormat = _preferredBackBufferFormat;
+            presentationParameters.WindowPositionX = _preferredWindowPositionX;
+            presentationParameters.WindowPositionY = _preferredWindowPositionY;
             presentationParameters.BackBufferWidth = _preferredBackBufferWidth;
             presentationParameters.BackBufferHeight = _preferredBackBufferHeight;
             presentationParameters.DepthStencilFormat = _preferredDepthStencilFormat;
@@ -469,6 +490,18 @@ namespace Microsoft.Xna.Framework
             }
         }
         
+        public int PreferredWindowPositionX
+        {
+            get { return _preferredWindowPositionX; }
+            set { _preferredWindowPositionX = value; }
+        }
+        
+        public int PreferredWindowPositionY
+        {
+            get { return _preferredWindowPositionY; }
+            set { _preferredWindowPositionY = value; }
+        }
+
         /// <summary>
         /// Indicates the desired back buffer height in pixels.
         /// </summary>

@@ -23,7 +23,8 @@ namespace Microsoft.Xna.Framework
         public int X;
         public int Y;
 
-        public Point(int x, int y) {
+        public Point(int x, int y) 
+        {
             this.X = x;
             this.Y = y;
         }
@@ -57,11 +58,12 @@ namespace Microsoft.Xna.Framework
         }
 
         public string ToString() {
-            return to_string();
+            return @"$this";
+            // return to_string();
         }
 
         public Vector2 ToVector2() {
-            return Vector2(X, Y);
+            return new Vector2(X, Y); 
         }
     }
 }

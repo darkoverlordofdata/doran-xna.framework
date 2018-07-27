@@ -23,6 +23,8 @@ namespace Microsoft.Xna.Framework.Graphics
 
         private DepthFormat depthStencilFormat;
         private SurfaceFormat backBufferFormat;
+        private int windowPositionX = GraphicsDeviceManager.DefaultWindowPositionX;
+        private int windowPositionY = GraphicsDeviceManager.DefaultWindowPositionY;
         private int backBufferHeight = GraphicsDeviceManager.DefaultBackBufferHeight;
         private int backBufferWidth = GraphicsDeviceManager.DefaultBackBufferWidth;
         private IntPtr deviceWindowHandle;
@@ -49,6 +51,18 @@ namespace Microsoft.Xna.Framework.Graphics
             set { backBufferFormat = value; }
         }
 
+        public int WindowPositionX
+        {
+            get { return windowPositionX;}
+            set { windowPositionX = value;}
+        }
+
+        public int WindowPositionY
+        {
+            get { return windowPositionY;}
+            set { windowPositionY = value;}
+        }
+
         /// <summary>
         /// Get or set the height of the back buffer.
         /// </summary>
@@ -72,7 +86,7 @@ namespace Microsoft.Xna.Framework.Graphics
         /// </summary>
         public Quadrangle Bounds 
         {
-            get { return new Quadrangle(0, 0, backBufferWidth, backBufferHeight); }
+            get { return new Quadrangle(windowPositionX, windowPositionY, backBufferWidth, backBufferHeight); }
         }
 
         /// <summary>

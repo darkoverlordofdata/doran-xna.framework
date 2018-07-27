@@ -236,6 +236,8 @@ namespace Microsoft.Xna.Framework
         /// </param>
         public abstract void EndScreenDeviceChange (
                  string screenDeviceName,
+                 int clientX,
+                 int clientY,
                  int clientWidth,
                  int clientHeight
         );

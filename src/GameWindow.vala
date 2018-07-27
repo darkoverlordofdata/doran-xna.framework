@@ -28,6 +28,10 @@ namespace Microsoft.Xna.Framework
 
 		public abstract Quadrangle ClientBounds { get; }
 
+        public abstract Point Position { get; set; }
+
+		public abstract Point Size { get; }
+
 	    internal bool _allowAltF4 = true;
 
         /// <summary>
@@ -111,6 +115,8 @@ namespace Microsoft.Xna.Framework
 
 		public abstract void EndScreenDeviceChange (
 			string screenDeviceName, 
+			int clientX = ClientBounds.X,
+			int clientY = ClientBounds.Y,
 			int clientWidth = ClientBounds.Width, 
 			int clientHeight = ClientBounds.Height);
 

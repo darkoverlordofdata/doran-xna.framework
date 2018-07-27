@@ -22,7 +22,7 @@ namespace Microsoft.Xna.Framework.Graphics
     public class SpriteBatch : Object, IDisposable
     {
         private Texture2D? _texture;
-        private Vector2 _camera;
+        private OrthoCamera _camera;
         private bool _beginCalled;
         private SpriteBatcher _batcher;
 		private SpriteSortMode _sortMode;
@@ -36,15 +36,58 @@ namespace Microsoft.Xna.Framework.Graphics
         }
 
         public void Begin(
-            Vector2? camera = null, 
+            OrthoCamera? camera = null, 
             SpriteSortMode sortMode = SpriteSortMode.Deferred)
         {
             if (_beginCalled)
                 throw new Exception.InvalidOperationException("Begin cannot be called again until End has been successfully called.");
 
             _sortMode = sortMode;
-            _camera = camera ?? Vector2.Zero;
+            _camera = camera ?? OrthoCamera.Default;
             _beginCalled = true;
+        }
+
+
+        public void Draw5(
+            TextureRegion region, 
+            float x=0, float y=0, float width=-1, float height=-1)
+
+        {
+            int u = (int)region.X;
+            int v = (int)region.Y;
+            int u2 = (int)region.Width;
+            int v2 = (int)region.Height;
+
+            int w = width == -1 ? (int)u2 : (int)width;
+            int h = height == -1 ? (int)v2 : (int)height;
+
+            Draw0(region.texture, null,
+                { (int)x, (int)y, w, h }, 
+                { v, u, u2, v2 });
+        }
+
+        public void Draw(
+            TextureRegion region, 
+            Vector2? location = null,
+            Vector2? scale = null,
+            Vector2? size = null)
+        {
+            scale = scale ?? region.Scale.Copy();
+
+            int u = (int)region.X;
+            int v = (int)region.Y;
+            int u2 = (int)region.Width;
+            int v2 = (int)region.Height;
+
+            int w = size == null ? (int)(u2 * scale.X) : (int)(size.X * scale.X);
+            int h = size == null ? (int)(v2 * scale.Y) : (int)(size.Y * scale.Y);
+
+            int x = location == null ? 0 : (int)(location.X-(w * 0.5f));
+            int y = location == null ? 0 : (int)(location.Y-(h * 0.5f));
+
+            Draw0(region.texture, null,
+                { x, y, w, h }, 
+                { v, u, u2, v2 });
         }
 
         /// <summary>
@@ -62,7 +105,7 @@ namespace Microsoft.Xna.Framework.Graphics
         /// <param name="layerDepth">An optional depth of the layer of this sprite. 0 by default.</param>
         /// <exception cref="InvalidOperationException">Throwns if both <paramref name="position"/> and <paramref name="destinationRectangle"/> been used.</exception>
         /// <remarks>This overload uses optional parameters. This overload requires only one of <paramref name="position"/> and <paramref name="destinationRectangle"/> been used.</remarks>
-        public void Draw(
+        public void Draw0(
             Texture2D texture, 
             Vector2? position = null, 
             Quadrangle? destinationRectangle = null,
@@ -127,13 +170,14 @@ namespace Microsoft.Xna.Framework.Graphics
             // set SortKey based on SpriteSortMode.
             item.SortKey = (float)SpriteSortMode.Texture;
 
-            origin = origin.MulVec2(scale);
+            origin = origin.Mul(scale);
             
             float h;
             float w;
             if (sourceRectangle != null)
             {
-                var srcRect = sourceRectangle ?? new Quadrangle(0, 0, texture.Width, texture.Height);
+                var srcRect = sourceRectangle == null ?  new Quadrangle(0, 0, texture.Width, texture.Height) : sourceRectangle;
+                // var srcRect = sourceRectangle ?? new Quadrangle(0, 0, texture.Width, texture.Height);
                 w = srcRect.Width * scale.X;
                 h = srcRect.Height * scale.Y;
                 _texCoordTL.X = srcRect.X * texture.TexelWidth;
@@ -222,7 +266,8 @@ namespace Microsoft.Xna.Framework.Graphics
 
             if (sourceRectangle != null)
             {
-                var srcRect = sourceRectangle ?? new Quadrangle(0, 0, texture.Width, texture.Height);
+                // var srcRect = sourceRectangle ?? new Quadrangle(0, 0, texture.Width, texture.Height);
+                var srcRect = sourceRectangle == null ?  new Quadrangle(0, 0, texture.Width, texture.Height) : sourceRectangle;
                 _texCoordTL.X = srcRect.X * texture.TexelWidth;
                 _texCoordTL.Y = srcRect.Y * texture.TexelHeight;
                 _texCoordBR.X = (srcRect.X + srcRect.Width) * texture.TexelWidth;

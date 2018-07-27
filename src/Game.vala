@@ -512,7 +512,11 @@ namespace Microsoft.Xna.Framework
 			                            GraphicsDevice.PresentationParameters.BackBufferHeight);
 
             GraphicsDevice.Viewport = viewport;
-			Platform.EndScreenDeviceChange("", manager.PreferredBackBufferWidth, manager.PreferredBackBufferHeight);
+			Platform.EndScreenDeviceChange("",
+                 manager.PreferredWindowPositionX,
+                 manager.PreferredWindowPositionY,
+                 manager.PreferredBackBufferWidth, 
+                 manager.PreferredBackBufferHeight);
             
         }
 

@@ -103,7 +103,7 @@ namespace Microsoft.Xna.Framework
             var displayIndex = Sdl.Window.GetDisplayIndex(Window.Handle);
             var displayName = Sdl.Display.GetDisplayName(displayIndex);
             BeginScreenDeviceChange(pp.IsFullScreen);
-            EndScreenDeviceChange(displayName, pp.BackBufferWidth, pp.BackBufferHeight);
+            EndScreenDeviceChange(displayName, pp.WindowPositionX, pp.WindowPositionY, pp.BackBufferWidth, pp.BackBufferHeight);
         }
 
         public override void RunLoop()
@@ -233,9 +233,14 @@ namespace Microsoft.Xna.Framework
             // _view.BeginScreenDeviceChange(willBeFullScreen);
         }
 
-        public override void EndScreenDeviceChange(string screenDeviceName, int clientWidth, int clientHeight)
+        public override void EndScreenDeviceChange(
+            string screenDeviceName, 
+            int clientX,
+            int clientY,
+            int clientWidth, 
+            int clientHeight)
         {
-            _view.EndScreenDeviceChange(screenDeviceName, clientWidth, clientHeight);
+            _view.EndScreenDeviceChange(screenDeviceName, clientX, clientY, clientWidth, clientHeight);
         }
 
         public override void Log(string message)

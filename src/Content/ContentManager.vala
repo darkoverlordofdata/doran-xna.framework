@@ -116,6 +116,10 @@ namespace Microsoft.Xna.Framework.Content
 			if (result == null)
 				throw new Exception.ContentLoadException("Could not load " + originalAssetName + " asset!");
 
+			var manager = result as ISetContent;
+			if (manager != null)
+				manager.SetContent(this);
+							
 			var asset = result as ISetData;
 			if (asset == null)
 				throw new Exception.ContentLoadException("Missing ISetData Interface loading " + originalAssetName + " in " + result.get_type().name());
@@ -147,17 +151,17 @@ namespace Microsoft.Xna.Framework.Content
 		/// loads all assets from an asset folder
 		/// </summary>
 		/// <returns>Load all assets.</returns>
-		public virtual void LoadFolder(string folderName)
+		public virtual void PreLoad(string location)
 		{
-			if (folderName == null || folderName == "")
+			if (location == null || location == "")
 			{
-				throw new Exception.ArgumentNullException("folderName");
+				throw new Exception.ArgumentNullException("location");
 			}
 			if (disposed)
 			{
 				throw new Exception.ObjectDisposedException("ContentManager");
 			}
-			Folder.Load(URI(@"$_rootDirectory/$folderName/"));
+			Folder.Load(URI(@"$_rootDirectory/$location/"));
 			
 		}
 

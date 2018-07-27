@@ -17,11 +17,8 @@ namespace Microsoft.Xna.Framework.Graphics
 {
     using System;
     using ValaGame.OpenGL;
-    // using System.IO;
-    // using System.Runtime.InteropServices;
-    // using Microsoft.Xna.Framework.Utilities;
 
-    public class TextureRegion : Texture, ISetData
+    public class AtlasRegion : Texture, ISetData
     {
         public enum SurfaceType
         {
@@ -35,6 +32,7 @@ namespace Microsoft.Xna.Framework.Graphics
         internal int format;
         internal int ArraySize;
         internal uint Handle;
+        internal Quadrangle sourceRect;
                 
         internal float TexelWidth { get; private set; }
         internal float TexelHeight { get; private set; }
@@ -50,6 +48,14 @@ namespace Microsoft.Xna.Framework.Graphics
             }
         }
 
+        public Quadrangle Source
+        {
+            get
+            {
+				return sourceRect;
+            }
+        }
+
         /// <summary>
         /// Changes the pixels of the texture
         /// </summary>
@@ -60,9 +66,9 @@ namespace Microsoft.Xna.Framework.Graphics
             var height = new int[1];
             Handle = corange_texture_handle(corange_asset_get(URI(path)));
 
-            GL.BindTexture(TextureTarget.TextureRegion, Handle);
-            GL.GetTexLevelParameteriv(TextureTarget.TextureRegion, 0, TextureParameter.Width, width);
-            GL.GetTexLevelParameteriv(TextureTarget.TextureRegion, 0, TextureParameter.Height, height);
+            GL.BindTexture(TextureTarget.Texture2D, Handle);
+            GL.GetTexLevelParameteriv(TextureTarget.Texture2D, 0, TextureParameter.Width, width);
+            GL.GetTexLevelParameteriv(TextureTarget.Texture2D, 0, TextureParameter.Height, height);
 
             this.width = width[0];
             this.height = height[0];

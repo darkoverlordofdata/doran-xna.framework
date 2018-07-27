@@ -291,7 +291,7 @@ namespace Microsoft.Xna.Framework
 	}
 
 	[SimpleType, CCode (cname = "vec2")]
-	public struct Vector2 
+	public struct Vec2 
 	{
 		[CCode (cname = "x")]
 		public float X;
@@ -299,68 +299,68 @@ namespace Microsoft.Xna.Framework
 		public float Y;
 
 		[CCode (cname = "vec2_new")]
-		public Vector2 (float x, float y);
+		public Vec2 (float x, float y);
 		[CCode (cname = "vec2_zero")]
-		private static Vector2 zero();
-		public static Vector2 Zero { owned get { return zero();}}
+		private static Vec2 zero();
+		public static Vec2 Zero { owned get { return zero();}}
 		[CCode (cname = "vec2_one")]
-		private static Vector2 one();
+		private static Vec2 one();
 		// needs ownership or it will reset to zero due to disposal
-		public static Vector2 One { owned get { return one();}}
+		public static Vec2 One { owned get { return one();}}
 		
 		[CCode (cname = "vec2_add")]
-		public Vector2 Add(Vector2 other);
+		public Vec2 Add(Vec2 other);
 		[CCode (cname = "vec2_sub")]
-		public Vector2 Sub(Vector2 other);
+		public Vec2 Sub(Vec2 other);
 		[CCode (cname = "vec2_mul")]
-		public Vector2 Multiply(float fac);
+		public Vec2 Multiply(float fac);
 		[CCode (cname = "vec2_mul_vec2")]
-		public Vector2 Mul(Vector2 other);
+		public Vec2 Mul(Vec2 other);
 		[CCode (cname = "vec2_div")]
-		public Vector2 Divide(float fac);
+		public Vec2 Divide(float fac);
 		[CCode (cname = "vec2_div_vec2")]
-		public Vector2 Div(Vector2 other);
+		public Vec2 Div(Vec2 other);
 		[CCode (cname = "vec2_pow")]
-		public Vector2 Pow(float exp);
+		public Vec2 Pow(float exp);
 		[CCode (cname = "vec2_neg")]
-		public Vector2 Neg();
+		public Vec2 Neg();
 		[CCode (cname = "vec2_abs")]
-		public Vector2 Abs();
+		public Vec2 Abs();
 		[CCode (cname = "vec2_floor")]
-		public Vector2 Floor();
+		public Vec2 Floor();
 		[CCode (cname = "vec2_fmod")]
-		public Vector2 FMod(float val);
+		public Vec2 FMod(float val);
 		
 		[CCode (cname = "vec2_max")]
-		public Vector2 Max(float x);
+		public Vec2 Max(float x);
 		[CCode (cname = "vec2_min")]
-		public Vector2 Min(float x);
+		public Vec2 Min(float x);
 		[CCode (cname = "vec2_clamp")]
-		public Vector2 Clamp(float b, float t);
+		public Vec2 Clamp(float b, float t);
 		
 		[CCode (cname = "vec2_equ")]
-		public bool Equals(Vector2 other);
+		public bool Equals(Vec2 other);
 		
 		[CCode (cname = "vec2_dot")]
-		public float Dot(Vector2 other);
+		public float Dot(Vec2 other);
 		[CCode (cname = "vec2_length_sqrd")]
 		public float LengthSquared();
 		[CCode (cname = "vec2_length")]
 		public float Length();
 		[CCode (cname = "vec2_dist_sqrd")]
-		public float DistSquared(Vector2 other);
+		public float DistSquared(Vec2 other);
 		[CCode (cname = "vec2_dist")]
-		public float Dist(Vector2 other);
+		public float Dist(Vec2 other);
 		[CCode (cname = "vec2_dist_manhattan")]
-		public float DistManhattan(Vector2 other);
+		public float DistManhattan(Vec2 other);
 		[CCode (cname = "vec2_normalize")]
-		public Vector2 Normalize();
+		public Vec2 Normalize();
 		
 		[CCode (cname = "vec2_reflect")]
-		public Vector2 Reflect(Vector2 other);
+		public Vec2 Reflect(Vec2 other);
 		
 		[CCode (cname = "vec2_from_string")]
-		public Vector2 Parse(string s);
+		public Vec2 Parse(string s);
 		[CCode (cname = "vec2_print")]
 		public void Print();
 		
@@ -373,26 +373,17 @@ namespace Microsoft.Xna.Framework
 		public int MixHash();
 		
 		[CCode (cname = "vec2_saturate")]
-		public Vector2 Saturate();
+		public Vec2 Saturate();
 		[CCode (cname = "vec2_lerp")]
-		public Vector2 Lerp(Vector2 other, float amount);
+		public Vec2 Lerp(Vec2 other, float amount);
 		[CCode (cname = "vec2_smoothstep")]
-		public Vector2 SmoothStep(Vector2 other, float amount);
+		public Vec2 SmoothStep(Vec2 other, float amount);
 		[CCode (cname = "vec2_smootherstep")]
-		public Vector2 SmootherStep(Vector2 other, float amount);
+		public Vec2 SmootherStep(Vec2 other, float amount);
 
 		public string to_string()
 		{
 			return @"{X:$X, Y:$Y}";
-		}
-		public Vector2 Copy()
-		{
-			return { X, Y };
-		}
-		public void Clone(Vector2 other)
-		{
-			X = other.X;
-			Y = other.Y;
 		}
 				
 	}
@@ -758,7 +749,7 @@ namespace Microsoft.Xna.Framework
 		[CCode (cname = "mat2_mul_mat2")]
 		public Matrix2 Mul(Matrix2 other);
 		[CCode (cname = "mat2_mul_vec2")]
-		public Vector2 MulVec2(Vector2 other);
+		public Vec2 MulVec2(Vec2 other);
 		[CCode (cname = "mat2_transpose")]
 		public Matrix2 Transpose();
 		[CCode (cname = "mat2_det")]
@@ -1188,7 +1179,7 @@ namespace Microsoft.Xna.Framework
 		public Vector3 tangent;
 		public Vector3 binormal;
 		public Vector4 color;
-		public Vector2 uvs;
+		public Vec2 uvs;
 
 		[CCode (cname = "vertex_new")]
 		public Vertex ();
@@ -1571,11 +1562,11 @@ namespace Microsoft.Xna.Framework
 			[CCode (cname = "image_paste_subimage")]
 			public void PasteSubImage(int left, int top, Image src);
 			[CCode (cname = "image_paste_subimage")]
-			public Vector4 Sample(Vector2 uv);
+			public Vector4 Sample(Vec2 uv);
 			[CCode (cname = "image_sample")]
-			public void Paint(Vector2 uv, Vector4 color);
+			public void Paint(Vec2 uv, Vector4 color);
 			[CCode (cname = "image_paint")]
-			public void Scale(Vector2 scale);
+			public void Scale(Vec2 scale);
 			[CCode (cname = "image_scale")]
 			public void MaskNot();
 			[CCode (cname = "image_mask_not")]
@@ -1736,11 +1727,11 @@ namespace Microsoft.Xna.Framework
 			public int width;
 			public int height;
 			[CCode (array_length = false)]
-			public Vector2[] locations;
+			public Vec2[] locations;
 			[CCode (array_length = false)]
-			public Vector2[] sizes;
+			public Vec2[] sizes;
 			[CCode (array_length = false)]
-			public Vector2[] offsets;
+			public Vec2[] offsets;
 			[CCode (cname = "font_load_file")]
 			public Font(string filename);
 			[CCode (cname = "font_delete")]
@@ -1815,7 +1806,7 @@ namespace Microsoft.Xna.Framework
 			[CCode (cname = "shader_program_set_float")]
 			public void setFloat(string name, float val);
 			[CCode (cname = "shader_program_set_vec2")]
-			public void setVec2(string name, Vector2 val);
+			public void setVec2(string name, Vec2 val);
 			[CCode (cname = "shader_program_set_vec3")]
 			public void setVec3(string name, Vector3 val);
 			[CCode (cname = "shader_program_set_vec4")]
@@ -1827,7 +1818,7 @@ namespace Microsoft.Xna.Framework
 			[CCode (cname = "shader_program_set_float_array")]
 			public void setFloatArray(string name, ref float vals, int count);
 			[CCode (cname = "shader_program_set_vec2_array")]
-			public void setVec2Array(string name, ref Vector2 vals, int count);
+			public void setVec2Array(string name, ref Vec2 vals, int count);
 			[CCode (cname = "shader_program_set_vec3_array")]
 			public void setVec3Array(string name, ref Vector3 vals, int count);
 			[CCode (cname = "shader_program_set_vec3_array")]
@@ -1865,7 +1856,7 @@ namespace Microsoft.Xna.Framework
 			[CCode (cname = "as_float")]
 			public float asFloat;
 			[CCode (cname = "as_vec2")]
-			public Vector2 asVec2;
+			public Vec2 asVec2;
 			[CCode (cname = "as_vec3")]
 			public Vector3 asVec3;
 			[CCode (cname = "as_vec4")]
@@ -2080,13 +2071,13 @@ namespace Microsoft.Xna.Framework
 			[CCode (cname = "terrain_reload_chunk")]
 			public void reloadChunk(int i);
 			[CCode (cname = "terrain_tbn")]
-			public Matrix3  tbn(Vector2 position);
+			public Matrix3  tbn(Vec2 position);
 			[CCode (cname = "terrain_axis")]
-			public Matrix3  axis(Vector2 position);
+			public Matrix3  axis(Vec2 position);
 			[CCode (cname = "terrain_height")]
-			public float height(Vector2 position);
+			public float height(Vec2 position);
 			[CCode (cname = "terrain_normal")]
-			public Vector3  normal(Vector2 position);
+			public Vector3  normal(Vec2 position);
 		}		
 
 		[Compact, CCode (cname = "texture", cprefix="", free_function = "")]
@@ -2158,7 +2149,7 @@ namespace Microsoft.Xna.Framework
 		[CCode (cname = "randf_range")]
 		public float randRange(float s, float e);
 		[CCode (cname = "randf_circle")]
-		public Vector2 randCircle(float radius);
+		public Vec2 randCircle(float radius);
 
 		[CCode (has_target = false)]
 		public delegate void BucketFunc();
@@ -2325,11 +2316,11 @@ namespace Microsoft.Xna.Framework
 			[CCode (cname = "spline_delete")]
 			public void delete();
 			[CCode (cname = "spline_add_point")]
-			public void addPoint(Vector2 p);
+			public void addPoint(Vec2 p);
 			[CCode (cname = "spline_get_point")]
-			public Vector2 getPoint(int i);
+			public Vec2 getPoint(int i);
 			[CCode (cname = "spline_set_point")]
-			public void setPoint(int i, Vector2 p);
+			public void setPoint(int i, Vec2 p);
 			[CCode (cname = "spline_update")]
 			public void update();
 			[CCode (cname = "spline_print")]
@@ -2913,17 +2904,17 @@ namespace Microsoft.Xna.Framework
 			[CCode (cname = "landscape_world_normal")]
 			Matrix3  worldNormal();
 			[CCode (cname = "landscape_height")]
-			float height(Vector2 pos);
+			float height(Vec2 pos);
 			[CCode (cname = "landscape_normal")]
-			Vector3  normal(Vector2 pos);
+			Vector3  normal(Vec2 pos);
 			[CCode (cname = "landscape_axis")]
-			Matrix3  axis(Vector2 pos);
+			Matrix3  axis(Vec2 pos);
 			[CCode (cname = "landscape_paint_height")]
-			void paintHeight(Vector2 pos, float radius, float value, float opacity);
+			void paintHeight(Vec2 pos, float radius, float value, float opacity);
 			[CCode (cname = "landscape_paint_color")]
-			void paintColor(Vector2 pos, float radius, int type, float opacity);
+			void paintColor(Vec2 pos, float radius, int type, float opacity);
 			[CCode (cname = "landscape_chunks", array_length = false)]
-			void chunks(Vector2 pos, ref Assets.TerrainChunk[] chunks_out);
+			void chunks(Vec2 pos, ref Assets.TerrainChunk[] chunks_out);
 		}
 
 
@@ -3160,9 +3151,9 @@ namespace Microsoft.Xna.Framework
 			[CCode (cname = "ui_button_delete")]
 			public void Delete();
 			[CCode (cname = "ui_button_move")]
-			public void Move(Vector2 pos);
+			public void Move(Vec2 pos);
 			[CCode (cname = "ui_button_resize")]
-			public void Resize(Vector2 size);
+			public void Resize(Vec2 size);
 			[CCode (cname = "ui_button_set_label")]
 			public void SetLabel(string label);
 			[CCode (cname = "ui_button_set_label_color")]
@@ -3184,9 +3175,9 @@ namespace Microsoft.Xna.Framework
 			[CCode (cname = "ui_button_enable")]
 			public void Enable();
 			[CCode (cname = "ui_button_position")]
-			public Vector2 Position();
+			public Vec2 Position();
 			[CCode (cname = "ui_button_size")]
-			public Vector2 Size();
+			public Vec2 Size();
 			[CCode (cname = "ui_button_event")]
 			public void Event(Sdl.Event e);
 			[CCode (cname = "ui_button_update")]
@@ -3194,7 +3185,7 @@ namespace Microsoft.Xna.Framework
 			[CCode (cname = "ui_button_render")]
 			public void Render();
 			[CCode (cname = "ui_button_contains_point")]
-			public bool ContainsPoint(Vector2 pos);
+			public bool ContainsPoint(Vec2 pos);
 		}
 
 		[CCode (cname = "ui_button_onclick", instance_pos = 0.1, has_target = false)]
@@ -3286,7 +3277,7 @@ namespace Microsoft.Xna.Framework
 			[CCode (cname = "ui_option_set_active")]
 			public void setActive(bool active);
 			[CCode (cname = "ui_option_move")]
-			public void move(Vector2 position);
+			public void move(Vec2 position);
 			[CCode (cname = "ui_option_set_options", array_length = false)]
 			public void setOptions(string label, int num, string[] values);
 			[CCode (cname = "ui_option_get_selected")]
@@ -3338,7 +3329,7 @@ namespace Microsoft.Xna.Framework
 			[CCode (cname = "ui_spinner_set_label")]
 			public void setLabel(string label);
 			[CCode (cname = "ui_spinner_move")]
-			public void move(Vector2 position);
+			public void move(Vec2 position);
 			[CCode (cname = "ui_spinner_set_amount")]
 			public void setAmount(float amount);
 			[CCode (cname = "ui_spinner_get_amount")]
@@ -3398,7 +3389,7 @@ namespace Microsoft.Xna.Framework
 			[CCode (cname = "text_color")]
 			public Vector4  textColor;
 			[CCode (cname = "text_scale")]
-			public Vector2  textScale;
+			public Vec2  textScale;
 			/* Spinner */
 			[CCode (cname = "spinner_image")]
 			public URI spinnerImage;
@@ -3436,9 +3427,9 @@ namespace Microsoft.Xna.Framework
 			[CCode (cname = "ui_textbox_rmchar")]
 			public void rmchar();
 			[CCode (cname = "ui_textbox_move")]
-			public void move(Vector2 pos);
+			public void move(Vec2 pos);
 			[CCode (cname = "ui_textbox_resize")]
-			public void resize(Vector2 size);
+			public void resize(Vec2 size);
 			[CCode (cname = "ui_textbox_set_font")]
 			public void setFont(AssetHandle f);
 			[CCode (cname = "ui_textbox_set_label")]
@@ -3458,7 +3449,7 @@ namespace Microsoft.Xna.Framework
 			[CCode (cname = "ui_textbox_render")]
 			public void render();
 			[CCode (cname = "ui_textbox_contains_point")]
-			public bool containsPoint(Vector2 p);
+			public bool containsPoint(Vec2 p);
 		}
 
 		[Compact, CCode (cname = "ui_toast", cprefix="", free_function = "")]
@@ -3514,9 +3505,9 @@ namespace Microsoft.Xna.Framework
 			[CCode (cname = "ui_listbox_add_item")]
 			public Text addItem(string item);
 			[CCode (cname = "ui_listbox_move")]
-			public void move(Vector2 pos);
+			public void move(Vec2 pos);
 			[CCode (cname = "ui_listbox_resize")]
-			public void resize(Vector2 size);
+			public void resize(Vec2 size);
 			[CCode (cname = "ui_listbox_event")]
 			public void event(Sdl.Event e);
 			[CCode (cname = "ui_listbox_update")]
@@ -3542,13 +3533,13 @@ namespace Microsoft.Xna.Framework
 			[CCode (cname = "num_texcoords")]
 			public int numTexcoords;
 			[CCode (cname = "top_left")]
-			public Vector2 topLeft;
+			public Vec2 topLeft;
 			[CCode (cname = "bottom_right")]
-			public Vector2 bottomRight;
+			public Vec2 bottomRight;
 			/* public */
 			public AssetHandle font;  
-			public Vector2 position;
-			public Vector2 scale;
+			public Vec2 position;
+			public Vec2 scale;
 			public Vector4 color;
 			public int halign;
 			public int valign;
@@ -3572,13 +3563,13 @@ namespace Microsoft.Xna.Framework
 			[CCode (cname = "ui_text_delete")]
 			public void delete();
 			[CCode (cname = "ui_text_move")]
-			public void move(Vector2 pos);
+			public void move(Vec2 pos);
 			[CCode (cname = "ui_text_set_font")]
 			public void setFont(AssetHandle font);
 			[CCode (cname = "ui_text_set_color")]
 			public void setColor(Vector4 color);
 			[CCode (cname = "ui_text_set_scale")]
-			public void setScale(Vector2 scale);
+			public void setScale(Vec2 scale);
 			[CCode (cname = "ui_text_align")]
 			public void align(int halign, int valign);
 			[CCode (cname = "ui_text_draw")]
@@ -3592,15 +3583,15 @@ namespace Microsoft.Xna.Framework
 			[CCode (cname = "ui_text_render")]
 			public void render();
 			[CCode (cname = "ui_text_contains_point")]
-			public bool containsPoint(Vector2 position);
+			public bool containsPoint(Vec2 position);
 		}
 
 		[Compact, CCode (cname = "ui_rectangle", cprefix="")]
 		public class Rectangle {
 			[CCode (cname = "top_left")]
-			public Vector2 topLeft;
+			public Vec2 topLeft;
 			[CCode (cname = "bottom_right")]
-			public Vector2 bottomRight;
+			public Vec2 bottomRight;
 			public Vector4 color;
 			public AssetHandle texture;
 			[CCode (cname = "texture_width")]
@@ -3636,9 +3627,9 @@ namespace Microsoft.Xna.Framework
 			[CCode (cname = "ui_rectangle_render")]
 			public void render();
 			[CCode (cname = "ui_rectangle_move")]
-			public void move(Vector2 pos);
+			public void move(Vec2 pos);
 			[CCode (cname = "ui_rectangle_resize")]
-			public void resize(Vector2 size);
+			public void resize(Vec2 size);
 			[CCode (cname = "ui_rectangle_set_texture")]
 			public void setTexture(AssetHandle tex, int width, int height, bool tile);
 			[CCode (cname = "ui_rectangle_set_border")]
@@ -3648,15 +3639,15 @@ namespace Microsoft.Xna.Framework
 			[CCode (cname = "ui_rectangle_set_glitch")]
 			public void setGlitch(float glitch);
 			[CCode (cname = "ui_rectangle_center")]
-			public Vector2 center();
+			public Vec2 center();
 			[CCode (cname = "ui_rectangle_contains_point")]
-			public bool containsPoint(Vector2 pos);
+			public bool containsPoint(Vec2 pos);
 			[CCode (cname = "ui_rectangle_blend")]
 			public void blend(int blend_src, int blend_dst);
 			[CCode (cname = "ui_rectangle_position")]
-			public Vector2 position();
+			public Vec2 position();
 			[CCode (cname = "ui_rectangle_size")]
-			public Vector2 size();
+			public Vec2 size();
 		}
 	}
 }

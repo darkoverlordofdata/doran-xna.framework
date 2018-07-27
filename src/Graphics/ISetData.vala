@@ -16,6 +16,7 @@
 namespace Microsoft.Xna.Framework.Graphics
 {
     using System;
+    using Microsoft.Xna.Framework.Content;
 
     /// <summary>
     /// Used to set data for the object, 
@@ -26,4 +27,10 @@ namespace Microsoft.Xna.Framework.Graphics
     {
         public abstract void SetData(string path);
     }
+
+    public interface ISetContent : Object 
+    {
+        public abstract void SetContent(ContentManager content);
+    }
+
 }

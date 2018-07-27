@@ -24,6 +24,7 @@ namespace Microsoft.Xna.Framework
         Exception,
         GLError,
         InvalidOperationException,
+        IllegalArgumentException,
         NoSuitableGraphicsDeviceException,
         NotImplementedException,
         NotSupportedException,

@@ -15,61 +15,59 @@
  ******************************************************************************/
 namespace Microsoft.Xna.Framework.Graphics
 {
+    using Artemis;
     using System.IO;
+    using System.Collections.Generic;
+    using Microsoft.Xna.Framework;
+    using Microsoft.Xna.Framework.Content;
 
     /**
      * load a libgdx format atlas
      */
-    public class TextureAtlas : Object {
+    public class TextureAtlas : Object, ISetData, ISetContent {
         private TextureAtlasData data;
-        private Texture2D[] image;
+        private FileHandle packFile;
+        internal static Texture2D[] Textures;
+        private ContentManager content;
 
-        /**
-         * @param packFile handle
-         * @param imageDir handle
-         * @param flip images?
-         */
-        public TextureAtlas(FileHandle packFile, FileHandle? imageDir=null, bool flip=false) {
-            Load(new TextureAtlasData(packFile, imageDir == null ? packFile.GetParent() : imageDir, flip));
+        public void SetContent(ContentManager content)
+        {
+            this.content = content;
+        }
+
+        public void SetData(string path)
+        {
+            // var Content = EntitySystem.BlackBoard.GetEntry<ContentManager>("ContentManager");
+            packFile = new FileHandle(path);
+            data = new TextureAtlasData(packFile, packFile.GetParent(), false);
+            foreach (var page in data.pages)
+            {
+                var p1 = page.textureFile.GetPath()
+                            // we need to skip over the content root
+                            .replace(@"$(content.RootDirectory)/", "")
+                            // in case the atlas specifies png
+                            .replace(".png", ".dds");
+                Textures.resize(int.max(page.id+1, Textures.length));
+                Textures[page.id] = content.Load<Texture2D>(p1);
+            }
         }
 
 
-        public Region? FindRegion(string name, int index=-1) {
-            foreach (var region in data.regions) {   
-                if (index == -1) {
-                    if (region.name == name) return region;
-                } else {
-                    if (region.name == name && region.index == index) return region;
+        public TextureRegion? Region(string name, int index=-1) { 
+            foreach (var region in data.regions) 
+            {
+                if (region.name == name && region.index == index)
+                {
+                    return new TextureRegion(Textures[region.page.id], region.top, region.left, region.width, region.height);
                 }
             }
             return null;
         }
-        
-        private void Load(TextureAtlasData data)
-        {
-            this.data = data;
-            image = new Texture2D[data.pages.Count];
-            
-            // load page images
-            foreach (var page in data.pages)
-            {
-                image[i++] = Content.Load<Texture2D>("images/"+page.textureFile.GetName());
-            }
-        }
 
-        // public Sprite? createSprite(string name, int index=-1) { 
-        //     foreach (var region in regions) {
-        //         if (index == -1) {
-        //             if (region.name == name) {
-        //                 return new Sprite.AtlasSprite(region);
-        //             }
-        //         } else {    
-        //             if (region.name == name && region.index == index)
-        //                 return new Sprite.AtlasSprite(region);
-        //         }
-        //     }
-        //     return null;
-        // }
+        static construct
+        {
+            Textures = new Texture2D[1];
+        }
 
     }
 }
