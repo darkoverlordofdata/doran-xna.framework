@@ -257,7 +257,7 @@ namespace Microsoft.Xna.Framework
         /// <param name="alpha">Alpha component value from 0.0f to 1.0f.</param>
         public Color.Rgbaf(float r, float g, float b, float alpha)
         {
-            this.Rgbaf((int)(r * 255), (int)(g * 255), (int)(b * 255), (int)(alpha * 255));
+            this.Rgba((int)(r * 255), (int)(g * 255), (int)(b * 255), (int)(alpha * 255));
         }
 
         /// <summary>

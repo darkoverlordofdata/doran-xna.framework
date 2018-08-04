@@ -44,8 +44,10 @@ namespace Microsoft.Xna.Framework.Graphics
 
         /// <summary>
         /// The list of batch items to process.
+        /// Uses GenericArray for sort
         /// </summary>
-	    private SpriteBatchItem[] _batchItemList;
+        private GenericArray<SpriteBatchItem> _batchItemList;
+	    // private SpriteBatchItem[] _batchItemList;
         /// <summary>
         /// Index pointer to the next available SpriteBatchItem in _batchItemList.
         /// </summary>
@@ -83,13 +85,16 @@ namespace Microsoft.Xna.Framework.Graphics
             // GLib.Object(device: device);
             _device = device;
 
-			_batchItemList = new SpriteBatchItem[InitialBatchSize];
+			// _batchItemList = new SpriteBatchItem[InitialBatchSize];
+            _batchItemList = new GenericArray<SpriteBatchItem>(InitialBatchSize);
             _batchItemCount = 0;
 
             for (int i = 0; i < InitialBatchSize; i++)
-                _batchItemList[i] = new SpriteBatchItem();
+                _batchItemList.add(new SpriteBatchItem());
+                // _batchItemList[i] = new SpriteBatchItem();
 
             EnsureArrayCapacity(InitialBatchSize);
+            print("SpriteBatcher Created %d\n", _batchItemList.length);
 		}
         
 
@@ -105,7 +110,8 @@ namespace Microsoft.Xna.Framework.Graphics
                 var oldSize = _batchItemList.length;
                 var newSize = oldSize + oldSize/2; // grow by x1.5
                 newSize = (newSize + 63) & (~63); // grow in chunks of 64.
-                _batchItemList.resize(newSize);
+                // _batchItemList.resize(newSize);
+                _batchItemList.length = newSize;
                 for(int i=oldSize; i<newSize; i++)
                     _batchItemList[i] = new SpriteBatchItem();
 
@@ -138,7 +144,18 @@ namespace Microsoft.Xna.Framework.Graphics
 			// nothing to do
             if (_batchItemCount == 0)
 				return;
-			
+
+			// sort the batch items
+			switch ( sortMode )
+			{
+			case SpriteSortMode.Texture :
+			case SpriteSortMode.FrontToBack :
+			case SpriteSortMode.BackToFront :
+                // Array.Sort(_batchItemList, 0, _batchItemCount);
+                _batchItemList.sort_with_data((a, b) => a.CompareTo(b));
+				break;
+			}
+
             // Determine how many iterations through the drawing code we need to make
             int batchIndex = 0;
             int batchCount = _batchItemCount;
@@ -250,8 +267,6 @@ namespace Microsoft.Xna.Framework.Graphics
             //     (vertexCount / 4) * 2,
             //     null);
                 
-            // Memory.set(_vertexTexCoords, 0, _vertexTexCoords.length*sizeof(float));
-            // Memory.set(_vertexPositions, 0, _vertexPositions.length*sizeof(float));
             Memory.set(_vertexTexCoords, 0, _indexTexCoords*sizeof(float));
             Memory.set(_vertexPositions, 0, _indexPositions*sizeof(float));
             _indexTexCoords = 0;

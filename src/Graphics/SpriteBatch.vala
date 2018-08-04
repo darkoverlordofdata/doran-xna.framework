@@ -68,10 +68,13 @@ namespace Microsoft.Xna.Framework.Graphics
 
         public void Draw(
             TextureRegion region, 
+            float layerDepth = 0f,
             Vector2? location = null,
             Vector2? scale = null,
+            Color? color = null,
             Vector2? size = null)
         {
+            color = color ?? Color.White;
             scale = scale ?? region.Scale.Copy();
 
             int u = (int)region.X;
@@ -87,7 +90,8 @@ namespace Microsoft.Xna.Framework.Graphics
 
             Draw0(region.texture, null,
                 { x, y, w, h }, 
-                { v, u, u2, v2 });
+                { v, u, u2, v2 },
+                null, 0f, null, color, SpriteEffects.None, layerDepth);
         }
 
         /// <summary>
@@ -168,7 +172,22 @@ namespace Microsoft.Xna.Framework.Graphics
 			item.Texture = texture;
 
             // set SortKey based on SpriteSortMode.
-            item.SortKey = (float)SpriteSortMode.Texture;
+            // item.SortKey = (float)SpriteSortMode.Texture;
+            switch (_sortMode)
+            {
+                // Comparison of Texture objects.
+                case SpriteSortMode.Texture:
+                    item.SortKey = texture.SortingKey;
+                    break;
+                // Comparison of Depth
+                case SpriteSortMode.FrontToBack:
+                    item.SortKey = layerDepth;
+                    break;
+                // Comparison of Depth in reverse
+                case SpriteSortMode.BackToFront:
+                    item.SortKey = -layerDepth;
+                    break;
+            }
 
             origin = origin.Mul(scale);
             
@@ -262,7 +281,22 @@ namespace Microsoft.Xna.Framework.Graphics
 			item.Texture = texture;
 
             // set SortKey based on SpriteSortMode.
-            item.SortKey = (float)SpriteSortMode.Texture;
+            // item.SortKey = (float)SpriteSortMode.Texture;
+            switch (_sortMode)
+            {
+                // Comparison of Texture objects.
+                case SpriteSortMode.Texture:
+                    item.SortKey = texture.SortingKey;
+                    break;
+                // Comparison of Depth
+                case SpriteSortMode.FrontToBack:
+                    item.SortKey = layerDepth;
+                    break;
+                // Comparison of Depth in reverse
+                case SpriteSortMode.BackToFront:
+                    item.SortKey = -layerDepth;
+                    break;
+            }
 
             if (sourceRectangle != null)
             {

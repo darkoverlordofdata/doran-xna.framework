@@ -30,7 +30,7 @@ namespace Microsoft.Xna.Framework.Graphics
      *  0,0   1,0
      */
 
-    public class SpriteBatchItem : Object
+    public class SpriteBatchItem : Object, IComparable<SpriteBatchItem>
     {
         private const Vector2 UnitY = { 0, 1 };
         private const Vector2 UnitX = { 1, 0 };
@@ -61,9 +61,6 @@ namespace Microsoft.Xna.Framework.Graphics
             Vector2 texCoordBR, 
             float depth )
 		{
-            // TODO, Should we be just assigning the Depth Value to Z?
-            // According to http://blogs.msdn.com/b/shawnhar/archive/2011/01/12/spritebatch-billboards-in-a-3d-world.aspx
-            // We do.
 			Vertex1TL.Position.X = x+dx*cos-dy*sin;
             Vertex1TL.Position.Y = y+dx*sin+dy*cos;
             Vertex1TL.Position.Z = depth;
@@ -162,5 +159,11 @@ namespace Microsoft.Xna.Framework.Graphics
             Vertex2BL.TextureCoordinate.Y = texCoordBR.Y;
 
         }
+
+        public int CompareTo(SpriteBatchItem other)
+        {
+            return SortKey.CompareTo(other.SortKey);
+        }
+
     }
 }
