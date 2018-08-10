@@ -15,7 +15,6 @@
  ******************************************************************************/
 namespace Microsoft.Xna.Framework.Graphics
 {
-    using Artemis;
     using System.IO;
     using System.Collections.Generic;
     using Microsoft.Xna.Framework;
