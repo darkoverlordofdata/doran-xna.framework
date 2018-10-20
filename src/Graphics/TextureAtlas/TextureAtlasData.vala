@@ -15,6 +15,7 @@
  ******************************************************************************/
 namespace Microsoft.Xna.Framework.Graphics
 {
+    using System;
     using System.IO;
     using System.Collections.Generic;
 
@@ -28,7 +29,7 @@ namespace Microsoft.Xna.Framework.Graphics
 	    /** 
          * Returns the number of tuple values read (1, 2 or 4). 
          */
-        public static int ReadTuple(DataInputStream reader) 
+        public static int ReadTuple(BufferedReader reader) 
         {
             var line = reader.ReadLine();
             var ts = line.split(":");
@@ -43,7 +44,7 @@ namespace Microsoft.Xna.Framework.Graphics
         /** 
          * Returns the single value 
          */
-        public static string ReadValue(DataInputStream reader) 
+        public static string ReadValue(BufferedReader reader) 
         {
             var line = reader.ReadLine();
             var ts = line.split(":");
@@ -63,7 +64,9 @@ namespace Microsoft.Xna.Framework.Graphics
         {
             pages = new ArrayList<Page>();
             regions = new ArrayList<Region>();
-            var reader = new DataInputStream(packFile.Read());
+            var reader = new BufferedReader(
+                            new InputStreamReader(
+                                new FileInputStream.FromFile(packFile.file)));
             try 
             {
                 Page pageImage = null;

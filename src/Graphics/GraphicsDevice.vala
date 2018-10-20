@@ -45,7 +45,7 @@ namespace Microsoft.Xna.Framework.Graphics
 #endif
 
         // Resources may be added to and removed from the list from many threads.
-        private Object _resourcesLock = new Object();
+        private Object _resourcesLock;// = new Object();
 
         // Use WeakReference for the global resources list as we do not know when a resource
         // may be disposed and collected. We do not want to prevent a resource from being
@@ -100,6 +100,7 @@ namespace Microsoft.Xna.Framework.Graphics
 
         internal GraphicsDevice.ctor()
 		{
+            _resourcesLock = this;
             // PresentationParameters = new Microsoft.Xna.Framework.Graphics.PresentationParameters();
             // PresentationParameters.DepthStencilFormat = DepthFormat.Depth24;
             Setup();
@@ -119,6 +120,7 @@ namespace Microsoft.Xna.Framework.Graphics
         /// </exception>
         public GraphicsDevice(GraphicsAdapter? adapter, GraphicsProfile graphicsProfile, PresentationParameters presentationParameters)
         {
+            _resourcesLock = this;
             // GLib.Object(resources: new ArrayList<WeakReference>());
             _resources = new ArrayList<WeakReference>();
             // if (adapter == null)

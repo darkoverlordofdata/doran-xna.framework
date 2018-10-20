@@ -112,7 +112,7 @@ namespace Microsoft.Xna.Framework.Content
 			string originalAssetName = assetName;
 
 			// Instead of loading from *.xnb file, we get from Corange cache:
-			var result = Object.new(typeof(T));
+			var result = GLib.Object.new(typeof(T));
 			if (result == null)
 				throw new Exception.ContentLoadException("Could not load " + originalAssetName + " asset!");
 
