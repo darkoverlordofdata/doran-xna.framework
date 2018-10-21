@@ -160,7 +160,7 @@ namespace Microsoft.Xna.Framework.Graphics
             bufferMask = bufferMask | ClearBufferMask.DepthBufferBit;
             bufferMask = bufferMask | ClearBufferMask.ColorBufferBit;
 
-            // PlatformClear(options, color.ToVector4(), _viewport.MaxDepth, 0);
+            // PlatformClear(options, color.ToVec4(), _viewport.MaxDepth, 0);
             ValaGame.OpenGL.GL.ClearColor((float)color.R/255f, (float)color.G/255f, (float)color.B/255f, (float)color.A/255f);
             ValaGame.OpenGL.GL.Clear(bufferMask);
 

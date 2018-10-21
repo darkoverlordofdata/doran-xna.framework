@@ -17,6 +17,7 @@ namespace Microsoft.Xna.Framework.Input
 {
     using System;
     using System.Collections.Generic;
+    using Glm;
 
     /// <summary> 
     /// Supports querying the game controllers and setting the vibration motors.
@@ -333,11 +334,11 @@ namespace Microsoft.Xna.Framework.Input
             // Y gamepad axis is rotate between SDL and XNA
             var thumbSticks =
                 new GamePadThumbSticks(
-                    new Vector2(
+                    new Vec2(
                         GetFromSdlAxis(Sdl.GameController.GetAxis(gdevice, Sdl.GameController.Axis.LeftX)),
                         GetFromSdlAxis(Sdl.GameController.GetAxis(gdevice, Sdl.GameController.Axis.LeftY)) * -1f
                     ),
-                    new Vector2(
+                    new Vec2(
                         GetFromSdlAxis(Sdl.GameController.GetAxis(gdevice, Sdl.GameController.Axis.RightX)),
                         GetFromSdlAxis(Sdl.GameController.GetAxis(gdevice, Sdl.GameController.Axis.RightY)) * -1f
                     ),

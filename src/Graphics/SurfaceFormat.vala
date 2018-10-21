@@ -79,11 +79,11 @@ namespace Microsoft.Xna.Framework.Graphics
         /// <summary>
         /// IEEE 64-bit RG float format for store 32 bits per channel.
         /// </summary>
-        Vector2,
+        Vec2,
         /// <summary>
         /// IEEE 128-bit RGBA float format for store 32 bits per channel.
         /// </summary>
-        Vector4,
+        Vec4,
         /// <summary>
         /// Float 16-bit R format for store 16 bits to red channel.   
         /// </summary>
@@ -91,11 +91,11 @@ namespace Microsoft.Xna.Framework.Graphics
         /// <summary>
         /// Float 32-bit RG format for store 16 bits per channel. 
         /// </summary>
-        HalfVector2,
+        HalfVec2,
         /// <summary>
         /// Float 64-bit ARGB format for store 16 bits per channel. 
         /// </summary>
-        HalfVector4,
+        HalfVec4,
         /// <summary>
         /// Float pixel format for high dynamic range data.
         /// </summary>
@@ -203,7 +203,7 @@ namespace Microsoft.Xna.Framework.Graphics
                 case SurfaceFormat.ColorSRgb:
                 case SurfaceFormat.Single:
                 case SurfaceFormat.Rg32:
-                case SurfaceFormat.HalfVector2:
+                case SurfaceFormat.HalfVec2:
                 case SurfaceFormat.NormalizedByte4:
                 case SurfaceFormat.Rgba1010102:
                 case SurfaceFormat.Bgra32:
@@ -211,11 +211,11 @@ namespace Microsoft.Xna.Framework.Graphics
                 case SurfaceFormat.Bgr32:
                 case SurfaceFormat.Bgr32SRgb:
                     return 4;
-                case SurfaceFormat.HalfVector4:
+                case SurfaceFormat.HalfVec4:
                 case SurfaceFormat.Rgba64:
-                case SurfaceFormat.Vector2:
+                case SurfaceFormat.Vec2:
                     return 8;
-                case SurfaceFormat.Vector4:
+                case SurfaceFormat.Vec4:
                     return 16;
                 default:
                     throw new Exception.ArgumentException("SurfaceFormat.GetSize");

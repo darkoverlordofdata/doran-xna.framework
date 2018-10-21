@@ -291,7 +291,7 @@ namespace Microsoft.Xna.Framework
 	}
 
 	[SimpleType, CCode (cname = "vec2")]
-	public struct Vector2 
+	public struct Vec2 
 	{
 		[CCode (cname = "x")]
 		public float X;
@@ -299,68 +299,68 @@ namespace Microsoft.Xna.Framework
 		public float Y;
 
 		[CCode (cname = "vec2_new")]
-		public Vector2 (float x, float y);
+		public Vec2 (float x, float y);
 		[CCode (cname = "vec2_zero")]
-		private static Vector2 zero();
-		public static Vector2 Zero { owned get { return zero();}}
+		private static Vec2 zero();
+		public static Vec2 Zero { owned get { return zero();}}
 		[CCode (cname = "vec2_one")]
-		private static Vector2 one();
+		private static Vec2 one();
 		// needs ownership or it will reset to zero due to disposal
-		public static Vector2 One { owned get { return one();}}
+		public static Vec2 One { owned get { return one();}}
 		
 		[CCode (cname = "vec2_add")]
-		public Vector2 Add(Vector2 other);
+		public Vec2 Add(Vec2 other);
 		[CCode (cname = "vec2_sub")]
-		public Vector2 Sub(Vector2 other);
+		public Vec2 Sub(Vec2 other);
 		[CCode (cname = "vec2_mul")]
-		public Vector2 Multiply(float fac);
+		public Vec2 Multiply(float fac);
 		[CCode (cname = "vec2_mul_vec2")]
-		public Vector2 Mul(Vector2 other);
+		public Vec2 Mul(Vec2 other);
 		[CCode (cname = "vec2_div")]
-		public Vector2 Divide(float fac);
+		public Vec2 Divide(float fac);
 		[CCode (cname = "vec2_div_vec2")]
-		public Vector2 Div(Vector2 other);
+		public Vec2 Div(Vec2 other);
 		[CCode (cname = "vec2_pow")]
-		public Vector2 Pow(float exp);
+		public Vec2 Pow(float exp);
 		[CCode (cname = "vec2_neg")]
-		public Vector2 Neg();
+		public Vec2 Neg();
 		[CCode (cname = "vec2_abs")]
-		public Vector2 Abs();
+		public Vec2 Abs();
 		[CCode (cname = "vec2_floor")]
-		public Vector2 Floor();
+		public Vec2 Floor();
 		[CCode (cname = "vec2_fmod")]
-		public Vector2 FMod(float val);
+		public Vec2 FMod(float val);
 		
 		[CCode (cname = "vec2_max")]
-		public Vector2 Max(float x);
+		public Vec2 Max(float x);
 		[CCode (cname = "vec2_min")]
-		public Vector2 Min(float x);
+		public Vec2 Min(float x);
 		[CCode (cname = "vec2_clamp")]
-		public Vector2 Clamp(float b, float t);
+		public Vec2 Clamp(float b, float t);
 		
 		[CCode (cname = "vec2_equ")]
-		public bool Equals(Vector2 other);
+		public bool Equals(Vec2 other);
 		
 		[CCode (cname = "vec2_dot")]
-		public float Dot(Vector2 other);
+		public float Dot(Vec2 other);
 		[CCode (cname = "vec2_length_sqrd")]
 		public float LengthSquared();
 		[CCode (cname = "vec2_length")]
 		public float Length();
 		[CCode (cname = "vec2_dist_sqrd")]
-		public float DistSquared(Vector2 other);
+		public float DistSquared(Vec2 other);
 		[CCode (cname = "vec2_dist")]
-		public float Dist(Vector2 other);
+		public float Dist(Vec2 other);
 		[CCode (cname = "vec2_dist_manhattan")]
-		public float DistManhattan(Vector2 other);
+		public float DistManhattan(Vec2 other);
 		[CCode (cname = "vec2_normalize")]
-		public Vector2 Normalize();
+		public Vec2 Normalize();
 		
 		[CCode (cname = "vec2_reflect")]
-		public Vector2 Reflect(Vector2 other);
+		public Vec2 Reflect(Vec2 other);
 		
 		[CCode (cname = "vec2_from_string")]
-		public Vector2 Parse(string s);
+		public Vec2 Parse(string s);
 		[CCode (cname = "vec2_print")]
 		public void Print();
 		
@@ -373,23 +373,23 @@ namespace Microsoft.Xna.Framework
 		public int MixHash();
 		
 		[CCode (cname = "vec2_saturate")]
-		public Vector2 Saturate();
+		public Vec2 Saturate();
 		[CCode (cname = "vec2_lerp")]
-		public Vector2 Lerp(Vector2 other, float amount);
+		public Vec2 Lerp(Vec2 other, float amount);
 		[CCode (cname = "vec2_smoothstep")]
-		public Vector2 SmoothStep(Vector2 other, float amount);
+		public Vec2 SmoothStep(Vec2 other, float amount);
 		[CCode (cname = "vec2_smootherstep")]
-		public Vector2 SmootherStep(Vector2 other, float amount);
+		public Vec2 SmootherStep(Vec2 other, float amount);
 
 		public string to_string()
 		{
 			return @"{X:$X, Y:$Y}";
 		}
-		public Vector2 Copy()
+		public Vec2 Copy()
 		{
 			return { X, Y };
 		}
-		public void Clone(Vector2 other)
+		public void Clone(Vec2 other)
 		{
 			X = other.X;
 			Y = other.Y;
@@ -398,7 +398,7 @@ namespace Microsoft.Xna.Framework
 	}
 
 	[SimpleType, CCode (cname = "vec3")]
-	public struct Vector3 
+	public struct Vec3 
 	{
 		[CCode (cname = "x")]
 		public float X;
@@ -408,93 +408,93 @@ namespace Microsoft.Xna.Framework
 		public float Z;
 
 		[CCode (cname = "vec3_new")]
-		public Vector3 (float x, float y, float z);
+		public Vec3 (float x, float y, float z);
 		[CCode (cname = "vec3_zero")]
-		private static Vector3 zero();
-		public static Vector3 Zero { get { return zero();}}
+		private static Vec3 zero();
+		public static Vec3 Zero { get { return zero();}}
 		[CCode (cname = "vec3_one")]
-		private static Vector3 one();
-		public static Vector3 One { get { return one();}}
+		private static Vec3 one();
+		public static Vec3 One { get { return one();}}
 		[CCode (cname = "vec3_up")]
-		private static Vector3 up();
-		public static Vector3 Up { get { return up();}}
+		private static Vec3 up();
+		public static Vec3 Up { get { return up();}}
 		[CCode (cname = "vec3_red")]
-		private static Vector3 red();
-		public static Vector3 Red { get { return red();}}
+		private static Vec3 red();
+		public static Vec3 Red { get { return red();}}
 		[CCode (cname = "vec3_green")]
-		private static Vector3 green();
-		public static Vector3 Green { get { return green();}}
+		private static Vec3 green();
+		public static Vec3 Green { get { return green();}}
 		[CCode (cname = "vec3_blue")]
-		private static Vector3 blue();
-		public static Vector3 Blue { get { return blue();}}
+		private static Vec3 blue();
+		public static Vec3 Blue { get { return blue();}}
 		[CCode (cname = "vec3_white")]
-		private static Vector3 white();
-		public static Vector3 White { get { return white();}}
+		private static Vec3 white();
+		public static Vec3 White { get { return white();}}
 		[CCode (cname = "vec3_black")]
-		private static Vector3 black();
-		public static Vector3 Black { get { return black();}}
+		private static Vec3 black();
+		public static Vec3 Black { get { return black();}}
 		[CCode (cname = "vec3_grey")]
-		private static Vector3 grey();
-		public static Vector3 Grey { get { return grey();}}
+		private static Vec3 grey();
+		public static Vec3 Grey { get { return grey();}}
 		[CCode (cname = "vec3_light_grey")]
-		private static Vector3 lightGrey();
-		public static Vector3 LightGrey { get { return lightGrey();}}
+		private static Vec3 lightGrey();
+		public static Vec3 LightGrey { get { return lightGrey();}}
 		[CCode (cname = "vec3_dark_grey")]
-		private static Vector3 darkGrey();
-		public static Vector3 DarkGrey { get { return darkGrey();}}
+		private static Vec3 darkGrey();
+		public static Vec3 DarkGrey { get { return darkGrey();}}
 		
 		[CCode (cname = "vec3_add")]
-		public Vector3 Add(Vector3 other);
+		public Vec3 Add(Vec3 other);
 		[CCode (cname = "vec3_sub")]
-		public Vector3 Sub(Vector3 other);
+		public Vec3 Sub(Vec3 other);
 		[CCode (cname = "vec3_mul")]
-		public Vector3 Multiply(float fac);
+		public Vec3 Multiply(float fac);
 		[CCode (cname = "vec3_mul_vec3")]
-		public Vector3 MulVec3(Vector3 other);
+		public Vec3 MulVec3(Vec3 other);
 		[CCode (cname = "vec3_div")]
-		public Vector3 Divide(float fac);
+		public Vec3 Divide(float fac);
 		[CCode (cname = "vec3_div_vec3")]
-		public Vector3 DivVec3(Vector3 other);
+		public Vec3 DivVec3(Vec3 other);
 		[CCode (cname = "vec3_pow")]
-		public Vector3 Pow(float fac);
+		public Vec3 Pow(float fac);
 		[CCode (cname = "vec3_neg")]
-		public Vector3 Neg();
+		public Vec3 Neg();
 		[CCode (cname = "vec3_abs")]
-		public Vector3 Abs();
+		public Vec3 Abs();
 		[CCode (cname = "vec3_floor")]
-		public Vector3 Floor();
+		public Vec3 Floor();
 		[CCode (cname = "vec3_fmod")]
-		public Vector3 FMod(float val);
+		public Vec3 FMod(float val);
 		
 		[CCode (cname = "vec3_equ")]
-		public bool Equals(Vector3 other);
+		public bool Equals(Vec3 other);
 		[CCode (cname = "vec3_neq")]
-		public bool NotEquals(Vector3 other);
+		public bool NotEquals(Vec3 other);
 		
 		[CCode (cname = "vec3_dot")]
-		public float Dot(Vector3 other);
+		public float Dot(Vec3 other);
 		[CCode (cname = "vec3_length_sqrd")]
 		public float LengthSquared();
 		[CCode (cname = "vec3_length")]
 		public float Length();
 		[CCode (cname = "vec3_dist_sqrd")]
-		public float DistSquared(Vector3 other);
+		public float DistSquared(Vec3 other);
 		[CCode (cname = "vec3_dist")]
-		public float Dist(Vector3 other);
+		public float Dist(Vec3 other);
 		[CCode (cname = "vec3_dist_manhattan")]
-		public float DistManhattan(Vector3 other);
+		public float DistManhattan(Vec3 other);
 		[CCode (cname = "vec3_cross")]
-		public Vector3 Cross(Vector3 other);
+		public Vec3 Cross(Vec3 other);
 		[CCode (cname = "vec3_normalize")]
-		public Vector3 Normalize();
+		public Vec3 Normalize();
 		
 		[CCode (cname = "vec3_reflect")]
-		public Vector3 Reflect(Vector3 other);
+		public Vec3 Reflect(Vec3 other);
 		[CCode (cname = "vec3_project")]
-		public Vector3 Project(Vector3 other);
+		public Vec3 Project(Vec3 other);
 		
 		[CCode (cname = "vec3_from_string")]
-		public Vector3 Parse(string s);
+		public Vec3 Parse(string s);
 		[CCode (cname = "vec3_print")]
 		public void Print();
 		
@@ -505,13 +505,13 @@ namespace Microsoft.Xna.Framework
 		public int GetHashCode();
 		
 		[CCode (cname = "vec3_saturate")]
-		public Vector3 Saturate();
+		public Vec3 Saturate();
 		[CCode (cname = "vec3_lerp")]
-		public Vector3 Lerp(Vector3 other, float amount);
+		public Vec3 Lerp(Vec3 other, float amount);
 		[CCode (cname = "vec3_smoothstep")]
-		public Vector3 SmoothStep(Vector3 other, float amount);
+		public Vec3 SmoothStep(Vec3 other, float amount);
 		[CCode (cname = "vec3_smootherstep")]
-		public Vector3 SmootherStep(Vector3 other, float amount);
+		public Vec3 SmootherStep(Vec3 other, float amount);
 
 		public string to_string()
 		{
@@ -521,7 +521,7 @@ namespace Microsoft.Xna.Framework
 	}
 
 	[SimpleType, CCode (cname = "vec4")]
-	public struct Vector4 
+	public struct Vec4 
 	{
 		[CCode (cname = "x")]
 		public float X;
@@ -533,78 +533,78 @@ namespace Microsoft.Xna.Framework
 		public float W;
 
 		[CCode (cname = "vec4_new")]
-		public Vector4 (float x, float y, float z, float w);
+		public Vec4 (float x, float y, float z, float w);
 		[CCode (cname = "vec4_zero")]
-		public static Vector4 Zero();
+		public static Vec4 Zero();
 		[CCode (cname = "vec4_one")]
-		public static Vector4 one();
+		public static Vec4 one();
 		[CCode (cname = "vec4_red")]
-		public static Vector4 Red();
+		public static Vec4 Red();
 		[CCode (cname = "vec4_green")]
-		public static Vector4 Green();
+		public static Vec4 Green();
 		[CCode (cname = "vec4_blue")]
-		public static Vector4 Blue();
+		public static Vec4 Blue();
 		[CCode (cname = "vec4_white")]
-		public static Vector4 White();
+		public static Vec4 White();
 		[CCode (cname = "vec4_black")]
-		public static Vector4 Black();
+		public static Vec4 Black();
 		[CCode (cname = "vec4_grey")]
-		public static Vector4 Grey();
+		public static Vec4 Grey();
 		[CCode (cname = "vec4_light_grey")]
-		public static Vector4 LightGrey();
+		public static Vec4 LightGrey();
 		[CCode (cname = "vec4_dark_grey")]
-		public static Vector4 DarkGrey();
+		public static Vec4 DarkGrey();
 		
 		[CCode (cname = "vec4_add")]
-		public Vector4 Add(Vector4 v2);
+		public Vec4 Add(Vec4 v2);
 		[CCode (cname = "vec4_sub")]
-		public Vector4 Sub(Vector4 v2);
+		public Vec4 Sub(Vec4 v2);
 		[CCode (cname = "vec4_mul")]
-		public Vector4 Multiply(float fac);
+		public Vec4 Multiply(float fac);
 		[CCode (cname = "vec4_mul_vec4")]
-		public Vector4 MulVec4(Vector4 v2);
+		public Vec4 MulVec4(Vec4 v2);
 		[CCode (cname = "vec4_div")]
-		public Vector4 Divide(float fac);
+		public Vec4 Divide(float fac);
 		[CCode (cname = "vec4_pow")]
-		public Vector4 Pow(float fac);
+		public Vec4 Pow(float fac);
 		[CCode (cname = "vec4_neg")]
-		public Vector4 Neg();
+		public Vec4 Neg();
 		[CCode (cname = "vec4_abs")]
-		public Vector4 Abs();
+		public Vec4 Abs();
 		[CCode (cname = "vec4_floor")]
-		public Vector4 Floor();
+		public Vec4 Floor();
 		[CCode (cname = "vec4_fmod")]
-		public Vector4 FMod(float val);
+		public Vec4 FMod(float val);
 		[CCode (cname = "vec4_sqrt")]
-		public Vector4 Sqrt();
+		public Vec4 Sqrt();
 		
 		[CCode (cname = "vec4_max")]
-		public Vector4 Max(Vector4 v2);
+		public Vec4 Max(Vec4 v2);
 		[CCode (cname = "vec4_min")]
-		public Vector4 Min(Vector4 v2);
+		public Vec4 Min(Vec4 v2);
 		[CCode (cname = "vec4_equ")]
-		public bool Equals(Vector4 v2);
+		public bool Equals(Vec4 v2);
 		
 		[CCode (cname = "vec4_dot")]
-		public float Dot(Vector4 v2);
+		public float Dot(Vec4 v2);
 		[CCode (cname = "vec4_length_sqrd")]
 		public float LengthSquared();
 		[CCode (cname = "vec4_length")]
 		public float Length();
 		[CCode (cname = "vec4_dist_sqrd")]
-		public float DistSquared(Vector4 v2);
+		public float DistSquared(Vec4 v2);
 		[CCode (cname = "vec4_dist")]
-		public float Dist(Vector4 v2);
+		public float Dist(Vec4 v2);
 		[CCode (cname = "vec4_dist_manhattan")]
-		public float DistManhattan(Vector4 v2);
+		public float DistManhattan(Vec4 v2);
 		[CCode (cname = "vec4_normalize")]
-		public Vector4 Normalize();
+		public Vec4 Normalize();
 		
 		[CCode (cname = "vec4_reflect")]
-		public Vector4 Reflect(Vector4 v2);
+		public Vec4 Reflect(Vec4 v2);
 		
 		[CCode (cname = "vec4_from_string")]
-		public Vector4 Parse(string s);
+		public Vec4 Parse(string s);
 		[CCode (cname = "vec4_print")]
 		public void Print();
 		
@@ -612,28 +612,28 @@ namespace Microsoft.Xna.Framework
 		public void ToArray(ref float result);
 		
 		[CCode (cname = "vec3_to_homogeneous")]
-		public Vector4 ToHomogeneous(Vector3 v);
+		public Vec4 ToHomogeneous(Vec3 v);
 		[CCode (cname = "vec4_from_homogeneous")]
-		public Vector3 FromHomogeneous();
+		public Vec3 FromHomogeneous();
 		
 		[CCode (cname = "vec4_hash")]
 		public int GetHashCode();
 		
 		[CCode (cname = "vec4_saturate")]
-		public Vector4 Saturate();
+		public Vec4 Saturate();
 		[CCode (cname = "vec4_lerp")]
-		public Vector4 Lerp(Vector4 v2, float amount);
+		public Vec4 Lerp(Vec4 v2, float amount);
 		[CCode (cname = "vec4_smoothstep")]
-		public Vector4 SmoothStep(Vector4 v2, float amount);
+		public Vec4 SmoothStep(Vec4 v2, float amount);
 		[CCode (cname = "vec4_smootherstep")]
-		public Vector4 SmootherStep(Vector4 v2, float amount);
+		public Vec4 SmootherStep(Vec4 v2, float amount);
 		[CCode (cname = "vec4_nearest_interp")]
-		public Vector4 NearestInterp(Vector4 v2, float amount);
+		public Vec4 NearestInterp(Vec4 v2, float amount);
 		
 		[CCode (cname = "vec4_binearest_interp")]
-		public Vector4 BinearestInterp(Vector4 top_left, Vector4 top_right, Vector4 bottom_left, Vector4 bottom_right, float x_amount, float y_amount);
+		public Vec4 BinearestInterp(Vec4 top_left, Vec4 top_right, Vec4 bottom_left, Vec4 bottom_right, float x_amount, float y_amount);
 		[CCode (cname = "vec4_bilinear_interp")]
-		public Vector4 BilinearInterp(Vector4 top_left, Vector4 top_right, Vector4 bottom_left, Vector4 bottom_right, float x_amount, float y_amount);
+		public Vec4 BilinearInterp(Vec4 top_left, Vec4 top_right, Vec4 bottom_left, Vec4 bottom_right, float x_amount, float y_amount);
 	}
 		
 	[SimpleType, CCode (cname = "quat")]
@@ -653,9 +653,9 @@ namespace Microsoft.Xna.Framework
 		[CCode (cname = "quat_id")]
 		public static Quaternion Identity();
 		[CCode (cname = "quat_from_euler")]
-		public static Quaternion FromEuler(Vector3 r);
+		public static Quaternion FromEuler(Vec3 r);
 		[CCode (cname = "quat_angle_axis")]
-		public static Quaternion AngleAxis(float angle, Vector3 axis);
+		public static Quaternion AngleAxis(float angle, Vec3 axis);
 		[CCode (cname = "quat_rotation_x")]
 		public static Quaternion RotationX(float angle);
 		[CCode (cname = "quat_rotation_y")]
@@ -668,12 +668,12 @@ namespace Microsoft.Xna.Framework
 		[CCode (cname = "quat_real")]
 		public float Real();
 		[CCode (cname = "quat_imaginaries")]
-		public Vector3 Imaginaries();
+		public Vec3 Imaginaries();
 		
 		[CCode (cname = "quat_to_angle_axis")]
-		public void ToAngleAxis(ref Vector3 axis, ref float angle);
+		public void ToAngleAxis(ref Vec3 axis, ref float angle);
 		[CCode (cname = "quat_to_euler")]
-		public Vector3 ToEuler();
+		public Vec3 ToEuler();
 		
 		[CCode (cname = "quat_neg")]
 		public Quaternion Neg();
@@ -684,7 +684,7 @@ namespace Microsoft.Xna.Framework
 		[CCode (cname = "quat_mul_quat")]
 		public Quaternion Mul(Quaternion other);
 		[CCode (cname = "quat_mul_vec3")]
-		public Vector3 MulVec3(Vector3 v);
+		public Vec3 MulVec3(Vec3 v);
 		
 		[CCode (cname = "quat_inverse")]
 		public Quaternion Inverse();
@@ -696,15 +696,15 @@ namespace Microsoft.Xna.Framework
 		public Quaternion Normalize();
 		
 		[CCode (cname = "quat_exp")]
-		public Quaternion Exp(Vector3 w);
+		public Quaternion Exp(Vec3 w);
 		[CCode (cname = "quat_log")]
-		public Vector3 Log();
+		public Vec3 Log();
 		
 		[CCode (cname = "quat_slerp")]
 		public Quaternion SLerp(Quaternion other, float amount);
 		
 		[CCode (cname = "quat_constrain")]
-		public Quaternion Constrain(Vector3 axis);
+		public Quaternion Constrain(Vec3 axis);
 		[CCode (cname = "quat_constrain_y")]
 		public Quaternion ConstrainY();
 		
@@ -727,13 +727,13 @@ namespace Microsoft.Xna.Framework
 		[CCode (cname = "quat_dual_id")]
 		public static DualQuaternion Identity();
 		[CCode (cname = "quat_dual_transform")]
-		public static DualQuaternion Transform(Quaternion q, Vector3 t);
+		public static DualQuaternion Transform(Quaternion q, Vec3 t);
 		[CCode (cname = "quat_dual_mul")]
 		public DualQuaternion Mul(DualQuaternion q1);
 		[CCode (cname = "quat_dual_mul_vec3")]
-		public Vector3 MulVec3(Vector3 v);
+		public Vec3 MulVec3(Vec3 v);
 		[CCode (cname = "quat_dual_mul_vec3_rot")]
-		public Vector3 MulVec3Rot(Vector3 v);
+		public Vec3 MulVec3Rot(Vec3 v);
 	}
 	
 	[SimpleType, CCode (cname = "mat2")]
@@ -758,7 +758,7 @@ namespace Microsoft.Xna.Framework
 		[CCode (cname = "mat2_mul_mat2")]
 		public Matrix2 Mul(Matrix2 other);
 		[CCode (cname = "mat2_mul_vec2")]
-		public Vector2 MulVec2(Vector2 other);
+		public Vec2 MulVec2(Vec2 other);
 		[CCode (cname = "mat2_transpose")]
 		public Matrix2 Transpose();
 		[CCode (cname = "mat2_det")]
@@ -805,7 +805,7 @@ namespace Microsoft.Xna.Framework
 		[CCode (cname = "mat3_zero")]
 		public static Matrix3 Zero();
 		[CCode (cname = "mat3_scale")]
-		public static Matrix3 Scale(Vector3 s);
+		public static Matrix3 Scale(Vec3 s);
 		[CCode (cname = "mat3_rotation_x")]
 		public static Matrix3 RotationX(float a);
 		[CCode (cname = "mat3_rotation_y")]
@@ -813,12 +813,12 @@ namespace Microsoft.Xna.Framework
 		[CCode (cname = "mat3_rotation_z")]
 		public static Matrix3 RotationZ(float a);
 		[CCode (cname = "mat3_rotation_angle_axis")]
-		public static Matrix3 RotationAngleAxis(float angle, Vector3 axis);
+		public static Matrix3 RotationAngleAxis(float angle, Vec3 axis);
 
 		[CCode (cname = "mat3_mul_mat3")]
 		public Matrix3 Mul(Matrix3 other);
 		[CCode (cname = "mat3_mul_vec3")]
-		public Vector3 MulVec3(Vector3 other);
+		public Vec3 MulVec3(Vec3 other);
 		
 		[CCode (cname = "mat3_transpose")]
 		public Matrix3 Transpose();
@@ -834,7 +834,7 @@ namespace Microsoft.Xna.Framework
 	}
 
 	[SimpleType, CCode (cname = "mat4")]
-	public struct Matrix4 
+	public struct Mat4 
 	{
 		[CCode (cname = "xx")]
 		public float M11; 
@@ -870,38 +870,38 @@ namespace Microsoft.Xna.Framework
 		public float M44;
 		
 		[CCode (cname = "mat4_new")]
-		public Matrix4 (float m11, float m12, float m13, float m14,
+		public Mat4 (float m11, float m12, float m13, float m14,
 					float m21, float m22, float m23, float m24,
 					float m31, float m32, float m33, float m34,
 					float m41, float m42, float m43, float m44);
 
 		[CCode (cname = "mat4_id")]
-		public static Matrix4 Identity();
+		public static Mat4 Identity();
 		[CCode (cname = "mat4_zero")]
-		public static Matrix4 Zero();
+		public static Mat4 Zero();
 
 		[CCode (cname = "mat4_at")]
 		public float At(int i, int j);
 		[CCode (cname = "mat4_set")]
-		public Matrix4 Set(int x, int y, float v);
+		public Mat4 Set(int x, int y, float v);
 		[CCode (cname = "mat4_transpose")]
-		public Matrix4 Transpose();
+		public Mat4 Transpose();
 		
 		[CCode (cname = "mat4_mul_mat4")]
-		public Matrix4 Multiply(Matrix4 other);
+		public Mat4 Multiply(Mat4 other);
 		
 		[CCode (cname = "mat4_mul_vec4")]
-		public Vector4 MulVec4(Vector4 v);
+		public Vec4 MulVec4(Vec4 v);
 		[CCode (cname = "mat4_mul_vec3")]
-		public Vector3 MulVec3(Vector3 v);
+		public Vec3 MulVec3(Vec3 v);
 		
 		[CCode (cname = "mat4_det")]
 		public float Det();
 		[CCode (cname = "mat4_inverse")]
-		public Matrix4 Invert();
+		public Mat4 Invert();
 		
 		[CCode (cname = "mat3_to_mat4")]
-		public static Matrix4 Matrix3ToMat4(Matrix3 m);
+		public static Mat4 Matrix3ToMat4(Matrix3 m);
 		[CCode (cname = "mat4_to_mat3")]
 		public Matrix3 ToMatrix3();
 		[CCode (cname = "mat4_to_quat")]
@@ -918,40 +918,40 @@ namespace Microsoft.Xna.Framework
 		public void Print();
 		
 		[CCode (cname = "mat4_translation")]
-		public static Matrix4 Translation(Vector3 v);
+		public static Mat4 Translation(Vec3 v);
 		[CCode (cname = "mat4_scale")]
-		public static Matrix4 Scale(Vector3 v);
+		public static Mat4 Scale(Vec3 v);
 		
 		[CCode (cname = "mat4_rotation_x")]
-		public static Matrix4 RotationX(float a);
+		public static Mat4 RotationX(float a);
 		[CCode (cname = "mat4_rotation_y")]
-		public static Matrix4 RotationY(float a);
+		public static Mat4 RotationY(float a);
 		[CCode (cname = "mat4_rotation_z")]
-		public static Matrix4 RotationZ(float a);
+		public static Mat4 RotationZ(float a);
 		[CCode (cname = "mat4_rotation_axis_angle")]
-		public static Matrix4 RotationAxisAngle(Vector3 axis, float angle);
+		public static Mat4 RotationAxisAngle(Vec3 axis, float angle);
 		
 		[CCode (cname = "mat4_rotation_euler")]
-		public static Matrix4 RotationEuler(float x, float y, float z);
+		public static Mat4 RotationEuler(float x, float y, float z);
 		[CCode (cname = "mat4_rotation_quat")]
-		public static Matrix4 Rotation(Quaternion q);
+		public static Mat4 Rotation(Quaternion q);
 		[CCode (cname = "mat4_rotation_quat_dual")]
-		public static Matrix4 RotationDual(DualQuaternion q);
+		public static Mat4 RotationDual(DualQuaternion q);
 		
 		[CCode (cname = "mat4_view_look_at")]
-		public static Matrix4 ViewLookAt(Vector3 position, Vector3 target, Vector3 up);
+		public static Mat4 ViewLookAt(Vec3 position, Vec3 target, Vec3 up);
 		[CCode (cname = "mat4_perspective")]
-		public static Matrix4 Perspective(float fov, float near_clip, float far_clip, float ratio);
+		public static Mat4 Perspective(float fov, float near_clip, float far_clip, float ratio);
 		[CCode (cname = "mat4_orthographic")]
-		public static Matrix4 Orthographic(float left, float right, float bottom, float top, float near, float far);
+		public static Mat4 Orthographic(float left, float right, float bottom, float top, float near, float far);
 		
 		[CCode (cname = "mat4_world")]
-		public static Matrix4 World(Vector3 position, Vector3 scale, Quaternion rotation);
+		public static Mat4 World(Vec3 position, Vec3 scale, Quaternion rotation);
 		
 		[CCode (cname = "mat4_lerp")]
-		public Matrix4 Lerp(Matrix4 other, float amount);
+		public Mat4 Lerp(Mat4 other, float amount);
 		[CCode (cname = "mat4_smoothstep")]
-		public Matrix4 SmoothStep(Matrix4 other, float amount);
+		public Mat4 SmoothStep(Mat4 other, float amount);
 															
 	}
 
@@ -959,38 +959,38 @@ namespace Microsoft.Xna.Framework
 	public struct Plane 
 	{
 		[CCode (cname = "direction")]
-		public Vector3 Direction;
+		public Vec3 Direction;
 		[CCode (cname = "position")]
-		public Vector3 Position;
+		public Vec3 Position;
 
 		[CCode (cname = "plane_new")]
-		public Plane (Vector3 position, Vector3 direction);
+		public Plane (Vec3 position, Vec3 direction);
 		
 		[CCode (cname = "plane_transform")]
-		public Plane Transform(Matrix4 world, Matrix3 world_normal);
+		public Plane Transform(Mat4 world, Matrix3 world_normal);
 		[CCode (cname = "plane_transform_space")]
 		public Plane TransformSpace(Matrix3 space, Matrix3 space_normal);
 		[CCode (cname = "plane_distance")]
-		public float Distance(Vector3 point);
+		public float Distance(Vec3 point);
 		
 		[CCode (cname = "point_inside_plane", instance_pos=-1)]
-		public bool PointInside(Vector3 point);
+		public bool PointInside(Vec3 point);
 		[CCode (cname = "point_outside_plane", instance_pos=-1)]
-		public bool PointOutside(Vector3 point);
+		public bool PointOutside(Vec3 point);
 		[CCode (cname = "point_intersects_plane", instance_pos=-1)]
-		public bool PointIntersects(Vector3 point);
+		public bool PointIntersects(Vec3 point);
 		
 		[CCode (cname = "point_swept_inside_plane", instance_pos=-1)]
-		public bool PointSweptInside(Vector3 point, Vector3 v);
+		public bool PointSweptInside(Vec3 point, Vec3 v);
 		[CCode (cname = "point_swept_outside_plane", instance_pos=-1)]
-		public bool PointSweptOutside(Vector3 point, Vector3 v);
+		public bool PointSweptOutside(Vec3 point, Vec3 v);
 		[CCode (cname = "point_swept_intersects_plane", instance_pos=-1)]
-		public bool PointSweptIntersects(Vector3 point, Vector3 v);
+		public bool PointSweptIntersects(Vec3 point, Vec3 v);
 		
 		[CCode (cname = "plane_closest")]
-		public Vector3 Closest(Vector3 v);
+		public Vec3 Closest(Vec3 v);
 		[CCode (cname = "plane_project")]
-		public Vector3 Project(Vector3 v);
+		public Vec3 Project(Vec3 v);
 				
 	}
 
@@ -1013,11 +1013,11 @@ namespace Microsoft.Xna.Framework
 		[CCode (cname = "box_new")]
 		public Box (float x_min, float x_max, float y_min, float y_max, float z_min, float z_max);
 		[CCode (cname = "box_spere")]
-		public static Box Sphere(Vector3 center, float radius);
+		public static Box Sphere(Vec3 center, float radius);
 		[CCode (cname = "box_merge")]
 		public Box Merge(Box other);
 		[CCode (cname = "box_transform")]
-		public Box Transform(Matrix4 world, Matrix3 world_normal);
+		public Box Transform(Mat4 world, Matrix3 world_normal);
 		[CCode (cname = "box_invert")]
 		public Box Invert();
 		[CCode (cname = "box_invert_depth")]
@@ -1027,38 +1027,38 @@ namespace Microsoft.Xna.Framework
 		[CCode (cname = "box_invert_height")]
 		public Box InvertHeight();
 		[CCode (cname = "point_inside_box", instance_pos=-1)]
-		public bool PointInside(Vector3 point);
+		public bool PointInside(Vec3 point);
 		[CCode (cname = "point_outside_box", instance_pos=-1)]
-		public bool PointOutside(Vector3 point);
+		public bool PointOutside(Vec3 point);
 		[CCode (cname = "point_intersects_box", instance_pos=-1)]
-		public bool PointIntersects(Vector3 point);
+		public bool PointIntersects(Vec3 point);
 					  
 	}
 
 	[SimpleType, CCode (cname = "frustum")]
 	public struct Frustum {
-		public Vector3 ntr;
-		public Vector3 ntl;
-		public Vector3 nbr;
-		public Vector3 nbl;
-		public Vector3 ftr;
-		public Vector3 ftl;
-		public Vector3 fbr;
-		public Vector3 fbl;
+		public Vec3 ntr;
+		public Vec3 ntl;
+		public Vec3 nbr;
+		public Vec3 nbl;
+		public Vec3 ftr;
+		public Vec3 ftl;
+		public Vec3 fbr;
+		public Vec3 fbl;
 	  
 		[CCode (cname = "frustum_new")]
-		public Frustum (Vector3 ntr, Vector3 ntl, Vector3 nbr, Vector3 nbl, Vector3 ftr, Vector3 ftl, Vector3 fbr, Vector3 fbl);
+		public Frustum (Vec3 ntr, Vec3 ntl, Vec3 nbr, Vec3 nbl, Vec3 ftr, Vec3 ftl, Vec3 fbr, Vec3 fbl);
 		[CCode (cname = "frustum_new_clipbox")]
 		public static Frustum Clipbox();
 		[CCode (cname = "frustum_new_camera")]
-		public static Frustum Camera(Matrix4 view, Matrix4 proj);
+		public static Frustum Camera(Mat4 view, Mat4 proj);
 		public Frustum slice(float start, float end);
-		public Frustum transform(Matrix4 m);
-		public Frustum translate(Vector3 v);
+		public Frustum transform(Mat4 m);
+		public Frustum translate(Vec3 v);
 		
-		public Vector3 center();
-		public Vector3 maximums();
-		public Vector3 minimums();
+		public Vec3 center();
+		public Vec3 maximums();
+		public Vec3 minimums();
 		
 		public Box box();
 		
@@ -1069,18 +1069,18 @@ namespace Microsoft.Xna.Framework
 
 	[SimpleType, CCode (cname = "sphere")]
 	public struct Sphere {
-		public Vector3 center;
+		public Vec3 center;
 		public float radius;
 	  
 		[CCode (cname = "sphere_new")]
-		public Sphere (Vector3 center, float radius);
+		public Sphere (Vec3 center, float radius);
 		public static Sphere unit();
 		public static Sphere point();
 		public Sphere merge(Sphere other);
 		[CCode (cname = "sphere_")]
 		public static Sphere merge_many(Sphere[] s, int count);
-		public Sphere transform(Matrix4 world);
-		public Sphere translate(Vector3 x);
+		public Sphere transform(Mat4 world);
+		public Sphere translate(Vec3 x);
 		public Sphere scale(float x);
 		[CCode (cname = "sphere_transform_space")]
 		public Sphere transformSpace(Matrix3 space);
@@ -1107,17 +1107,17 @@ namespace Microsoft.Xna.Framework
 		[CCode (cname = "sphere_intersects_sphere")]
 		public bool intersectsSphere(Sphere other); 
 		[CCode (cname = "sphere_point_inside_sphere")]
-		public bool pointInsideSphere(Vector3 point);
+		public bool pointInsideSphere(Vec3 point);
 		[CCode (cname = "sphere_point_outside_sphere")]
-		public bool pointOutsideSphere(Vector3 point);
+		public bool pointOutsideSphere(Vec3 point);
 		[CCode (cname = "sphere_point_intersects_sphere")]
-		public bool pointIntersectsSphere(Vector3 point);
+		public bool pointIntersectsSphere(Vec3 point);
 		[CCode (cname = "sphere_line_inside_sphere")]
-		public bool lineInsideSphere(Vector3 start, Vector3 end);
+		public bool lineInsideSphere(Vec3 start, Vec3 end);
 		[CCode (cname = "sphere_line_outside_sphere")]
-		public bool lineOutsideSphere(Vector3 start, Vector3 end);
+		public bool lineOutsideSphere(Vec3 start, Vec3 end);
 		[CCode (cname = "sphere_line_intersects_sphere")]
-		public bool lineIntersectsSphere(Vector3 start, Vector3 end);
+		public bool lineIntersectsSphere(Vec3 start, Vec3 end);
 		[CCode (cname = "sphere_inside_plane")]
 		public bool insidePlane(Plane p);
 		[CCode (cname = "sphere_outside_plane")]
@@ -1125,37 +1125,37 @@ namespace Microsoft.Xna.Framework
 		[CCode (cname = "sphere_intersects_plane")]
 		public bool intersectsPlane(Plane p);
 		[CCode (cname = "sphere_point_swept_inside_sphere")]
-		public bool pointSweptInsideSphere(Vector3 v, Vector3 point);
+		public bool pointSweptInsideSphere(Vec3 v, Vec3 point);
 		[CCode (cname = "sphere_point_swept_outside_sphere")]
-		public bool pointSweptOutsideSphere(Vector3 v, Vector3 point);
+		public bool pointSweptOutsideSphere(Vec3 v, Vec3 point);
 		[CCode (cname = "sphere_point_swept_intersects_sphere")]
-		public bool poinSweptIntersectsSphere(Vector3 v, Vector3 point);
+		public bool poinSweptIntersectsSphere(Vec3 v, Vec3 point);
 		[CCode (cname = "sphere_swept_inside_plane")]
-		public bool sweptInsidePlane(Vector3 v, Plane p);
+		public bool sweptInsidePlane(Vec3 v, Plane p);
 		[CCode (cname = "sphere_swept_outside_plane")]
-		public bool sweptOutsidePlane(Vector3 v, Plane p);
+		public bool sweptOutsidePlane(Vec3 v, Plane p);
 		[CCode (cname = "sphere_swept_intersects_plane")]
-		public bool sweptIntersectsPlane(Vector3 v, Plane p);
+		public bool sweptIntersectsPlane(Vec3 v, Plane p);
 		[CCode (cname = "sphere_swept_outside_sphere")]
-		public bool sweptOutsideSphere(Vector3 v, Sphere s2); 
+		public bool sweptOutsideSphere(Vec3 v, Sphere s2); 
 		[CCode (cname = "sphere_swept_inside_sphere")]
-		public bool sweptInsideSphere(Vector3 v, Sphere s2); 
+		public bool sweptInsideSphere(Vec3 v, Sphere s2); 
 		[CCode (cname = "sphere_swept_intersects_sphere")]
-		public bool sweptIntersectsSphere(Vector3 v, Sphere s2); 
+		public bool sweptIntersectsSphere(Vec3 v, Sphere s2); 
 		[CCode (cname = "sphere_point_inside_triangle")]
-		public static bool pointInsideTriangle(Vector3 p, Vector3 v0, Vector3 v1, Vector3 v2);
+		public static bool pointInsideTriangle(Vec3 p, Vec3 v0, Vec3 v1, Vec3 v2);
 		[CCode (cname = "sphereIntersectsFace")]
-		public bool intersects_face(Vector3 v0, Vector3 v1, Vector3 v2, Vector3 norm);
+		public bool intersects_face(Vec3 v0, Vec3 v1, Vec3 v2, Vec3 norm);
 	}
 
 	[SimpleType, CCode (cname = "ellipsoid")]
 	public struct Ellipsoid {
-		public Vector3 center;
-		public Vector3 radiuses;
+		public Vec3 center;
+		public Vec3 radiuses;
 		  
 		[CCode (cname = "ellipsoid_new")]
-		public Ellipsoid (Vector3 center, Vector3 radiuses);
-		public Ellipsoid transform(Matrix4 m);
+		public Ellipsoid (Vec3 center, Vec3 radiuses);
+		public Ellipsoid transform(Mat4 m);
 		[CCode (cname = "ellipsoid_of_sphere")]
 		public static Ellipsoid ofSphere(Sphere s);
 		public Matrix3 space();
@@ -1165,13 +1165,13 @@ namespace Microsoft.Xna.Framework
 
 	[SimpleType, CCode (cname = "capsule")]
 	public struct Capsule {
-		public Vector3 start;
-		public Vector3 end;
+		public Vec3 start;
+		public Vec3 end;
 		public float radius;
 
 		[CCode (cname = "capsule_new")]
-		public Capsule (Vector3 start, Vector3 end, float radius);
-		public Capsule transform(Matrix4 m);
+		public Capsule (Vec3 start, Vec3 end, float radius);
+		public Capsule transform(Mat4 m);
 		[CCode (cname = "capsule_inside_plane")]
 		public bool insidePlane(Plane p);
 		[CCode (cname = "capsule_outside_plane")]
@@ -1183,12 +1183,12 @@ namespace Microsoft.Xna.Framework
 
 	[SimpleType, CCode (cname = "vertex")]
 	public struct Vertex {
-		public Vector3 position;
-		public Vector3 normal;
-		public Vector3 tangent;
-		public Vector3 binormal;
-		public Vector4 color;
-		public Vector2 uvs;
+		public Vec3 position;
+		public Vec3 normal;
+		public Vec3 tangent;
+		public Vec3 binormal;
+		public Vec4 color;
+		public Vec2 uvs;
 
 		[CCode (cname = "vertex_new")]
 		public Vertex ();
@@ -1220,8 +1220,8 @@ namespace Microsoft.Xna.Framework
 		void print();
 		[CCode (cname = "mesh_surface_area")]
 		public float surfaceArea();
-		public void transform(Matrix4 transform);
-		public void translate(Vector3 translation);
+		public void transform(Mat4 transform);
+		public void translate(Vec3 translation);
 		public void scale(float scale);
 		[CCode (cname = "mesh_bounding_sphere")]
 		public Sphere boundingSphere();
@@ -1248,8 +1248,8 @@ namespace Microsoft.Xna.Framework
 		public void print();
 		[CCode (cname = "mode_surface_area")]
 		public float surfaceArea();
-		public void transform(Matrix4 transform);
-		public void translate(Vector3 translation);
+		public void transform(Mat4 transform);
+		public void translate(Vec3 translation);
 		public void scale(float scale);
 	}
 	
@@ -1289,34 +1289,34 @@ namespace Microsoft.Xna.Framework
 	}
 
 	[CCode (has_target = false)]
-	public delegate Collision ColFunc (IntPtr obj, ref Vector3 pos, ref Vector3 vel);
+	public delegate Collision ColFunc (IntPtr obj, ref Vec3 pos, ref Vec3 vel);
 	
 	[SimpleType, CCode (cname = "collision")]
 	public struct Collision {
 		[CCode (cname = "collision_new")]
-		public Collision (float time, Vector3 point, Vector3 norm);
+		public Collision (float time, Vec3 point, Vec3 norm);
 		public static Collision none();
 		public Collision merge(Collision other);
 		[CCode (cname = "collision_point_collide_point")]
-		public static Collision pointCollidePoint(Vector3 p, Vector3 v, Vector3 p0);
+		public static Collision pointCollidePoint(Vec3 p, Vec3 v, Vec3 p0);
 		[CCode (cname = "collision_point_collide_sphere")]
-		public static Collision pointCollideSphere(Vector3 p, Vector3 v, Sphere s);
+		public static Collision pointCollideSphere(Vec3 p, Vec3 v, Sphere s);
 		[CCode (cname = "collision_point_collide_ellipsoid")]
-		public static Collision pointCollideEllipsoid(Vector3 p, Vector3 v, Ellipsoid e);
+		public static Collision pointCollideEllipsoid(Vec3 p, Vec3 v, Ellipsoid e);
 		[CCode (cname = "collision_point_collide_edge")]
-		public static Collision pointCollideEdge(Vector3 p, Vector3 v, Vector3 e0, Vector3 e1);
+		public static Collision pointCollideEdge(Vec3 p, Vec3 v, Vec3 e0, Vec3 e1);
 		[CCode (cname = "collision_sphere_collide_point")]
-		public static Collision sphereCollidePoint(Sphere s, Vector3 v, Vector3 p);
+		public static Collision sphereCollidePoint(Sphere s, Vec3 v, Vec3 p);
 		[CCode (cname = "collision_sphere_collide_sphere")]
-		public static Collision sphereCollideSphere(Sphere s, Vector3 v, Sphere s0);
+		public static Collision sphereCollideSphere(Sphere s, Vec3 v, Sphere s0);
 		[CCode (cname = "collision_sphere_collide_edge")]
-		public static Collision sphereCollideEdge(Sphere s, Vector3 v, Vector3 e0, Vector3 e1);
+		public static Collision sphereCollideEdge(Sphere s, Vec3 v, Vec3 e0, Vec3 e1);
 		[CCode (cname = "collision_ellipsoid_collide_point")]
-		public static Collision ellipsoidCollidePoint(Ellipsoid e, Vector3 v, Vector3 p);
+		public static Collision ellipsoidCollidePoint(Ellipsoid e, Vec3 v, Vec3 p);
 		[CCode (cname = "collision_ellipsoid_collide_sphere")]
-		public static Collision ellipsoidCollideSphere(Ellipsoid e, Vector3 v, Sphere s);
+		public static Collision ellipsoidCollideSphere(Ellipsoid e, Vec3 v, Sphere s);
 		[CCode (cname = "collision_collision_response_slide")]
-		public static void collisionResponseSlide(IntPtr obj, ref Vector3 pos, ref Vector3 vel, ColFunc func);
+		public static void collisionResponseSlide(IntPtr obj, ref Vec3 pos, ref Vec3 vel, ColFunc func);
 	}
 
 	[CCode (cname = "ui_init")]
@@ -1341,8 +1341,8 @@ namespace Microsoft.Xna.Framework
 
 	[Compact, CCode (cname = "camera", free_function = "")]
 	public class Camera {
-		public Vector3 position;
-		public Vector3 target;
+		public Vec3 position;
+		public Vec3 target;
 		public float fov;
 		[CCode (cname = "near_clip")]
 		public float nearClip;
@@ -1358,13 +1358,13 @@ namespace Microsoft.Xna.Framework
 		} 
 
 		public void delete();
-		public Vector3 direction();
+		public Vec3 direction();
 		[CCode (cname = "camera_view_matrix")]
-		public Matrix4 viewMatrix();
+		public Mat4 viewMatrix();
 		[CCode (cname = "camera_proj_matrix")]
-		public Matrix4 projMatrix();
+		public Mat4 projMatrix();
 		[CCode (cname = "camera_view_proj_matrix")]
-		public Matrix4 viewProjMatrix();
+		public Mat4 viewProjMatrix();
 		[CCode (cname = "camera_normalize_target")]
 		public void normalizeTarget();
 		[CCode (cname = "camera_control_orbit")]
@@ -1414,16 +1414,16 @@ namespace Microsoft.Xna.Framework
 		[SimpleType, CCode (cname = "ctri", cprefix="")]
 		public struct Ctri 
 		{
-			private Vector3 a;
-			private Vector3 b;
-			private Vector3 c;
-			private Vector3 norm;
+			private Vec3 a;
+			private Vec3 b;
+			private Vec3 c;
+			private Vec3 norm;
 			private Sphere bound;
 
 			[CCode (cname = "ctri_new")]
-			public Ctri(Vector3 a, Vector3 b, Vector3 c, Vector3 norm);
+			public Ctri(Vec3 a, Vec3 b, Vec3 c, Vec3 norm);
 			[CCode (cname = "ctri_transform")]
-			Ctri Transform(Matrix4 m, Matrix3 mn);
+			Ctri Transform(Mat4 m, Matrix3 mn);
 			[CCode (cname = "ctri_transform_space")]
 			Ctri TransformSpace(Matrix3 s, Matrix3 sn);
 			[CCode (cname = "ctri_inside_plane")]
@@ -1468,7 +1468,7 @@ namespace Microsoft.Xna.Framework
 		}
 
 		public delegate bool MaskBinaryFunc(bool b1, bool b2);
-		public delegate Vector4 MapFunc(Vector4 v);
+		public delegate Vec4 MapFunc(Vec4 v);
 
 		[Compact, CCode (cname = "image", cprefix="", free_function = "")]
 		public class Image 
@@ -1495,9 +1495,9 @@ namespace Microsoft.Xna.Framework
 			[CCode (cname = "image_delete")]
 			public void Delete();
 			[CCode (cname = "image_get")]
-			public Vector4 Get(int u, int v);
+			public Vec4 Get(int u, int v);
 			[CCode (cname = "image_set")]
-			public void Set(int u, int v, Vector4 c);
+			public void Set(int u, int v, Vec4 c);
 			[CCode (cname = "image_map")]
 			public void Map(MapFunc func);
 			
@@ -1526,7 +1526,7 @@ namespace Microsoft.Xna.Framework
 			public void FlipVertical();
 			
 			[CCode (cname = "image_fill")]
-			public void Fill(Vector4 color);
+			public void Fill(Vec4 color);
 			[CCode (cname = "image_fill_black")]
 			public void FillBlack();
 			[CCode (cname = "image_fill_white")]
@@ -1547,15 +1547,15 @@ namespace Microsoft.Xna.Framework
 			public void HsvScalar();
 			
 			[CCode (cname = "image_min")]
-			public Vector4 Min();
+			public Vec4 Min();
 			[CCode (cname = "image_max")]
-			public Vector4 Max();
+			public Vec4 Max();
 			[CCode (cname = "image_mean")]
-			public Vector4 Mean();
+			public Vec4 Mean();
 			[CCode (cname = "image_var")]
-			public Vector4 Var();
+			public Vec4 Var();
 			[CCode (cname = "image_std")]
-			public Vector4 Std();
+			public Vec4 Std();
 			[CCode (cname = "image_auto_contrast")]
 			public void AutoContrast();
 			[CCode (cname = "image_set_to_mask")]
@@ -1563,7 +1563,7 @@ namespace Microsoft.Xna.Framework
 			[CCode (cname = "image_set_brightness")]
 			public void SetBrightness(float brightness);
 			[CCode (cname = "image_alpha_mean")]
-			public Vector4 AlphaMean();
+			public Vec4 AlphaMean();
 			[CCode (cname = "image_get_subimage")]
 			public Image GetSubImage(int left, int top, int width, int height);
 			[CCode (cname = "image_set_subimage")]
@@ -1571,11 +1571,11 @@ namespace Microsoft.Xna.Framework
 			[CCode (cname = "image_paste_subimage")]
 			public void PasteSubImage(int left, int top, Image src);
 			[CCode (cname = "image_paste_subimage")]
-			public Vector4 Sample(Vector2 uv);
+			public Vec4 Sample(Vec2 uv);
 			[CCode (cname = "image_sample")]
-			public void Paint(Vector2 uv, Vector4 color);
+			public void Paint(Vec2 uv, Vec4 color);
 			[CCode (cname = "image_paint")]
-			public void Scale(Vector2 scale);
+			public void Scale(Vec2 scale);
 			[CCode (cname = "image_scale")]
 			public void MaskNot();
 			[CCode (cname = "image_mask_not")]
@@ -1599,7 +1599,7 @@ namespace Microsoft.Xna.Framework
 			[CCode (cname = "image_mask_flood_fill")]
 			public Image MaskFloodFill(int u, int v, float tolerance);
 			[CCode (cname = "image_mask_difference")]
-			public Image MaskDifference(Vector4 color, float tolerance);
+			public Image MaskDifference(Vec4 color, float tolerance);
 			[CCode (cname = "image_mask_count")]
 			public long MaskCount();
 			[CCode (cname = "image_mask_median")]
@@ -1626,13 +1626,13 @@ namespace Microsoft.Xna.Framework
 			[CCode (array_length = false)]
 			public int[] joint_parents;
 			[CCode (array_length = false)]
-			public Vector3[] joint_positions;
+			public Vec3[] joint_positions;
 			[CCode (array_length = false)]
 			public Quaternion[] joint_rotations;
 			[CCode (array_length = false)]
-			public Matrix4[] transforms;
+			public Mat4[] transforms;
 			[CCode (array_length = false)]
-			public Matrix4[] transforms_inv;
+			public Mat4[] transforms_inv;
 			[CCode (cname = "frame_new")]
 			public Frame();
 			[CCode (cname = "frame_copy")]
@@ -1680,15 +1680,15 @@ namespace Microsoft.Xna.Framework
 			public float rotation;
 			[CCode (cname = "rotation_r")]
 			public float rotationR;
-			public Vector3 scale;
+			public Vec3 scale;
 			[CCode (cname = "scale_r")]
-			public Vector3 scaleR;
-			public Vector4 color;
+			public Vec3 scaleR;
+			public Vec4 color;
 			[CCode (cname = "color_r")]
-			public Vector4 colorR;
-			public Vector3 force;
+			public Vec4 colorR;
+			public Vec3 force;
 			[CCode (cname = "force_r")]
-			public Vector3 forceR;
+			public Vec3 forceR;
 		}
 		public EffectKey effect_key_lerp(EffectKey x, EffectKey y, float amount);
 		
@@ -1736,11 +1736,11 @@ namespace Microsoft.Xna.Framework
 			public int width;
 			public int height;
 			[CCode (array_length = false)]
-			public Vector2[] locations;
+			public Vec2[] locations;
 			[CCode (array_length = false)]
-			public Vector2[] sizes;
+			public Vec2[] sizes;
 			[CCode (array_length = false)]
-			public Vector2[] offsets;
+			public Vec2[] offsets;
 			[CCode (cname = "font_load_file")]
 			public Font(string filename);
 			[CCode (cname = "font_delete")]
@@ -1815,25 +1815,25 @@ namespace Microsoft.Xna.Framework
 			[CCode (cname = "shader_program_set_float")]
 			public void setFloat(string name, float val);
 			[CCode (cname = "shader_program_set_vec2")]
-			public void setVec2(string name, Vector2 val);
+			public void setVec2(string name, Vec2 val);
 			[CCode (cname = "shader_program_set_vec3")]
-			public void setVec3(string name, Vector3 val);
+			public void setVec3(string name, Vec3 val);
 			[CCode (cname = "shader_program_set_vec4")]
-			public void setVec4(string name, Vector4 val);
+			public void setVec4(string name, Vec4 val);
 			[CCode (cname = "shader_program_set_mat3")]
 			public void setMat3(string name, Matrix3 val);
 			[CCode (cname = "shader_program_set_mat4")]
-			public void setMat4(string name, Matrix4 val);
+			public void setMat4(string name, Mat4 val);
 			[CCode (cname = "shader_program_set_float_array")]
 			public void setFloatArray(string name, ref float vals, int count);
 			[CCode (cname = "shader_program_set_vec2_array")]
-			public void setVec2Array(string name, ref Vector2 vals, int count);
+			public void setVec2Array(string name, ref Vec2 vals, int count);
 			[CCode (cname = "shader_program_set_vec3_array")]
-			public void setVec3Array(string name, ref Vector3 vals, int count);
+			public void setVec3Array(string name, ref Vec3 vals, int count);
 			[CCode (cname = "shader_program_set_vec3_array")]
-			public void setVec4Array(string name, ref Vector4 vals, int count);
+			public void setVec4Array(string name, ref Vec4 vals, int count);
 			[CCode (cname = "shader_program_set_vec4_array")]
-			public void setMat4Array(string name, ref Matrix4 vals, int count);
+			public void setMat4Array(string name, ref Mat4 vals, int count);
 			[CCode (cname = "shader_program_set_texture")]
 			public void setTexture(string name, int index, AssetHandle t);
 			[CCode (cname = "shader_program_set_texture_id")]
@@ -1865,11 +1865,11 @@ namespace Microsoft.Xna.Framework
 			[CCode (cname = "as_float")]
 			public float asFloat;
 			[CCode (cname = "as_vec2")]
-			public Vector2 asVec2;
+			public Vec2 asVec2;
 			[CCode (cname = "as_vec3")]
-			public Vector3 asVec3;
+			public Vec3 asVec3;
 			[CCode (cname = "as_vec4")]
-			public Vector4 asVec4;
+			public Vec4 asVec4;
 			[CCode (cname = "as_asset")]
 			public AssetHandle asAsset;
 		}
@@ -2022,9 +2022,9 @@ namespace Microsoft.Xna.Framework
 			[CCode (cname = "sound_play_looped")]
 			public int playLooped(int loops);
 			[CCode (cname = "sound_play_at")]
-			public int playAt(Vector3 pos, Vector3 cam_pos, Vector3 cam_dir);
+			public int playAt(Vec3 pos, Vec3 cam_pos, Vec3 cam_dir);
 			[CCode (cname = "sound_play_at_looped")]
-			public int playAtLooped(Vector3 pos, Vector3 cam_pos, Vector3 cam_dir, int loops);
+			public int playAtLooped(Vec3 pos, Vec3 cam_pos, Vec3 cam_dir, int loops);
 		}
 
 		[Compact, CCode (cname = "terrain_chunk", cprefix="", free_function = "")]
@@ -2080,13 +2080,13 @@ namespace Microsoft.Xna.Framework
 			[CCode (cname = "terrain_reload_chunk")]
 			public void reloadChunk(int i);
 			[CCode (cname = "terrain_tbn")]
-			public Matrix3  tbn(Vector2 position);
+			public Matrix3  tbn(Vec2 position);
 			[CCode (cname = "terrain_axis")]
-			public Matrix3  axis(Vector2 position);
+			public Matrix3  axis(Vec2 position);
 			[CCode (cname = "terrain_height")]
-			public float height(Vector2 position);
+			public float height(Vec2 position);
 			[CCode (cname = "terrain_normal")]
-			public Vector3  normal(Vector2 position);
+			public Vec3  normal(Vec2 position);
 		}		
 
 		[Compact, CCode (cname = "texture", cprefix="", free_function = "")]
@@ -2158,7 +2158,7 @@ namespace Microsoft.Xna.Framework
 		[CCode (cname = "randf_range")]
 		public float randRange(float s, float e);
 		[CCode (cname = "randf_circle")]
-		public Vector2 randCircle(float radius);
+		public Vec2 randCircle(float radius);
 
 		[CCode (has_target = false)]
 		public delegate void BucketFunc();
@@ -2325,11 +2325,11 @@ namespace Microsoft.Xna.Framework
 			[CCode (cname = "spline_delete")]
 			public void delete();
 			[CCode (cname = "spline_add_point")]
-			public void addPoint(Vector2 p);
+			public void addPoint(Vec2 p);
 			[CCode (cname = "spline_get_point")]
-			public Vector2 getPoint(int i);
+			public Vec2 getPoint(int i);
 			[CCode (cname = "spline_set_point")]
-			public void setPoint(int i, Vector2 p);
+			public void setPoint(int i, Vec2 p);
 			[CCode (cname = "spline_update")]
 			public void update();
 			[CCode (cname = "spline_print")]
@@ -2364,7 +2364,7 @@ namespace Microsoft.Xna.Framework
 			[CCode (cname = "color_curves_write_lut")]
 			void writeLut(string filename);
 			[CCode (cname = "color_curves_map")]
-			Vector3 map(Vector3 v);
+			Vec3 map(Vec3 v);
 		}		
 
 		[Compact, CCode (cname = "vertex_list", cprefix="", free_function = "")]
@@ -2459,53 +2459,53 @@ namespace Microsoft.Xna.Framework
 			public AssetHandle starsTex;
 			[CCode (cname = "is_day")]
 			public bool isDay;
-			public Vector3 wind;
+			public Vec3 wind;
 			[CCode (cname = "world_sun")]
-			public Matrix4 worldSun;
+			public Mat4 worldSun;
 			[CCode (cname = "world_moon")]
-			public Matrix4 worldMoon;
+			public Mat4 worldMoon;
 			[CCode (cname = "world_stars")]
-			public Matrix4 worldStars;
+			public Mat4 worldStars;
 			[CCode (cname = "moon_power")]
 			public float moonPower;
 			[CCode (cname = "moon_direction")]
-			public Vector3 moonDirection;
+			public Vec3 moonDirection;
 			[CCode (cname = "moon_diffuse")]
-			public Vector3 moonDiffuse;
+			public Vec3 moonDiffuse;
 			[CCode (cname = "moon_ambient")]
-			public Vector3 moonAmbient;
+			public Vec3 moonAmbient;
 			[CCode (cname = "moon_specular")]
-			public Vector3 moonSpecular;
+			public Vec3 moonSpecular;
 			[CCode (cname = "sun_power")]
 			public float sunPower;
 			[CCode (cname = "sun_direction")]
-			public Vector3 sunDirection;
+			public Vec3 sunDirection;
 			[CCode (cname = "sun_diffuse")]
-			public Vector3 sunDiffuse;
+			public Vec3 sunDiffuse;
 			[CCode (cname = "sun_ambient")]
-			public Vector3 sunAmbient;
+			public Vec3 sunAmbient;
 			[CCode (cname = "sun_specular")]
-			public Vector3 sunSpecular;
+			public Vec3 sunSpecular;
 			[CCode (cname = "sky_power")]
 			public float skyPower;
 			[CCode (cname = "sky_direction")]
-			public Vector3 skyDirection;
+			public Vec3 skyDirection;
 			[CCode (cname = "sky_diffuse")]
-			public Vector3 skyDiffuse;
+			public Vec3 skyDiffuse;
 			[CCode (cname = "sky_ambient")]
-			public Vector3 skyAmbient;
+			public Vec3 skyAmbient;
 			[CCode (cname = "sky_specular")]
-			public Vector3 skySpecular;
+			public Vec3 skySpecular;
 			[CCode (cname = "ground_power")]
 			public float groundPower;
 			[CCode (cname = "ground_direction")]
-			public Vector3 groundDirection;
+			public Vec3 groundDirection;
 			[CCode (cname = "ground_diffuse")]
-			public Vector3 groundDiffuse;
+			public Vec3 groundDiffuse;
 			[CCode (cname = "ground_ambient")]
-			public Vector3 groundAmbient;
+			public Vec3 groundAmbient;
 			[CCode (cname = "ground_specular")]
-			public Vector3 groundSpecular;
+			public Vec3 groundSpecular;
 			[CCode (cname = "sky_new")]
 			public Sky ();
 			[CCode (cname = "sky_delete")]
@@ -2518,25 +2518,25 @@ namespace Microsoft.Xna.Framework
 		public struct RenderObject {
 			public RoType type;
 			/* Geometry */
-			public Matrix4 _axis;
+			public Mat4 _axis;
 			public Sphere _sphere;
 			public Ellipsoid _ellipsoid;
 			public Assets.CMesh colmesh; 
-			public Matrix4 colworld; 
+			public Mat4 colworld; 
 			public Frustum _frustum;
 			public Plane _plane;
 			[CCode (cname = "line_start")]
-			public Vector3 lineStart; 
+			public Vec3 lineStart; 
 			[CCode (cname = "line_end")]
-			public Vector3 lineEnd; 
+			public Vec3 lineEnd; 
 			[CCode (cname = "line_color")]
-			public Vector3 lineColor; 
+			public Vec3 lineColor; 
 			[CCode (cname = "line_thickness")]
 			public float lineThickness;
 			[CCode (cname = "point_pos")]
-			public Vector3 pointPos; 
+			public Vec3 pointPos; 
 			[CCode (cname = "point_color")]
-			public Vector3 pointColor; 
+			public Vec3 pointColor; 
 			[CCode (cname = "point_size")]
 			public float pointSize; 
 			/* CObjects */
@@ -2549,7 +2549,7 @@ namespace Microsoft.Xna.Framework
 			/* UI */
 			public entities.Light _light;
 			[CCode (cname = "paint_axis")]
-			public Matrix4 paintAxis; 
+			public Mat4 paintAxis; 
 			[CCode (cname = "paint_radius")]
 			public float paintRadius; 
 
@@ -2564,7 +2564,7 @@ namespace Microsoft.Xna.Framework
 			[CCode (cname = "render_object_light")]
 			public static RenderObject light(entities.Light l);
 			[CCode (cname = "render_object_axis")]
-			public static RenderObject axis(Matrix4 a);
+			public static RenderObject axis(Mat4 a);
 			[CCode (cname = "render_object_sphere")]
 			public static RenderObject sphere(Sphere s);
 			[CCode (cname = "render_object_ellipsoid")]
@@ -2574,15 +2574,15 @@ namespace Microsoft.Xna.Framework
 			[CCode (cname = "render_object_plane")]
 			public static RenderObject plane(Plane p);
 			[CCode (cname = "render_object_cmesh")]
-			public static RenderObject cmesh(Assets.CMesh cm, Matrix4 world);
+			public static RenderObject cmesh(Assets.CMesh cm, Mat4 world);
 			[CCode (cname = "render_object_landscape")]
 			public static RenderObject landscape(entities.Landscape l);
 			[CCode (cname = "render_object_paint")]
-			public static RenderObject paint(Matrix4 paint_axis, float paint_radius);
+			public static RenderObject paint(Mat4 paint_axis, float paint_radius);
 			[CCode (cname = "render_object_line")]
-			public static RenderObject line(Vector3 start, Vector3 end, Vector3 color, float thickness);
+			public static RenderObject line(Vec3 start, Vec3 end, Vec3 color, float thickness);
 			[CCode (cname = "render_object_point")]
-			public static RenderObject point(Vector3 pos, Vector3 color, float size);
+			public static RenderObject point(Vec3 pos, Vec3 color, float size);
 		}
 
 		[Compact, CCode (cname = "renderer", cprefix="", free_function = "")]
@@ -2769,13 +2769,13 @@ namespace Microsoft.Xna.Framework
 			/* Preprocessed */
 
 			[CCode (cname = "camera_view")]
-			public Matrix4  cameraView;
+			public Mat4  cameraView;
 			[CCode (cname = "camera_proj")]
-			public Matrix4  cameraProj;
+			public Mat4  cameraProj;
 			[CCode (cname = "camera_inv_view")]
-			public Matrix4  cameraInvView;
+			public Mat4  cameraInvView;
 			[CCode (cname = "camera_inv_proj")]
-			public Matrix4  cameraInvProj;
+			public Mat4  cameraInvProj;
 			[CCode (cname = "camera_near")]
 			public float cameraNear;
 			[CCode (cname = "camera_far")]
@@ -2784,9 +2784,9 @@ namespace Microsoft.Xna.Framework
 			public Box cameraFrustum;
 
 			[CCode (cname = "shadow_view")]
-			public Matrix4  shadowView[3];
+			public Mat4  shadowView[3];
 			[CCode (cname = "shadow_proj")]
-			public Matrix4  shadowProj[3];
+			public Mat4  shadowProj[3];
 			[CCode (cname = "shadow_near")]
 			public float shadowNear[3];
 			[CCode (cname = "shadow_far")]
@@ -2824,9 +2824,9 @@ namespace Microsoft.Xna.Framework
 	{
 		[Compact, CCode (cname = "particles", cprefix="", free_function = "")]
 		public class Particles {
-			public Vector3 position;
+			public Vec3 position;
 			public Quaternion rotation;
-			public Vector3 scale;
+			public Vec3 scale;
 			public AssetHandle effect;
 			public float rate;
 			public int count;
@@ -2839,13 +2839,13 @@ namespace Microsoft.Xna.Framework
 			[CCode (array_length = false)]
 			public float[] rotations;
 			[CCode (array_length = false)]
-			public Vector3[]  scales;
+			public Vec3[]  scales;
 			[CCode (array_length = false)]
-			public Vector4[]  colors;
+			public Vec4[]  colors;
 			[CCode (array_length = false)]
-			public Vector3[]  positions;
+			public Vec3[]  positions;
 			[CCode (array_length = false)]
-			public Vector3[]  velocities;
+			public Vec3[]  velocities;
 			[CCode (cname = "vertex_buff")]
 			public uint vertexBuff;
 			[CCode (array_length = false, cname = "vertexData")]
@@ -2909,36 +2909,36 @@ namespace Microsoft.Xna.Framework
 			[CCode (cname = "landscape_delete")]
 			public void delete();
 			[CCode (cname = "landscape_world")]
-			Matrix4  world();
+			Mat4  world();
 			[CCode (cname = "landscape_world_normal")]
 			Matrix3  worldNormal();
 			[CCode (cname = "landscape_height")]
-			float height(Vector2 pos);
+			float height(Vec2 pos);
 			[CCode (cname = "landscape_normal")]
-			Vector3  normal(Vector2 pos);
+			Vec3  normal(Vec2 pos);
 			[CCode (cname = "landscape_axis")]
-			Matrix3  axis(Vector2 pos);
+			Matrix3  axis(Vec2 pos);
 			[CCode (cname = "landscape_paint_height")]
-			void paintHeight(Vector2 pos, float radius, float value, float opacity);
+			void paintHeight(Vec2 pos, float radius, float value, float opacity);
 			[CCode (cname = "landscape_paint_color")]
-			void paintColor(Vector2 pos, float radius, int type, float opacity);
+			void paintColor(Vec2 pos, float radius, int type, float opacity);
 			[CCode (cname = "landscape_chunks", array_length = false)]
-			void chunks(Vector2 pos, ref Assets.TerrainChunk[] chunks_out);
+			void chunks(Vec2 pos, ref Assets.TerrainChunk[] chunks_out);
 		}
 
 
 		[Compact, CCode (cname = "light", cprefix="", free_function = "")]
 		public class Light {
 			[CCode (cname = "position")]
-			public Vector3 _position;
-			public Vector3 target;
+			public Vec3 _position;
+			public Vec3 target;
 			
 			[CCode (cname = "diffuse_color")]
-			public Vector3 diffuseColor;
+			public Vec3 diffuseColor;
 			[CCode (cname = "specular_color")]
-			public Vector3 specularColor;
+			public Vec3 specularColor;
 			[CCode (cname = "ambient_color")]
-			public Vector3 ambientColor;
+			public Vec3 ambientColor;
 			
 			public float power;
 			public float falloff;
@@ -2952,7 +2952,7 @@ namespace Microsoft.Xna.Framework
 			
 			/* Shadow Mapping */
 			[CCode (cname = "shadow_color")]
-			public Vector3 shadowColor;
+			public Vec3 shadowColor;
 			[CCode (cname = "shadow_map_width")]
 			public int shadowMapWidth;
 			[CCode (cname = "shadow_map_height")]
@@ -2973,26 +2973,26 @@ namespace Microsoft.Xna.Framework
 			[CCode (cname = "light_new")]
 			public Light();
 			[CCode (cname = "light_position")]
-			public static Light position(Vector3 position);
+			public static Light position(Vec3 position);
 			[CCode (cname = "light_type")]
-			public static Light type(Vector3 position, int type);
+			public static Light type(Vec3 position, int type);
 			[CCode (cname = "light_delete")]
 			public void delete();
 			[CCode (cname = "light_set_type")]
 			public void setType(int type);
 			[CCode (cname = "light_direction")]
-			public Vector3 direction();
+			public Vec3 direction();
 			[CCode (cname = "light_view_matrix")]
-			public Matrix4 viewMatrix();
+			public Mat4 viewMatrix();
 			[CCode (cname = "light_proj_matrix")]
-			public Matrix4 projMatrix();
+			public Mat4 projMatrix();
 		}
 
 
 		[Compact, CCode (cname = "static_object", cprefix="", free_function = "")]
 		public class StaticObject {
-			public Vector3 position;
-			public Vector3 scale;
+			public Vec3 position;
+			public Vec3 scale;
 			public Quaternion rotation;
 			public bool active;
 			[CCode (cname = "recieve_shadows")]
@@ -3008,7 +3008,7 @@ namespace Microsoft.Xna.Framework
 			[CCode (cname = "static_object_delete")]
 			public void delete();
 			[CCode (cname = "static_object_world")]
-			public Matrix4 world();
+			public Mat4 world();
 			[CCode (cname = "static_object_world_normal")]
 			public Matrix3 worldNormal();
 
@@ -3016,8 +3016,8 @@ namespace Microsoft.Xna.Framework
 
 		[Compact, CCode (cname = "animated_object", cprefix="", free_function = "")]
 		public class AnimatedObject {
-			public Vector3 position;
-			public Vector3 scale;
+			public Vec3 position;
+			public Vec3 scale;
 			public Quaternion rotation;
 			[CCode (cname = "animation_time")]
 			public float animationTime;
@@ -3038,17 +3038,17 @@ namespace Microsoft.Xna.Framework
 
 		[Compact, CCode (cname = "physics_object", cprefix="", free_function = "")]
 		public class PhysicsCObject {
-			public Vector3 position;
-			public Vector3 scale;
+			public Vec3 position;
+			public Vec3 scale;
 			public Quaternion rotation;
-			public Vector3 velocity;
+			public Vec3 velocity;
 			[CCode (cname = "angular_velocity")]
 			public Quaternion angularVelocity;
-			public Vector3 acceleration;
+			public Vec3 acceleration;
 			[CCode (cname = "angular_acceleration")]
 			public Quaternion angularAcceleration;
 			[CCode (cname = "previous_position")]
-			public Vector3 previousPosition;
+			public Vec3 previousPosition;
 			public float elasticity;
 			public float friction;
 			public bool active;
@@ -3072,10 +3072,10 @@ namespace Microsoft.Xna.Framework
 		
 		[SimpleType, CCode (cname = "instance_data", cprefix="")]
 		public class InstanceData {
-			public Vector3 position;
-			public Vector3 scale;
+			public Vec3 position;
+			public Vec3 scale;
 			public Quaternion rotation;
-			public Matrix4 world;
+			public Mat4 world;
 			[CCode (cname = "world_normal")] 
 			public Matrix3 worldNormal;
 		}
@@ -3101,11 +3101,11 @@ namespace Microsoft.Xna.Framework
 			[CCode (cname = "instance_object_update")]
 			public void update();
 			[CCode (cname = "instance_object_add_instance")]
-			public void addInstance(Vector3 position, Vector3 scale, Quaternion rotation);
+			public void addInstance(Vec3 position, Vec3 scale, Quaternion rotation);
 			[CCode (cname = "instance_object_rem_instance")]
 			public void remInstance(int i);
 			[CCode (cname = "instance_object_world")]
-			public Matrix4 world(int i);
+			public Mat4 world(int i);
 			[CCode (cname = "instance_object_world_normal")]
 			public Matrix3 worldNormal(int i);
 		}	
@@ -3138,9 +3138,9 @@ namespace Microsoft.Xna.Framework
 			public Rectangle back;
 			public Text label;
 			[CCode (cname = "up_color")]
-			public Vector4 upColor;
+			public Vec4 upColor;
 			[CCode (cname = "down_color")]
-			public Vector4 downColor;
+			public Vec4 downColor;
 			public OnClick onclick;
 			[CCode (cname = "onclick_data")]
 			public IntPtr onclickData;
@@ -3160,13 +3160,13 @@ namespace Microsoft.Xna.Framework
 			[CCode (cname = "ui_button_delete")]
 			public void Delete();
 			[CCode (cname = "ui_button_move")]
-			public void Move(Vector2 pos);
+			public void Move(Vec2 pos);
 			[CCode (cname = "ui_button_resize")]
-			public void Resize(Vector2 size);
+			public void Resize(Vec2 size);
 			[CCode (cname = "ui_button_set_label")]
 			public void SetLabel(string label);
 			[CCode (cname = "ui_button_set_label_color")]
-			public void SetLabelColor(Vector4 color);
+			public void SetLabelColor(Vec4 color);
 			[CCode (cname = "ui_button_set_font")]
 			public void SetFont(AssetHandle f);
 			[CCode (cname = "ui_button_set_onclick")]
@@ -3184,9 +3184,9 @@ namespace Microsoft.Xna.Framework
 			[CCode (cname = "ui_button_enable")]
 			public void Enable();
 			[CCode (cname = "ui_button_position")]
-			public Vector2 Position();
+			public Vec2 Position();
 			[CCode (cname = "ui_button_size")]
-			public Vector2 Size();
+			public Vec2 Size();
 			[CCode (cname = "ui_button_event")]
 			public void Event(Sdl.Event e);
 			[CCode (cname = "ui_button_update")]
@@ -3194,7 +3194,7 @@ namespace Microsoft.Xna.Framework
 			[CCode (cname = "ui_button_render")]
 			public void Render();
 			[CCode (cname = "ui_button_contains_point")]
-			public bool ContainsPoint(Vector2 pos);
+			public bool ContainsPoint(Vec2 pos);
 		}
 
 		[CCode (cname = "ui_button_onclick", instance_pos = 0.1, has_target = false)]
@@ -3286,7 +3286,7 @@ namespace Microsoft.Xna.Framework
 			[CCode (cname = "ui_option_set_active")]
 			public void setActive(bool active);
 			[CCode (cname = "ui_option_move")]
-			public void move(Vector2 position);
+			public void move(Vec2 position);
 			[CCode (cname = "ui_option_set_options", array_length = false)]
 			public void setOptions(string label, int num, string[] values);
 			[CCode (cname = "ui_option_get_selected")]
@@ -3338,7 +3338,7 @@ namespace Microsoft.Xna.Framework
 			[CCode (cname = "ui_spinner_set_label")]
 			public void setLabel(string label);
 			[CCode (cname = "ui_spinner_move")]
-			public void move(Vector2 position);
+			public void move(Vec2 position);
 			[CCode (cname = "ui_spinner_set_amount")]
 			public void setAmount(float amount);
 			[CCode (cname = "ui_spinner_get_amount")]
@@ -3371,7 +3371,7 @@ namespace Microsoft.Xna.Framework
 			[CCode (cname = "box_back_border_size")]
 			public int   boxBackBorderSize;
 			[CCode (cname = "box_back_border_color")]
-			public Vector4  boxBackBorderColor;
+			public Vec4  boxBackBorderColor;
 			[CCode (cname = "box_glitch")]
 			public float boxGlitch;
 			[CCode (cname = "box_blend_src")]
@@ -3379,26 +3379,26 @@ namespace Microsoft.Xna.Framework
 			[CCode (cname = "box_blend_dst")]
 			public int   boxBlendDst;
 			[CCode (cname = "box_text_color")]
-			public Vector4 boxTextColor;
+			public Vec4 boxTextColor;
 			[CCode (cname = "box_label_color")]
-			public Vector4 boxLabelColor;
+			public Vec4 boxLabelColor;
 			[CCode (cname = "box_text_halign")]
 			public int  boxTextHalign;
 			[CCode (cname = "box_text_valign")]
 			public int  boxTextValign;
 			[CCode (cname = "box_up_color")]
-			public Vector4 boxUpColor;
+			public Vec4 boxUpColor;
 			[CCode (cname = "box_down_color")]
-			public Vector4 boxDownColor;
+			public Vec4 boxDownColor;
 			[CCode (cname = "box_inset_color")]
-			public Vector4 boxInsetColor;
+			public Vec4 boxInsetColor;
 			/* Text  */
 			[CCode (cname = "text_font")]
 			public URI textFont;
 			[CCode (cname = "text_color")]
-			public Vector4  textColor;
+			public Vec4  textColor;
 			[CCode (cname = "text_scale")]
-			public Vector2  textScale;
+			public Vec2  textScale;
 			/* Spinner */
 			[CCode (cname = "spinner_image")]
 			public URI spinnerImage;
@@ -3436,9 +3436,9 @@ namespace Microsoft.Xna.Framework
 			[CCode (cname = "ui_textbox_rmchar")]
 			public void rmchar();
 			[CCode (cname = "ui_textbox_move")]
-			public void move(Vector2 pos);
+			public void move(Vec2 pos);
 			[CCode (cname = "ui_textbox_resize")]
-			public void resize(Vector2 size);
+			public void resize(Vec2 size);
 			[CCode (cname = "ui_textbox_set_font")]
 			public void setFont(AssetHandle f);
 			[CCode (cname = "ui_textbox_set_label")]
@@ -3458,7 +3458,7 @@ namespace Microsoft.Xna.Framework
 			[CCode (cname = "ui_textbox_render")]
 			public void render();
 			[CCode (cname = "ui_textbox_contains_point")]
-			public bool containsPoint(Vector2 p);
+			public bool containsPoint(Vec2 p);
 		}
 
 		[Compact, CCode (cname = "ui_toast", cprefix="", free_function = "")]
@@ -3514,9 +3514,9 @@ namespace Microsoft.Xna.Framework
 			[CCode (cname = "ui_listbox_add_item")]
 			public Text addItem(string item);
 			[CCode (cname = "ui_listbox_move")]
-			public void move(Vector2 pos);
+			public void move(Vec2 pos);
 			[CCode (cname = "ui_listbox_resize")]
-			public void resize(Vector2 size);
+			public void resize(Vec2 size);
 			[CCode (cname = "ui_listbox_event")]
 			public void event(Sdl.Event e);
 			[CCode (cname = "ui_listbox_update")]
@@ -3542,14 +3542,14 @@ namespace Microsoft.Xna.Framework
 			[CCode (cname = "num_texcoords")]
 			public int numTexcoords;
 			[CCode (cname = "top_left")]
-			public Vector2 topLeft;
+			public Vec2 topLeft;
 			[CCode (cname = "bottom_right")]
-			public Vector2 bottomRight;
+			public Vec2 bottomRight;
 			/* public */
 			public AssetHandle font;  
-			public Vector2 position;
-			public Vector2 scale;
-			public Vector4 color;
+			public Vec2 position;
+			public Vec2 scale;
+			public Vec4 color;
 			public int halign;
 			public int valign;
 			[CCode (cname = "line_spacing")]
@@ -3572,13 +3572,13 @@ namespace Microsoft.Xna.Framework
 			[CCode (cname = "ui_text_delete")]
 			public void delete();
 			[CCode (cname = "ui_text_move")]
-			public void move(Vector2 pos);
+			public void move(Vec2 pos);
 			[CCode (cname = "ui_text_set_font")]
 			public void setFont(AssetHandle font);
 			[CCode (cname = "ui_text_set_color")]
-			public void setColor(Vector4 color);
+			public void setColor(Vec4 color);
 			[CCode (cname = "ui_text_set_scale")]
-			public void setScale(Vector2 scale);
+			public void setScale(Vec2 scale);
 			[CCode (cname = "ui_text_align")]
 			public void align(int halign, int valign);
 			[CCode (cname = "ui_text_draw")]
@@ -3592,16 +3592,16 @@ namespace Microsoft.Xna.Framework
 			[CCode (cname = "ui_text_render")]
 			public void render();
 			[CCode (cname = "ui_text_contains_point")]
-			public bool containsPoint(Vector2 position);
+			public bool containsPoint(Vec2 position);
 		}
 
 		[Compact, CCode (cname = "ui_rectangle", cprefix="")]
 		public class Rectangle {
 			[CCode (cname = "top_left")]
-			public Vector2 topLeft;
+			public Vec2 topLeft;
 			[CCode (cname = "bottom_right")]
-			public Vector2 bottomRight;
-			public Vector4 color;
+			public Vec2 bottomRight;
+			public Vec4 color;
 			public AssetHandle texture;
 			[CCode (cname = "texture_width")]
 			public int textureWidth;
@@ -3612,7 +3612,7 @@ namespace Microsoft.Xna.Framework
 			[CCode (cname = "border_size")]
 			public float borderSize;
 			[CCode (cname = "border_color")]
-			public Vector4 borderColor;
+			public Vec4 borderColor;
 			public float glitch;
 			public float time;
 			[CCode (cname = "blend_src")]
@@ -3636,27 +3636,27 @@ namespace Microsoft.Xna.Framework
 			[CCode (cname = "ui_rectangle_render")]
 			public void render();
 			[CCode (cname = "ui_rectangle_move")]
-			public void move(Vector2 pos);
+			public void move(Vec2 pos);
 			[CCode (cname = "ui_rectangle_resize")]
-			public void resize(Vector2 size);
+			public void resize(Vec2 size);
 			[CCode (cname = "ui_rectangle_set_texture")]
 			public void setTexture(AssetHandle tex, int width, int height, bool tile);
 			[CCode (cname = "ui_rectangle_set_border")]
-			public void setTorder(float size, Vector4 color);
+			public void setTorder(float size, Vec4 color);
 			[CCode (cname = "ui_rectangle_set_color")]
-			public void setColor(Vector4 color);
+			public void setColor(Vec4 color);
 			[CCode (cname = "ui_rectangle_set_glitch")]
 			public void setGlitch(float glitch);
 			[CCode (cname = "ui_rectangle_center")]
-			public Vector2 center();
+			public Vec2 center();
 			[CCode (cname = "ui_rectangle_contains_point")]
-			public bool containsPoint(Vector2 pos);
+			public bool containsPoint(Vec2 pos);
 			[CCode (cname = "ui_rectangle_blend")]
 			public void blend(int blend_src, int blend_dst);
 			[CCode (cname = "ui_rectangle_position")]
-			public Vector2 position();
+			public Vec2 position();
 			[CCode (cname = "ui_rectangle_size")]
-			public Vector2 size();
+			public Vec2 size();
 		}
 	}
 }

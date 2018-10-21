@@ -8,8 +8,10 @@ project ( xna.framework VERSION 0.0.1 )
 
 # Includes: 
 list ( APPEND INCLUDE ../Corange/include )
+list ( APPEND INCLUDE .lib/xna.framework/include )
 
 # C Sources: 
+list ( APPEND CSOURCE .lib/xna.framework/src/stb.c )
 
 # Vala Sources: 
 list ( APPEND SOURCE .lib/xna.framework/src/Color.vala )
@@ -113,13 +115,14 @@ list ( APPEND SOURCE .lib/xna.framework/src/Graphics/Vertices/VertexPositionText
 # Vapis: 
 list ( APPEND VAPI .lib/xna.framework/src/sdl.vapi )
 list ( APPEND VAPI .lib/xna.framework/src/xna.framework.vapi )
+list ( APPEND VAPI .lib/xna.framework/src/stb.vapi )
 
 # Vapidir: 
 
 ## Export to the parent scope:
 set ( XNA.FRAMEWORK true PARENT_SCOPE )
 set ( INCLUDES "${INCLUDES};${INCLUDE}" PARENT_SCOPE )
-
+set ( C_SOURCES "${C_SOURCES};${CSOURCE}" PARENT_SCOPE )
 set ( VALA_SOURCES "${VALA_SOURCES};${SOURCE}" PARENT_SCOPE )
 set ( CUSTOM_VAPIS "${CUSTOM_VAPIS};${VAPI}" PARENT_SCOPE )
 

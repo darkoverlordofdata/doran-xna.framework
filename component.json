@@ -12,11 +12,14 @@
   "main": "CMakeLists.txt",
   "license": "MIT",
   "dependencies": {
+    "glm": "git://github.com/darkoverlordofdata/doran-glm",
     "zerog": "git://github.com/darkoverlordofdata/doran-zerog",
     "system": "git://github.com/darkoverlordofdata/doran-system"
   },
   "source": "src/",
   "files": [
+    "src/stb.c",
+    "src/stb.vapi",
     "src/Color.vala",
     "src/DisplayOrientation.vala",
     "src/EventHelpers.vala",
@@ -118,7 +121,8 @@
     "src/Graphics/Vertices/VertexPositionTexture.vala"
   ],
   "includes": [
-    "../Corange/include"
+    "../Corange/include",
+    "./include"
   ],
   "libraries": [
     "opengl32",

@@ -17,6 +17,7 @@ namespace Microsoft.Xna.Framework.Graphics
 {
     using System;
     using Microsoft.Xna.Framework;
+    using Glm;
 
     /*  0,1  1,1
      *  TL    TR
@@ -32,8 +33,8 @@ namespace Microsoft.Xna.Framework.Graphics
 
     public class SpriteBatchItem : Object, IComparable<SpriteBatchItem>
     {
-        private const Vector2 UnitY = { 0, 1 };
-        private const Vector2 UnitX = { 1, 0 };
+        private Vec2 UnitY = new Vec2(0, 1);
+        private Vec2 UnitX = new Vec2(1, 0);
         
         public Texture2D Texture;
         public float SortKey;
@@ -46,6 +47,17 @@ namespace Microsoft.Xna.Framework.Graphics
         public VertexPositionColorTexture Vertex2BR;
         public VertexPositionColorTexture Vertex2BL;
 
+		public SpriteBatchItem ()
+		{
+            Vertex1TR = new VertexPositionColorTexture();
+			Vertex1TL = new VertexPositionColorTexture();
+            Vertex1BL = new VertexPositionColorTexture();
+
+            Vertex2TR = new VertexPositionColorTexture();
+            Vertex2BR = new VertexPositionColorTexture();            
+            Vertex2BL = new VertexPositionColorTexture();
+		}
+
 
 		public void Set2( 
             float x, 
@@ -57,8 +69,8 @@ namespace Microsoft.Xna.Framework.Graphics
             float sin, 
             float cos, 
             Color color, 
-            Vector2 texCoordTL, 
-            Vector2 texCoordBR, 
+            Vec2 texCoordTL, 
+            Vec2 texCoordBR, 
             float depth )
 		{
 			Vertex1TL.Position.X = x+dx*cos-dy*sin;
@@ -111,8 +123,8 @@ namespace Microsoft.Xna.Framework.Graphics
             float w, 
             float h, 
             Color color, 
-            Vector2 texCoordTL, 
-            Vector2 texCoordBR,
+            Vec2 texCoordTL, 
+            Vec2 texCoordBR,
             float depth)
         {
             // TR { 1, 1 }

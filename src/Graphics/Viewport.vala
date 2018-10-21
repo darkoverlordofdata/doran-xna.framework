@@ -16,6 +16,7 @@
 namespace Microsoft.Xna.Framework.Graphics
 {
     using System;
+    using Glm;
     // using System.Runtime.Serialization;
 
     /// <summary>
@@ -193,17 +194,17 @@ namespace Microsoft.Xna.Framework.Graphics
 		// }
 
         /// <summary>
-        /// Projects a <see cref="Vector3"/> from world space into screen space.
+        /// Projects a <see cref="Vec3"/> from world space into screen space.
         /// </summary>
-        /// <param name="source">The <see cref="Vector3"/> to project.</param>
-        /// <param name="projection">The projection <see cref="Matrix4"/>.</param>
-        /// <param name="view">The view <see cref="Matrix4"/>.</param>
-        /// <param name="world">The world <see cref="Matrix4"/>.</param>
+        /// <param name="source">The <see cref="Vec3"/> to project.</param>
+        /// <param name="projection">The projection <see cref="Mat4"/>.</param>
+        /// <param name="view">The view <see cref="Mat4"/>.</param>
+        /// <param name="world">The world <see cref="Mat4"/>.</param>
         /// <returns></returns>
-        public Vector3 Project(Vector3 source, Matrix4 projection, Matrix4 view, Matrix4 world)
+        public Vec3 Project(Vec3 source, Mat4 projection, Mat4 view, Mat4 world)
         {
-            Matrix4 matrix = projection.Multiply(world.Multiply(view));
-		    Vector3 vector = Transform(ref source, ref matrix);
+            Mat4 matrix = projection.Multiply(world.Multiply(view));
+		    Vec3 vector = Transform(source, matrix);
 		    float a = (((source.X * matrix.M14) + (source.Y * matrix.M24)) + (source.Z * matrix.M34)) + matrix.M44;
 		    if (!WithinEpsilon(a, 1f))
 		    {
@@ -217,30 +218,30 @@ namespace Microsoft.Xna.Framework.Graphics
 		    return vector;
         }
 
-        Vector3 Transform(ref Vector3 position, ref Matrix4 matrix)
+        Vec3 Transform(Vec3 position, Mat4 matrix)
         {
             var x = (position.X * matrix.M11) + (position.Y * matrix.M21) + (position.Z * matrix.M31) + matrix.M41;
             var y = (position.X * matrix.M12) + (position.Y * matrix.M22) + (position.Z * matrix.M32) + matrix.M42;
             var z = (position.X * matrix.M13) + (position.Y * matrix.M23) + (position.Z * matrix.M33) + matrix.M43;
-            return new Vector3(x, y, z);;
+            return new Vec3(x, y, z);;
         }
         /// <summary>
-        /// Unprojects a <see cref="Vector3"/> from screen space into world space.
+        /// Unprojects a <see cref="Vec3"/> from screen space into world space.
         /// </summary>
-        /// <param name="source">The <see cref="Vector3"/> to unproject.</param>
-        /// <param name="projection">The projection <see cref="Matrix4"/>.</param>
-        /// <param name="view">The view <see cref="Matrix4"/>.</param>
-        /// <param name="world">The world <see cref="Matrix4"/>.</param>
+        /// <param name="source">The <see cref="Vec3"/> to unproject.</param>
+        /// <param name="projection">The projection <see cref="Mat4"/>.</param>
+        /// <param name="view">The view <see cref="Mat4"/>.</param>
+        /// <param name="world">The world <see cref="Mat4"/>.</param>
         /// <returns></returns>
-        public Vector3 Unproject(Vector3 source, Matrix4 projection, Matrix4 view, Matrix4 world)
+        public Vec3 Unproject(Vec3 source, Mat4 projection, Mat4 view, Mat4 world)
         {
-            // Matrix4 matrix = Matrix4.Invert(Matrix4.Multiply(Matrix4.Multiply(world, view), projection));
+            // Mat4 matrix = Mat4.Invert(Mat4.Multiply(Mat4.Multiply(world, view), projection));
             var matrix = projection.Multiply(world.Multiply(view)).Invert();
 		    source.X = (((source.X - this.x) / ((float) this.width)) * 2f) - 1f;
 		    source.Y = -((((source.Y - this.y) / ((float) this.height)) * 2f) - 1f);
 		    source.Z = (source.Z - this.minDepth) / (this.maxDepth - this.minDepth);
-		    //Vector3 vector = Vector3.Transform(source, matrix);
-            var vector = Transform(ref source, ref matrix);
+		    //Vec3 vector = Vec3.Transform(source, matrix);
+            var vector = Transform(source, matrix);
 		    float a = (((source.X * matrix.M14) + (source.Y * matrix.M24)) + (source.Z * matrix.M34)) + matrix.M44;
 		    if (!WithinEpsilon(a, 1f))
 		    {

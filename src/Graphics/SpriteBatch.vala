@@ -18,6 +18,7 @@ namespace Microsoft.Xna.Framework.Graphics
     using System;
     using Microsoft.Xna.Framework;
     using Microsoft.Xna.Framework.Graphics;
+    using Glm;
 
     public class SpriteBatch : Object, IDisposable
     {
@@ -26,8 +27,8 @@ namespace Microsoft.Xna.Framework.Graphics
         private bool _beginCalled;
         private SpriteBatcher _batcher;
 		private SpriteSortMode _sortMode;
-		Vector2 _texCoordTL = new Vector2 (0,0);
-		Vector2 _texCoordBR = new Vector2 (0,0);
+		Vec2 _texCoordTL = new Vec2 (0,0);
+		Vec2 _texCoordBR = new Vec2 (0,0);
 
         public SpriteBatch(GraphicsDevice graphicsDevice)
         {
@@ -69,13 +70,13 @@ namespace Microsoft.Xna.Framework.Graphics
         public void Draw(
             TextureRegion region, 
             float layerDepth = 0f,
-            Vector2? location = null,
-            Vector2? scale = null,
+            Vec2? location = null,
+            Vec2? scale = null,
             Color? color = null,
-            Vector2? size = null)
+            Vec2? size = null)
         {
             color = color ?? Color.White;
-            scale = scale ?? region.Scale.Copy();
+            scale = scale ?? new Vec2(region.Scale.X, region.Scale.Y); // region.Scale.Copy();
 
             int u = (int)region.X;
             int v = (int)region.Y;
@@ -101,9 +102,9 @@ namespace Microsoft.Xna.Framework.Graphics
         /// <param name="position">The drawing location on screen or null if <paramref name="destinationRectangle"> is used.</paramref></param>
         /// <param name="destinationRectangle">The drawing bounds on screen or null if <paramref name="position"> is used.</paramref></param>
         /// <param name="sourceRectangle">An optional region on the texture which will be rendered. If null - draws full texture.</param>
-        /// <param name="origin">An optional center of rotation. Uses <see cref="Vector2.Zero"/> if null.</param>
+        /// <param name="origin">An optional center of rotation. Uses <see cref="Vec2.Zero"/> if null.</param>
         /// <param name="rotation">An optional rotation of this sprite. 0 by default.</param>
-        /// <param name="scale">An optional scale vector. Uses <see cref="Vector2.One"/> if null.</param>
+        /// <param name="scale">An optional scale vector. Uses <see cref="Vec2.One"/> if null.</param>
         /// <param name="color">An optional color mask. Uses <see cref="Color.White"/> if null.</param>
         /// <param name="effects">The optional drawing modificators. <see cref="SpriteEffects.None"/> by default.</param>
         /// <param name="layerDepth">An optional depth of the layer of this sprite. 0 by default.</param>
@@ -111,12 +112,12 @@ namespace Microsoft.Xna.Framework.Graphics
         /// <remarks>This overload uses optional parameters. This overload requires only one of <paramref name="position"/> and <paramref name="destinationRectangle"/> been used.</remarks>
         public void Draw0(
             Texture2D texture, 
-            Vector2? position = null, 
+            Vec2? position = null, 
             Quadrangle? destinationRectangle = null,
             Quadrangle? sourceRectangle = null,
-            Vector2? origin = null,
+            Vec2? origin = null,
             float rotation = 0f,
-            Vector2? scale = null,
+            Vec2? scale = null,
             Color? color = null,
 			SpriteEffects effects = SpriteEffects.None,
             float layerDepth = 0f)
@@ -124,8 +125,8 @@ namespace Microsoft.Xna.Framework.Graphics
             CheckValid(texture);
             _texture = texture;
             color = color ?? Color.White;
-            origin = origin ?? Vector2.Zero;
-            scale = scale ?? Vector2.One;
+            origin = origin ?? new Vec2();
+            scale = scale ?? new Vec2(1,1);
 
             if ((destinationRectangle != null) == (position != null))
             {
@@ -134,12 +135,12 @@ namespace Microsoft.Xna.Framework.Graphics
             else if(position != null)
             {
                 // Call Draw() using position
-                Draw2(texture, (Vector2)position, sourceRectangle, (Color)color, rotation, (Vector2)origin, (Vector2)scale, effects, layerDepth);
+                Draw2(texture, (Vec2)position, sourceRectangle, (Color)color, rotation, (Vec2)origin, (Vec2)scale, effects, layerDepth);
             }
             else
             {
                 // Call Draw() using drawRectangle
-                Draw3(texture, (Quadrangle)destinationRectangle, sourceRectangle, (Color)color, rotation, (Vector2)origin, effects, layerDepth);
+                Draw3(texture, (Quadrangle)destinationRectangle, sourceRectangle, (Color)color, rotation, (Vec2)origin, effects, layerDepth);
             }
         }
 
@@ -157,12 +158,12 @@ namespace Microsoft.Xna.Framework.Graphics
         /// <param name="effects">Modificators for drawing. Can be combined.</param>
         /// <param name="layerDepth">A depth of the layer of this sprite.</param>
 		public void Draw2 (Texture2D texture,
-				Vector2 position,
+				Vec2 position,
 				Quadrangle? sourceRectangle,
 				Color color,
 				float rotation,
-				Vector2 origin,
-				Vector2 scale,
+				Vec2 origin,
+				Vec2 scale,
 				SpriteEffects effects,
                 float layerDepth)
 		{
@@ -189,7 +190,9 @@ namespace Microsoft.Xna.Framework.Graphics
                     break;
             }
 
-            origin = origin.Mul(scale);
+            // origin = origin.Mul(scale);
+            origin.X *= scale.X;
+            origin.Y *= scale.Y;
             
             float h;
             float w;
@@ -208,8 +211,8 @@ namespace Microsoft.Xna.Framework.Graphics
             {
                 w = texture.Width * scale.X;
                 h = texture.Height * scale.Y;
-                _texCoordTL = Vector2.Zero;
-                _texCoordBR = Vector2.One;
+                _texCoordTL = new Vec2();
+                _texCoordBR = new Vec2(1,1);
             }
 
             if ((effects & SpriteEffects.FlipVertically) != 0)
@@ -271,7 +274,7 @@ namespace Microsoft.Xna.Framework.Graphics
 			Quadrangle? sourceRectangle,
 			Color color,
 			float rotation,
-			Vector2 origin,
+			Vec2 origin,
 			SpriteEffects effects,
             float layerDepth)
 		{
@@ -318,8 +321,8 @@ namespace Microsoft.Xna.Framework.Graphics
             }
             else
             {
-                _texCoordTL = Vector2.Zero;
-                _texCoordBR = Vector2.One;
+                _texCoordTL = new Vec2();
+                _texCoordBR = new Vec2(1,1);
                 
                 origin.X = origin.X * (float)destinationRectangle.Width  * texture.TexelWidth;
                 origin.Y = origin.Y * (float)destinationRectangle.Height * texture.TexelHeight;

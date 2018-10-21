@@ -16,6 +16,7 @@
 namespace Microsoft.Xna.Framework
 {
     using System;
+    using Glm;
     // using System.Text;
     // using System.Runtime.Serialization;
     // using System.Diagnostics;
@@ -193,8 +194,8 @@ namespace Microsoft.Xna.Framework
         /// <summary>
         /// Constructs an RGBA color from the XYZW unit length components of a vector.
         /// </summary>
-        /// <param name="color">A <see cref="Vector4"/> representing color.</param>
-        public Color.FromVector4(Vector4 color)
+        /// <param name="color">A <see cref="Vec4"/> representing color.</param>
+        public Color.FromVec4(Vec4 color)
         {
             this.Rgba((int)(color.X * 255), (int)(color.Y * 255), (int)(color.Z * 255), (int)(color.W * 255));
         }
@@ -202,8 +203,8 @@ namespace Microsoft.Xna.Framework
         /// <summary>
         /// Constructs an RGBA color from the XYZ unit length components of a vector. Alpha value will be opaque.
         /// </summary>
-        /// <param name="color">A <see cref="Vector3"/> representing color.</param>
-        public Color.FromVector3(Vector3 color)
+        /// <param name="color">A <see cref="Vec3"/> representing color.</param>
+        public Color.FromVec3(Vec3 color)
         {
             this.Rgb((int)(color.X * 255), (int)(color.Y * 255), (int)(color.Z * 255));
         }
@@ -1733,21 +1734,21 @@ namespace Microsoft.Xna.Framework
         
 
         /// <summary>
-        /// Gets a <see cref="Vector3"/> representation for this object.
+        /// Gets a <see cref="Vec3"/> representation for this object.
         /// </summary>
-        /// <returns>A <see cref="Vector3"/> representation for this object.</returns>
-        public Vector3 ToVector3()
+        /// <returns>A <see cref="Vec3"/> representation for this object.</returns>
+        public Vec3 ToVec3()
         {
-            return new Vector3((float)R / 255.0f, G / 255.0f, B / 255.0f);
+            return new Vec3((float)R / 255.0f, G / 255.0f, B / 255.0f);
         }
 
         /// <summary>
-        /// Gets a <see cref="Vector4"/> representation for this object.
+        /// Gets a <see cref="Vec4"/> representation for this object.
         /// </summary>
-        /// <returns>A <see cref="Vector4"/> representation for this object.</returns>
-        public Vector4 ToVector4()
+        /// <returns>A <see cref="Vec4"/> representation for this object.</returns>
+        public Vec4 ToVec4()
         {
-            return new Vector4(R / 255.0f, G / 255.0f, B / 255.0f, A / 255.0f);
+            return new Vec4(R / 255.0f, G / 255.0f, B / 255.0f, A / 255.0f);
         }
 	
         /// <summary>
@@ -1797,9 +1798,9 @@ namespace Microsoft.Xna.Framework
 	/// <summary>
         /// Translate a non-premultipled alpha <see cref="Color"/> to a <see cref="Color"/> that contains premultiplied alpha.
         /// </summary>
-        /// <param name="vector">A <see cref="Vector4"/> representing color.</param>
+        /// <param name="vector">A <see cref="Vec4"/> representing color.</param>
         /// <returns>A <see cref="Color"/> which contains premultiplied alpha data.</returns>
-        public static Color FromNonPremultiplied(Vector4 vector)
+        public static Color FromNonPremultiplied(Vec4 vector)
         {
             return new Color.Rgbaf(vector.X * vector.W, vector.Y * vector.W, vector.Z * vector.W, vector.W);
         }

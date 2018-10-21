@@ -15,6 +15,7 @@
  ******************************************************************************/
 namespace Microsoft.Xna.Framework.Graphics
 {
+    using Glm;
     /** Defines a rectangular area of a texture. 
      *  based on libGDX
      */
@@ -25,7 +26,7 @@ namespace Microsoft.Xna.Framework.Graphics
         internal int Y;
         internal int Width;
         internal int Height;
-        public Vector2 Scale = Vector2.One;
+        public Vec2 Scale = new Vec2(1,1);
 
         public Point Size
         {
