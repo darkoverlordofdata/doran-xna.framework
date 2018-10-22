@@ -10,11 +10,11 @@ project ( xna.framework VERSION 0.0.1 )
 list ( APPEND INCLUDE .lib/xna.framework/include )
 
 # C Sources: 
-list ( APPEND CSOURCE .lib/xna.framework/src/xna.c )
-list ( APPEND CSOURCE .lib/xna.framework/src/xna/audio.c )
-list ( APPEND CSOURCE .lib/xna.framework/src/xna/graphics.c )
-list ( APPEND CSOURCE .lib/xna.framework/src/xna/joystick.c )
-list ( APPEND CSOURCE .lib/xna.framework/src/xna/net.c )
+# list ( APPEND CSOURCE .lib/xna.framework/src/xna.c )
+# list ( APPEND CSOURCE .lib/xna.framework/src/xna/audio.c )
+# list ( APPEND CSOURCE .lib/xna.framework/src/xna/graphics.c )
+# list ( APPEND CSOURCE .lib/xna.framework/src/xna/joystick.c )
+# list ( APPEND CSOURCE .lib/xna.framework/src/xna/net.c )
 list ( APPEND CSOURCE .lib/xna.framework/src/stb.c )
 
 # Vala Sources: 

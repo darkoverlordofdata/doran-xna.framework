@@ -23,18 +23,9 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
-[Version (since = "0.8.0")] // Corange v0.8.0
-// [CCode (cprefix = "", lower_case_cprefix = "", cheader_filename = "corange.h,xna.h")]
-[CCode (cprefix = "", lower_case_cprefix = "", cheader_filename = "xna.h")]
+[CCode (cprefix = "", lower_case_cprefix = "", cheader_filename = "Windows.h")]
 namespace Microsoft.Xna.Framework 
 {
-	public static void xna_init();
-	public static void xna_finish();
-
 	[CCode(cname = "GetFullPathName")]
 	public void GetFullPathName(char* path, int len, char* dest, char* file = null);
-
-	// public static void corange_init(string core_assets_path);
-	// public static void corange_finish();
-
 }

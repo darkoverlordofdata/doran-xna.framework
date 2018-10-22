@@ -30,4 +30,5 @@ namespace Microsoft.Xna.Framework
         Input.KeyboardState.Initialize();
         Graphics.OrthoCamera.Initialize();
     }
+
 }

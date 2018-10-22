@@ -18,6 +18,65 @@ namespace Sdl
     public static int Major;
     public static int Minor;
     public static int Patch;
+    const int SDL_WINDOWPOS_UNDEFINED = -1;
+
+    public class XnaInit : Object
+    {
+        public IntPtr Screen;
+        public IntPtr Context;
+        public int WindowFlags = 0;
+        public int WindowMultisamples = 0;
+        public int WindowMultisamplesbuffs = 0;
+        public int WindowAntialiasing = 0;
+
+        public void Init()
+        {
+            int error = InitSubSystem(InitFlags.Video);
+            if (error == -1) {
+                print("Cannot initialize SDL video!");
+            }
+            WindowFlags = Window.State.OpenGL;
+            WindowMultisamples = 4;
+            WindowMultisamplesbuffs = 1;
+            WindowAntialiasing = 1;
+            GraphicsViewportStart();
+
+        }
+        public void GraphicsViewportStart()
+        {
+            Screen = Window.Create("Xna.Framework",
+                                    SDL_WINDOWPOS_UNDEFINED,
+                                    SDL_WINDOWPOS_UNDEFINED,
+                                    800, 600,
+                                    WindowFlags);
+
+            if (Screen.IsNull()) {
+                print("Could not create SDL window: %s", SDL_GetError());
+            }
+
+            IntPtr windowIcon = Image.LoadBMP("./assets/d16a.bmp");
+            Window.SetIcon(Screen, windowIcon);
+            FreeSurface(windowIcon);
+            
+            GL.SetAttribute(GL.Attribute.ShareWithCurrentContext, 1);
+            Context = GL.CreateContext(Screen);
+            
+            if (Context == null) {
+                print("Could not create SDL Context: %s", SDL_GetError());
+            }
+            ValaGame.OpenGL.GL.LoadEntryPoints();
+            
+            GL.SetSwapInterval(1);
+            ValaGame.OpenGL.GL.Viewport(0, 0, 800, 600);
+        }
+        
+        public void Finish() 
+        {
+            GL.DeleteContext(Context);
+            Window.Destroy(Screen);
+        }
+
+    }
 
     
 }

@@ -31,6 +31,7 @@ namespace Microsoft.Xna.Framework
         private GameServiceContainer _services;
         private ContentManager _content;
         internal GamePlatform Platform;
+        private Sdl.XnaInit xna;
 
         // private GenericArray<IUpdateable> _updateables;
         // private GenericArray<IDrawable> _drawables;
@@ -286,8 +287,10 @@ namespace Microsoft.Xna.Framework
 
             if (!_initialized) {
                 // corange_init(@"$(_content.RootDirectory)/assets_core");
-                xna_init();
-                ValaGame.OpenGL.GL.LoadEntryPoints();
+                // xna_init();
+                xna = new Sdl.XnaInit();
+                xna.Init();
+                // ValaGame.OpenGL.GL.LoadEntryPoints();
                 DoInitialize ();
                 _initialized = true;
             }
@@ -442,7 +445,8 @@ namespace Microsoft.Xna.Framework
         protected virtual void EndRun() 
         {
             // corange_finish();
-            xna_finish();
+            // xna_finish();
+            xna.Finish();
         }
 
         protected virtual void LoadContent() { }

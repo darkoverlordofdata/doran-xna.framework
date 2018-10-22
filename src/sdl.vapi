@@ -260,6 +260,13 @@ namespace Sdl
 		GetErrorInt(SDL_Init(flags));
 	}
 		
+	[CCode (cname = "SDL_InitSubSystem")]
+	private static int SDL_InitSubSystem(int flags);
+	
+	public static int InitSubSystem(int flags) {
+		GetErrorInt(SDL_Init(flags));
+	}
+
 
 	[CCode (cname = "SDL_GL_GetCurrentWindow")]
 	public static IntPtr GetCurrentWindow ();
@@ -1328,8 +1335,11 @@ namespace Sdl
 		[CCode (cname = "IMG_LoadICO_RW")]
 		public static IntPtr LoadICO (IntPtr src);
 	
+		[CCode (cname = "SDL_LoadBMP")]
+		public static IntPtr LoadBMP (char* src);
+	
 		[CCode (cname = "IMG_LoadBMP_RW")]
-		public static IntPtr LoadBMP (IntPtr src);
+		public static IntPtr LoadBMP_RW (IntPtr src);
 	
 		[CCode (cname = "IMG_LoadPNM_RW")]
 		public static IntPtr LoadPNM (IntPtr src);
