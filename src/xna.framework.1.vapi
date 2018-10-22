@@ -24,9 +24,12 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 [Version (since = "0.8.0")] // Corange v0.8.0
-[CCode (cprefix = "", lower_case_cprefix = "", cheader_filename = "corange.h")]
+[CCode (cprefix = "", lower_case_cprefix = "", cheader_filename = "corange.h,xna.h")]
 namespace Microsoft.Xna.Framework 
 {
+	public static void corange_init(string core_assets_path);
+	public static void corange_finish();
+
 	public static void corange_init(string core_assets_path);
 	public static void corange_finish();
 

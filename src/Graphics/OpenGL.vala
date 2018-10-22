@@ -199,6 +199,98 @@ namespace ValaGame.OpenGL
 
     }
 
+    internal enum TextureMinFilter
+    {
+        LinearMipmapNearest = 0x2701,
+        NearestMipmapLinear = 0x2702,
+        LinearMipmapLinear = 0x2703,
+        Linear = 0x2601,
+        NearestMipmapNearest = 0x2700,
+        Nearest = 0x2600,
+    }
+
+    internal enum TextureMagFilter
+    {
+        Linear = 0x2601,
+        Nearest = 0x2600,
+    }
+
+    internal enum PixelInternalFormat
+    {
+        Rgba = 0x1908,
+        Rgb = 0x1907,
+        Rgba4 = 0x8056,
+        Luminance = 0x1909,
+        CompressedRgbS3tcDxt1Ext = 0x83F0,
+        CompressedSrgbS3tcDxt1Ext = 0x8C4C,
+        CompressedRgbaS3tcDxt1Ext = 0x83F1,
+        CompressedRgbaS3tcDxt3Ext = 0x83F2,
+        CompressedSrgbAlphaS3tcDxt3Ext = 0x8C4E,
+        CompressedRgbaS3tcDxt5Ext = 0x83F3,
+        CompressedSrgbAlphaS3tcDxt5Ext = 0x8C4F,
+        R32f = 0x822E,
+        Rg16f = 0x822F,
+        Rgba16f = 0x881A,
+        R16f = 0x822D,
+        Rg32f = 0x8230,
+        Rgba32f = 0x8814,
+        Rg8i = 0x8237,
+        Rgba8i = 0x8D8E,
+        Rg16ui = 0x823A,
+        Rgba16ui = 0x8D76,
+        Rgb10A2ui = 0x906F,
+        Rgba16 = 0x805B,
+        // PVRTC
+        CompressedRgbPvrtc2Bppv1Img = 0x8C01,
+        CompressedRgbPvrtc4Bppv1Img = 0x8C00,
+        CompressedRgbaPvrtc2Bppv1Img = 0x8C03,
+        CompressedRgbaPvrtc4Bppv1Img = 0x8C02,
+        // ATITC
+        AtcRgbaExplicitAlphaAmd = 0x8C93,
+        AtcRgbaInterpolatedAlphaAmd = 0x87EE,
+        // ETC1
+        Etc1 = 0x8D64,
+        Srgb = 0x8C40,
+
+    }
+
+    internal enum PixelFormat
+    {
+        Rgba = 0x1908,
+        Rgb = 0x1907,
+        Luminance = 0x1909,
+        CompressedTextureFormats = 0x86A3,
+        Red = 0x1903,
+        Rg = 0x8227,
+    }
+
+
+    internal enum PixelType
+    {
+        UnsignedByte = 0x1401,
+        UnsignedShort565 = 0x8363,
+        UnsignedShort4444 = 0x8033,
+        UnsignedShort5551 = 0x8034,
+        Float = 0x1406,
+        HalfFloat = 0x140B,
+        HalfFloatOES = 0x8D61,
+        Byte = 0x1400,
+        UnsignedShort = 0x1403,
+        UnsignedInt1010102 = 0x8036,
+    }
+
+    internal enum GenerateMipmapTarget
+    {
+        Texture1D = 0x0DE0,
+        Texture2D = 0x0DE1,
+        Texture3D = 0x806F,
+        TextureCubeMap = 0x8513,
+        Texture1DArray = 0x8C18,
+        Texture2DArray = 0x8C1A,
+        Texture2DMultisample = 0x9100,
+        Texture2DMultisampleArray = 0x9102,
+    }
+
     public class GL : Object
     {
         [CCode (has_target = false)]
@@ -325,9 +417,29 @@ namespace ValaGame.OpenGL
         internal delegate unowned string GetStringDelegate (GLString name);
         internal static GetStringDelegate GetString;
 
+        [CCode (has_target = false)]
+        internal delegate unowned void ViewportDelegate (int x, int y, int w, int h);
+        internal static ViewportDelegate Viewport;
+
+        [CCode (has_target = false)]
+        internal delegate unowned void GenTexturesDelegate (int count, ref int id);
+        internal static GenTexturesDelegate GenTextures;
+
+        [CCode (has_target = false)]
+        internal delegate unowned void TexImage2DDelegate (TextureTarget target, int level, PixelInternalFormat internalFormat,
+            int width, int height, int border, PixelFormat format, PixelType pixelType, IntPtr data);
+        internal static TexImage2DDelegate TexImage2D;
+
+        [CCode (has_target = false)]
+        internal delegate unowned void GenerateMipmapDelegate (GenerateMipmapTarget target);
+        internal static GenerateMipmapDelegate GenerateMipmap;
 
         internal static void LoadEntryPoints ()
         {
+            GenerateMipmap = LoadEntryPoint<GenerateMipmapDelegate> ("glGenerateMipmap");
+            TexImage2D = LoadEntryPoint<TexImage2DDelegate> ("glTexImage2D");
+            GenTextures = LoadEntryPoint<GenTexturesDelegate> ("glGenTextures");
+            Viewport = LoadEntryPoint<ViewportDelegate> ("glViewport");
             GetError = LoadEntryPoint<GetErrorDelegate> ("glGetError");
             TexParameteri = LoadEntryPoint<TexParameterIntDelegate> ("glTexParameteri");
             Clear = LoadEntryPoint<ClearDelegate> ("glClear");

@@ -112,10 +112,8 @@ namespace Microsoft.Xna.Framework
 
             while (true)
             {
-                Game.FrameBegin();
                 SdlRunLoop();
                 Game.Tick();
-                Game.FrameEnd();
                 // Threading.Run();
                 // GraphicsDevice.DisposeContexts();
 
@@ -196,7 +194,6 @@ namespace Microsoft.Xna.Framework
                     else if (ev.Window.EventID == Sdl.Window.EventId.Moved)
                         _view.Moved();
                 }
-                corange_ui_event(ev);
             }
         }
 
@@ -253,7 +250,8 @@ namespace Microsoft.Xna.Framework
             // if (Game.GraphicsDevice != null)
             //     Game.GraphicsDevice.Present();
 
-            Sdl.Renderer.Present(Window.Handle);
+            Sdl.GL.SwapWindow(Window.Handle);
+            // Sdl.Renderer.Present(Window.Handle);
 
         }
 

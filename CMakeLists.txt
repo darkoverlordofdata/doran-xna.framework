@@ -7,10 +7,14 @@ cmake_minimum_required ( VERSION 3.1 )
 project ( xna.framework VERSION 0.0.1 )
 
 # Includes: 
-list ( APPEND INCLUDE ../Corange/include )
 list ( APPEND INCLUDE .lib/xna.framework/include )
 
 # C Sources: 
+list ( APPEND CSOURCE .lib/xna.framework/src/xna.c )
+list ( APPEND CSOURCE .lib/xna.framework/src/xna/audio.c )
+list ( APPEND CSOURCE .lib/xna.framework/src/xna/graphics.c )
+list ( APPEND CSOURCE .lib/xna.framework/src/xna/joystick.c )
+list ( APPEND CSOURCE .lib/xna.framework/src/xna/net.c )
 list ( APPEND CSOURCE .lib/xna.framework/src/stb.c )
 
 # Vala Sources: 
@@ -126,7 +130,7 @@ set ( C_SOURCES "${C_SOURCES};${CSOURCE}" PARENT_SCOPE )
 set ( VALA_SOURCES "${VALA_SOURCES};${SOURCE}" PARENT_SCOPE )
 set ( CUSTOM_VAPIS "${CUSTOM_VAPIS};${VAPI}" PARENT_SCOPE )
 
-set ( DEPS_LIBRARIES "${DEPS_LIBRARIES};-lopengl32 -lmingw32 -lSDL2main -lSDL2 -lSDL2_mixer -lSDL2_net -lcorange" PARENT_SCOPE)
+set ( DEPS_LIBRARIES "${DEPS_LIBRARIES};-lopengl32 -lmingw32 -lSDL2main -lSDL2 -lSDL2_mixer -lSDL2_net" PARENT_SCOPE)
 
 
 # (generated from template: package. Do not modify. )

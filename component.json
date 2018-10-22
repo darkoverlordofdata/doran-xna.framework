@@ -20,6 +20,11 @@
   "files": [
     "src/stb.c",
     "src/stb.vapi",
+    "src/xna.c",
+    "src/xna/audio.c",
+    "src/xna/graphics.c",
+    "src/xna/joystick.c",
+    "src/xna/net.c",
     "src/Color.vala",
     "src/DisplayOrientation.vala",
     "src/EventHelpers.vala",
@@ -121,7 +126,6 @@
     "src/Graphics/Vertices/VertexPositionTexture.vala"
   ],
   "includes": [
-    "../Corange/include",
     "./include"
   ],
   "libraries": [
@@ -130,8 +134,7 @@
     "SDL2main",
     "SDL2",
     "SDL2_mixer",
-    "SDL2_net",
-    "corange"
+    "SDL2_net"
   ],
   "packages": null,
   "options": {},

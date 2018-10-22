@@ -17,6 +17,7 @@ namespace Microsoft.Xna.Framework.Graphics
 {
     using System;
     using ValaGame.OpenGL;
+    using Stb;
     // using System.IO;
     // using System.Runtime.InteropServices;
     // using Microsoft.Xna.Framework.Utilities;
@@ -34,7 +35,7 @@ namespace Microsoft.Xna.Framework.Graphics
 		internal int height;
         internal int format;
         internal int ArraySize;
-        internal uint Handle;
+        internal int Handle;
                 
         internal float TexelWidth { get; private set; }
         internal float TexelHeight { get; private set; }
@@ -56,16 +57,42 @@ namespace Microsoft.Xna.Framework.Graphics
         /// <param name="path"></param>
         public void SetData(string path)
         {
-            var width = new int[1];
-            var height = new int[1];
-            Handle = corange_texture_handle(corange_asset_get(URI(path)));
+            /** START OLD */
+            // var width = new int[1];
+            // var height = new int[1];
+            // Handle = corange_texture_handle(corange_asset_get(URI(path)));
 
-            GL.BindTexture(TextureTarget.Texture2D, Handle);
-            GL.GetTexLevelParameteriv(TextureTarget.Texture2D, 0, TextureParameter.Width, width);
-            GL.GetTexLevelParameteriv(TextureTarget.Texture2D, 0, TextureParameter.Height, height);
+            // GL.BindTexture(TextureTarget.Texture2D, Handle);
+            // GL.GetTexLevelParameteriv(TextureTarget.Texture2D, 0, TextureParameter.Width, width);
+            // GL.GetTexLevelParameteriv(TextureTarget.Texture2D, 0, TextureParameter.Height, height);
 
-            this.width = width[0];
-            this.height = height[0];
+            // this.width = width[0];
+            // this.height = height[0];
+            /** END OLD */
+
+            /** START NEW */
+            GL.GenTextures(1, ref Handle);
+            GL.BindTexture(TextureTarget.Texture2D, Handle); 
+            // all upcoming GL_TEXTURE_2D operations now have effect on this texture object
+            // set the texture wrapping parameters
+            GL.TexParameteri(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, (int)TextureWrapMode.Repeat);	
+            // set texture wrapping to GL_REPEAT (default wrapping method)
+            GL.TexParameteri(TextureTarget.Texture2D, TextureParameterName.TextureWrapT, (int)TextureWrapMode.Repeat);
+            // set texture filtering parameters
+            GL.TexParameteri(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Linear);
+            GL.TexParameteri(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Linear);
+
+            width = 0;
+            height = 0;
+            int channels = 0;
+
+            IntPtr pixels = Stb.load(path, out width, out height, out channels, 0);
+
+            print("Load %s, h=%d, w=%d, h=%d\n", path, width, height, Handle);
+            GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, width, height, 0, PixelFormat.Rgba, PixelType.UnsignedByte, pixels);
+            GL.GenerateMipmap(GenerateMipmapTarget.Texture2D);
+            /** END NEW */
+
             this.TexelWidth = 1f / (float)this.width;
             this.TexelHeight = 1f / (float)this.height;
         }

@@ -17,7 +17,6 @@ namespace Microsoft.Xna.Framework.Content
 {
 	using System;
 	using System.Collections.Generic;
-	using Microsoft.Xna.Framework.Assets;
 	using Microsoft.Xna.Framework.Graphics;
 	using ValaGame.OpenGL;
 
@@ -143,7 +142,8 @@ namespace Microsoft.Xna.Framework.Content
 			{
 				throw new Exception.ObjectDisposedException("ContentManager");
 			}
-			return (T)Asset.Get(URI(@"$_rootDirectory/$assetName"));
+			return null;
+			// return (T)Asset.Get(URI(@"$_rootDirectory/$assetName"));
 		}
 
 		/// <summary>
@@ -153,15 +153,15 @@ namespace Microsoft.Xna.Framework.Content
 		/// <returns>Load all assets.</returns>
 		public virtual void PreLoad(string location)
 		{
-			if (location == null || location == "")
-			{
-				throw new Exception.ArgumentNullException("location");
-			}
-			if (disposed)
-			{
-				throw new Exception.ObjectDisposedException("ContentManager");
-			}
-			Folder.Load(URI(@"$_rootDirectory/$location/"));
+			// if (location == null || location == "")
+			// {
+			// 	throw new Exception.ArgumentNullException("location");
+			// }
+			// if (disposed)
+			// {
+			// 	throw new Exception.ObjectDisposedException("ContentManager");
+			// }
+			// Folder.Load(URI(@"$_rootDirectory/$location/"));
 			
 		}
 
@@ -175,10 +175,10 @@ namespace Microsoft.Xna.Framework.Content
 			{
 				throw new Exception.ObjectDisposedException("ContentManager");
 			}
-		    // var tex = CCode.asset_get(URI(@"$_rootDirectory/$textureName"));
 			
-		    var tex = corange_asset_get(URI(@"$_rootDirectory/$textureName"));
-            return corange_texture_handle(tex);
+		    // var tex = corange_asset_get(URI(@"$_rootDirectory/$textureName"));
+            // return corange_texture_handle(tex);
+			return 0;
 		}
 
 		/// <summary>
@@ -196,7 +196,8 @@ namespace Microsoft.Xna.Framework.Content
 			{
 				throw new Exception.ObjectDisposedException("ContentManager");
 			}
-			return Asset.Get(URI(@"$_rootDirectory/$assetName"));
+			// return Asset.Get(URI(@"$_rootDirectory/$assetName"));
+			return null;
 		}
 
 		public virtual void Unload()
@@ -220,7 +221,10 @@ namespace Microsoft.Xna.Framework.Content
 		{
 			get
 			{
-				return URI(RootDirectory).Full().ToString();
+				char buf[1024];
+            	GetFullPathName(RootDirectory, 1024, buf);
+				return (string) buf;
+				// return URI(RootDirectory).Full().ToString();
 			}
 		}
 		

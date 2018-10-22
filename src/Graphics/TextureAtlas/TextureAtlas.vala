@@ -43,9 +43,9 @@ namespace Microsoft.Xna.Framework.Graphics
             {
                 var p1 = page.textureFile.GetPath()
                             // we need to skip over the content root
-                            .replace(@"$(content.RootDirectory)/", "")
+                            .replace(@"$(content.RootDirectory)/", "");
                             // in case the atlas specifies png
-                            .replace(".png", ".dds");
+                            // .replace(".png", ".dds");
                 Textures.resize(int.max(page.id+1, Textures.length));
                 Textures[page.id] = content.Load<Texture2D>(p1);
             }

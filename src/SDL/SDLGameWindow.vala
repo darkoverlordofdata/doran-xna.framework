@@ -211,7 +211,8 @@ namespace Microsoft.Xna.Framework
             if (!_willBeFullScreen) 
             {
                 Sdl.Window.SetPosition(Handle, clientX, clientY);
-                corange_graphics_viewport_set_size(clientWidth, clientHeight);
+                Sdl.Window.SetSize(Handle, clientWidth, clientHeight);
+                ValaGame.OpenGL.GL.Viewport(0, 0, clientWidth, clientHeight);
                 _width = clientWidth;
                 _height = clientHeight;
                 _x = clientX;

@@ -49,9 +49,9 @@ namespace Microsoft.Xna.Framework
         private bool _shouldExit;
         private bool _suppressDraw;
 
-        public double FPS { get { return corange_frame_rate(); } }
+        // public double FPS { get { return corange_frame_rate(); } }
 
-        public double Time { get { return corange_frame_time(); } }
+        // public double Time { get { return corange_frame_time(); } }
 
         static construct 
         {
@@ -285,7 +285,8 @@ namespace Microsoft.Xna.Framework
             }
 
             if (!_initialized) {
-                corange_init(@"$(_content.RootDirectory)/assets_core");
+                // corange_init(@"$(_content.RootDirectory)/assets_core");
+                xna_init();
                 ValaGame.OpenGL.GL.LoadEntryPoints();
                 DoInitialize ();
                 _initialized = true;
@@ -430,26 +431,18 @@ namespace Microsoft.Xna.Framework
             
         }
 
-        internal void FrameBegin()
-        {
-            corange_frame_begin();
-        }
-
-        internal void FrameEnd()
-        {
-            corange_frame_end();
-        }
 
         protected virtual bool BeginDraw() { return true; }
         protected virtual void EndDraw()
         {
-            corange_graphics_swap(); 
+            Platform.Present();
         }
 
         protected virtual void BeginRun() { }
         protected virtual void EndRun() 
         {
-            corange_finish();
+            // corange_finish();
+            xna_finish();
         }
 
         protected virtual void LoadContent() { }
@@ -464,12 +457,12 @@ namespace Microsoft.Xna.Framework
 
         protected virtual void Draw(GameTime gameTime)
         {
-            corange_ui_render();
+            // corange_ui_render();
         }
 
         protected virtual void Update(GameTime gameTime)
         {
-            corange_ui_update();
+            // corange_ui_update();
 		}
 
         protected virtual void OnExiting(Object sender, EventArgs args)

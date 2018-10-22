@@ -1,6 +1,6 @@
 # doran-xna.framework
 
-Mostly a re-write of MonoGame in Vala. But the content pipeline has been replaced with Corange, a 3rd party dll.
+Mostly a re-write of MonoGame in Vala.
 
 There is no support for DirectX or Web.
 
