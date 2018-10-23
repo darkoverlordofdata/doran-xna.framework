@@ -15,7 +15,7 @@
  ******************************************************************************/
 namespace Microsoft.Xna.Framework.Input
 {
-    using Glm;
+
     /// <summary>
     /// A struct that represents the current stick (thumbstick) states for the controller.
     /// </summary>
@@ -34,14 +34,14 @@ namespace Microsoft.Xna.Framework.Input
 #endif
 
         internal Buttons _virtualButtons;
-        private Vec2 _left;
-        private Vec2 _right;
+        private Vector2 _left;
+        private Vector2 _right;
 
         /// <summary>
         /// Gets a value indicating the position of the left stick (thumbstick). 
         /// </summary>
-        /// <value>A <see cref="Vec2"/> indicating the current position of the left stick (thumbstick).</value>
-        public Vec2 Left
+        /// <value>A <see cref="Vector2"/> indicating the current position of the left stick (thumbstick).</value>
+        public Vector2 Left
         {
             get { return _left; }
         }
@@ -49,19 +49,19 @@ namespace Microsoft.Xna.Framework.Input
         /// <summary>
         /// Gets a value indicating the position of the right stick (thumbstick). 
         /// </summary>
-        /// <value>A <see cref="Vec2"/> indicating the current position of the right stick (thumbstick).</value>
-        public Vec2 Right
+        /// <value>A <see cref="Vector2"/> indicating the current position of the right stick (thumbstick).</value>
+        public Vector2 Right
         {
             get { return _right; }
         }
 
-        // public GamePadThumbSticks(Vec2 leftPosition, Vec2 rightPosition)
+        // public GamePadThumbSticks(Vector2 leftPosition, Vector2 rightPosition)
         //     : this(leftPosition, rightPosition, GamePadDeadZone.None)
         // {
             
         // }
 
-        public GamePadThumbSticks(Vec2 leftPosition, Vec2 rightPosition, GamePadDeadZone deadZoneMode=GamePadDeadZone.None)
+        public GamePadThumbSticks(Vector2 leftPosition, Vector2 rightPosition, GamePadDeadZone deadZoneMode=GamePadDeadZone.None)
         {
             // XNA applies dead zones before rounding/clamping values. The public ctor does not allow this because the dead zone must be known before
 
@@ -92,8 +92,8 @@ namespace Microsoft.Xna.Framework.Input
             }
             else
             {
-                _left = new Vec2(MathHelper.Clampf(Left.X, -1f, 1f), MathHelper.Clampf(Left.Y, -1f, 1f));
-                _right = new Vec2(MathHelper.Clampf(Right.X, -1f, 1f), MathHelper.Clampf(Right.Y, -1f, 1f));
+                _left = new Vector2(MathHelper.Clampf(Left.X, -1f, 1f), MathHelper.Clampf(Left.Y, -1f, 1f));
+                _right = new Vector2(MathHelper.Clampf(Right.X, -1f, 1f), MathHelper.Clampf(Right.Y, -1f, 1f));
             }
 
             // VirtualButtons should always behave like deadzone is IndependentAxes. 
@@ -121,9 +121,9 @@ namespace Microsoft.Xna.Framework.Input
                 _virtualButtons |= Buttons.RightThumbstickUp;
         }
 
-        private Vec2 ExcludeIndependentAxesDeadZone(Vec2 value, float deadZone)
+        private Vector2 ExcludeIndependentAxesDeadZone(Vector2 value, float deadZone)
         {
-            return new Vec2(ExcludeAxisDeadZone(value.X, deadZone), ExcludeAxisDeadZone(value.Y, deadZone));
+            return new Vector2(ExcludeAxisDeadZone(value.X, deadZone), ExcludeAxisDeadZone(value.Y, deadZone));
         }
 
         private float ExcludeAxisDeadZone(float value, float deadZone)
@@ -137,11 +137,11 @@ namespace Microsoft.Xna.Framework.Input
             return value / (1f - deadZone);
         }
 
-        private Vec2 ExcludeCircularDeadZone(Vec2 value, float deadZone)
+        private Vector2 ExcludeCircularDeadZone(Vector2 value, float deadZone)
         {
             var originalLength = value.Length();
             if (originalLength <= deadZone)
-                return new Vec2();
+                return new Vector2();
             var newLength = (originalLength - deadZone) / (1f - deadZone);
             return value.Multiply(newLength / originalLength);
         }

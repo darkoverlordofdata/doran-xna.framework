@@ -12,7 +12,6 @@
   "main": "CMakeLists.txt",
   "license": "MIT",
   "dependencies": {
-    "glm": "git://github.com/darkoverlordofdata/doran-glm",
     "zerog": "git://github.com/darkoverlordofdata/doran-zerog",
     "system": "git://github.com/darkoverlordofdata/doran-system"
   },
@@ -35,9 +34,14 @@
     "src/IGraphicsDeviceManager.vala",
     "src/Main.vala",
     "src/MathHelper.vala",
+    "src/Matrix.c",
     "src/PlayerIndex.vala",
     "src/Point.vala",
-    "src/Quadrangle.vala",
+    "src/Quaternion.c",
+    "src/Rectangle.vala",
+    "src/Vector2.c",
+    "src/Vector3.c",
+    "src/Vector4,c",
     "src/sdl.vapi",
     "src/TextInputEventArgs.vala",
     "src/WindowInfo.vala",
@@ -126,11 +130,8 @@
   ],
   "libraries": [
     "opengl32",
-    "mingw32",
     "SDL2main",
-    "SDL2",
-    "SDL2_mixer",
-    "SDL2_net"
+    "SDL2"
   ],
   "packages": null,
   "options": {},

@@ -10,12 +10,12 @@ project ( xna.framework VERSION 0.0.1 )
 list ( APPEND INCLUDE .lib/xna.framework/include )
 
 # C Sources: 
-# list ( APPEND CSOURCE .lib/xna.framework/src/xna.c )
-# list ( APPEND CSOURCE .lib/xna.framework/src/xna/audio.c )
-# list ( APPEND CSOURCE .lib/xna.framework/src/xna/graphics.c )
-# list ( APPEND CSOURCE .lib/xna.framework/src/xna/joystick.c )
-# list ( APPEND CSOURCE .lib/xna.framework/src/xna/net.c )
 list ( APPEND CSOURCE .lib/xna.framework/src/stb.c )
+list ( APPEND CSOURCE .lib/xna.framework/src/Vector2.c )
+list ( APPEND CSOURCE .lib/xna.framework/src/Vector3.c )
+list ( APPEND CSOURCE .lib/xna.framework/src/Vector4.c )
+list ( APPEND CSOURCE .lib/xna.framework/src/Quaternion.c )
+list ( APPEND CSOURCE .lib/xna.framework/src/Matrix.c )
 
 # Vala Sources: 
 list ( APPEND SOURCE .lib/xna.framework/src/Color.vala )
@@ -35,7 +35,7 @@ list ( APPEND SOURCE .lib/xna.framework/src/Main.vala )
 list ( APPEND SOURCE .lib/xna.framework/src/MathHelper.vala )
 list ( APPEND SOURCE .lib/xna.framework/src/PlayerIndex.vala )
 list ( APPEND SOURCE .lib/xna.framework/src/Point.vala )
-list ( APPEND SOURCE .lib/xna.framework/src/Quadrangle.vala )
+list ( APPEND SOURCE .lib/xna.framework/src/Rectangle.vala )
 list ( APPEND SOURCE .lib/xna.framework/src/TextInputEventArgs.vala )
 list ( APPEND SOURCE .lib/xna.framework/src/WindowInfo.vala )
 list ( APPEND SOURCE .lib/xna.framework/src/Content/ContentManager.vala )
@@ -132,7 +132,7 @@ set ( C_SOURCES "${C_SOURCES};${CSOURCE}" PARENT_SCOPE )
 set ( VALA_SOURCES "${VALA_SOURCES};${SOURCE}" PARENT_SCOPE )
 set ( CUSTOM_VAPIS "${CUSTOM_VAPIS};${VAPI}" PARENT_SCOPE )
 
-set ( DEPS_LIBRARIES "${DEPS_LIBRARIES};-lopengl32 -lmingw32 -lSDL2main -lSDL2 -lSDL2_mixer -lSDL2_net" PARENT_SCOPE)
+set ( DEPS_LIBRARIES "${DEPS_LIBRARIES};-lopengl32 -lSDL2main -lSDL2" PARENT_SCOPE)
 
 
 # (generated from template: package. Do not modify. )

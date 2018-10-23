@@ -56,7 +56,7 @@ namespace Microsoft.Xna.Framework.Graphics
         /// <summary>
         /// Current camera locus.
         /// </summary>
-        // public Vec2 Camera = Vec2.Zero; 
+        // public Vector2 Camera = Vector2.Zero; 
         public OrthoCamera Camera; 
         /// <summary>
         /// The target graphics device.

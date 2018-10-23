@@ -15,18 +15,18 @@
  ******************************************************************************/
 namespace Microsoft.Xna.Framework.Graphics
 {
-    using Glm;
+
     
     public struct VertexPositionTexture 
     {
-        public Vec3 Position;
-        public Vec2 TextureCoordinate;
+        public Vector3 Position;
+        public Vector2 TextureCoordinate;
         public static VertexDeclaration VertexDeclaration;
 
-        public VertexPositionTexture(Vec3? position=null, Vec2? textureCoordinate=null)
+        public VertexPositionTexture(Vector3? position=null, Vector2? textureCoordinate=null)
         {
-            Position = position ?? new Vec3();
-            TextureCoordinate = textureCoordinate ?? new Vec2();
+            Position = position ?? new Vector3();
+            TextureCoordinate = textureCoordinate ?? new Vector2();
         }
 
         public int GetHashCode()

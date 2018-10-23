@@ -500,8 +500,8 @@ namespace ValaGame.OpenGL
         // Extensions/Helpers...
         
         public static void Draw(
-            Glm.Vec2 pos, 
-            Glm.Vec2 size, 
+            Microsoft.Xna.Framework.Vector2 pos, 
+            Microsoft.Xna.Framework.Vector2 size, 
             bool reverse = false)
         {
             

@@ -15,7 +15,7 @@
  ******************************************************************************/
 namespace Microsoft.Xna.Framework 
 {
-    using Glm;
+
     /**
      *  Describes a 2D-point.
      */
@@ -63,8 +63,8 @@ namespace Microsoft.Xna.Framework
             // return to_string();
         }
 
-        public Vec2 ToVec2() {
-            return new Vec2(X, Y); 
+        public Vector2 ToVector2() {
+            return new Vector2(X, Y); 
         }
     }
 }
