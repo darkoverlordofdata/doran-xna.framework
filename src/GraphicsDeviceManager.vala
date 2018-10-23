@@ -70,7 +70,7 @@ namespace Microsoft.Xna.Framework
         /// <param name="game">The game instance to attach.</param>
         public GraphicsDeviceManager(
             Game? game,
-            Quadrangle? bounds = null)
+            Rectangle? bounds = null)
         {
             if (game == null)
                 throw new Exception.ArgumentNullException("Game cannot be null.");

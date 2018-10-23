@@ -286,11 +286,8 @@ namespace Microsoft.Xna.Framework
             }
 
             if (!_initialized) {
-                // corange_init(@"$(_content.RootDirectory)/assets_core");
-                // xna_init();
                 xna = new Sdl.XnaInit();
                 xna.Init();
-                // ValaGame.OpenGL.GL.LoadEntryPoints();
                 DoInitialize ();
                 _initialized = true;
             }

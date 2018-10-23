@@ -32,7 +32,7 @@ namespace Microsoft.Xna.Framework.Graphics
         internal int format;
         internal int ArraySize;
         internal uint Handle;
-        internal Quadrangle sourceRect;
+        internal Rectangle sourceRect;
                 
         internal float TexelWidth { get; private set; }
         internal float TexelHeight { get; private set; }
@@ -40,15 +40,15 @@ namespace Microsoft.Xna.Framework.Graphics
         /// <summary>
         /// Gets the dimensions of the texture
         /// </summary>
-        public Quadrangle Bounds
+        public Rectangle Bounds
         {
             get
             {
-				return new Quadrangle(0, 0, this.width, this.height);
+				return new Rectangle(0, 0, this.width, this.height);
             }
         }
 
-        public Quadrangle Source
+        public Rectangle Source
         {
             get
             {

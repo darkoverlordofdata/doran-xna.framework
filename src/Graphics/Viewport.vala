@@ -132,11 +132,11 @@ namespace Microsoft.Xna.Framework.Graphics
         /// <summary>
         /// Gets or sets a boundary of this <see cref="Viewport"/>.
         /// </summary>
-		public Quadrangle Bounds 
+		public Rectangle Bounds 
 		{
             get
             {
-                return new Quadrangle(x, y, width, height);
+                return new Rectangle(x, y, width, height);
             }
 				
 			set
@@ -187,8 +187,8 @@ namespace Microsoft.Xna.Framework.Graphics
         // /// <summary>
         // /// Creates a new instance of <see cref="Viewport"/> struct.
         // /// </summary>
-        // /// <param name="bounds">A <see cref="Quadrangle"/> that defines the location and size of the <see cref="Viewport"/> in a render target.</param>
-		// public Viewport.FromRectangle(Quadrangle bounds) 
+        // /// <param name="bounds">A <see cref="Rectangle"/> that defines the location and size of the <see cref="Viewport"/> in a render target.</param>
+		// public Viewport.FromRectangle(Rectangle bounds) 
 		// {
         //     this(bounds.X, bounds.Y, bounds.Width, bounds.Height);
 		// }

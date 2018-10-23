@@ -32,3 +32,12 @@ namespace Microsoft.Xna.Framework
         ObjectDisposedException
     }
 }
+namespace ValaGame.OpenGL 
+{
+    public errordomain Exception 
+    {
+        EntryPointNotFound,
+        PlatformNotSupported
+    }
+
+}

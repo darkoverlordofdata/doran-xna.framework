@@ -482,13 +482,19 @@ namespace ValaGame.OpenGL
                 if (addr == null) return null;
                 return (T)addr;
             }
-            catch (Microsoft.Xna.Framework.Exception e)
+            catch (Exception e)
             {
                 if (throwIfNotFound)
-                    throw new Microsoft.Xna.Framework.Exception.GLError("Unable to load "+proc);
+                    throw new Exception.EntryPointNotFound("Unable to load "+proc);
                 return null;
             }
 
+        }
+
+        internal static GraphicsContext CreateContext (WindowInfo info)
+        {
+            print("== CreateContext ==\n");
+            return new GraphicsContext(info);
         }
 
         // Extensions/Helpers...

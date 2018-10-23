@@ -106,12 +106,12 @@ namespace Microsoft.Xna.Framework
             }
         }
 
-        public override Quadrangle ClientBounds 
+        public override Rectangle ClientBounds 
         {
             get {
                 int x = 0, y = 0;
                 Sdl.Window.GetPosition(Handle, out x, out y);
-                return Quadrangle(x, y, _width, _height);
+                return Rectangle(x, y, _width, _height);
             }
         }
 

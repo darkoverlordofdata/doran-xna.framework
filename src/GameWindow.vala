@@ -26,7 +26,7 @@ namespace Microsoft.Xna.Framework
 
 		public abstract bool AllowUserResizing { get; set; }
 
-		public abstract Quadrangle ClientBounds { get; }
+		public abstract Rectangle ClientBounds { get; }
 
         public abstract Point Position { get; set; }
 

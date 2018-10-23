@@ -40,6 +40,7 @@
     "src/Quadrangle.vala",
     "src/sdl.vapi",
     "src/TextInputEventArgs.vala",
+    "src/WindowInfo.vala",
     "src/xna.framework.vapi",
     "src/Content/ContentManager.vala",
     "src/Input/Buttons.vala",

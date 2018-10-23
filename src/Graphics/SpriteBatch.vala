@@ -113,8 +113,8 @@ namespace Microsoft.Xna.Framework.Graphics
         public void Draw0(
             Texture2D texture, 
             Vec2? position = null, 
-            Quadrangle? destinationRectangle = null,
-            Quadrangle? sourceRectangle = null,
+            Rectangle? destinationRectangle = null,
+            Rectangle? sourceRectangle = null,
             Vec2? origin = null,
             float rotation = 0f,
             Vec2? scale = null,
@@ -140,7 +140,7 @@ namespace Microsoft.Xna.Framework.Graphics
             else
             {
                 // Call Draw() using drawRectangle
-                Draw3(texture, (Quadrangle)destinationRectangle, sourceRectangle, (Color)color, rotation, (Vec2)origin, effects, layerDepth);
+                Draw3(texture, (Rectangle)destinationRectangle, sourceRectangle, (Color)color, rotation, (Vec2)origin, effects, layerDepth);
             }
         }
 
@@ -159,7 +159,7 @@ namespace Microsoft.Xna.Framework.Graphics
         /// <param name="layerDepth">A depth of the layer of this sprite.</param>
 		public void Draw2 (Texture2D texture,
 				Vec2 position,
-				Quadrangle? sourceRectangle,
+				Rectangle? sourceRectangle,
 				Color color,
 				float rotation,
 				Vec2 origin,
@@ -198,8 +198,8 @@ namespace Microsoft.Xna.Framework.Graphics
             float w;
             if (sourceRectangle != null)
             {
-                var srcRect = sourceRectangle == null ?  new Quadrangle(0, 0, texture.Width, texture.Height) : sourceRectangle;
-                // var srcRect = sourceRectangle ?? new Quadrangle(0, 0, texture.Width, texture.Height);
+                var srcRect = sourceRectangle == null ?  new Rectangle(0, 0, texture.Width, texture.Height) : sourceRectangle;
+                // var srcRect = sourceRectangle ?? new Rectangle(0, 0, texture.Width, texture.Height);
                 w = srcRect.Width * scale.X;
                 h = srcRect.Height * scale.Y;
                 _texCoordTL.X = srcRect.X * texture.TexelWidth;
@@ -270,8 +270,8 @@ namespace Microsoft.Xna.Framework.Graphics
         /// <param name="effects">Modificators for drawing. Can be combined.</param>
         /// <param name="layerDepth">A depth of the layer of this sprite.</param>
 		public void Draw3 (Texture2D texture,
-			Quadrangle destinationRectangle,
-			Quadrangle? sourceRectangle,
+			Rectangle destinationRectangle,
+			Rectangle? sourceRectangle,
 			Color color,
 			float rotation,
 			Vec2 origin,
@@ -303,8 +303,8 @@ namespace Microsoft.Xna.Framework.Graphics
 
             if (sourceRectangle != null)
             {
-                // var srcRect = sourceRectangle ?? new Quadrangle(0, 0, texture.Width, texture.Height);
-                var srcRect = sourceRectangle == null ?  new Quadrangle(0, 0, texture.Width, texture.Height) : sourceRectangle;
+                // var srcRect = sourceRectangle ?? new Rectangle(0, 0, texture.Width, texture.Height);
+                var srcRect = sourceRectangle == null ?  new Rectangle(0, 0, texture.Width, texture.Height) : sourceRectangle;
                 _texCoordTL.X = srcRect.X * texture.TexelWidth;
                 _texCoordTL.Y = srcRect.Y * texture.TexelHeight;
                 _texCoordBR.X = (srcRect.X + srcRect.Width) * texture.TexelWidth;

@@ -77,7 +77,7 @@ namespace Sdl
 	}
 
 
-	[CCode (cname = "SDL_EventType", cheader_filename = "SDL2/SDL_events.h")]
+	[CCode (cname = "SDL_EventType")]
 	public enum EventType 
 	{
 		[CCode (cname = "SDL_FIRSTEVENT")]
@@ -174,7 +174,7 @@ namespace Sdl
 
 	}
 
-	[SimpleType, CCode (cname = "SDL_CommonEvent", cheader_filename = "SDL2/SDL_events.h")]
+	[SimpleType, CCode (cname = "SDL_CommonEvent")]
 	public struct CommonEvent  
 	{
 		[CCode (cname = "type")]
@@ -184,7 +184,7 @@ namespace Sdl
 	}
 
 
-	[CCode (cname = "SDL_eventaction", cheader_filename = "SDL2/SDL_events.h")]
+	[CCode (cname = "SDL_eventaction")]
 	public enum EventAction 
 	{
 		[CCode (cname = "SDL_ADDEVENT")]
@@ -195,7 +195,7 @@ namespace Sdl
 		GetEvent
 	}
 
-	[SimpleType, CCode (cname = "SDL_Event", cheader_filename = "SDL2/SDL_events.h")]
+	[SimpleType, CCode (cname = "SDL_Event")]
 	public struct Event 
 	{
 		[CCode (cname = "type")]
@@ -218,7 +218,7 @@ namespace Sdl
 		public Sdl.GameController.DeviceEvent ControllerDevice;
 	}
 
-	[SimpleType, CCode (cname = "SDL_Point", cheader_filename = "SDL2/SDL_rect.h")]
+	[SimpleType, CCode (cname = "SDL_Point")]
 	public struct Point {
 		[CCode (cname = "x")]
 		public int X;
@@ -226,7 +226,7 @@ namespace Sdl
 		public int Y;
 	}
 
-	[SimpleType, CCode (cname = "SDL_Rect", cheader_filename = "SDL2/SDL_rect.h")]
+	[SimpleType, CCode (cname = "SDL_Rect")]
 	public struct Rect : Point
 	{
 		[CCode (cname = "w")]
@@ -235,7 +235,7 @@ namespace Sdl
 		public int Height;
 	}
 
-	[SimpleType, CCode (cname = "SDL_version", cheader_filename = "SDL2/SDL_version.h")]
+	[SimpleType, CCode (cname = "SDL_version")]
 	public struct Version 
 	{
 		[CCode (cname = "major")]
@@ -319,7 +319,7 @@ namespace Sdl
 	[CCode (cname = "SDL_ClearError")]
     public static extern void ClearError();
 	
-	[CCode (cname = "SDL_GetHint", cheader_filename = "SDL2/SDL_hints.h")]
+	[CCode (cname = "SDL_GetHint")]
 	public static unowned string GetHint (string name);
 
 	[CCode (cname = "SDL_LoadBMP_RW")]
@@ -327,6 +327,9 @@ namespace Sdl
 
 	[CCode (cname = "SDL_Quit")]
 	public static void Quit ();
+
+	[CCode (cname = "SDL_LoadBMP")]
+	public static IntPtr LoadBMP (char* src);
 
 	[CCode (cname = "SDL_RWFromMem")]
 	public static RWops* RWFromMem (void* mem, int size);
@@ -337,7 +340,7 @@ namespace Sdl
 	[CCode (cname = "SDL_RWread")]
 	public static size_t RWread (RWops* rw, void* ptr, size_t size, size_t maxnum);
 	
-	[CCode (cname = "SDL_SetHint", cheader_filename = "SDL2/SDL_hints.h")]
+	[CCode (cname = "SDL_SetHint")]
 	public static bool SetHint (string name, string hintValue);
 
 	[CCode (cname = "SDL_GetPerformanceFrequency")]
@@ -351,7 +354,7 @@ namespace Sdl
 			
 	
 
-	[CCode (cname = "SDL_Window", cheader_filename = "SDL2/SDL_video.h")]
+	[CCode (cname = "SDL_Window")]
 	public class Window 
 	{
 		[CCode (cname = "SDL_WINDOWPOS_UNDEFINED_MASK")]
@@ -360,7 +363,7 @@ namespace Sdl
 		[CCode (cname = "SDL_WINDOWPOS_CENTERED_MASK")]
 		public static const uint8 PosCentered;
 
-		[CCode (cname = "SDL_WindowEventID", cheader_filename = "SDL2/SDL_events.h")]
+		[CCode (cname = "SDL_WindowEventID")]
 		public enum EventId 
 		{
 			[CCode (cname = "SDL_WINDOWEVENT_NONE")]
@@ -395,7 +398,7 @@ namespace Sdl
             Close,
 		}
 
-		[Flags, CCode (cname = "SDL_WindowFlags", cheader_filename = "SDL2/SDL_video.h")]
+		[Flags, CCode (cname = "SDL_WindowFlags")]
 		public enum State 
 		{
 			[CCode (cname = "SDL_WINDOW_FULLSCREEN")] 
@@ -430,7 +433,7 @@ namespace Sdl
 			MouseCapture
 		}
 
-		[SimpleType, CCode (cname = "SDL_WindowEvent", cheader_filename = "SDL2/SDL_events.h")]
+		[SimpleType, CCode (cname = "SDL_WindowEvent")]
 		public struct Event : CommonEvent
 		{
 			[CCode (cname = "windowID")]
@@ -443,7 +446,7 @@ namespace Sdl
 			public int32 Data2;
 		}
 
-		[CCode (cname = " SDL_SYSWM_TYPE", cheader_filename = "SDL2/SDL_syswm.h")]
+		[CCode (cname = " SDL_SYSWM_TYPE")]
 		public enum SysWMType 
 		{
 			[CCode (cname = "SDL_SYSWM_UNKNOWN")] 
@@ -468,7 +471,7 @@ namespace Sdl
             Android
 		}
 		
-		[CCode (cname = "SDL_SysWMinfo", cheader_filename = "SDL2/SDL_syswm.h")]
+		[CCode (cname = "SDL_SysWMinfo")]
 		public struct SDL_SysWMinfo 
 		{
 			[CCode (cname = "version")]
@@ -536,7 +539,7 @@ namespace Sdl
 		[CCode (cname = "SDL_ShowWindow")]
 		public static void Show (IntPtr window);
 
-		[CCode (cname = "SDL_GetWindowWMInfo", cheader_filename = "SDL2/SDL_syswm.h")]
+		[CCode (cname = "SDL_GetWindowWMInfo")]
 		public bool GetWindowWMInfo (IntPtr window, ref SDL_SysWMinfo sysWMinfo);
 
         [CCode (cname = "SDL_GetWindowBordersSize")]
@@ -546,7 +549,7 @@ namespace Sdl
 
 	public class Display 
 	{
-		[CCode (cname = "SDL_DisplayMode", cheader_filename = "SDL2/SDL_video.h")]
+		[CCode (cname = "SDL_DisplayMode")]
 		public struct Mode 
 		{
 			[CCode (cname = "format")]
@@ -621,12 +624,12 @@ namespace Sdl
         }
 	}
 
-	[CCode (cname = "SDL_Renderer", cheader_filename = "SDL2/SDL_render.h")]
+	[CCode (cname = "SDL_Renderer")]
 	public class Renderer 
 	{
 		[CCode (cname = "SDL_CreateRenderer")]
 		public static IntPtr Create (IntPtr window, int index, uint32 flags);
-		[Flags, CCode (cname = "SDL_RendererFlags", cheader_filename = "SDL2/SDL_render.h")]
+		[Flags, CCode (cname = "SDL_RendererFlags")]
 		public enum Flags 
 		{
 			[CCode (cname = "SDL_RENDERER_SOFTWARE")] 
@@ -656,7 +659,7 @@ namespace Sdl
 	
 	public class GL 
 	{
-		[CCode (cname = "SDL_GLattr", cheader_filename = "SDL2/SDL_video.h")]
+		[CCode (cname = "SDL_GLattr")]
 		public enum Attribute
 		{
 			[CCode (cname = "SDL_GL_RED_SIZE")]
@@ -769,7 +772,7 @@ namespace Sdl
 			X2Mask
 		}
 
-		[CCode (cname = "SDL_SystemCursor", cheader_filename = "SDL2/SDL_mouse.h")]
+		[CCode (cname = "SDL_SystemCursor")]
 		public enum SystemCursor 
 		{
 			[CCode (cname = "SDL_SYSTEM_CURSOR_ARROW")]
@@ -798,7 +801,7 @@ namespace Sdl
             Hand
 		}
 
-		[SimpleType, CCode (cname = "SDL_MouseMotionEvent", cheader_filename = "SDL2/SDL_events.h")]
+		[SimpleType, CCode (cname = "SDL_MouseMotionEvent")]
 		public struct MotionEvent : CommonEvent
 		{
 			[CCode (cname = "windowID")]
@@ -819,7 +822,7 @@ namespace Sdl
 			public int32 Y;
 		}
 		
-		[SimpleType, CCode (cname = "SDL_MouseWheelEvent", cheader_filename = "SDL2/SDL_events.h")]
+		[SimpleType, CCode (cname = "SDL_MouseWheelEvent")]
 		public struct WheelEvent : CommonEvent
 		{
 			[CCode (cname = "windowID")]
@@ -871,7 +874,7 @@ namespace Sdl
 
 	public class Keyboard
 	{
-		[SimpleType, CCode (cname = "SDL_Keysym", cheader_filename = "SDL2/SDL_keyboard.h")]
+		[SimpleType, CCode (cname = "SDL_Keysym")]
 		public struct Keysym 
 		{
 			[CCode (cname = "scancode")]
@@ -884,7 +887,7 @@ namespace Sdl
 			public uint32 Unicode;
 		}
 
-		[CCode (cname = "SDL_Keymod", cheader_filename = "SDL2/SDL_keyboard.h")]
+		[CCode (cname = "SDL_Keymod")]
 		public enum Keymod 
 		{
 			[CCode (cname = "KMOD_NONE")]
@@ -923,7 +926,7 @@ namespace Sdl
 			Gui
 		}
 
-		[SimpleType, CCode (cname = "SDL_KeyboardEvent", cheader_filename = "SDL2/SDL_events.h")]
+		[SimpleType, CCode (cname = "SDL_KeyboardEvent")]
 		public struct Event : CommonEvent
 		{
 			[CCode (cname = "windowID")]
@@ -940,7 +943,7 @@ namespace Sdl
             public Keysym Keysym;
 		}
 
-		[SimpleType, CCode (cname = "SDL_TextEditingEvent", cheader_filename = "SDL2/SDL_events.h")]
+		[SimpleType, CCode (cname = "SDL_TextEditingEvent")]
 		public struct TextEditingEvent : CommonEvent
 		{
 			[CCode (cname = "WindowID")]
@@ -954,7 +957,7 @@ namespace Sdl
 
 		}
 		
-		[SimpleType, CCode (cname = "SDL_TextInputEvent", cheader_filename = "SDL2/SDL_events.h")]
+		[SimpleType, CCode (cname = "SDL_TextInputEvent")]
 		public struct TextInputEvent : CommonEvent
 		{
 			[CCode (cname = "WindowID")]
@@ -971,7 +974,7 @@ namespace Sdl
 
     public class Joystick
     {
-		[CCode (cname = "Uint8", cheader_filename = "SDL2/SDL_events.h")]
+		[CCode (cname = "Uint8")]
 		public enum Hat 
 		{
 			[CCode (cname = "SDL_HAT_CENTERED")]
@@ -986,7 +989,7 @@ namespace Sdl
 			Left
 		}
 
-		[SimpleType, CCode (cname = "SDL_JoyDeviceEvent", cheader_filename = "SDL2/SDL_events.h")]
+		[SimpleType, CCode (cname = "SDL_JoyDeviceEvent")]
 		public struct DeviceEvent : CommonEvent
 		{
 			[CCode (cname = "windowID")]
@@ -1126,7 +1129,7 @@ namespace Sdl
             Max
 		}
 
-		[SimpleType, CCode (cname = "SDL_ControllerDeviceEvent", cheader_filename = "SDL2/SDL_events.h")]
+		[SimpleType, CCode (cname = "SDL_ControllerDeviceEvent")]
 		public struct DeviceEvent : CommonEvent
 		{
 			[CCode (cname = "which")]
@@ -1197,7 +1200,7 @@ namespace Sdl
 		}
 
 
-		[CCode (cname = "SDL_HapticLeftRight", cheader_filename = "SDL2/SDL_haptic.h")]
+		[CCode (cname = "SDL_HapticLeftRight")]
 		public struct Effect 
 		{
 			[CCode (cname = "type")]
@@ -1216,7 +1219,7 @@ namespace Sdl
 		[CCode (cname = "SDL_HapticEffectSupported")]
 		public static int EffectSupported (IntPtr haptic, ref Effect effect);
 
-		[CCode (cname = "SDL_JoystickIsHaptic", cheader_filename = "SDL2/SDL_haptic.h")]
+		[CCode (cname = "SDL_JoystickIsHaptic")]
 		public static int IsHaptic (IntPtr joystick);
 	
 		[CCode (cname = "SDL_HapticNewEffect")]
@@ -1285,183 +1288,5 @@ namespace Sdl
         {
             GetErrorInt(SDL_HapticUpdateEffect(haptic, effect, ref data));
         }
-
 	}
-
-	[CCode (cheader_filename = "SDL2/SDL_image.h")]
-	public class Image
-	{
-		[Flags, CCode (cname = "IMG_InitFlags")]
-		public enum InitFlags {
-			[CCode (cname = "IMG_INIT_JPG")]
-			Jpg,
-			[CCode (cname = "IMG_INIT_PNG")]
-			Png,
-			[CCode (cname = "IMG_INIT_TIF")]
-			Tif,
-			[CCode (cname = "IMG_INIT_WEBP")]
-			Webp
-		}
-		[CCode (cname = "IMG_Init")]
-		public static int Init (int flags);
-	
-		[CCode (cname = "IMG_Quit")]
-		public static void Quit ();
-
-		[CCode (cname = "IMG_Load")]
-		public static IntPtr Load (string file);
-	
-		[CCode (cname = "IMG_Load_RW")]
-		public static IntPtr LoadRw (IntPtr src, bool freesrc = false);
-	
-		[CCode (cname = "IMG_LoadTyped_RW")]
-		public static IntPtr LoadRwTyped (IntPtr src, bool freesrc, string type);
-	
-		[CCode (cname = "IMG_LoadTexture")]
-		public static IntPtr LoadTexture (IntPtr renderer, string file);
-	
-		[CCode (cname = "IMG_LoadTexture_RW")]
-		public static IntPtr LoadTextureRw (IntPtr renderer, IntPtr src, bool freesrc = false);
-	
-		[CCode (cname = "IMG_LoadTextureTyped_RW")]
-		public static IntPtr LoadTextureRwTyped (IntPtr renderer, IntPtr src, bool freesrc, string type);
-	
-		[CCode (cname = "IMG_InvertAlpha")]
-		public static int invertAlpha (int on);
-	
-		[CCode (cname = "IMG_LoadCUR_RW")]
-		public static IntPtr LoadCUR (IntPtr src);
-	
-		[CCode (cname = "IMG_LoadICO_RW")]
-		public static IntPtr LoadICO (IntPtr src);
-	
-		[CCode (cname = "SDL_LoadBMP")]
-		public static IntPtr LoadBMP (char* src);
-	
-		[CCode (cname = "IMG_LoadBMP_RW")]
-		public static IntPtr LoadBMP_RW (IntPtr src);
-	
-		[CCode (cname = "IMG_LoadPNM_RW")]
-		public static IntPtr LoadPNM (IntPtr src);
-	
-		[CCode (cname = "IMG_LoadXPM_RW")]
-		public static IntPtr LoadXPM (IntPtr src);
-	
-		[CCode (cname = "IMG_LoadXCF_RW")]
-		public static IntPtr LoadXCF (IntPtr src);
-	
-		[CCode (cname = "IMG_LoadPCX_RW")]
-		public static IntPtr LoadPCX (IntPtr src);
-	
-		[CCode (cname = "IMG_LoadGIF_RW")]
-		public static IntPtr LoadGIF (IntPtr src);
-	
-		[CCode (cname = "IMG_LoadJPG_RW")]
-		public static IntPtr LoadJPG (IntPtr src);
-	
-		[CCode (cname = "IMG_LoadTIF_RW")]
-		public static IntPtr LoadTIF (IntPtr src);
-	
-		[CCode (cname = "IMG_LoadPNG_RW")]
-		public static IntPtr LoadPNG (IntPtr src);
-	
-		[CCode (cname = "IMG_LoadTGA_RW")]
-		public static IntPtr LoadTGA (IntPtr src);
-	
-		[CCode (cname = "IMG_LoadLBM_RW")]
-		public static IntPtr LoadLBM (IntPtr src);
-	
-		[CCode (cname = "IMG_LoadXV_RW")]
-		public static IntPtr LoadXV (IntPtr src);
-	
-		[CCode (cname = "IMG_LoadWEBP_RW")]
-		public static IntPtr LoadWEBP (IntPtr src);
-	
-		[CCode (cname = "IMG_ReadXPMFromArray")]
-		public static IntPtr readXPM (string[] xpmdata);
-	
-		//!Info
-	
-		[CCode (cname = "IMG_isCUR")]
-		public static bool IsCUR (IntPtr src);
-	
-		[CCode (cname = "IMG_isICO")]
-		public static bool IsICO (IntPtr src);
-	
-		[CCode (cname = "IMG_isBMP")]
-		public static bool IsBMP (IntPtr src);
-	
-		[CCode (cname = "IMG_isPNM")]
-		public static bool IsPNM (IntPtr src);
-	
-		[CCode (cname = "IMG_isXPM")]
-		public static bool IsXPM (IntPtr src);
-	
-		[CCode (cname = "IMG_isXCF")]
-		public static bool IsXCF (IntPtr src);
-	
-		[CCode (cname = "IMG_isPCX")]
-		public static bool IsPCX (IntPtr src);
-	
-		[CCode (cname = "IMG_isGIF")]
-		public static bool IsGIF (IntPtr src);
-	
-		[CCode (cname = "IMG_isJPG")]
-		public static bool IsJPG (IntPtr src);
-	
-		[CCode (cname = "IMG_isTIF")]
-		public static bool IsTIF (IntPtr src);
-	
-		[CCode (cname = "IMG_isPNG")]
-		public static bool IsPNG (IntPtr src);
-	
-		[CCode (cname = "IMG_isLBM")]
-		public static bool IsLBM (IntPtr src);
-	
-		[CCode (cname = "IMG_isXV")]
-		public static bool IsXV (IntPtr src);
-	
-		[CCode (cname = "IMG_isWEBP")]
-		public static bool IsWEBP (IntPtr src);
-			
-	}
-	
-	[CCode (cheader_filename = "SDL2/SDL_ttf.h")]
-	public class Ttf
-	{
-		[CCode (cname = "TTF_Init")]
-		public static int Init ();
-
-		[CCode (cname = "TTF_Quit")]
-		public static void Quit ();
-
-		[CCode (cname = "TTF_OpenFont")]
-		public static IntPtr Open (string file, int ptsize);
-
-		[CCode (cname = "TTF_OpenFontRW")]
-		public static IntPtr OpenRw (IntPtr src, int freesrc = 0, int ptsize);
-
-		
-	}
-
-	[CCode (cheader_filename = "SDL2/SDL_mixer.h")]
-	public class Mixer
-	{
-		[CCode (cname = "Mix_OpenAudio")]
-		public static int Init (int frequency, int format, int channels, int chunksize);
-	
-		[CCode (cname = "Mix_CloseAudio")]
-		public static void Quit ();
-
-		[CCode (cname = "Mix_LoadWAV_RW")]
-		public static IntPtr OpenRw (IntPtr src, int freesrc = 0);
-
-		[CCode (cname = "Mix_LoadWAV")]
-		public static IntPtr Open (string file);
-
-		[CCode (cname = "Mix_PlayChannel")]
-		public static int Play (int channel, IntPtr chunk, int loops = 0);
-		
-	}
-
 }			

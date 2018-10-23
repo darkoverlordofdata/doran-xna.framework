@@ -142,62 +142,7 @@ namespace Microsoft.Xna.Framework.Content
 			{
 				throw new Exception.ObjectDisposedException("ContentManager");
 			}
-			return null;
-			// return (T)Asset.Get(URI(@"$_rootDirectory/$assetName"));
-		}
-
-		/// <summary>
-		/// This API is an extension to XNA.
-		/// loads all assets from an asset folder
-		/// </summary>
-		/// <returns>Load all assets.</returns>
-		public virtual void PreLoad(string location)
-		{
-			// if (location == null || location == "")
-			// {
-			// 	throw new Exception.ArgumentNullException("location");
-			// }
-			// if (disposed)
-			// {
-			// 	throw new Exception.ObjectDisposedException("ContentManager");
-			// }
-			// Folder.Load(URI(@"$_rootDirectory/$location/"));
-			
-		}
-
-		public virtual uint LoadTexture(string textureName)
-		{
-			if (textureName == null || textureName == "")
-			{
-				throw new Exception.ArgumentNullException("textureName");
-			}
-			if (disposed)
-			{
-				throw new Exception.ObjectDisposedException("ContentManager");
-			}
-			
-		    // var tex = corange_asset_get(URI(@"$_rootDirectory/$textureName"));
-            // return corange_texture_handle(tex);
-			return 0;
-		}
-
-		/// <summary>
-		/// This API is an extension to XNA.
-		/// loads 1 asset
-		/// </summary>
-		/// <returns>Load an asset.</returns>
-		public virtual IntPtr LoadResource(string assetName)
-		{
-			if (assetName == null || assetName == "")
-			{
-				throw new Exception.ArgumentNullException("assetName");
-			}
-			if (disposed)
-			{
-				throw new Exception.ObjectDisposedException("ContentManager");
-			}
-			// return Asset.Get(URI(@"$_rootDirectory/$assetName"));
-			return null;
+			return (T)ReadAsset<T>(@"$_rootDirectory/$assetName");
 		}
 
 		public virtual void Unload()
@@ -219,12 +164,14 @@ namespace Microsoft.Xna.Framework.Content
 
 		internal string RootDirectoryFullPath
 		{
-			get
+			owned get
 			{
 				char buf[1024];
-            	GetFullPathName(RootDirectory, 1024, buf);
-				return (string) buf;
-				// return URI(RootDirectory).Full().ToString();
+            	// GetFullPathName(RootDirectory, 1024, buf);
+				// return (string) buf;
+				string cwd = (string)Dir.cwd(buf);
+				string path = cwd + "\\" + RootDirectory;
+				return path;
 			}
 		}
 		

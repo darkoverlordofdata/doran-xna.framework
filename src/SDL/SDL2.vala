@@ -54,7 +54,7 @@ namespace Sdl
                 print("Could not create SDL window: %s", SDL_GetError());
             }
 
-            IntPtr windowIcon = Image.LoadBMP("./assets/d16a.bmp");
+            IntPtr windowIcon = LoadBMP("./assets/d16a.bmp");
             Window.SetIcon(Screen, windowIcon);
             FreeSurface(windowIcon);
             

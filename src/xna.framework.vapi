@@ -23,9 +23,14 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
-[CCode (cprefix = "", lower_case_cprefix = "", cheader_filename = "Windows.h")]
-namespace Microsoft.Xna.Framework 
-{
-	[CCode(cname = "GetFullPathName")]
-	public void GetFullPathName(char* path, int len, char* dest, char* file = null);
-}
+// [CCode (cprefix = "", lower_case_cprefix = "", cheader_filename = "Windows.h")]
+// namespace Microsoft.Xna.Framework 
+// {
+	// [CCode(cname = "GetFullPathName")]
+	// public void GetFullPathName(char* path, int len, char* dest, char* file = null);
+
+	//unistd.h
+	// [CCode (cname = "_getcwd", cheader_filename = "direct.h")]
+	// public char* getcwd(char* buf, int size);
+
+// }

@@ -26,6 +26,8 @@ namespace Microsoft.Xna.Framework.Graphics
 
     public class GraphicsDevice : Object, IDisposable
     {
+        internal GraphicsContext Context { get; private set; }
+
         private Viewport _viewport;
 
         private bool _isDisposed;
@@ -61,6 +63,9 @@ namespace Microsoft.Xna.Framework.Graphics
         private int _maxVertexBufferSlots;
         internal int MaxTextureSlots = 16;
         internal int MaxVertexTextureSlots;
+
+        static ArrayList<IntPtr> _disposeContexts = new ArrayList<IntPtr>();
+        static GLib.Object _disposeContextsLock = new GLib.Object();
 
         public bool IsDisposed
         {
@@ -142,6 +147,20 @@ namespace Microsoft.Xna.Framework.Graphics
 
         private void Setup()
         {
+            // Platform Setup
+            var windowInfo = new WindowInfo(SdlGameWindow.Instance.Handle);
+
+            if (Context == null || Context.IsDisposed)
+            {
+                Context = GL.CreateContext(windowInfo);
+            }
+
+            Context.MakeCurrent(windowInfo);
+            Context.SwapInterval = PresentationParameters.PresentationInterval;
+
+            Context.MakeCurrent(windowInfo);
+            // End Platform Setup
+
             Textures = new TextureCollection(this, MaxTextureSlots, false);
             
         }
@@ -189,20 +208,39 @@ namespace Microsoft.Xna.Framework.Graphics
             }
         }
 
+        internal static void DisposeContext(IntPtr resource)
+        {
+            lock (_disposeContextsLock)
+            {
+                _disposeContexts.Add(resource);
+            }
+        }
+
+        internal static void DisposeContexts()
+        {
+            lock (_disposeContextsLock)
+            {
+                int count = _disposeContexts.Count;
+                for (int i = 0; i < count; ++i)
+                    Sdl.GL.DeleteContext(_disposeContexts[i]);
+                _disposeContexts.Clear();
+            }
+        }
+
         internal void AddResourceReference(WeakReference resourceReference)
         {
-            // lock (_resourcesLock)
-            // {
+            lock (_resourcesLock)
+            {
                 _resources.Add(resourceReference);
-            // }
+            }
         }
 
         internal void RemoveResourceReference(WeakReference resourceReference)
         {
-            // lock (_resourcesLock)
-            // {
+            lock (_resourcesLock)
+            {
                 _resources.Remove(resourceReference);
-            // }
+            }
         }
 
         public void Present()
@@ -213,7 +251,7 @@ namespace Microsoft.Xna.Framework.Graphics
         }
 
         /*
-        public void Present(Quadrangle? sourceRectangle, Quadrangle? destinationRectangle, IntPtr overrideWindowHandle)
+        public void Present(Rectangle? sourceRectangle, Rectangle? destinationRectangle, IntPtr overrideWindowHandle)
         {
             throw new NotImplementedException();
         }

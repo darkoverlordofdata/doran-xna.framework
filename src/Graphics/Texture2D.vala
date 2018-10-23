@@ -31,9 +31,19 @@ namespace Microsoft.Xna.Framework.Graphics
             SwapChainRenderTarget,
         }
 
-		internal int width;
-		internal int height;
-        internal int format;
+        public enum SurfaceFormat
+        {
+            Default,
+            Grey,
+            GreyAlpha,
+            Rgb,
+            Rgba
+        }
+
+		internal int width = 0;
+		internal int height = 0;
+        internal int format = SurfaceFormat.Rgba;
+        internal int channels = 0;
         internal int ArraySize;
         internal int Handle;
                 
@@ -43,11 +53,11 @@ namespace Microsoft.Xna.Framework.Graphics
         /// <summary>
         /// Gets the dimensions of the texture
         /// </summary>
-        public Quadrangle Bounds
+        public Rectangle Bounds
         {
             get
             {
-				return new Quadrangle(0, 0, this.width, this.height);
+				return new Rectangle(0, 0, this.width, this.height);
             }
         }
 
@@ -57,20 +67,6 @@ namespace Microsoft.Xna.Framework.Graphics
         /// <param name="path"></param>
         public void SetData(string path)
         {
-            /** START OLD */
-            // var width = new int[1];
-            // var height = new int[1];
-            // Handle = corange_texture_handle(corange_asset_get(URI(path)));
-
-            // GL.BindTexture(TextureTarget.Texture2D, Handle);
-            // GL.GetTexLevelParameteriv(TextureTarget.Texture2D, 0, TextureParameter.Width, width);
-            // GL.GetTexLevelParameteriv(TextureTarget.Texture2D, 0, TextureParameter.Height, height);
-
-            // this.width = width[0];
-            // this.height = height[0];
-            /** END OLD */
-
-            /** START NEW */
             GL.GenTextures(1, ref Handle);
             GL.BindTexture(TextureTarget.Texture2D, Handle); 
             // all upcoming GL_TEXTURE_2D operations now have effect on this texture object
@@ -82,16 +78,15 @@ namespace Microsoft.Xna.Framework.Graphics
             GL.TexParameteri(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Linear);
             GL.TexParameteri(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Linear);
 
-            width = 0;
-            height = 0;
-            int channels = 0;
-
-            IntPtr pixels = Stb.load(path, out width, out height, out channels, 0);
-
-            print("Load %s, h=%d, w=%d, h=%d\n", path, width, height, Handle);
-            GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, width, height, 0, PixelFormat.Rgba, PixelType.UnsignedByte, pixels);
+            Image pixels = Image.Load(path, out width, out height, out channels, format);
+            print("%s %d %d %d\n", path, width, height, channels);
+            if (channels == 4)
+                GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, width, height, 0, PixelFormat.Rgba, PixelType.UnsignedByte, pixels);
+            else
+                GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgb, width, height, 0, PixelFormat.Rgb, PixelType.UnsignedByte, pixels);
             GL.GenerateMipmap(GenerateMipmapTarget.Texture2D);
-            /** END NEW */
+            pixels.Dispose();
+            this.format = format;
 
             this.TexelWidth = 1f / (float)this.width;
             this.TexelHeight = 1f / (float)this.height;
@@ -119,6 +114,5 @@ namespace Microsoft.Xna.Framework.Graphics
                 return height;
             }
         }
-
 	}
 }
