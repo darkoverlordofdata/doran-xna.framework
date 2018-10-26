@@ -17,9 +17,9 @@ namespace Microsoft.Xna.Framework.Graphics
 {
     using System;
 
-	public class TargetBlendState : Object
+	public class TargetBlendStatez : Object
 	{
-	    private BlendState _parent;
+	    private BlendStatez _parent;
 	    private BlendFunction _alphaBlendFunction;
 	    private Blend _alphaDestinationBlend;
 	    private Blend _alphaSourceBlend;
@@ -28,7 +28,7 @@ namespace Microsoft.Xna.Framework.Graphics
 	    private Blend _colorSourceBlend;
 	    private ColorWriteChannels _colorWriteChannels;
 
-	    internal TargetBlendState(BlendState parent)
+	    internal TargetBlendStatez(BlendStatez parent)
         {
 	        _parent = parent;
 	        AlphaBlendFunction = BlendFunction.Add;
@@ -40,9 +40,9 @@ namespace Microsoft.Xna.Framework.Graphics
             ColorWriteChannels = ColorWriteChannels.All;
         }
 
-	    internal TargetBlendState Clone(BlendState parent)
+	    internal TargetBlendStatez Clone(BlendStatez parent)
 	    {
-	        return new TargetBlendState(parent)
+	        return new TargetBlendStatez(parent)
 	        {
 	            AlphaBlendFunction = AlphaBlendFunction,
                 AlphaDestinationBlend = AlphaDestinationBlend,

@@ -25,8 +25,8 @@ Vector2* glm_vec2_new(float x, float y)
 {
     Vector2* this = malloc(sizeof(Vector2));
     this->ref_count = 1;
-    this->x = x;
-    this->y = y;
+    this->X = x;
+    this->Y = y;
     return this;
 }
 

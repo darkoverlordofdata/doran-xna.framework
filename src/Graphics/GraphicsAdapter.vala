@@ -18,7 +18,7 @@ namespace Microsoft.Xna.Framework.Graphics
     using System;
     using System.Collections.Generic;
 
-    public class GraphicsAdapter : Object, IDisposable
+    public class GraphicsAdapter : Disposable
     {
         /// <summary>
         /// Defines the driver type for graphics adapter. Usable only on DirectX platforms for now.
@@ -182,7 +182,7 @@ namespace Microsoft.Xna.Framework.Graphics
             return PlatformIsProfileSupported(graphicsProfile);
         }
 
-        public void Dispose()
+        public override void Dispose()
         {
             // We don't keep any resources, so we have
             // nothing to do... just here for XNA compatibility.

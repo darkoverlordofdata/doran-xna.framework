@@ -20,18 +20,18 @@ namespace Microsoft.Xna.Framework.Content
 	using Microsoft.Xna.Framework.Graphics;
 	using ValaGame.OpenGL;
 
-	public class ContentManager : Object, IDisposable
+	public class ContentManager : Disposable
 	{
-		const uint8 ContentCompressedLzx = 0x80;
-		const uint8 ContentCompressedLz4 = 0x40;
+		// const uint8 ContentCompressedLzx = 0x80;
+		// const uint8 ContentCompressedLz4 = 0x40;
 
 		private string _rootDirectory = ""; // string.Empty;
-		private IServiceProvider serviceProvider;
+		private ServiceProvider serviceProvider;
         private Dictionary<string, Object> loadedAssets = new Dictionary<string, Object>(); // StringComparer.OrdinalIgnoreCase);
 		private bool disposed;
 
 
-		public ContentManager(IServiceProvider serviceProvider, string rootDirectory="")
+		public ContentManager(ServiceProvider serviceProvider, string rootDirectory="")
 		{
 			if (serviceProvider == null)
 			{
@@ -41,7 +41,7 @@ namespace Microsoft.Xna.Framework.Content
 			this.serviceProvider = serviceProvider;
 		}
 
-		public void Dispose()
+		public override void Dispose()
 		{
 			Dispose2(true);
 		}
@@ -110,15 +110,10 @@ namespace Microsoft.Xna.Framework.Content
 
 			string originalAssetName = assetName;
 
-			// Instead of loading from *.xnb file, we get from Corange cache:
 			var result = GLib.Object.new(typeof(T));
 			if (result == null)
 				throw new Exception.ContentLoadException("Could not load " + originalAssetName + " asset!");
 
-			var manager = result as ISetContent;
-			if (manager != null)
-				manager.SetContent(this);
-							
 			var asset = result as ISetData;
 			if (asset == null)
 				throw new Exception.ContentLoadException("Missing ISetData Interface loading " + originalAssetName + " in " + result.get_type().name());
@@ -162,20 +157,18 @@ namespace Microsoft.Xna.Framework.Content
 			}
 		}
 
-		internal string RootDirectoryFullPath
-		{
-			owned get
-			{
-				char buf[1024];
-            	// GetFullPathName(RootDirectory, 1024, buf);
-				// return (string) buf;
-				string cwd = (string)Dir.cwd(buf);
-				string path = cwd + "\\" + RootDirectory;
-				return path;
-			}
-		}
+		// internal string RootDirectoryFullPath
+		// {
+		// 	owned get
+		// 	{
+		// 		char buf[1024];
+		// 		return ((string)Dir.cwd(buf) + "\\" + RootDirectory)
+		// 			.replace("\\", "/")
+		// 			.replace("/./", "/");
+		// 	}
+		// }
 		
-		public IServiceProvider ServiceProvider
+		public ServiceProvider ServiceProvider
 		{
 			get
 			{

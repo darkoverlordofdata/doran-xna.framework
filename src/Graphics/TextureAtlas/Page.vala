@@ -21,7 +21,7 @@ namespace Microsoft.Xna.Framework.Graphics
      * povo - Plain Old Vala Object
      * one for each region in the atlas file 
      */
-    public class Page  
+    public class Page : Object
     {
         public static int uniqueId;
         public int id;

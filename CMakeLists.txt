@@ -7,6 +7,7 @@ cmake_minimum_required ( VERSION 3.1 )
 project ( xna.framework VERSION 0.0.1 )
 
 # Includes: 
+list ( APPEND INCLUDE ./include )
 list ( APPEND INCLUDE .lib/xna.framework/include )
 
 # C Sources: 
@@ -65,7 +66,6 @@ list ( APPEND SOURCE .lib/xna.framework/src/Input/MouseState.vala )
 list ( APPEND SOURCE .lib/xna.framework/src/SDL/SDL2.vala )
 list ( APPEND SOURCE .lib/xna.framework/src/SDL/SDLGamePlatform.vala )
 list ( APPEND SOURCE .lib/xna.framework/src/SDL/SDLGameWindow.vala )
-list ( APPEND SOURCE .lib/xna.framework/src/Utilities/Json.vala )
 list ( APPEND SOURCE .lib/xna.framework/src/Graphics/ClearOptions.vala )
 list ( APPEND SOURCE .lib/xna.framework/src/Graphics/ColorWriteChannels.vala )
 list ( APPEND SOURCE .lib/xna.framework/src/Graphics/DisplayMode.vala )
@@ -98,9 +98,7 @@ list ( APPEND SOURCE .lib/xna.framework/src/Graphics/TextureCollection.vala )
 list ( APPEND SOURCE .lib/xna.framework/src/Graphics/Viewport.vala )
 list ( APPEND SOURCE .lib/xna.framework/src/Graphics/States/Blend.vala )
 list ( APPEND SOURCE .lib/xna.framework/src/Graphics/States/BlendFunction.vala )
-list ( APPEND SOURCE .lib/xna.framework/src/Graphics/States/BlendState.vala )
 list ( APPEND SOURCE .lib/xna.framework/src/Graphics/States/DepthFormat.vala )
-list ( APPEND SOURCE .lib/xna.framework/src/Graphics/States/TargetBlendState.vala )
 list ( APPEND SOURCE .lib/xna.framework/src/Graphics/TextureAtlas/AtlasRegion.vala )
 list ( APPEND SOURCE .lib/xna.framework/src/Graphics/TextureAtlas/Format.vala )
 list ( APPEND SOURCE .lib/xna.framework/src/Graphics/TextureAtlas/Page.vala )
@@ -110,7 +108,6 @@ list ( APPEND SOURCE .lib/xna.framework/src/Graphics/TextureAtlas/TextureAtlasDa
 list ( APPEND SOURCE .lib/xna.framework/src/Graphics/TextureAtlas/TextureFilter.vala )
 list ( APPEND SOURCE .lib/xna.framework/src/Graphics/TextureAtlas/TextureRegion.vala )
 list ( APPEND SOURCE .lib/xna.framework/src/Graphics/TextureAtlas/TextureWrap.vala )
-list ( APPEND SOURCE .lib/xna.framework/src/Graphics/Vertices/PrimitiveType.vala )
 list ( APPEND SOURCE .lib/xna.framework/src/Graphics/Vertices/TexCoords3fArray.vala )
 list ( APPEND SOURCE .lib/xna.framework/src/Graphics/Vertices/Vertex3fArray.vala )
 list ( APPEND SOURCE .lib/xna.framework/src/Graphics/Vertices/VertexElementUsage.vala )
@@ -119,6 +116,7 @@ list ( APPEND SOURCE .lib/xna.framework/src/Graphics/Vertices/VertexPositionColo
 list ( APPEND SOURCE .lib/xna.framework/src/Graphics/Vertices/VertexPositionTexture.vala )
 
 # Vapis: 
+list ( APPEND VAPI .lib/xna.framework/src/emscripten.vapi )
 list ( APPEND VAPI .lib/xna.framework/src/sdl.vapi )
 list ( APPEND VAPI .lib/xna.framework/src/xna.framework.vapi )
 list ( APPEND VAPI .lib/xna.framework/src/stb.vapi )

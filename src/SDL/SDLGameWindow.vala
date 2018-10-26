@@ -19,7 +19,7 @@ namespace Microsoft.Xna.Framework
     using Microsoft.Xna.Framework.Graphics;
     using Microsoft.Xna.Framework.Input;
 
-    public class SdlGameWindow : GameWindow, IDisposable 
+    public class SdlGameWindow : GameWindow//, IDisposable 
     {
         public static GameWindow Instance;
         public bool IsFullScreen;

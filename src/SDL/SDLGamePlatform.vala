@@ -26,7 +26,11 @@ namespace Microsoft.Xna.Framework
     {
         public override GameRunBehavior DefaultRunBehavior
         {
+            #if (__EMSCRIPTEN__)
+            get { return GameRunBehavior.Emscripten; }
+            #else
             get { return GameRunBehavior.Synchronous; }
+            #endif
         }
 
         private Game _game;
@@ -106,6 +110,22 @@ namespace Microsoft.Xna.Framework
             EndScreenDeviceChange(displayName, pp.WindowPositionX, pp.WindowPositionY, pp.BackBufferWidth, pp.BackBufferHeight);
         }
 
+        public override bool BeforeRun()
+        {
+            Sdl.Window.Show(Window.Handle);
+            print("Platform::BeforeRun\n");
+            return true;
+        }
+
+        public override void RunOnce()
+        {
+            print("Platform::RunOnce %f\n", Game.gameTime.ElapsedGameTime.TotalMilliseconds);
+            SdlRunLoop();
+            Game.Tick();
+            // Threading.Run();
+            GraphicsDevice.DisposeContexts();
+        }
+
         public override void RunLoop()
         {
             Sdl.Window.Show(Window.Handle);
@@ -121,6 +141,8 @@ namespace Microsoft.Xna.Framework
                     break;
             }
         }
+
+        
 
         private void SdlRunLoop()
         {
@@ -255,7 +277,11 @@ namespace Microsoft.Xna.Framework
 
         }
 
-        protected void Dispose(bool disposing)
+        /// <summary>
+        /// Performs application-defined tasks associated with freeing,
+        /// releasing, or resetting unmanaged resources.
+        /// </summary>
+        public override void Dispose()
         {
             if (_view != null)
             {
@@ -267,7 +293,7 @@ namespace Microsoft.Xna.Framework
                 Sdl.Quit();
             }
 
-            base.Dispose2(disposing);
+            base.Dispose2(true);
         }
     }
 }

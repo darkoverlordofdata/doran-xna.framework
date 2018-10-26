@@ -15,10 +15,13 @@
  ******************************************************************************/
 namespace Microsoft.Xna.Framework
 {
+    using Microsoft.Xna.Framework.Graphics;
+
     /// <summary>
     /// Used by the platform code to control the graphics device.
     /// </summary>
-    public interface IGraphicsDeviceManager : Object
+    // public interface IGraphicsDeviceManager : Object
+    public abstract class IGraphicsDeviceManager : IGraphicsDeviceService
     {
         /// <summary>
         /// Called at the start of rendering a frame.

@@ -21,7 +21,7 @@ namespace Microsoft.Xna.Framework.Input
     /// <summary>
     /// Describes a mouse cursor.
     /// </summary>
-    public class MouseCursor : Object, IDisposable
+    public class MouseCursor : Disposable
     {
         /// <summary>
         /// Gets the default arrow cursor.
@@ -106,7 +106,7 @@ namespace Microsoft.Xna.Framework.Input
             Handle = handle;
         }
 
-        public void Dispose()
+        public override void Dispose()
         {
             if (_disposed)
                 return;

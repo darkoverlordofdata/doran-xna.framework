@@ -18,7 +18,7 @@ namespace Microsoft.Xna.Framework.Graphics
     using System;
     using System.Diagnostics;
 
-    public abstract class GraphicsResource : Object, IDisposable
+    public abstract class GraphicsResource : ISetData
     {
         bool disposed;
 
@@ -51,7 +51,7 @@ namespace Microsoft.Xna.Framework.Graphics
 
         }
 
-        public void Dispose()
+        public override void Dispose()
         {
             // Dispose of managed objects as well
             Dispose2(true);

@@ -24,6 +24,14 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
+
+#if (__EMSCRIPTEN__) /** Use the right header for the platform */
+[CCode (cprefix = "", lower_case_cprefix ="", cheader_filename="GLES3/gl3.h")]
+#else
+#endif
+namespace GLES3
+{
+}
 [Version (since = "0.4.9")] // cglm v0.4.9
 [CCode (cprefix = "", lower_case_cprefix = "", cheader_filename = "glm.h")]
 namespace Microsoft.Xna.Framework 

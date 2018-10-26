@@ -22,7 +22,7 @@ namespace Microsoft.Xna.Framework.Graphics
     // using System.Runtime.InteropServices;
     // using Microsoft.Xna.Framework.Utilities;
 
-    public class Texture2D : Texture, ISetData
+    public class Texture2D : Texture//, ISetData
     {
         public enum SurfaceType
         {
@@ -65,7 +65,7 @@ namespace Microsoft.Xna.Framework.Graphics
         /// Changes the pixels of the texture
         /// </summary>
         /// <param name="path"></param>
-        public void SetData(string path)
+        public override void SetData(string path)
         {
             GL.GenTextures(1, ref Handle);
             GL.BindTexture(TextureTarget.Texture2D, Handle); 
@@ -79,6 +79,7 @@ namespace Microsoft.Xna.Framework.Graphics
             GL.TexParameteri(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Linear);
 
             Image pixels = Image.Load(path, out width, out height, out channels, format);
+
             print("%s %d %d %d\n", path, width, height, channels);
             if (channels == 4)
                 GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, width, height, 0, PixelFormat.Rgba, PixelType.UnsignedByte, pixels);

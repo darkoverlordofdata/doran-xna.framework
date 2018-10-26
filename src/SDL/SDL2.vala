@@ -40,8 +40,8 @@ namespace Sdl
             WindowMultisamplesbuffs = 1;
             WindowAntialiasing = 1;
             GraphicsViewportStart();
-
         }
+
         public void GraphicsViewportStart()
         {
             Screen = Window.Create("Xna.Framework",
@@ -75,8 +75,5 @@ namespace Sdl
             GL.DeleteContext(Context);
             Window.Destroy(Screen);
         }
-
     }
-
-    
 }

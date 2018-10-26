@@ -24,7 +24,7 @@ namespace Microsoft.Xna.Framework.Graphics
     // using System.Runtime.InteropServices;
     // using Microsoft.Xna.Framework.Utilities;
 
-    public class GraphicsDevice : Object, IDisposable
+    public class GraphicsDevice : Disposable
     {
         internal GraphicsContext Context { get; private set; }
 
@@ -187,7 +187,7 @@ namespace Microsoft.Xna.Framework.Graphics
         }
 
 
-        public void Dispose()
+        public override void Dispose()
         {
             Dispose2(true);
             // GC.SuppressFinalize(this);

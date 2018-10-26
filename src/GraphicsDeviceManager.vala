@@ -15,16 +15,18 @@
  ******************************************************************************/
 namespace Microsoft.Xna.Framework 
 {
+
     using System;
     using Microsoft.Xna.Framework.Graphics;
 
     /** 
      * Used to initialize and control the presentation of the graphics device.
      */ 
-    public class GraphicsDeviceManager : Object, 
-                                        IGraphicsDeviceService, 
-                                        IDisposable, 
-                                        IGraphicsDeviceManager 
+    public class GraphicsDeviceManager : IGraphicsDeviceManager 
+    // public class GraphicsDeviceManager : Object, 
+    //                                     IGraphicsDeviceService, 
+    //                                     // IDisposable, 
+    //                                     IGraphicsDeviceManager 
     {
         public Game game { get; construct; }
         private GraphicsDevice _graphicsDevice;
@@ -126,7 +128,7 @@ namespace Microsoft.Xna.Framework
 
         }
 
-        private void CreateDevice()
+        public override void CreateDevice()
         {
             if (_graphicsDevice != null)
                 return;
@@ -173,7 +175,7 @@ namespace Microsoft.Xna.Framework
         //     CreateDevice();
         // }
         
-        public bool BeginDraw()
+        public override bool BeginDraw()
         {
             // if (_graphicsDevice == null)
             //     return false;
@@ -182,7 +184,7 @@ namespace Microsoft.Xna.Framework
             return true;
         }
 
-        public void EndDraw()
+        public override void EndDraw()
         {
             // if (_graphicsDevice != null && _drawBegun)
             // {
@@ -409,7 +411,7 @@ namespace Microsoft.Xna.Framework
         /// <summary>
         /// Returns the graphics device for this manager.
         /// </summary>
-        public GraphicsDevice GraphicsDevice
+        public override GraphicsDevice GraphicsDevice
         {
             get
             {

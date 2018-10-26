@@ -22,9 +22,11 @@ namespace Microsoft.Xna.Framework
     using Microsoft.Xna.Framework.Content;
     using Microsoft.Xna.Framework.Graphics;
     // using Microsoft.Xna.Framework.Input.Touch;
+    #if (__EMSCRIPTEN__)
+    using Emscripten;
+    #endif
 
-
-    public class Game : Object, IDisposable
+    public class Game : Disposable
     {
         public GameTime gameTime { get; construct; }
         // private GameComponentCollection _components;
@@ -50,10 +52,6 @@ namespace Microsoft.Xna.Framework
         private bool _shouldExit;
         private bool _suppressDraw;
 
-        // public double FPS { get { return corange_frame_rate(); } }
-
-        // public double Time { get { return corange_frame_time(); } }
-
         static construct 
         {
             Microsoft.Xna.Framework.Initialize();
@@ -77,7 +75,7 @@ namespace Microsoft.Xna.Framework
 		}
 
         private bool _isDisposed;
-        public virtual void Dispose()
+        public override void Dispose()
         {
             Dispose2(true);
             EventHelpers.Raise(this, Disposed, EventArgs.Empty);
@@ -297,6 +295,13 @@ namespace Microsoft.Xna.Framework
             var runBehavior = Platform.DefaultRunBehavior; 
             switch (runBehavior)
             {
+            case GameRunBehavior.Emscripten:
+                #if (__EMSCRIPTEN__)
+                DoUpdate(new GameTime());
+                Platform.BeforeRun();
+                Emscripten.set_main_loop(() => Instance.Platform.RunOnce(), -1, 0);
+                #endif
+                break;
             case GameRunBehavior.Asynchronous:
                 Platform.AsyncRunLoopEnded.Add((Event)Platform_AsyncRunLoopEnded);
                 Platform.StartRunLoop();
@@ -324,7 +329,6 @@ namespace Microsoft.Xna.Framework
         private Stopwatch _gameTimer;
         private long _previousTicks = 0;
         private int _updateFrameLag;
-
 
         public void Tick()
         {

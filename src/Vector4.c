@@ -17,10 +17,10 @@ Vector4* glm_vec4_new(float w, float x, float y, float z)
 {
     Vector4* this = malloc(sizeof(Vector4));
     this->ref_count = 1;
-    this->x = x;
-    this->y = y;
-    this->z = z;
-    this->w = w;
+    this->X = x;
+    this->Y = y;
+    this->Z = z;
+    this->W = w;
     return this;
 }
 

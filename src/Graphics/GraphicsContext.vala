@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace ValaGame.OpenGL
 {
-    internal class GraphicsContext : Object, IDisposable
+    internal class GraphicsContext : Disposable
     {
         private IntPtr _context;
         private IntPtr _winHandle;
@@ -69,7 +69,7 @@ namespace ValaGame.OpenGL
             Sdl.GL.SwapWindow(_winHandle);
         }
 
-        public void Dispose()
+        public override void Dispose()
         {
             if (_disposed)
                 return;

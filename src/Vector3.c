@@ -25,9 +25,9 @@ Vector3* glm_vec3_new(float x, float y, float z)
 {
     Vector3* this = malloc(sizeof(Vector3));
     this->ref_count = 1;
-    this->x = x;
-    this->y = y;
-    this->z = z;
+    this->X = x;
+    this->Y = y;
+    this->Z = z;
     return this;
 }
 

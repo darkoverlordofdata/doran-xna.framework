@@ -19,7 +19,7 @@ namespace Microsoft.Xna.Framework
     using System.Collections.Generic;
     // using Microsoft.Xna.Framework.Utilities;
 
-    public class GameServiceContainer : Object, IServiceProvider
+    public class GameServiceContainer : ServiceProvider
     {
         Dictionary<Type, Object> services;
 
@@ -55,7 +55,7 @@ namespace Microsoft.Xna.Framework
             services.set(type, provider);
         }
 
-        public Object GetService(Type? type)
+        public override Object GetService(Type? type)
         {
             if (type == null)
                 throw new Exception.ArgumentNullException("type");

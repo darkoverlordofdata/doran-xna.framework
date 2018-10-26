@@ -21,7 +21,7 @@ namespace Microsoft.Xna.Framework
     // using Microsoft.Xna.Framework.Input.Touch;
 
 
-    abstract class GamePlatform : Object, IDisposable
+    abstract class GamePlatform : Disposable
     {
         //#region Fields
 
@@ -165,6 +165,12 @@ namespace Microsoft.Xna.Framework
         /// until it has ended.
         /// </summary>
         public abstract void RunLoop();
+        
+        /// <summary>
+        /// When implemented in a derived, runs the loop one time
+        /// until it has ended.
+        /// </summary>
+        public abstract void RunOnce();
 
         /// <summary>
         /// When implemented in a derived, starts the run loop and returns
@@ -270,16 +276,14 @@ namespace Microsoft.Xna.Framework
 
         //#endregion Methods
 
-        //#region IDisposable implementation
-
-        /// <summary>
-        /// Performs application-defined tasks associated with freeing,
-        /// releasing, or resetting unmanaged resources.
-        /// </summary>
-        public void Dispose()
-        {
-            Dispose2(true);
-        }
+        // /// <summary>
+        // /// Performs application-defined tasks associated with freeing,
+        // /// releasing, or resetting unmanaged resources.
+        // /// </summary>
+        // public override void Dispose()
+        // {
+        //     Dispose2(true);
+        // }
 
         protected virtual void Dispose2(bool disposing)
         {

@@ -21,6 +21,7 @@
     "src/stb.vapi",
     "src/Color.vala",
     "src/DisplayOrientation.vala",
+    "src/emscripten.vapi",
     "src/EventHelpers.vala",
     "src/Exception.vala",
     "src/Game.vala",

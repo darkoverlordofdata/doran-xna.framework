@@ -20,7 +20,7 @@ namespace Microsoft.Xna.Framework.Graphics
     using Microsoft.Xna.Framework.Graphics;
 
 
-    public class SpriteBatch : Object, IDisposable
+    public class SpriteBatch : Disposable
     {
         private Texture2D? _texture;
         private OrthoCamera _camera;
@@ -391,7 +391,7 @@ namespace Microsoft.Xna.Framework.Graphics
             _batcher.DrawBatch(_sortMode);
         }
 
-        public void Dispose() 
+        public override void Dispose() 
         {
             _batcher.Dispose();
         }

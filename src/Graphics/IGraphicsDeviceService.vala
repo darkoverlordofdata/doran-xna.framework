@@ -17,7 +17,8 @@ namespace Microsoft.Xna.Framework.Graphics
 {
     using System;
 
-    public interface IGraphicsDeviceService : Object 
+    // public interface IGraphicsDeviceService : Object 
+    public abstract class IGraphicsDeviceService : Object 
     {
 		public abstract GraphicsDevice GraphicsDevice { get; }
         

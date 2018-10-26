@@ -15,6 +15,10 @@
  ******************************************************************************/
 namespace ValaGame.OpenGL
 {
+    #if (__EMSCRIPTEN__)
+    using Emscripten;
+    using ZGL;
+    #endif
 
     [Flags]
     internal enum ClearBufferMask
@@ -386,8 +390,8 @@ namespace ValaGame.OpenGL
         internal static OrthoDelegate Ortho;
 
         [CCode (has_target = false)]
-        internal delegate void FrustrumDelegate (double left, double right, double bottom, double top, double near_val, double far_val);
-        internal static FrustrumDelegate Frustrum;
+        internal delegate void FrustumDelegate (double left, double right, double bottom, double top, double near_val, double far_val);
+        internal static FrustumDelegate Frustum;
 
         [CCode (has_target = false)]
         internal delegate int EnableDelegate (EnableCap cap);
@@ -456,7 +460,7 @@ namespace ValaGame.OpenGL
             DrawArrays = LoadEntryPoint<DrawArraysDelegate> ("glDrawArrays");
 
             Ortho = LoadEntryPoint<OrthoDelegate> ("glOrtho");
-            Frustrum = LoadEntryPoint<FrustrumDelegate> ("glFrustrum");
+            Frustum = LoadEntryPoint<FrustumDelegate> ("glFrustum");
             BlendFunc = LoadEntryPoint<BlendFuncDelegate> ("glBlendFunc");
             MatrixMode = LoadEntryPoint<MatrixModeDelegate> ("glMatrixMode");
             PushMatrix = LoadEntryPoint<PushMatrixDelegate> ("glPushMatrix");
@@ -472,15 +476,39 @@ namespace ValaGame.OpenGL
             Begin = LoadEntryPoint<BeginDelegate>("glBegin");
             End = LoadEntryPoint<EndDelegate>("glEnd");
             GetString = LoadEntryPoint<GetStringDelegate> ("glGetString");
+
+            #if (__EMSCRIPTEN__)
+            Ortho = (OrthoDelegate) ZGL.glOrtho;
+            Frustum = (FrustumDelegate) ZGL.glFrustum;
+            PushMatrix = (PushMatrixDelegate) ZGL.glPushMatrix;
+            PopMatrix = (PopMatrixDelegate) ZGL.glPopMatrix;
+            Vertex3f = (Vertex3fDelegate) ZGL.glVertex3f;
+            TexCoord2f = (TexCoord2fDelegate) ZGL.glTexCoord2f;
+            GetTexLevelParameteriv = (GetTexLevelParameterivDelegate) ZGL.glGetTexLevelParameteriv;
+            DisableClientState = (DisableClientStateDelegate) ZGL.glDisableClientState;
+            Begin = (BeginDelegate) ZGL.glBegin;
+            End = (EndDelegate) ZGL.glEnd;
+            #endif
+
         }
 
         internal static T LoadEntryPoint<T>(string proc, bool throwIfNotFound = false)
         {
             try
             {
+                #if (__EMSCRIPTEN__)
                 var addr = Sdl.SDL_GL_GetProcAddress(proc);
+                if (addr == null) print("Sdl.SDL_GL_GetProcAddress for %s returns null\n", proc);
+                // var addr = emscripten_GetProcAddress(proc);
+                // if (addr == null) print("emscripten_GetProcAddress for %s returns null\n", proc);
                 if (addr == null) return null;
                 return (T)addr;
+                #else
+                var addr = Sdl.SDL_GL_GetProcAddress(proc);
+                if (addr == null) print("SDL_GL_GetProcAddress for %s returns null\n", proc);
+                if (addr == null) return null;
+                return (T)addr;
+                #endif
             }
             catch (Exception e)
             {

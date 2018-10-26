@@ -17,9 +17,9 @@ namespace Microsoft.Xna.Framework.Graphics
 {
     using System;
 
-	public class BlendState : GraphicsResource
+	public class BlendStatez : Object //GraphicsResource
 	{
-        private TargetBlendState[] _targetBlendState;
+        private TargetBlendStatez[] _targetBlendState;
 
         private bool _defaultStateObject;
 
@@ -51,7 +51,7 @@ namespace Microsoft.Xna.Framework.Graphics
         /// </summary>
         /// <param name="index">The 0 to 3 target blend state index.</param>
         /// <returns>A target blend state.</returns>
-        public TargetBlendState get(int index)
+        public TargetBlendStatez get(int index)
         {
             return _targetBlendState[index];
         }
@@ -160,7 +160,7 @@ namespace Microsoft.Xna.Framework.Graphics
         /// The color used as blend factor when alpha blending.
         /// </summary>
         /// <remarks>
-        /// <see cref="P:Microsoft.Xna.Framework.Graphics.GraphicsDevice.BlendFactor"/> is set to this value when this <see cref="BlendState"/>
+        /// <see cref="P:Microsoft.Xna.Framework.Graphics.GraphicsDevice.BlendFactor"/> is set to this value when this <see cref="BlendStatez"/>
         /// is bound to a GraphicsDevice.
         /// </remarks>
 	    public Color BlendFactor
@@ -197,25 +197,25 @@ namespace Microsoft.Xna.Framework.Graphics
         }
 
 
-        public static BlendState Additive;
-        public static BlendState AlphaBlend;
-        public static BlendState NonPremultiplied;
-        public static BlendState Opaque;
+        public static BlendStatez Additive;
+        public static BlendStatez AlphaBlend;
+        public static BlendStatez NonPremultiplied;
+        public static BlendStatez Opaque;
 
-        public BlendState()
+        public BlendStatez()
         {
-            _targetBlendState = new TargetBlendState[4];
-            _targetBlendState[0] = new TargetBlendState(this);
-            _targetBlendState[1] = new TargetBlendState(this);
-            _targetBlendState[2] = new TargetBlendState(this);
-            _targetBlendState[3] = new TargetBlendState(this);
+            _targetBlendState = new TargetBlendStatez[4];
+            _targetBlendState[0] = new TargetBlendStatez(this);
+            _targetBlendState[1] = new TargetBlendStatez(this);
+            _targetBlendState[2] = new TargetBlendStatez(this);
+            _targetBlendState[3] = new TargetBlendStatez(this);
 
 			_blendFactor = Color.White;
             _multiSampleMask = int32.MAX;
             _independentBlendEnable = false;
         }
 
-        private BlendState.Named(string name, Blend sourceBlend, Blend destinationBlend)
+        private BlendStatez.Named(string name, Blend sourceBlend, Blend destinationBlend)
         {
             this();
             Name = name;
@@ -226,11 +226,11 @@ namespace Microsoft.Xna.Framework.Graphics
             _defaultStateObject = true;
         }
 
-        private BlendState.Cloned(BlendState cloneSource)
+        private BlendStatez.Cloned(BlendStatez cloneSource)
         {
             Name = cloneSource.Name;
 
-            _targetBlendState = new TargetBlendState[4];
+            _targetBlendState = new TargetBlendStatez[4];
             _targetBlendState[0] = cloneSource[0].Clone(this);
             _targetBlendState[1] = cloneSource[1].Clone(this);
             _targetBlendState[2] = cloneSource[2].Clone(this);
@@ -243,15 +243,15 @@ namespace Microsoft.Xna.Framework.Graphics
 
         static construct
         {
-            Additive = new BlendState.Named("BlendState.Additive", Blend.SourceAlpha, Blend.One);
-            AlphaBlend = new BlendState.Named("BlendState.AlphaBlend", Blend.One, Blend.InverseSourceAlpha);
-            NonPremultiplied = new BlendState.Named("BlendState.NonPremultiplied", Blend.SourceAlpha, Blend.InverseSourceAlpha);
-            Opaque = new BlendState.Named("BlendState.Opaque", Blend.One, Blend.Zero);
+            Additive = new BlendStatez.Named("BlendStatez.Additive", Blend.SourceAlpha, Blend.One);
+            AlphaBlend = new BlendStatez.Named("BlendStatez.AlphaBlend", Blend.One, Blend.InverseSourceAlpha);
+            NonPremultiplied = new BlendStatez.Named("BlendStatez.NonPremultiplied", Blend.SourceAlpha, Blend.InverseSourceAlpha);
+            Opaque = new BlendStatez.Named("BlendStatez.Opaque", Blend.One, Blend.Zero);
 		}
 
-	    internal BlendState Clone()
+	    internal BlendStatez Clone()
 	    {
-	        return new BlendState.Cloned(this);
+	        return new BlendStatez.Cloned(this);
 	    }
 
         public void PlatformDispose(){}

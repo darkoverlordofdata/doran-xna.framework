@@ -31,7 +31,7 @@ namespace Microsoft.Xna.Framework.Graphics
      *  0,0   1,0
      */
 
-    public class SpriteBatchItem : Object, IComparable<SpriteBatchItem>
+    public class SpriteBatchItem : Comparable<SpriteBatchItem>
     {
         private Vector2 UnitY = new Vector2(0, 1);
         private Vector2 UnitX = new Vector2(1, 0);
@@ -172,7 +172,7 @@ namespace Microsoft.Xna.Framework.Graphics
 
         }
 
-        public int CompareTo(SpriteBatchItem other)
+        public override int CompareTo(SpriteBatchItem other)
         {
             return SortKey.CompareTo(other.SortKey);
         }

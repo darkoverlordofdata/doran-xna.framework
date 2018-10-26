@@ -18,7 +18,7 @@ namespace Microsoft.Xna.Framework.Graphics
     using System;
     using ValaGame.OpenGL;
 
-    public class AtlasRegion : Texture, ISetData
+    public class AtlasRegion : Texture//, ISetData
     {
         public enum SurfaceType
         {
@@ -60,7 +60,7 @@ namespace Microsoft.Xna.Framework.Graphics
         /// Changes the pixels of the texture
         /// </summary>
         /// <param name="path"></param>
-        public void SetData(string path)
+        public override void SetData(string path)
         {
             var width = new int[1];
             var height = new int[1];

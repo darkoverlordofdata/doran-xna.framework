@@ -19,10 +19,6 @@ struct Vector2
     union {
         vec2 data;      /* the opaque typedef from cglm */
         struct {
-            float x;    /* x coordinate */
-            float y;    /* y coordinate */
-        };
-        struct {
             float X;    /* x coordinate */
             float Y;    /* y coordinate */
         };
@@ -35,11 +31,6 @@ struct Vector3
 {
     union {
         vec3 data;
-        struct {
-            float x;
-            float y;
-            float z;
-        };
         struct {
             float X;
             float Y;
@@ -56,12 +47,6 @@ struct Vector4
     union {
         vec4 data;
         struct {
-            float w;
-            float x;
-            float y;
-            float z;
-        };
-        struct {
             float W;
             float X;
             float Y;
@@ -76,12 +61,6 @@ struct Quaternion
 {
     union {
         vec4 data;
-        struct {
-            float w;
-            float x;
-            float y;
-            float z;
-        };
         struct {
             float W;
             float X;

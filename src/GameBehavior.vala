@@ -27,6 +27,11 @@ namespace Microsoft.Xna.Framework
         /// <summary>
         /// The game loop will be runned synchronous.
         /// </summary>
-        Synchronous
+        Synchronous,
+        /// <summary>
+        /// The game loop will be externally driven
+        /// </summary>
+        Emscripten
+
     }
 }

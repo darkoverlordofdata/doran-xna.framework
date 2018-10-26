@@ -23,14 +23,10 @@ namespace Microsoft.Xna.Framework.Graphics
     /// usually from the Corange cache
     /// </summary>
     /// <param name="path"></param>
-    public interface ISetData : Object 
+    // public interface ISetData : Object 
+    public abstract class ISetData : Disposable 
     {
         public abstract void SetData(string path);
-    }
-
-    public interface ISetContent : Object 
-    {
-        public abstract void SetContent(ContentManager content);
     }
 
 }

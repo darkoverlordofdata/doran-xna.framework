@@ -23,21 +23,17 @@ namespace Microsoft.Xna.Framework.Graphics
     /**
      * load a libgdx format atlas
      */
-    public class TextureAtlas : Object, ISetData, ISetContent {
+    public class TextureAtlas : Object
+    {
         private TextureAtlasData data;
         private FileHandle packFile;
         internal static Texture2D[] Textures;
         private ContentManager content;
 
-        public void SetContent(ContentManager content)
+        public TextureAtlas(ContentManager content, string path)
         {
-            this.content = content;
-        }
 
-        public void SetData(string path)
-        {
-            // var Content = EntitySystem.BlackBoard.GetEntry<ContentManager>("ContentManager");
-            packFile = new FileHandle(path);
+            packFile = new FileHandle(@"$(content.RootDirectory)/$path");
             data = new TextureAtlasData(packFile, packFile.GetParent(), false);
             foreach (var page in data.pages)
             {
