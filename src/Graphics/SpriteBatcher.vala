@@ -208,7 +208,6 @@ namespace Microsoft.Xna.Framework.Graphics
 
         private void CopyItemToArray(SpriteBatchItem item)
         {
-            // print("_vertexPositions = %d, _indexPositions = %d\n", _vertexPositions.length, _indexPositions);
             _vertexPositions[_indexPositions++] = item.Vertex1TR.Position.X;
             _vertexPositions[_indexPositions++] = item.Vertex1TR.Position.Y;
             _vertexPositions[_indexPositions++] = 0;
@@ -273,39 +272,13 @@ namespace Microsoft.Xna.Framework.Graphics
             _indexPositions = 0;
         }
 
-        private void DrawUserIndexedPrimitives1(Texture2D? texture)
-        {
-            // ApplyState(true);
-            if (_positionsVbo == 0)
-            {
-                GL.GenBuffers(1, &_positionsVbo);
-                GraphicsExtensions.CheckGLError();
-                GL.GenBuffers(1, &_texcoordsVbo);
-                GraphicsExtensions.CheckGLError();
-            }
-            
-            GL.BindBuffer(BufferTarget.ArrayBuffer, _positionsVbo);
-            GraphicsExtensions.CheckGLError();
-            GL.BufferData(BufferTarget.ArrayBuffer, _vertexPositions.length*sizeof(float), _vertexPositions, BufferUsageHint.StaticDraw);
-            GraphicsExtensions.CheckGLError();
-            
-            GL.BindBuffer(BufferTarget.ArrayBuffer, _texcoordsVbo);
-            GraphicsExtensions.CheckGLError();
-            GL.BufferData(BufferTarget.ArrayBuffer, _vertexTexCoords.length*sizeof(float), _vertexTexCoords, BufferUsageHint.StaticDraw);
-            GraphicsExtensions.CheckGLError();
-            
-            // GL.BindBuffer(BufferTarget.ArrayBuffer, 0);
-
-            GL.Use2DCamera(Camera);
-            GL.BindTexture(TextureTarget.Texture2D, texture.Handle);
-            GL.DrawUserArrays(_batchItemCount, _positionsVbo, _texcoordsVbo);
-            // GL.PopState();
-            
-        }
-
+        /**
+         * Ugly code - calls direct mode 
+         */
         private void DrawUserIndexedPrimitives(Texture2D texture)
         {
             // ApplyState(true);
+
 
             _positions.SetFloatData(_vertexPositions, _vertexPositions.length);
             _texCoords.SetFloatData(_vertexTexCoords, _vertexTexCoords.length);

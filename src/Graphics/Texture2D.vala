@@ -69,7 +69,7 @@ namespace Microsoft.Xna.Framework.Graphics
         {
             GL.GenTextures(1, ref Handle);
             GL.BindTexture(TextureTarget.Texture2D, Handle); 
-            // all upcoming GL_TEXTURE_2D operations now have effect on this texture object
+            // all upcoming TextureTarget.Texture2D operations now have effect on this texture object
             // set the texture wrapping parameters
             GL.TexParameteri(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, (int)TextureWrapMode.Repeat);	
             // set texture wrapping to GL_REPEAT (default wrapping method)
@@ -93,7 +93,6 @@ namespace Microsoft.Xna.Framework.Graphics
             this.TexelHeight = 1f / (float)this.height;
         }
 
-
         /// <summary>
         /// Gets the width of the texture in pixels.
         /// </summary>
@@ -114,6 +113,34 @@ namespace Microsoft.Xna.Framework.Graphics
             {
                 return height;
             }
+        }
+
+        // // Generates texture from image data
+        // public void Generate(int width, int height, IntPtr data)
+        // {
+        //     Width = width;
+        //     Height = height;
+        //     // Create Texture
+        //     GL.GenTextures(1, ref Handle);
+        //     GL.BindTexture(TextureTarget.Texture2D, Handle);
+        //     // ?? GL.TexImage2D(TextureTarget.Texture2D, 0, InternalFormat, (GLsizei)width, (GLsizei)height, 0, ImageFormat, GL_UNSIGNED_BYTE, (GLvoid*)data);
+        //     // Set Texture wrap and filter modes
+        //     // all upcoming TextureTarget.Texture2D operations now have effect on this texture object
+        //     // set the texture wrapping parameters
+        //     GL.TexParameteri(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, (int)TextureWrapMode.Repeat);	
+        //     // set texture wrapping to GL_REPEAT (default wrapping method)
+        //     GL.TexParameteri(TextureTarget.Texture2D, TextureParameterName.TextureWrapT, (int)TextureWrapMode.Repeat);
+        //     // set texture filtering parameters
+        //     GL.TexParameteri(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Linear);
+        //     GL.TexParameteri(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Linear);
+        //    // Unbind texture
+        //     GL.BindTexture(TextureTarget.Texture2D, 0);
+        // }
+
+        // Binds the texture as the current active TextureTarget.Texture2D texture object
+        public void Bind()
+        {
+            GL.BindTexture(TextureTarget.Texture2D, Handle);
         }
 	}
 }

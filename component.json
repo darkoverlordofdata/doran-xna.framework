@@ -98,12 +98,14 @@
     "src/Graphics/SpriteBatcher.vala",
     "src/Graphics/SpriteBatchItem.vala",
     "src/Graphics/SpriteEffects.vala",
+    "src/Graphics/SpriteRenderer.vala",
     "src/Graphics/SpriteSortMode.vala",
     "src/Graphics/SurfaceFormat.vala",
     "src/Graphics/Texture.vala",
     "src/Graphics/Texture2D.vala",
     "src/Graphics/TextureCollection.vala",
     "src/Graphics/Viewport.vala",
+    "src/Graphics/Shader/Shader.vala",
     "src/Graphics/States/Blend.vala",
     "src/Graphics/States/BlendFunction.vala",
     "src/Graphics/States/BlendState.vala",
@@ -124,7 +126,8 @@
     "src/Graphics/Vertices/VertexElementUsage.vala",
     "src/Graphics/Vertices/VertexDeclaration.vala",
     "src/Graphics/Vertices/VertexPositionColorTexture.vala",
-    "src/Graphics/Vertices/VertexPositionTexture.vala"
+    "src/Graphics/Vertices/VertexPositionTexture.vala",
+    "src/Graphics/Vertices/VertexPositionTexture2D.vala"
   ],
   "includes": [
     "./include"

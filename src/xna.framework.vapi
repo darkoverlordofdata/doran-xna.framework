@@ -252,6 +252,7 @@ namespace Microsoft.Xna.Framework
 	public void  glm_decompose(Matrix m, Matrix t, Matrix r, Vector3 s);
 	public void  glm_perspective(float fovy, float aspect, float nearVal, float farVal, Matrix dest);
 	public void  glm_lookat(Vector3 eye, Vector3 center, Vector3 up, Matrix dest);
+	public void  glm_ortho(float left, float right, float bottom, float top, float nearVal, float farVal, Matrix dest);
 
 	public void  glm_mat4_print(Matrix matrix, GLib.FileStream ostream);
 	public void  glm_mat4_identity(Matrix mat);

@@ -17,8 +17,6 @@ namespace Microsoft.Xna.Framework.Graphics
 {
     using System;
     using Microsoft.Xna.Framework;
-    using Microsoft.Xna.Framework.Graphics;
-
 
     public class SpriteBatch : Disposable
     {
@@ -342,7 +340,7 @@ namespace Microsoft.Xna.Framework.Graphics
             }
 
 		    if (rotation == 0f)
-		    {
+		    { // Happy Path:
                 item.Set(destinationRectangle.X - origin.X,
                         destinationRectangle.Y - origin.Y,
                         destinationRectangle.Width,

@@ -66,9 +66,10 @@ namespace Microsoft.Xna.Framework.Graphics
             var height = new int[1];
             // Handle = corange_texture_handle(corange_asset_get(URI(path)));
 
+            print("Do I Get Here?\n");
             GL.BindTexture(TextureTarget.Texture2D, Handle);
-            GL.GetTexLevelParameteriv(TextureTarget.Texture2D, 0, TextureParameter.Width, width);
-            GL.GetTexLevelParameteriv(TextureTarget.Texture2D, 0, TextureParameter.Height, height);
+            // GL.GetTexLevelParameteriv(TextureTarget.Texture2D, 0, TextureParameter.Width, width);
+            // GL.GetTexLevelParameteriv(TextureTarget.Texture2D, 0, TextureParameter.Height, height);
 
             this.width = width[0];
             this.height = height[0];

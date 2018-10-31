@@ -299,7 +299,9 @@ namespace Microsoft.Xna.Framework
                 #if (__EMSCRIPTEN__)
                 DoUpdate(new GameTime());
                 Platform.BeforeRun();
+                print("Platform.BeforeRun();\n");
                 Emscripten.set_main_loop(() => Instance.Platform.RunOnce(), -1, 0);
+                print("Emscripten.set_main_loop\n");
                 #endif
                 break;
             case GameRunBehavior.Asynchronous:

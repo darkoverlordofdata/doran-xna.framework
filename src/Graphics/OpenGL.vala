@@ -1,7 +1,7 @@
 /* ******************************************************************************
  * Copyright 2018 darkoverlordofdata.
  * 
- * Licensed under the Apache License, Version 2.0 (the "License");
+ * Licensed under the Apache License, Version 2.0 (the "LicenOrthose");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  * 
@@ -15,10 +15,44 @@
  ******************************************************************************/
 namespace ValaGame.OpenGL
 {
-    #if (__EMSCRIPTEN__)
-    using Emscripten;
-    using ZGL;
-    #endif
+    // #if (__EMSCRIPTEN__)
+    // using Emscripten;
+    // #endif
+
+    internal enum Bool
+    {
+        True = 1,
+        False = 0,
+    }
+
+    internal enum TextureUnit
+    {
+        Texture0 = 0x84C0,
+        Texture1 = 0x84C1,
+        Texture2 = 0x84C2,
+        Texture3 = 0x84C3,
+    }
+
+    internal enum ShaderParameter
+    {
+        LogLength = 0x8B84,
+        CompileStatus = 0x8B81,
+        SourceLength = 0x8B88,
+    }
+
+    internal enum ShaderType
+    {
+        Program = -1,
+        VertexShader = 0x8B31,
+        FragmentShader = 0x8B30,
+        GeometryShader = 0x8DD9,
+    }
+
+    internal enum GetProgramParameterName
+    {
+        LogLength = 0x8B84,
+        LinkStatus = 0x8B82,
+    }
 
     [Flags]
     internal enum ClearBufferMask
@@ -345,21 +379,21 @@ namespace ValaGame.OpenGL
         internal delegate void EnableClientStateDelegate(EnableCap cap);
         internal static EnableClientStateDelegate EnableClientState;
 
-        [CCode (has_target = false)]
-        internal delegate void DisableClientStateDelegate(EnableCap cap);
-        internal static DisableClientStateDelegate DisableClientState;
+        // [CCode (has_target = false)]
+        // internal delegate void DisableClientStateDelegate(EnableCap cap);
+        // internal static DisableClientStateDelegate DisableClientState;
 
         [CCode (has_target = false)]
         internal delegate void DrawElementsDelegate(PrimitiveType mode, int count, DataType type, void* indices);
         internal static DrawElementsDelegate DrawElements;
 
-        [CCode (has_target = false)]
-        internal delegate void BeginDelegate(PrimitiveType primitiveType);
-        internal static BeginDelegate Begin;
+        // [CCode (has_target = false)]
+        // internal delegate void BeginDelegate(PrimitiveType primitiveType);
+        // internal static BeginDelegate Begin;
 
-        [CCode (has_target = false)]
-        internal delegate void EndDelegate();
-        internal static EndDelegate End;
+        // [CCode (has_target = false)]
+        // internal delegate void EndDelegate();
+        // internal static EndDelegate End;
 
         [CCode (has_target = false)]
         internal delegate void TexParameterIntDelegate (TextureTarget target, TextureParameterName name, int value);
@@ -373,25 +407,25 @@ namespace ValaGame.OpenGL
         internal delegate void MatrixModeDelegate (Mode mode);
         internal static MatrixModeDelegate MatrixMode;
 
-        [CCode (has_target = false)]
-        internal delegate void PushMatrixDelegate ();
-        internal static PushMatrixDelegate PushMatrix;
+        // [CCode (has_target = false)]
+        // internal delegate void PushMatrixDelegate ();
+        // internal static PushMatrixDelegate PushMatrix;
 
-        [CCode (has_target = false)]
-        internal delegate void PopMatrixDelegate ();
-        internal static PopMatrixDelegate PopMatrix;
+        // [CCode (has_target = false)]
+        // internal delegate void PopMatrixDelegate ();
+        // internal static PopMatrixDelegate PopMatrix;
 
         [CCode (has_target = false)]
         internal delegate void LoadIdentityDelegate ();
         internal static LoadIdentityDelegate LoadIdentity;
 
-        [CCode (has_target = false)]
-        internal delegate void OrthoDelegate (double left, double right, double bottom, double top, double near_val, double far_val);
-        internal static OrthoDelegate Ortho;
+        // [CCode (has_target = false)]
+        // internal delegate void OrthoDelegate (double left, double right, double bottom, double top, double near_val, double far_val);
+        // internal static OrthoDelegate Ortho;
 
-        [CCode (has_target = false)]
-        internal delegate void FrustumDelegate (double left, double right, double bottom, double top, double near_val, double far_val);
-        internal static FrustumDelegate Frustum;
+        // [CCode (has_target = false)]
+        // internal delegate void FrustumDelegate (double left, double right, double bottom, double top, double near_val, double far_val);
+        // internal static FrustumDelegate Frustum;
 
         [CCode (has_target = false)]
         internal delegate int EnableDelegate (EnableCap cap);
@@ -405,17 +439,17 @@ namespace ValaGame.OpenGL
         internal delegate int BlendFuncDelegate (BlendingFactorSrc sfactor, BlendingFactorDest dfactor);
         internal static BlendFuncDelegate BlendFunc;
 
-        [CCode (has_target = false)]
-        internal delegate int Vertex3fDelegate (float x, float y, float z);
-        internal static Vertex3fDelegate Vertex3f;
+        // [CCode (has_target = false)]
+        // internal delegate int Vertex3fDelegate (float x, float y, float z);
+        // internal static Vertex3fDelegate Vertex3f;
 
-        [CCode (has_target = false)]
-        internal delegate int TexCoord2fDelegate (float s, float t);
-        internal static TexCoord2fDelegate TexCoord2f;
+        // [CCode (has_target = false)]
+        // internal delegate int TexCoord2fDelegate (float s, float t);
+        // internal static TexCoord2fDelegate TexCoord2f;
 
-        [CCode (has_target = false)]
-        internal delegate int GetTexLevelParameterivDelegate (TextureTarget target, int level, TextureParameter pname,[CCode (array_length = false)] int[] params);
-        internal static GetTexLevelParameterivDelegate GetTexLevelParameteriv;
+        // [CCode (has_target = false)]
+        // internal delegate int GetTexLevelParameterivDelegate (TextureTarget target, int level, TextureParameter pname,[CCode (array_length = false)] int[] params);
+        // internal static GetTexLevelParameterivDelegate GetTexLevelParameteriv;
 
         [CCode (has_target = false)]
         internal delegate unowned string GetStringDelegate (GLString name);
@@ -438,8 +472,161 @@ namespace ValaGame.OpenGL
         internal delegate unowned void GenerateMipmapDelegate (GenerateMipmapTarget target);
         internal static GenerateMipmapDelegate GenerateMipmap;
 
+        [CCode (has_target = false)]
+        internal delegate unowned void UseProgramDelegate (uint program);
+        internal static UseProgramDelegate UseProgram;
+
+        [CCode (has_target = false)]
+        internal delegate unowned uint CreateShaderDelegate (ShaderType shaderType);
+        internal static CreateShaderDelegate CreateShader;
+
+        [CCode (has_target = false)]
+        internal delegate unowned void ShaderSourceDelegate (uint shader, int count, char** string, int *length);
+        internal static ShaderSourceDelegate ShaderSource;
+
+        [CCode (has_target = false)]
+        internal delegate unowned void CompileShaderDelegate (uint shader);
+        internal static CompileShaderDelegate CompileShader;
+
+        [CCode (has_target = false)]
+        internal delegate unowned void GetShaderivDelegate (uint shader, ShaderParameter pname, int *params);
+        internal static GetShaderivDelegate GetShaderiv;
+
+        [CCode (has_target = false)]
+        internal delegate unowned void GetShaderInfoLogDelegate (uint shader, int maxLength, int *length, char *infoLog);
+        internal static GetShaderInfoLogDelegate GetShaderInfoLog;
+
+        [CCode (has_target = false)]
+        internal delegate unowned void GetProgramivDelegate (uint program, GetProgramParameterName pname, int *params);
+        internal static GetProgramivDelegate GetProgramiv;
+
+        [CCode (has_target = false)]
+        internal delegate unowned void GetProgramInfoLogDelegate (uint program, int maxLength, int *length, char *infoLog);
+        internal static GetProgramInfoLogDelegate GetProgramInfoLog;
+
+        [CCode (has_target = false)]
+        internal delegate unowned uint CreateProgramDelegate ();
+        internal static CreateProgramDelegate CreateProgram;
+
+        [CCode (has_target = false)]
+        internal delegate unowned void AttachShaderDelegate (uint program, uint shader);
+        internal static AttachShaderDelegate AttachShader;
+
+        [CCode (has_target = false)]
+        internal delegate unowned void LinkProgramDelegate (uint program);
+        internal static LinkProgramDelegate LinkProgram;
+
+        [CCode (has_target = false)]
+        internal delegate unowned void DeleteShaderDelegate (uint shader);
+        internal static DeleteShaderDelegate DeleteShader;
+
+        [CCode (has_target = false)]
+        internal delegate unowned void Uniform1iDelegate (int location, int v0);
+        internal static Uniform1iDelegate Uniform1i;
+
+        [CCode (has_target = false)]
+        internal delegate unowned void Uniform1fDelegate (int location, float v0);
+        internal static Uniform1fDelegate Uniform1f;
+
+        [CCode (has_target = false)]
+        internal delegate unowned void Uniform2fDelegate (int location, float v0, float v1);
+        internal static Uniform2fDelegate Uniform2f;
+
+        [CCode (has_target = false)]
+        internal delegate unowned void Uniform2fvDelegate (int location, int count, float *value);
+        internal static Uniform2fvDelegate Uniform2fv;
+
+        [CCode (has_target = false)]
+        internal delegate unowned void Uniform3fDelegate (int location, float v0, float v1, float v2);
+        internal static Uniform3fDelegate Uniform3f;
+
+        [CCode (has_target = false)]
+        internal delegate unowned void Uniform3fvDelegate (int location, int count, float *value);
+        internal static Uniform3fvDelegate Uniform3fv;
+
+        [CCode (has_target = false)]
+        internal delegate unowned void Uniform4fDelegate (int location, float v0, float v1, float v2, float v3);
+        internal static Uniform4fDelegate Uniform4f;
+
+        [CCode (has_target = false)]
+        internal delegate unowned void Uniform4fvDelegate (int location, int count, float *value);
+        internal static Uniform4fvDelegate Uniform4fv;
+
+        [CCode (has_target = false)]
+        internal delegate unowned void UniformMatrix4fvDelegate (int location, int count, bool transpose, float *value);
+        internal static UniformMatrix4fvDelegate UniformMatrix4fv;
+
+        [CCode (has_target = false)]
+        internal delegate unowned int GetUniformLocationDelegate (uint program, char* name);
+        internal static GetUniformLocationDelegate GetUniformLocation;
+
+        [CCode (has_target = false)]
+        internal delegate unowned void GenVertexArraysDelegate (int n, uint *arrays);
+        internal static GenVertexArraysDelegate GenVertexArrays;
+
+        [CCode (has_target = false)]
+        internal delegate unowned void EnableVertexAttribArrayDelegate (uint index);
+        internal static EnableVertexAttribArrayDelegate EnableVertexAttribArray;
+
+        [CCode (has_target = false)]
+        internal delegate unowned void VertexAttribPointerDelegate (uint index, int size, DataType type, bool normalized, int stride, void * pointer);
+        internal static VertexAttribPointerDelegate VertexAttribPointer;
+
+        [CCode (has_target = false)]
+        internal delegate unowned void BindVertexArrayDelegate (uint array);
+        internal static BindVertexArrayDelegate BindVertexArray;
+
+        [CCode (has_target = false)]
+        internal delegate unowned void ActiveTextureDelegate (int texture);
+        internal static ActiveTextureDelegate ActiveTexture;
+
+        [CCode (has_target = false)]
+        internal delegate unowned void DeleteVertexArraysDelegate (int n, uint *arrays);
+        internal static DeleteVertexArraysDelegate DeleteVertexArrays;
+
+        [CCode (has_target = false)]
+        internal delegate unowned void DeleteProgramDelegate (uint program);
+        internal static DeleteProgramDelegate DeleteProgram;
+
+        [CCode (has_target = false)]
+        internal delegate unowned void DeleteTexturesDelegate (int n, uint * textures);
+        internal static DeleteTexturesDelegate DeleteTextures;
+
         internal static void LoadEntryPoints ()
         {
+            DeleteProgram = LoadEntryPoint<DeleteProgramDelegate> ("glDeleteProgram");
+            DeleteTextures = LoadEntryPoint<DeleteTexturesDelegate> ("glDeleteTextures");
+
+            GenVertexArrays = LoadEntryPoint<GenVertexArraysDelegate> ("glGenVertexArrays");
+            EnableVertexAttribArray = LoadEntryPoint<EnableVertexAttribArrayDelegate> ("glEnableVertexAttribArray");
+            VertexAttribPointer = LoadEntryPoint<VertexAttribPointerDelegate> ("glVertexAttribPointer");
+            BindVertexArray = LoadEntryPoint<BindVertexArrayDelegate> ("glBindVertexArray");
+            ActiveTexture = LoadEntryPoint<ActiveTextureDelegate> ("glActiveTexture");
+            DeleteVertexArrays = LoadEntryPoint<DeleteVertexArraysDelegate> ("glDeleteVertexArrays");
+
+            CreateShader = LoadEntryPoint<CreateShaderDelegate> ("glCreateShader");
+            ShaderSource = LoadEntryPoint<ShaderSourceDelegate> ("glShaderSource");
+            CompileShader = LoadEntryPoint<CompileShaderDelegate> ("glCompileShader");
+            GetShaderiv = LoadEntryPoint<GetShaderivDelegate> ("glGetShaderiv");
+            GetShaderInfoLog = LoadEntryPoint<GetShaderInfoLogDelegate> ("glGetShaderInfoLog");
+            GetProgramiv = LoadEntryPoint<GetProgramivDelegate> ("glGetProgramiv");
+            GetProgramInfoLog = LoadEntryPoint<GetProgramInfoLogDelegate> ("glGetProgramInfoLog");
+            CreateProgram = LoadEntryPoint<CreateProgramDelegate> ("glCreateProgram");
+            AttachShader = LoadEntryPoint<AttachShaderDelegate> ("glAttachShader");
+            LinkProgram = LoadEntryPoint<LinkProgramDelegate> ("glLinkProgram");
+            DeleteShader = LoadEntryPoint<DeleteShaderDelegate> ("glDeleteShader");
+            Uniform1i = LoadEntryPoint<Uniform1iDelegate> ("glUniform1i");
+            Uniform1f = LoadEntryPoint<Uniform1fDelegate> ("glUniform1f");
+            Uniform2f = LoadEntryPoint<Uniform2fDelegate> ("glUniform2f");
+            Uniform2fv = LoadEntryPoint<Uniform2fvDelegate> ("glUniform2fv");
+            Uniform3f = LoadEntryPoint<Uniform3fDelegate> ("glUniform3f");
+            Uniform3fv = LoadEntryPoint<Uniform3fvDelegate> ("glUniform3fv");
+            Uniform4f = LoadEntryPoint<Uniform4fDelegate> ("glUniform4f");
+            Uniform4fv = LoadEntryPoint<Uniform4fvDelegate> ("glUniform4fv");
+            UniformMatrix4fv = LoadEntryPoint<UniformMatrix4fvDelegate> ("glUniformMatrix4fv");
+            GetUniformLocation = LoadEntryPoint<GetUniformLocationDelegate> ("glGetUniformLocation");
+            UseProgram = LoadEntryPoint<UseProgramDelegate> ("glUseProgram");
+
             GenerateMipmap = LoadEntryPoint<GenerateMipmapDelegate> ("glGenerateMipmap");
             TexImage2D = LoadEntryPoint<TexImage2DDelegate> ("glTexImage2D");
             GenTextures = LoadEntryPoint<GenTexturesDelegate> ("glGenTextures");
@@ -459,36 +646,36 @@ namespace ValaGame.OpenGL
             DrawElements = LoadEntryPoint<DrawElementsDelegate> ("glDrawElements");
             DrawArrays = LoadEntryPoint<DrawArraysDelegate> ("glDrawArrays");
 
-            Ortho = LoadEntryPoint<OrthoDelegate> ("glOrtho");
-            Frustum = LoadEntryPoint<FrustumDelegate> ("glFrustum");
+            // Ortho = LoadEntryPoint<OrthoDelegate> ("glOrtho");
+            // Frustum = LoadEntryPoint<FrustumDelegate> ("glFrustum");
             BlendFunc = LoadEntryPoint<BlendFuncDelegate> ("glBlendFunc");
             MatrixMode = LoadEntryPoint<MatrixModeDelegate> ("glMatrixMode");
-            PushMatrix = LoadEntryPoint<PushMatrixDelegate> ("glPushMatrix");
-            PopMatrix = LoadEntryPoint<PopMatrixDelegate> ("glPopMatrix");
-            Vertex3f = LoadEntryPoint<Vertex3fDelegate> ("glVertex3f");
-            TexCoord2f = LoadEntryPoint<TexCoord2fDelegate> ("glTexCoord2f");
-            GetTexLevelParameteriv = LoadEntryPoint<GetTexLevelParameterivDelegate> ("glGetTexLevelParameteriv");
+            // PushMatrix = LoadEntryPoint<PushMatrixDelegate> ("glPushMatrix");
+            // PopMatrix = LoadEntryPoint<PopMatrixDelegate> ("glPopMatrix");
+            // Vertex3f = LoadEntryPoint<Vertex3fDelegate> ("glVertex3f");
+            // TexCoord2f = LoadEntryPoint<TexCoord2fDelegate> ("glTexCoord2f");
+            // GetTexLevelParameteriv = LoadEntryPoint<GetTexLevelParameterivDelegate> ("glGetTexLevelParameteriv");
             LoadIdentity = LoadEntryPoint<LoadIdentityDelegate> ("glLoadIdentity");
             TexCoordPointer = LoadEntryPoint<TexCoordPointerDelegate> ("glTexCoordPointer");
             VertexPointer = LoadEntryPoint<VertexPointerDelegate> ("glVertexPointer");
-            DisableClientState = LoadEntryPoint<DisableClientStateDelegate> ("glDisableClientState");
+            // DisableClientState = LoadEntryPoint<DisableClientStateDelegate> ("glDisableClientState");
             EnableClientState = LoadEntryPoint<EnableClientStateDelegate> ("glEnableClientState");
-            Begin = LoadEntryPoint<BeginDelegate>("glBegin");
-            End = LoadEntryPoint<EndDelegate>("glEnd");
+            // Begin = LoadEntryPoint<BeginDelegate>("glBegin");
+            // End = LoadEntryPoint<EndDelegate>("glEnd");
             GetString = LoadEntryPoint<GetStringDelegate> ("glGetString");
 
-            #if (__EMSCRIPTEN__)
-            Ortho = (OrthoDelegate) ZGL.glOrtho;
-            Frustum = (FrustumDelegate) ZGL.glFrustum;
-            PushMatrix = (PushMatrixDelegate) ZGL.glPushMatrix;
-            PopMatrix = (PopMatrixDelegate) ZGL.glPopMatrix;
-            Vertex3f = (Vertex3fDelegate) ZGL.glVertex3f;
-            TexCoord2f = (TexCoord2fDelegate) ZGL.glTexCoord2f;
-            GetTexLevelParameteriv = (GetTexLevelParameterivDelegate) ZGL.glGetTexLevelParameteriv;
-            DisableClientState = (DisableClientStateDelegate) ZGL.glDisableClientState;
-            Begin = (BeginDelegate) ZGL.glBegin;
-            End = (EndDelegate) ZGL.glEnd;
-            #endif
+            // #if (__EMSCRIPTEN__)
+            // Ortho = (OrthoDelegate) ZGL.glOrtho;
+            // Frustum = (FrustumDelegate) ZGL.glFrustum;
+            // PushMatrix = (PushMatrixDelegate) ZGL.glPushMatrix;
+            // PopMatrix = (PopMatrixDelegate) ZGL.glPopMatrix;
+            // Vertex3f = (Vertex3fDelegate) ZGL.glVertex3f;
+            // TexCoord2f = (TexCoord2fDelegate) ZGL.glTexCoord2f;
+            // GetTexLevelParameteriv = (GetTexLevelParameterivDelegate) ZGL.glGetTexLevelParameteriv;
+            // DisableClientState = (DisableClientStateDelegate) ZGL.glDisableClientState;
+            // Begin = (BeginDelegate) ZGL.glBegin;
+            // End = (EndDelegate) ZGL.glEnd;
+            // #endif
 
         }
 
@@ -496,19 +683,19 @@ namespace ValaGame.OpenGL
         {
             try
             {
-                #if (__EMSCRIPTEN__)
-                var addr = Sdl.SDL_GL_GetProcAddress(proc);
-                if (addr == null) print("Sdl.SDL_GL_GetProcAddress for %s returns null\n", proc);
-                // var addr = emscripten_GetProcAddress(proc);
-                // if (addr == null) print("emscripten_GetProcAddress for %s returns null\n", proc);
-                if (addr == null) return null;
-                return (T)addr;
-                #else
+                // #if (__EMSCRIPTEN__)
+                // var addr = Sdl.SDL_GL_GetProcAddress(proc);
+                // if (addr == null) print("Sdl.SDL_GL_GetProcAddress for %s returns null\n", proc);
+                // // var addr = emscripten_GetProcAddress(proc);
+                // // if (addr == null) print("emscripten_GetProcAddress for %s returns null\n", proc);
+                // if (addr == null) return null;
+                // return (T)addr;
+                // #else
                 var addr = Sdl.SDL_GL_GetProcAddress(proc);
                 if (addr == null) print("SDL_GL_GetProcAddress for %s returns null\n", proc);
                 if (addr == null) return null;
                 return (T)addr;
-                #endif
+                // #endif
             }
             catch (Exception e)
             {
@@ -527,47 +714,47 @@ namespace ValaGame.OpenGL
 
         // Extensions/Helpers...
         
-        public static void Draw(
-            Microsoft.Xna.Framework.Vector2 pos, 
-            Microsoft.Xna.Framework.Vector2 size, 
-            bool reverse = false)
-        {
+        // public static void Draw(
+        //     Microsoft.Xna.Framework.Vector2 pos, 
+        //     Microsoft.Xna.Framework.Vector2 size, 
+        //     bool reverse = false)
+        // {
             
-            Begin(PrimitiveType.Triangles);
-            if (reverse)
-            {
-                // BR - bottom right
-                TexCoord2f(1, 1); Vertex3f(pos.X, pos.Y+size.Y, 0);
-                // BL - bottom left
-                TexCoord2f(1, 0); Vertex3f(pos.X, pos.Y, 0);
-                // TL - top left
-                TexCoord2f(0, 0); Vertex3f(pos.X+size.X, pos.Y, 0);
+        //     Begin(PrimitiveType.Triangles);
+        //     if (reverse)
+        //     {
+        //         // BR - bottom right
+        //         TexCoord2f(1, 1); Vertex3f(pos.X, pos.Y+size.Y, 0);
+        //         // BL - bottom left
+        //         TexCoord2f(1, 0); Vertex3f(pos.X, pos.Y, 0);
+        //         // TL - top left
+        //         TexCoord2f(0, 0); Vertex3f(pos.X+size.X, pos.Y, 0);
                 
-                // BR - bottom right
-                TexCoord2f(1, 1); Vertex3f(pos.X, pos.Y+size.Y, 0);
-                // TR - top right
-                TexCoord2f(0, 1); Vertex3f(pos.X+size.X, pos.Y+size.Y, 0);
-                // TL - top left
-                TexCoord2f(0, 0); Vertex3f(pos.X+size.X, pos.Y, 0);
-            }
-            else
-            {
-                // TR - top right
-                TexCoord2f(0, 1); Vertex3f(pos.X, pos.Y+size.Y, 0);
-                // TL - top left
-                TexCoord2f(0, 0); Vertex3f(pos.X, pos.Y, 0);
-                // BL - bottom left
-                TexCoord2f(1, 0); Vertex3f(pos.X+size.X, pos.Y, 0);
+        //         // BR - bottom right
+        //         TexCoord2f(1, 1); Vertex3f(pos.X, pos.Y+size.Y, 0);
+        //         // TR - top right
+        //         TexCoord2f(0, 1); Vertex3f(pos.X+size.X, pos.Y+size.Y, 0);
+        //         // TL - top left
+        //         TexCoord2f(0, 0); Vertex3f(pos.X+size.X, pos.Y, 0);
+        //     }
+        //     else
+        //     {
+        //         // TR - top right
+        //         TexCoord2f(0, 1); Vertex3f(pos.X, pos.Y+size.Y, 0);
+        //         // TL - top left
+        //         TexCoord2f(0, 0); Vertex3f(pos.X, pos.Y, 0);
+        //         // BL - bottom left
+        //         TexCoord2f(1, 0); Vertex3f(pos.X+size.X, pos.Y, 0);
                 
-                // TR - top right
-                TexCoord2f(0, 1); Vertex3f(pos.X, pos.Y+size.Y, 0);
-                // BR - bottom right
-                TexCoord2f(1, 1); Vertex3f(pos.X+size.X, pos.Y+size.Y, 0);
-                // BL - bottom left
-                TexCoord2f(1, 0); Vertex3f(pos.X+size.X, pos.Y, 0);
-            }
-            End();
-        }
+        //         // TR - top right
+        //         TexCoord2f(0, 1); Vertex3f(pos.X, pos.Y+size.Y, 0);
+        //         // BR - bottom right
+        //         TexCoord2f(1, 1); Vertex3f(pos.X+size.X, pos.Y+size.Y, 0);
+        //         // BL - bottom left
+        //         TexCoord2f(1, 0); Vertex3f(pos.X+size.X, pos.Y, 0);
+        //     }
+        //     End();
+        // }
 
         public static void DrawUserArrays(
             int count, 
@@ -575,23 +762,23 @@ namespace ValaGame.OpenGL
             uint texcoordsBuffer
             )
         {
-            TexParameteri(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, (int)TextureWrapMode.ClampToEdge);
-            TexParameteri(TextureTarget.Texture2D, TextureParameterName.TextureWrapT, (int)TextureWrapMode.ClampToEdge);
+            // TexParameteri(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, (int)TextureWrapMode.ClampToEdge);
+            // TexParameteri(TextureTarget.Texture2D, TextureParameterName.TextureWrapT, (int)TextureWrapMode.ClampToEdge);
             
-            EnableClientState(EnableCap.VertexArray);
-            EnableClientState(EnableCap.TextureCoordArray);
+            // EnableClientState(EnableCap.VertexArray);
+            // EnableClientState(EnableCap.TextureCoordArray);
         
-            BindBuffer(BufferTarget.ArrayBuffer, positionsBuffer);
-            VertexPointer(3, DataType.Float, 0, (void*)0);
+            // BindBuffer(BufferTarget.ArrayBuffer, positionsBuffer);
+            // VertexPointer(3, DataType.Float, 0, (void*)0);
             
-            BindBuffer(BufferTarget.ArrayBuffer, texcoordsBuffer);
-            TexCoordPointer(2, DataType.Float, 0, (void*)0);
+            // BindBuffer(BufferTarget.ArrayBuffer, texcoordsBuffer);
+            // TexCoordPointer(2, DataType.Float, 0, (void*)0);
             
-            DrawArrays(PrimitiveType.Triangles, 0, count * 6);
+            // DrawArrays(PrimitiveType.Triangles, 0, count * 6);
 
-            BindBuffer(BufferTarget.ArrayBuffer, 0);
-            DisableClientState(EnableCap.TextureCoordArray);  
-            DisableClientState(EnableCap.VertexArray);
+            // BindBuffer(BufferTarget.ArrayBuffer, 0);
+            // DisableClientState(EnableCap.TextureCoordArray);  
+            // DisableClientState(EnableCap.VertexArray);
         }
         /**
          *  Set 2D Camera with Orthographic display
@@ -599,16 +786,16 @@ namespace ValaGame.OpenGL
          */
         public static void Use2DCamera(Microsoft.Xna.Framework.Graphics.OrthoCamera? ortho=null) 
         {
-            ortho = ortho ?? Microsoft.Xna.Framework.Graphics.OrthoCamera.Default;
+            // ortho = ortho ?? Microsoft.Xna.Framework.Graphics.OrthoCamera.Default;
 
-            MatrixMode(Mode.Projection);
-            LoadIdentity();
-            Ortho(ortho.Left, ortho.Right, ortho.Bottom, ortho.Top, ortho.Near, ortho.Far);
-            MatrixMode(Mode.ModelView);
-            LoadIdentity();
-            Enable(EnableCap.Texture2D);
-            Enable(EnableCap.Blend);
-            BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
+            // MatrixMode(Mode.Projection);
+            // LoadIdentity();
+            // Ortho(ortho.Left, ortho.Right, ortho.Bottom, ortho.Top, ortho.Near, ortho.Far);
+            // MatrixMode(Mode.ModelView);
+            // LoadIdentity();
+            // Enable(EnableCap.Texture2D);
+            // Enable(EnableCap.Blend);
+            // BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
         }
     }
 }
