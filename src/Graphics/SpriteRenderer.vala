@@ -46,8 +46,23 @@ namespace Microsoft.Xna.Framework.Graphics
         }
 
 
+        // public void Draw(
+        //         TextureRegion region, 
+        //         float layerDepth = 0f,
+        //         Vector2? position = null,
+        //         Vector2? scale = null,
+        //         Color? color = null,
+        //         float rotate = 0f)
+        // {
+        //     color = color ?? Color.White;
+        //     scale = scale ?? new Vector2(region.Scale.X, region.Scale.Y); // region.Scale.Copy();
+
+        //     var size = new Vector2(scale.X * region.Width, scale.Y * region.Height);
+        //     DrawSprite(region.texture, position, size, 0, color.ToVector3());
+        // }
+
         public void Draw(
-                TextureRegion region, 
+                Texture2D texture, 
                 float layerDepth = 0f,
                 Vector2? position = null,
                 Vector2? scale = null,
@@ -55,10 +70,10 @@ namespace Microsoft.Xna.Framework.Graphics
                 float rotate = 0f)
         {
             color = color ?? Color.White;
-            scale = scale ?? new Vector2(region.Scale.X, region.Scale.Y); // region.Scale.Copy();
+            scale = scale ?? new Vector2(1, 1); // region.Scale.Copy();
 
-            var size = new Vector2(scale.X * region.Width, scale.Y * region.Height);
-            DrawSprite(region.texture, position, size, 0, color.ToVector3());
+            var size = new Vector2(scale.X * texture.Width, scale.Y * texture.Height);
+            DrawSprite(texture, position, size, 0, color.ToVector3());
         }
 
         public void DrawSprite(
