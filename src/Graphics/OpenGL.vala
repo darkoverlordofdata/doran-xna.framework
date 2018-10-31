@@ -270,6 +270,7 @@ namespace ValaGame.OpenGL
         Rg16f = 0x822F,
         Rgba16f = 0x881A,
         R16f = 0x822D,
+        R8 = 0x8229,
         Rg32f = 0x8230,
         Rgba32f = 0x8814,
         Rg8i = 0x8237,

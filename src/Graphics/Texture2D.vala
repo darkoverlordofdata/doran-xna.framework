@@ -83,8 +83,10 @@ namespace Microsoft.Xna.Framework.Graphics
             print("%s %d %d %d\n", path, width, height, channels);
             if (channels == 4)
                 GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, width, height, 0, PixelFormat.Rgba, PixelType.UnsignedByte, pixels);
-            else
+            else if (channels == 3)
                 GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgb, width, height, 0, PixelFormat.Rgb, PixelType.UnsignedByte, pixels);
+            else if (channels == 2)
+                GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.R8, width, height, 0, PixelFormat.Rgb, PixelType.UnsignedByte, pixels);
             GL.GenerateMipmap(GenerateMipmapTarget.Texture2D);
             pixels.Dispose();
             this.format = format;

@@ -22,15 +22,19 @@ namespace Microsoft.Xna.Framework.Content
     // public constructor is defined.
     public class ResourceManager : Object
     {
-        public const string ROOT = "assets/";
         // Resource storage
         static Dictionary<string, Shader> Shaders = new Dictionary<string, Shader>();
         static Dictionary<string, Texture2D> Textures = new Dictionary<string, Texture2D>();
 
+        static string Root = "assets/";
         static bool First = true;
         static int Version;
         static string Profile;
 
+        public static void SetRoot(string path)
+        {
+            Root = path;
+        }
         /**
         * Initialize the resource manager singleton dictionaries
         *
@@ -45,10 +49,8 @@ namespace Microsoft.Xna.Framework.Content
 
         } // to initialize the static objects
         
-        public static SpriteRenderer CreateRenderer()
+        public static SpriteRenderer CreateRenderer(int width, int height)
         {
-            var Width = 800;
-            var Height = 600;
             if (First) 
             {
                 // Load the default sprite shaders
@@ -57,7 +59,7 @@ namespace Microsoft.Xna.Framework.Content
             }
             Matrix projection = new Matrix();
             glm_mat4_identity(projection);
-            glm_ortho(0f, (float)Width, (float)Height, 0f, -1f, 1f, projection);
+            glm_ortho(0f, (float)width, (float)height, 0f, -1f, 1f, projection);
             var shader = GetShader("sprite");
             shader.Use(); 
             shader.SetMatrix("projection", projection);    //  uniform mat4 projection;
@@ -131,16 +133,6 @@ namespace Microsoft.Xna.Framework.Content
             // Create Texture object
             Texture2D texture = new Texture2D();
             texture.SetData(file);
-            // Load image
-            // int width;
-            // int height;
-            // int channels;
-            // Image image = Stb.Image.Load(ROOT+file, out width, out height, out channels, alpha ? 4 : 3);
-
-            // // Now generate texture
-            // texture.Generate(width, height, image);
-            // And finally free image data
-            // image.Dispose();
             return texture;
         }
 
@@ -148,7 +140,7 @@ namespace Microsoft.Xna.Framework.Content
         {
             string? line = null;
             string? text = "";
-            var frag_file = new FileHandle(ROOT+path);
+            var frag_file = new FileHandle(Root+path);
             var frag_reader = new BufferedReader(
                                 new InputStreamReader(
                                     new FileInputStream.FromFile(frag_file.file)));

@@ -41,6 +41,10 @@ namespace Microsoft.Xna.Framework.Graphics
             if (_beginCalled)
                 throw new Exception.InvalidOperationException("Begin cannot be called again until End has been successfully called.");
 
+            GL.Enable(EnableCap.Texture2D);
+            GL.Enable(EnableCap.Blend);
+            GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
+
             _sortMode = sortMode;
             _beginCalled = true;
         }
