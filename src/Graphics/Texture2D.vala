@@ -33,7 +33,7 @@ namespace Microsoft.Xna.Framework.Graphics
 
         public enum SurfaceFormat
         {
-            Default,
+            Auto,
             Grey,
             GreyAlpha,
             Rgb,
@@ -42,7 +42,6 @@ namespace Microsoft.Xna.Framework.Graphics
 
 		internal int width = 0;
 		internal int height = 0;
-        internal int format = SurfaceFormat.Rgba;
         internal int channels = 0;
         internal int ArraySize;
         internal int Handle;
@@ -78,19 +77,27 @@ namespace Microsoft.Xna.Framework.Graphics
             GL.TexParameteri(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Linear);
             GL.TexParameteri(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Linear);
 
-            Image pixels = Image.Load(path, out width, out height, out channels, format);
+            Image pixels = Image.Load(path, out width, out height, out channels, SurfaceFormat.Auto);
 
             print("%s %d %d %d\n", path, width, height, channels);
-            if (channels == 4)
-                GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, width, height, 0, PixelFormat.Rgba, PixelType.UnsignedByte, pixels);
-            else if (channels == 3)
-                GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgb, width, height, 0, PixelFormat.Rgb, PixelType.UnsignedByte, pixels);
-            else if (channels == 2)
-                GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.R8, width, height, 0, PixelFormat.Rgb, PixelType.UnsignedByte, pixels);
+            switch (channels)
+            {
+                case 4:
+                    GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, width, height, 0, PixelFormat.Rgba, PixelType.UnsignedByte, pixels);
+                    break;
+                case 3:
+                    GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgb, width, height, 0, PixelFormat.Rgb, PixelType.UnsignedByte, pixels);
+                    break;
+                case 2:
+                    GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.LuminanceAlpha, width, height, 0, PixelFormat.LuminanceAlpha, PixelType.UnsignedByte, pixels);
+                    break;
+                case 1:
+                    GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Luminance, width, height, 0, PixelFormat.Luminance, PixelType.UnsignedByte, pixels);
+                    break;
+                default: assert_not_reached ();
+            }
             GL.GenerateMipmap(GenerateMipmapTarget.Texture2D);
             pixels.Dispose();
-            this.format = format;
-
             this.TexelWidth = 1f / (float)this.width;
             this.TexelHeight = 1f / (float)this.height;
         }
@@ -116,28 +123,6 @@ namespace Microsoft.Xna.Framework.Graphics
                 return height;
             }
         }
-
-        // // Generates texture from image data
-        // public void Generate(int width, int height, IntPtr data)
-        // {
-        //     Width = width;
-        //     Height = height;
-        //     // Create Texture
-        //     GL.GenTextures(1, ref Handle);
-        //     GL.BindTexture(TextureTarget.Texture2D, Handle);
-        //     // ?? GL.TexImage2D(TextureTarget.Texture2D, 0, InternalFormat, (GLsizei)width, (GLsizei)height, 0, ImageFormat, GL_UNSIGNED_BYTE, (GLvoid*)data);
-        //     // Set Texture wrap and filter modes
-        //     // all upcoming TextureTarget.Texture2D operations now have effect on this texture object
-        //     // set the texture wrapping parameters
-        //     GL.TexParameteri(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, (int)TextureWrapMode.Repeat);	
-        //     // set texture wrapping to GL_REPEAT (default wrapping method)
-        //     GL.TexParameteri(TextureTarget.Texture2D, TextureParameterName.TextureWrapT, (int)TextureWrapMode.Repeat);
-        //     // set texture filtering parameters
-        //     GL.TexParameteri(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Linear);
-        //     GL.TexParameteri(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Linear);
-        //    // Unbind texture
-        //     GL.BindTexture(TextureTarget.Texture2D, 0);
-        // }
 
         // Binds the texture as the current active TextureTarget.Texture2D texture object
         public void Bind()

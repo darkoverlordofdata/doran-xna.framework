@@ -119,7 +119,7 @@ namespace Microsoft.Xna.Framework
 
         public override void RunOnce()
         {
-            print("Platform::RunOnce %f\n", Game.gameTime.ElapsedGameTime.TotalMilliseconds);
+            // print("Platform::RunOnce %f\n", Game.gameTime.ElapsedGameTime.TotalMilliseconds);
             SdlRunLoop();
             Game.Tick();
             // Threading.Run();

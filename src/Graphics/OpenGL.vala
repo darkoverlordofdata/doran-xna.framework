@@ -259,6 +259,7 @@ namespace ValaGame.OpenGL
         Rgb = 0x1907,
         Rgba4 = 0x8056,
         Luminance = 0x1909,
+        LuminanceAlpha = 0x190A,
         CompressedRgbS3tcDxt1Ext = 0x83F0,
         CompressedSrgbS3tcDxt1Ext = 0x8C4C,
         CompressedRgbaS3tcDxt1Ext = 0x83F1,
@@ -297,7 +298,9 @@ namespace ValaGame.OpenGL
     {
         Rgba = 0x1908,
         Rgb = 0x1907,
+        R8 = 0x8229,
         Luminance = 0x1909,
+        LuminanceAlpha = 0x190A,
         CompressedTextureFormats = 0x86A3,
         Red = 0x1903,
         Rg = 0x8227,
