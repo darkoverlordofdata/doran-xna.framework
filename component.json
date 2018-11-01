@@ -26,6 +26,7 @@
     "src/Exception.vala",
     "src/Game.vala",
     "src/GameBehavior.vala",
+    "src/GameObject.vala",
     "src/GamePlatform.vala",
     "src/GameServiceContainer.vala",
     "src/GameTime.vala",

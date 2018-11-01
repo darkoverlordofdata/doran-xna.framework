@@ -132,7 +132,7 @@ namespace Microsoft.Xna.Framework.Content
         {
             // Create Texture object
             Texture2D texture = new Texture2D();
-            texture.SetData(file);
+            texture.SetData(Root+file);
             return texture;
         }
 

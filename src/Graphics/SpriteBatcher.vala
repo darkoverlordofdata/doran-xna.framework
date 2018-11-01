@@ -283,8 +283,10 @@ namespace Microsoft.Xna.Framework.Graphics
             _positions.SetFloatData(_vertexPositions, _vertexPositions.length);
             _texCoords.SetFloatData(_vertexTexCoords, _vertexTexCoords.length);
 
+            // fix so this doesn't use Immediate mode 
             GL.Use2DCamera(Camera);
             GL.BindTexture(TextureTarget.Texture2D, texture.Handle);
+            // fix so this doesn't use Immediate mode 
             GL.DrawUserArrays(_batchItemCount, _positions.vbo, _texCoords.vbo);
             
         }

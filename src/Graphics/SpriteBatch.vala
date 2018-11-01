@@ -18,6 +18,10 @@ namespace Microsoft.Xna.Framework.Graphics
     using System;
     using Microsoft.Xna.Framework;
 
+    /**
+     * SpriteBatch uses immediate mode; I need to figure out
+     * how to do this in retained mode. Until then use SpriteRenderer.
+     */
     public class SpriteBatch : Disposable
     {
         private Texture2D? _texture;

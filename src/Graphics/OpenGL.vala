@@ -15,10 +15,6 @@
  ******************************************************************************/
 namespace ValaGame.OpenGL
 {
-    // #if (__EMSCRIPTEN__)
-    // using Emscripten;
-    // #endif
-
     internal enum Bool
     {
         True = 1,
@@ -383,21 +379,9 @@ namespace ValaGame.OpenGL
         internal delegate void EnableClientStateDelegate(EnableCap cap);
         internal static EnableClientStateDelegate EnableClientState;
 
-        // [CCode (has_target = false)]
-        // internal delegate void DisableClientStateDelegate(EnableCap cap);
-        // internal static DisableClientStateDelegate DisableClientState;
-
         [CCode (has_target = false)]
         internal delegate void DrawElementsDelegate(PrimitiveType mode, int count, DataType type, void* indices);
         internal static DrawElementsDelegate DrawElements;
-
-        // [CCode (has_target = false)]
-        // internal delegate void BeginDelegate(PrimitiveType primitiveType);
-        // internal static BeginDelegate Begin;
-
-        // [CCode (has_target = false)]
-        // internal delegate void EndDelegate();
-        // internal static EndDelegate End;
 
         [CCode (has_target = false)]
         internal delegate void TexParameterIntDelegate (TextureTarget target, TextureParameterName name, int value);
@@ -411,25 +395,9 @@ namespace ValaGame.OpenGL
         internal delegate void MatrixModeDelegate (Mode mode);
         internal static MatrixModeDelegate MatrixMode;
 
-        // [CCode (has_target = false)]
-        // internal delegate void PushMatrixDelegate ();
-        // internal static PushMatrixDelegate PushMatrix;
-
-        // [CCode (has_target = false)]
-        // internal delegate void PopMatrixDelegate ();
-        // internal static PopMatrixDelegate PopMatrix;
-
         [CCode (has_target = false)]
         internal delegate void LoadIdentityDelegate ();
         internal static LoadIdentityDelegate LoadIdentity;
-
-        // [CCode (has_target = false)]
-        // internal delegate void OrthoDelegate (double left, double right, double bottom, double top, double near_val, double far_val);
-        // internal static OrthoDelegate Ortho;
-
-        // [CCode (has_target = false)]
-        // internal delegate void FrustumDelegate (double left, double right, double bottom, double top, double near_val, double far_val);
-        // internal static FrustumDelegate Frustum;
 
         [CCode (has_target = false)]
         internal delegate int EnableDelegate (EnableCap cap);
@@ -442,18 +410,6 @@ namespace ValaGame.OpenGL
         [CCode (has_target = false)]
         internal delegate int BlendFuncDelegate (BlendingFactorSrc sfactor, BlendingFactorDest dfactor);
         internal static BlendFuncDelegate BlendFunc;
-
-        // [CCode (has_target = false)]
-        // internal delegate int Vertex3fDelegate (float x, float y, float z);
-        // internal static Vertex3fDelegate Vertex3f;
-
-        // [CCode (has_target = false)]
-        // internal delegate int TexCoord2fDelegate (float s, float t);
-        // internal static TexCoord2fDelegate TexCoord2f;
-
-        // [CCode (has_target = false)]
-        // internal delegate int GetTexLevelParameterivDelegate (TextureTarget target, int level, TextureParameter pname,[CCode (array_length = false)] int[] params);
-        // internal static GetTexLevelParameterivDelegate GetTexLevelParameteriv;
 
         [CCode (has_target = false)]
         internal delegate unowned string GetStringDelegate (GLString name);
@@ -650,56 +606,23 @@ namespace ValaGame.OpenGL
             DrawElements = LoadEntryPoint<DrawElementsDelegate> ("glDrawElements");
             DrawArrays = LoadEntryPoint<DrawArraysDelegate> ("glDrawArrays");
 
-            // Ortho = LoadEntryPoint<OrthoDelegate> ("glOrtho");
-            // Frustum = LoadEntryPoint<FrustumDelegate> ("glFrustum");
             BlendFunc = LoadEntryPoint<BlendFuncDelegate> ("glBlendFunc");
             MatrixMode = LoadEntryPoint<MatrixModeDelegate> ("glMatrixMode");
-            // PushMatrix = LoadEntryPoint<PushMatrixDelegate> ("glPushMatrix");
-            // PopMatrix = LoadEntryPoint<PopMatrixDelegate> ("glPopMatrix");
-            // Vertex3f = LoadEntryPoint<Vertex3fDelegate> ("glVertex3f");
-            // TexCoord2f = LoadEntryPoint<TexCoord2fDelegate> ("glTexCoord2f");
-            // GetTexLevelParameteriv = LoadEntryPoint<GetTexLevelParameterivDelegate> ("glGetTexLevelParameteriv");
             LoadIdentity = LoadEntryPoint<LoadIdentityDelegate> ("glLoadIdentity");
             TexCoordPointer = LoadEntryPoint<TexCoordPointerDelegate> ("glTexCoordPointer");
             VertexPointer = LoadEntryPoint<VertexPointerDelegate> ("glVertexPointer");
-            // DisableClientState = LoadEntryPoint<DisableClientStateDelegate> ("glDisableClientState");
             EnableClientState = LoadEntryPoint<EnableClientStateDelegate> ("glEnableClientState");
-            // Begin = LoadEntryPoint<BeginDelegate>("glBegin");
-            // End = LoadEntryPoint<EndDelegate>("glEnd");
             GetString = LoadEntryPoint<GetStringDelegate> ("glGetString");
-
-            // #if (__EMSCRIPTEN__)
-            // Ortho = (OrthoDelegate) ZGL.glOrtho;
-            // Frustum = (FrustumDelegate) ZGL.glFrustum;
-            // PushMatrix = (PushMatrixDelegate) ZGL.glPushMatrix;
-            // PopMatrix = (PopMatrixDelegate) ZGL.glPopMatrix;
-            // Vertex3f = (Vertex3fDelegate) ZGL.glVertex3f;
-            // TexCoord2f = (TexCoord2fDelegate) ZGL.glTexCoord2f;
-            // GetTexLevelParameteriv = (GetTexLevelParameterivDelegate) ZGL.glGetTexLevelParameteriv;
-            // DisableClientState = (DisableClientStateDelegate) ZGL.glDisableClientState;
-            // Begin = (BeginDelegate) ZGL.glBegin;
-            // End = (EndDelegate) ZGL.glEnd;
-            // #endif
-
         }
 
         internal static T LoadEntryPoint<T>(string proc, bool throwIfNotFound = false)
         {
             try
             {
-                // #if (__EMSCRIPTEN__)
-                // var addr = Sdl.SDL_GL_GetProcAddress(proc);
-                // if (addr == null) print("Sdl.SDL_GL_GetProcAddress for %s returns null\n", proc);
-                // // var addr = emscripten_GetProcAddress(proc);
-                // // if (addr == null) print("emscripten_GetProcAddress for %s returns null\n", proc);
-                // if (addr == null) return null;
-                // return (T)addr;
-                // #else
                 var addr = Sdl.SDL_GL_GetProcAddress(proc);
                 if (addr == null) print("SDL_GL_GetProcAddress for %s returns null\n", proc);
                 if (addr == null) return null;
                 return (T)addr;
-                // #endif
             }
             catch (Exception e)
             {
@@ -709,6 +632,9 @@ namespace ValaGame.OpenGL
             }
 
         }
+
+        // *** D E P R E C A T E D ***
+        // Immediate mode is not compatable with GLES
 
         internal static GraphicsContext CreateContext (WindowInfo info)
         {

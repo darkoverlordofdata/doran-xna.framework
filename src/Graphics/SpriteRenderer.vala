@@ -48,23 +48,6 @@ namespace Microsoft.Xna.Framework.Graphics
             _sortMode = sortMode;
             _beginCalled = true;
         }
-
-
-        // public void Draw(
-        //         TextureRegion region, 
-        //         float layerDepth = 0f,
-        //         Vector2? position = null,
-        //         Vector2? scale = null,
-        //         Color? color = null,
-        //         float rotate = 0f)
-        // {
-        //     color = color ?? Color.White;
-        //     scale = scale ?? new Vector2(region.Scale.X, region.Scale.Y); // region.Scale.Copy();
-
-        //     var size = new Vector2(scale.X * region.Width, scale.Y * region.Height);
-        //     DrawSprite(region.texture, position, size, 0, color.ToVector3());
-        // }
-
         public void Draw(
                 Texture2D texture, 
                 float layerDepth = 0f,

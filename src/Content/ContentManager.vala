@@ -37,6 +37,8 @@ namespace Microsoft.Xna.Framework.Content
 			{
 				throw new Exception.ArgumentNullException("serviceProvider");
 			}
+			if (rootDirectory != "")
+			    ResourceManager.SetRoot(rootDirectory);
 			this.RootDirectory = rootDirectory;
 			this.serviceProvider = serviceProvider;
 		}
@@ -153,6 +155,7 @@ namespace Microsoft.Xna.Framework.Content
 			}
 			set
 			{
+            	ResourceManager.SetRoot(value);
 				_rootDirectory = value;
 			}
 		}

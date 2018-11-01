@@ -206,6 +206,8 @@ namespace Sdl
 		public Sdl.Keyboard.Event Key;
 		[CCode (cname = "motion")]
 		public Sdl.Mouse.MotionEvent Motion;
+		[CCode (cname = "button")]
+		public Sdl.Mouse.ButtonEvent Button;
 		[CCode (cname = "edit")]
 		public Sdl.Keyboard.TextEditingEvent Edit;
 		[CCode (cname = "text")]
@@ -835,6 +837,25 @@ namespace Sdl
 			public int32 Y;
 			[CCode (cname = "direction")]
 			public uint32 Direction;
+		}
+
+		[SimpleType, CCode (cname = "SDL_MouseButtonEvent")]
+		public struct ButtonEvent : CommonEvent
+		{
+			[CCode (cname = "windowID")]
+			public uint32 WindowID;
+			[CCode (cname = "which")]
+			public uint32 Which;
+			[CCode (cname = "button")]
+			public uint8 Button;
+			[CCode (cname = "state")]
+			public uint8 State;
+			[CCode (cname = "clicks")]
+			public uint8 Clicks;
+			[CCode (cname = "x")]
+			public int32 X;
+			[CCode (cname = "y")]
+			public int32 Y;
 		}
 
 		[CCode (cname = "SDL_CreateColorCursor")]
