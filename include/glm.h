@@ -75,7 +75,7 @@ typedef struct Matrix Matrix;
 struct Matrix
 {
     union {
-        mat4 data;    
+        float data[16];    
         struct {
             float M11;
             float M12;
@@ -99,6 +99,32 @@ struct Matrix
 };
 
 
+
+/**
+ * Constants:
+ */
+static const vec2 _glm_vec2_zero    = { 0.0f, 0.0f };
+static const vec2 _glm_vec2_one     = { 1.0f, 1.0f };
+static const vec3 _glm_vec3_zero    = GLM_VEC3_ZERO_INIT; //{ 0.0f, 0.0f, 0.0f };
+static const vec3 _glm_vec3_one     = GLM_VEC3_ONE_INIT; //{ 1.0f, 1.0f, 1.0f };
+static const vec3 _glm_vec3_yup     = {0.0f, 1.0f, 0.0f};
+static const vec3 _glm_vec3_zup     = {0.0f, 0.0f, 1.0f};
+static const vec3 _glm_vec3_xup     = {1.0f, 0.0f, 0.0f};
+static const vec4 _glm_vec4_zero    = GLM_VEC4_ZERO_INIT; //{ 0.0f, 0.0f, 0.0f, 0.0f };
+static const vec4 _glm_vec4_one     = GLM_VEC4_ONE_INIT; //{ 1.0f, 1.0f, 1.0f, 1.0f };
+static const mat3 _glm_mat3_id      = GLM_MAT3_IDENTITY_INIT;
+static const mat3 _glm_mat3_zero    = GLM_MAT3_ZERO_INIT;
+
+
+const Vector2* glm_vec2_zero_const;
+const Vector2* glm_vec2_one_const;
+const Vector3* glm_vec3_zero_const;
+const Vector3* glm_vec3_one_const;
+const Vector3* glm_vec3_yup_const;
+const Vector3* glm_vec3_zup_const;
+const Vector3* glm_vec3_xup_const;
+const Vector4* glm_vec4_zero_const;
+const Vector4* glm_vec4_one_const;
 
 /**
  * Api extension

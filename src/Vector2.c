@@ -18,6 +18,12 @@ static int rawcast(float x) {
 }
 
 /**
+ * Constants:
+ */
+const Vector2* glm_vec2_zero_const  = _glm_vec2_zero;
+const Vector2* glm_vec2_one_const   = _glm_vec2_one;
+
+/**
  * Vector2 constructor
  * 
  */

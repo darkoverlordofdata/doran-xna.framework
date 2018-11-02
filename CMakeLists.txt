@@ -123,8 +123,8 @@ list ( APPEND SOURCE .lib/xna.framework/src/Graphics/Vertices/VertexPositionText
 # Vapis: 
 list ( APPEND VAPI .lib/xna.framework/src/emscripten.vapi )
 list ( APPEND VAPI .lib/xna.framework/src/sdl.vapi )
-list ( APPEND VAPI .lib/xna.framework/src/xna.framework.vapi )
 list ( APPEND VAPI .lib/xna.framework/src/stb.vapi )
+list ( APPEND VAPI .lib/xna.framework/src/xna.framework.vapi )
 
 # Vapidir: 
 

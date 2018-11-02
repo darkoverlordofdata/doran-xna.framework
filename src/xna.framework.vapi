@@ -25,13 +25,13 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
-#if (__EMSCRIPTEN__) /** Use the right header for the platform */
-[CCode (cprefix = "", lower_case_cprefix ="", cheader_filename="GLES3/gl3.h")]
-#else
-#endif
-namespace GLES3
-{
-}
+// #if (__EMSCRIPTEN__) /** Use the right header for the platform */
+// [CCode (cprefix = "", lower_case_cprefix ="", cheader_filename="GLES3/gl3.h")]
+// #else
+// #endif
+// namespace GLES3
+// {
+// }
 [Version (since = "0.4.9")] // cglm v0.4.9
 [CCode (cprefix = "", lower_case_cprefix = "", cheader_filename = "glm.h")]
 namespace Microsoft.Xna.Framework 
@@ -45,6 +45,11 @@ namespace Microsoft.Xna.Framework
 		public float X; // same as data[0]
 		public float Y; // same as data[1]
 		public float data[2];
+
+		[CCode (cname = "glm_vec2_zero_const")]
+		public static Vector2 Zero;
+		[CCode (cname = "glm_vec2_one_const")]
+		public static Vector2 One;
 
 		[CCode (cname = "glm_vec2_new")]
 		public Vector2(float x = 0f, float y = 0f);
@@ -101,6 +106,18 @@ namespace Microsoft.Xna.Framework
 		public float Z; // same as data[2]
 		public float data[3];
 
+		[CCode (cname = "glm_vec3_zero_const")]
+		public static Vector3 Zero;
+		[CCode (cname = "glm_vec3_one_const")]
+		public static Vector3 One;
+		[CCode (cname = "glm_vec3_yup_const")]
+		public static Vector3 Yup;
+		[CCode (cname = "glm_vec3_zup_const")]
+		public static Vector3 Zup;
+		[CCode (cname = "glm_vec3_xup_const")]
+		public static Vector3 Xup;
+
+
 		[CCode (cname = "glm_vec3_new")]
 		public Vector3(float x = 0f, float y = 0f, float z = 0f);
 
@@ -133,6 +150,11 @@ namespace Microsoft.Xna.Framework
 		public float Y; // same as data[2]
 		public float Z; // same as data[3]
 		public float data[4];
+
+		[CCode (cname = "glm_vec4_zero_const")]
+		public static Vector4 Zero;
+		[CCode (cname = "glm_vec4_one_const")]
+		public static Vector4 One;
 
 		[CCode (cname = "glm_vec4_new")]
 		public Vector4(float w = 0f, float x = 0f, float y = 0f, float z = 0f);
@@ -187,7 +209,13 @@ namespace Microsoft.Xna.Framework
 		public float M43;
 		public float M44;
 
-		public float[] data[4];
+		public float data[16];
+
+
+		[CCode (cname = "glm_mat4_zero_const")]
+		public static Matrix Zero;
+		[CCode (cname = "glm_mat4_identity_const")]
+		public static Matrix Identity;
 
 		[CCode (cname = "glm_mat4_new")]
 		public Matrix(float value = 1f);

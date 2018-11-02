@@ -23,31 +23,43 @@ namespace Microsoft.Xna.Framework.Graphics
     // but thats all the sprite batch really did anyway
     public class SpriteRenderer : Disposable
     {
-        Shader _shader; 
-        uint VAO; // Vertex Array Object
-        private Texture2D? _texture;
-        private bool _beginCalled;
-		private SpriteSortMode _sortMode;
+        uint VAO;       // Vertex Array Object
+        uint VBO;       // Vertex Buffer Object
+        Shader shader; 
+        bool beginCalled;
+		SpriteSortMode sortMode;
+        const float[] vertices = 
+        {
+            // Pos      // Tex
+            0f, 1f,     0f, 1f,
+            1f, 0f,     1f, 0f,
+            0f, 0f,     0f, 0f, 
+
+            0f, 1f,     0f, 1f,
+            1f, 1f,     1f, 1f,
+            1f, 0f,     1f, 0f
+        };
 
         public SpriteRenderer(Shader shader)
         {
-            _shader = shader;
-            _beginCalled = false;
+            this.shader = shader;
+            beginCalled = false;
             initRenderData();
         }
 
         public void Begin(SpriteSortMode sortMode = SpriteSortMode.Deferred)
         {
-            if (_beginCalled)
+            if (beginCalled)
                 throw new Exception.InvalidOperationException("Begin cannot be called again until End has been successfully called.");
 
             GL.Enable(EnableCap.Texture2D);
             GL.Enable(EnableCap.Blend);
             GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
 
-            _sortMode = sortMode;
-            _beginCalled = true;
+            this.sortMode = sortMode;
+            beginCalled = true;
         }
+
         public void Draw(
                 Texture2D texture, 
                 float layerDepth = 0f,
@@ -57,7 +69,8 @@ namespace Microsoft.Xna.Framework.Graphics
                 float rotate = 0f)
         {
             color = color ?? Color.White;
-            scale = scale ?? new Vector2(1, 1); // region.Scale.Copy();
+            // scale = scale ?? new Vector2(1, 1);
+            scale = scale ?? Vector2.One;
 
             var size = new Vector2(scale.X * texture.Width, scale.Y * texture.Height);
             DrawSprite(texture, position, size, 0, color.ToVector3());
@@ -68,23 +81,22 @@ namespace Microsoft.Xna.Framework.Graphics
                 Vector2 position, 
                 Vector2 size, 
                 float rotate = 0f, 
-                Vector3 color = new Vector3(1f, 1f, 1f))
+                Vector3 color = Vector3.One)
         {
             // Prepare transformations
             Matrix model = new Matrix();
-            glm_mat4_identity(model);
             glm_translate(model, new Vector3(position.X, position.Y, 0f));  
             // First translate (transformations are: scale happens first, then rotation and then finall translation happens; reversed order)
             glm_translate(model, new Vector3(0.5f * size.X, 0.5f * size.Y, 0f)); 
             // Move origin of rotation to center of quad
-            glm_rotate(model, rotate, new Vector3(0f, 0f, 1f)); // Then rotate
+            glm_rotate(model, rotate, Vector3.Zup); // Then rotate
             glm_translate(model, new Vector3(-0.5f * size.X, -0.5f * size.Y, 0f)); 
             // Move origin back
             glm_scale(model, new Vector3(size.X, size.Y, 1f)); // Last scale
 
-            _shader.Use();
-            _shader.SetMatrix("model", model);          // uniform Matrix model;
-            _shader.SetVector3("spriteColor", color);    // uniform Vector3 spriteColor;
+            shader.Use();
+            shader.SetMatrix("model", model);          // uniform Matrix model;
+            shader.SetVector3("spriteColor", color);    // uniform Vector3 spriteColor;
 
             GL.ActiveTexture(TextureUnit.Texture0);
             texture.Bind();
@@ -95,27 +107,15 @@ namespace Microsoft.Xna.Framework.Graphics
 
         public void End()
         {
-            if (!_beginCalled)
+            if (!beginCalled)
                 throw new Exception.InvalidOperationException("Begin must be called before calling End.");
 
-			_beginCalled = false;
+			beginCalled = false;
 
         }
 
         void initRenderData()
         {
-            uint VBO = 0; // Vertex Buffer Object
-            float[] vertices = { 
-                // Pos      // Tex
-                0f, 1f,     0f, 1f,
-                1f, 0f,     1f, 0f,
-                0f, 0f,     0f, 0f, 
-
-                0f, 1f,     0f, 1f,
-                1f, 1f,     1f, 1f,
-                1f, 0f,     1f, 0f
-            };
-
             GL.GenVertexArrays(1, &VAO);        // returns n vertex array object names in arrays. 
             GL.GenBuffers(1, &VBO);             // returns n buffer object names in buffers.
 

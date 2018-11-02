@@ -10,6 +10,12 @@
 
 
 /**
+ * Constants:
+ */
+const Vector4* glm_vec4_zero_const  = _glm_vec4_zero;
+const Vector4* glm_vec4_one_const   = _glm_vec4_one;
+
+/**
  * Vector4 constructor
  * 
  */

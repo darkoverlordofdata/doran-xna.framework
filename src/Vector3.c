@@ -16,6 +16,15 @@ static int rawcast(float x) {
   u.f = x;
   return u.i;
 }
+/**
+ * Constants:
+ */
+const Vector3* glm_vec3_zero_const  = _glm_vec3_zero;
+const Vector3* glm_vec3_one_const   = _glm_vec3_one;
+const Vector3* glm_vec3_yup_const   = _glm_vec3_yup;
+const Vector3* glm_vec3_zup_const   = _glm_vec3_zup;
+const Vector3* glm_vec3_xup_const   = _glm_vec3_xup;
+
 
 /**
  * Vector3 constructor
