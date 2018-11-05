@@ -45,29 +45,30 @@ namespace Microsoft.Xna.Framework.Graphics
         };
         /*  The maximum amount of sprite data to be sent to
         *  the GPU at one time. */
-        const int BATCH_SIZE = 2048;
+        const int KTL_BATCH_SIZE = 2048;
+        const int KTL_DEFAULT_SHADER_PROGRAM = 0;
         bool is_initialized;
         bool batching_started;
 
         int sprite_count;
 
-        uint VAO;
-        uint VBO;
-        uint EBO;
+        uint vao;
+        uint vbo;
+        uint ebo;
 
         float scale_x;
         float scale_y;
         float alpha;
         bool alpha_changed;
         bool sorting;
-
+        bool override_viewport;
+        int[] _viewport;
         Shader _shader;
         int _width;
         int _height;
-        Rectangle? _viewp = null;
 
         GenericArray<SpriteBatchItem> sprite_buffer;
-        float[] vertex_buffer = new float[BATCH_SIZE * 32];
+        float[] vertex_buffer = new float[KTL_BATCH_SIZE * 32];
 
         // public SpriteBatch(GraphicsDevice graphicsDevice, Shader shader)
         public SpriteBatch(Shader shader, int width, int height)
@@ -99,13 +100,13 @@ namespace Microsoft.Xna.Framework.Graphics
             sprite_buffer = new GenericArray<SpriteBatchItem>();
 
             _shader.Use();
-            GL.GenVertexArrays(1, &VAO);
-            GL.GenBuffers(1, &VBO);
-            GL.GenBuffers(1, &EBO);
+            GL.GenVertexArrays(1, &vao);
+            GL.GenBuffers(1, &vbo);
+            GL.GenBuffers(1, &ebo);
 
-            GL.BindVertexArray(VAO);
+            GL.BindVertexArray(vao);
 
-            GL.BindBuffer(BufferTarget.ArrayBuffer, VBO);
+            GL.BindBuffer(BufferTarget.ArrayBuffer, vbo);
 
             GL.VertexAttribPointer(0, 4, DataType.Float, false, (int)(8 * sizeof(float)), (void*)0);
             GL.EnableVertexAttribArray(0);
@@ -113,18 +114,18 @@ namespace Microsoft.Xna.Framework.Graphics
             GL.VertexAttribPointer(1, 4, DataType.Float, false, (int)(8 * sizeof(float)), (void*)(4 * sizeof(float)));
             GL.EnableVertexAttribArray(1);
 
-            GL.BufferData(BufferTarget.ArrayBuffer, BATCH_SIZE * (32 * sizeof(float)), vertex_buffer, BufferUsageHint.DynamicDraw); //GL_DYNAMIC_DRAW);
+            GL.BufferData(BufferTarget.ArrayBuffer, KTL_BATCH_SIZE * (32 * sizeof(float)), vertex_buffer, BufferUsageHint.DynamicDraw); //GL_DYNAMIC_DRAW);
 
             //Element array buffer
             int indices[6] = {0, 1, 2, 2, 3, 1};
-            int *indice_array = new int[BATCH_SIZE * 6];
+            int *indice_array = new int[KTL_BATCH_SIZE * 6];
 
-            for (int i = 0; i < BATCH_SIZE; ++i)
+            for (int i = 0; i < KTL_BATCH_SIZE; ++i)
                 for (int j = 0; j < 6; ++j)
                     indice_array[i * 6 + j] = indices[j] + i * 4;
 
-            GL.BindBuffer(BufferTarget.ElementArrayBuffer, EBO);
-            GL.BufferData(BufferTarget.ElementArrayBuffer, BATCH_SIZE * 6 * sizeof(int), indice_array, BufferUsageHint.DynamicDraw); //GL_DYNAMIC_DRAW);
+            GL.BindBuffer(BufferTarget.ElementArrayBuffer, ebo);
+            GL.BufferData(BufferTarget.ElementArrayBuffer, KTL_BATCH_SIZE * 6 * sizeof(int), indice_array, BufferUsageHint.DynamicDraw); //GL_DYNAMIC_DRAW);
 
             indice_array = new int[0];
 
@@ -135,6 +136,22 @@ namespace Microsoft.Xna.Framework.Graphics
             is_initialized = true;
             return is_initialized;
         }
+
+        // public void Begin()
+        // {
+        //     if (!is_initialized || batching_started) return;
+
+        //     sprite_count = 0;
+        //     batching_started = true;
+        //     override_viewport = false;
+        //     sorting = true;
+
+        //     scale_x = 1.0f;
+        //     scale_y = 1.0f;
+
+        //     if (alpha != 1.0f) alpha_changed = true;
+        //     alpha = 1.0f;
+        // }
 
         public void Begin(
                 float global_alpha = 1f,     // Multiply all queued sprites' alpha by this value
@@ -162,9 +179,13 @@ namespace Microsoft.Xna.Framework.Graphics
             if (alpha != global_alpha) alpha_changed = true;
             alpha = global_alpha;
 
-            _viewp = viewp;
-            GL.Enable(EnableCap.Blend);
-            GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
+            if (viewp != null)
+            {
+                _viewport = { viewp.X, viewp.Y, viewp.Width, viewp.Height };
+                override_viewport = true;
+            }
+            else
+                override_viewport = false;
         }
 
         internal SpriteBatchItem CreateItem(uint texture, int x, int y, float layer)
@@ -181,7 +202,7 @@ namespace Microsoft.Xna.Framework.Graphics
 
         internal void Draw(Texture2D texture,
                   Rectangle clip,
-                  int x, int y, float layer)
+                  int x, int y, int layer)
         {
             if (!batching_started) return;
             SpriteBatchItem item = CreateItem(texture.Handle, x, y, layer);
@@ -195,7 +216,7 @@ namespace Microsoft.Xna.Framework.Graphics
 
         internal void DrawScaled(Texture2D texture,
                         Rectangle clip,
-                        int x, int y, float layer,
+                        int x, int y, int layer,
                         Vector2 scale)
         {
             if (!batching_started) return;
@@ -209,7 +230,7 @@ namespace Microsoft.Xna.Framework.Graphics
 
         internal void DrawFlipped(Texture2D texture,
                          Rectangle clip,
-                         int x, int y, float layer,
+                         int x, int y, int layer,
                          Flip flip)
         {
             if (!batching_started) return;
@@ -226,7 +247,7 @@ namespace Microsoft.Xna.Framework.Graphics
          *  by passing in {1.0f, 1.0f, 1.0f, desired_alpha} */
         internal void DrawTinted(Texture2D texture,
                         Rectangle clip,
-                        int x, int y, float layer,
+                        int x, int y, int layer,
                         Color color)
         {
             if (!batching_started) return;
@@ -240,7 +261,7 @@ namespace Microsoft.Xna.Framework.Graphics
 
         internal void DrawRotated(Texture2D texture,
                          Rectangle clip,
-                         int x, int y, float layer,
+                         int x, int y, int layer,
                          float rot)
         {
             if (!batching_started) return;
@@ -257,7 +278,7 @@ namespace Microsoft.Xna.Framework.Graphics
 
         internal void DrawScaledFlipped(Texture2D texture,
                                Rectangle clip,
-                               int x, int y, float layer,
+                               int x, int y, int layer,
                                Vector2 scale,
                                Flip flip)
         {
@@ -272,7 +293,7 @@ namespace Microsoft.Xna.Framework.Graphics
 
         internal void DrawScaledRotated(Texture2D texture,
                                Rectangle clip,
-                               int x, int y, float layer,
+                               int x, int y, int layer,
                                Vector2 scale,
                                float rot)
         {
@@ -289,7 +310,7 @@ namespace Microsoft.Xna.Framework.Graphics
 
         internal void DrawScaledTinted(Texture2D texture,
                               Rectangle clip,
-                              int x, int y, float layer,
+                              int x, int y, int layer,
                               Vector2 scale,
                               Color color)
         {
@@ -304,7 +325,7 @@ namespace Microsoft.Xna.Framework.Graphics
 
         internal void DrawScaledTintedRotated(Texture2D texture,
                                      Rectangle clip,
-                                     int x, int y, float layer,
+                                     int x, int y, int layer,
                                      Vector2 scale,
                                      Color color,
                                      float rot)
@@ -322,7 +343,7 @@ namespace Microsoft.Xna.Framework.Graphics
 
         internal void DrawScaledFlippedTinted(Texture2D texture,
                                      Rectangle clip,
-                                     int x, int y, float layer,
+                                     int x, int y, int layer,
                                      Vector2 scale,
                                      Flip flip,
                                      Color color)
@@ -338,7 +359,7 @@ namespace Microsoft.Xna.Framework.Graphics
 
         internal void DrawFlippedRotated(Texture2D texture,
                                 Rectangle clip,
-                                int x, int y, float layer,
+                                int x, int y, int layer,
                                 Flip flip,
                                 float rot)
         {
@@ -356,7 +377,7 @@ namespace Microsoft.Xna.Framework.Graphics
 
         internal void DrawFlippedTinted(Texture2D texture,
                                Rectangle clip,
-                               int x, int y, float layer,
+                               int x, int y, int layer,
                                Flip flip,
                                Color color)
         {
@@ -372,7 +393,7 @@ namespace Microsoft.Xna.Framework.Graphics
 
         internal void DrawTintedRotated(Texture2D texture,
                                Rectangle clip,
-                               int x, int y, float layer,
+                               int x, int y, int layer,
                                Color color,
                                float rot)
         {
@@ -389,7 +410,7 @@ namespace Microsoft.Xna.Framework.Graphics
 
         internal void DrawFlippedTintedRotated(Texture2D texture,
                                       Rectangle clip,
-                                      int x, int y, float layer,
+                                      int x, int y, int layer,
                                       Flip flip,
                                       Color color,
                                       float rot)
@@ -407,7 +428,7 @@ namespace Microsoft.Xna.Framework.Graphics
 
         internal void DrawScaledFlippedTintedRotated(Texture2D texture,
                                             Rectangle clip,
-                                            int x, int y, float layer,
+                                            int x, int y, int layer,
                                             Vector2 scale,
                                             Flip flip,
                                             Color color,
@@ -449,31 +470,32 @@ namespace Microsoft.Xna.Framework.Graphics
                 sprite_buffer.sort_with_data((a, b) => a.CompareTo(b));
 
             //Calculate the projection matrix by viewport dimensions
+            int viewport[4];
             int vp0, vp1, vp2, vp3;
-            if (_viewp == null)
+            if (!override_viewport)
             {
-                vp0 = 0;
-                vp1 = 0;
-                vp2 = _width;
-                vp3 = _height;
+                viewport[0] = 0;
+                viewport[1] = 0;
+                viewport[2] = _width;
+                viewport[3] = _height;
             }
             else
             {
-                vp0 = _viewp.X;
-                vp1 = _viewp.Y;
-                vp2 = _viewp.Width;
-                vp3 = _viewp.Height;
+                viewport[0] = _viewport[0];
+                viewport[1] = _viewport[1];
+                viewport[2] = _viewport[2];
+                viewport[3] = _viewport[3];
             }
 
             Matrix projection = new Matrix();
 
-            projection.M11 = 2.0f / (float)(vp2 - vp0);
+            projection.M11 = 2.0f / (float)(viewport[2] - viewport[0]);
             projection.M12 = 0.0f;
             projection.M13 = 0.0f;
             projection.M14 = 0.0f;
 
             projection.M21 = 0.0f;
-            projection.M22 = 2.0f / (float)(vp1 - vp3);
+            projection.M22 = 2.0f / (float)(viewport[1] - viewport[3]);
             projection.M23 = 0.0f;
             projection.M24 = 0.0f;
 
@@ -482,8 +504,8 @@ namespace Microsoft.Xna.Framework.Graphics
             projection.M33 = -1.0f;
             projection.M34 = 0.0f;
 
-            projection.M41 = - (float)(vp2 + vp0) / (float)(vp2 - vp0);
-            projection.M42 = - (float)(vp1 + vp3) / (float)(vp1 - vp3);
+            projection.M41 = - (float)(viewport[2] + viewport[0]) / (float)(viewport[2] - viewport[0]);
+            projection.M42 = - (float)(viewport[1] + viewport[3]) / (float)(viewport[1] - viewport[3]);
             projection.M43 = 0.0f;
             projection.M44 = 1.0f;
 
@@ -496,24 +518,24 @@ namespace Microsoft.Xna.Framework.Graphics
                 alpha_changed = false;
             }
 
-            GL.BindVertexArray(VAO);
+            GL.BindVertexArray(vao);
 
-            GL.BindBuffer(BufferTarget.ArrayBuffer, VBO);
-            GL.BindBuffer(BufferTarget.ElementArrayBuffer, EBO);
+            GL.BindBuffer(BufferTarget.ArrayBuffer, vbo);
+            GL.BindBuffer(BufferTarget.ElementArrayBuffer, ebo);
 
             // How many batches to process
-            int num_batches = sprite_count / BATCH_SIZE;
+            int num_batches = sprite_count / KTL_BATCH_SIZE;
 
             for (int batch_num = 0; batch_num < num_batches + 1; ++batch_num)
             {
-                int num_sprites = sprite_count - batch_num * BATCH_SIZE;
-                if (num_sprites > BATCH_SIZE) num_sprites = BATCH_SIZE;
+                int num_sprites = sprite_count - batch_num * KTL_BATCH_SIZE;
+                if (num_sprites > KTL_BATCH_SIZE) num_sprites = KTL_BATCH_SIZE;
 
-                for (int i = batch_num * BATCH_SIZE; i < batch_num * BATCH_SIZE + num_sprites; ++i)
+                for (int i = batch_num * KTL_BATCH_SIZE; i < batch_num * KTL_BATCH_SIZE + num_sprites; ++i)
                 {
                     SpriteBatchItem item = sprite_buffer[i];
 
-                    int fixed_i = (i - (i / BATCH_SIZE * BATCH_SIZE)) * 32;
+                    int fixed_i = (i - (i / KTL_BATCH_SIZE * KTL_BATCH_SIZE)) * 32;
 
                     /* Top left */
                     vertex_buffer[fixed_i     ] = scale_x * item.position[0];
@@ -578,21 +600,21 @@ namespace Microsoft.Xna.Framework.Graphics
                     }
                 }
 
-                int size_multip = sprite_count - batch_num * BATCH_SIZE;
-                if (size_multip > BATCH_SIZE) size_multip = BATCH_SIZE;
+                int size_multip = sprite_count - batch_num * KTL_BATCH_SIZE;
+                if (size_multip > KTL_BATCH_SIZE) size_multip = KTL_BATCH_SIZE;
 
                 GL.BufferSubData(BufferTarget.ArrayBuffer,                        // Target
                                 0,                                      // Offset
                                 size_multip * (32 * sizeof(float)),   // Size
                                 &vertex_buffer[0]);                     // Data
 
-                uint last_texture = sprite_buffer[batch_num * BATCH_SIZE].texture;
+                uint last_texture = sprite_buffer[batch_num * KTL_BATCH_SIZE].texture;
                 int offset = 0;
 
                 SpriteBatchItem sprite;
                 for (int i = 0; i < num_sprites; ++i)
                 {
-                    sprite = sprite_buffer[batch_num * BATCH_SIZE + i];
+                    sprite = sprite_buffer[batch_num * KTL_BATCH_SIZE + i];
 
                     if (sprite.texture != last_texture)
                     {
@@ -644,9 +666,9 @@ namespace Microsoft.Xna.Framework.Graphics
         {
             if (!is_initialized) return;
 
-            GL.DeleteBuffers(1, &VBO);
-            GL.DeleteBuffers(1, &EBO);
-            GL.DeleteVertexArrays(1, &VAO);
+            GL.DeleteBuffers(1, &vbo);
+            GL.DeleteBuffers(1, &ebo);
+            GL.DeleteVertexArrays(1, &vao);
 
             sprite_buffer.remove_range(0, sprite_buffer.length);
             is_initialized = false;

@@ -296,6 +296,9 @@ namespace Sdl
 	[CCode (cname = "SDL_FreeSurface")]
 		public void FreeSurface(IntPtr surface);
 
+	[CCode (cname = "SDL_GetTicks")]
+	public static uint32 GetTicks();
+
 	[CCode (cname = "SDL_GetError")]
 	public static unowned string SDL_GetError ();
 
@@ -483,6 +486,10 @@ namespace Sdl
 			[CCode (cname = "window")]
 			public IntPtr Window;
 		}
+
+		// 0x2FFF0000u
+		[CCode (cname = "SDL_WINDOWPOS_CENTERED_MASK")]
+		public const ulong SDL_WINDOWPOS_CENTERED;
 
 		[CCode (cname = "SDL_CreateWindow")]
 		private static IntPtr SDL_CreateWindow (string title, int x, int y, int w, int h, uint32 flags);
@@ -708,6 +715,12 @@ namespace Sdl
             ContextFlags,
 			[CCode (cname = "SDL_GL_CONTEXT_PROFILE_MASK")]
             ContextProfileMask,
+			[CCode (cname = "SDL_GL_CONTEXT_PROFILE_CORE")]
+			ContextProfileCompat,
+			[CCode (cname = "SDL_GL_CONTEXT_PROFILE_COMPATIBILITY")]
+			ContextProfileES,
+			[CCode (cname = "SDL_GL_CONTEXT_PROFILE_ES")]
+			ContextProfileCore,
 			[CCode (cname = "SDL_GL_SHARE_WITH_CURRENT_CONTEXT")] 
             ShareWithCurrentContext,
 			[CCode (cname = "SDL_GL_FRAMEBUFFER_SRGB_CAPABLE")]

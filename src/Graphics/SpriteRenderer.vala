@@ -39,6 +39,35 @@ namespace Microsoft.Xna.Framework.Graphics
             1f, 1f,     1f, 1f,
             1f, 0f,     1f, 0f
         };
+        public const string[] FragmentShader = 
+        {
+            "in vec2 TexCoords;",
+            "out vec4 color;",
+            "",
+            "uniform sampler2D image;",
+            "uniform vec3 spriteColor;",
+            "",
+            "void main()",
+            "{",
+            "    color = vec4(spriteColor, 1.0) * texture(image, TexCoords);",
+            "}"
+        };
+
+        public const string[] VertexShader = 
+        {
+            "layout (location = 0) in vec4 vertex;",
+            "",
+            "out vec2 TexCoords;",
+            "",
+            "uniform mat4 model;",
+            "uniform mat4 projection;",
+            "",
+            "void main()",
+            "{",
+            "    TexCoords = vertex.zw;",
+            "    gl_Position = projection * model * vec4(vertex.xy, 0.0, 1.0);",
+            "}"
+        };
 
         public SpriteRenderer(Shader shader)
         {
@@ -126,7 +155,9 @@ namespace Microsoft.Xna.Framework.Graphics
             GL.BindVertexArray(VAO);            // binds the vertex array object with VAO
             GL.EnableVertexAttribArray(0);      // enable the generic vertex attribute array specified by index.
                                                 // specify the location and data format of the array of 
-                                                // generic vertex attributes at index index to use when rendering
+                                                // generic vertex attributes at index index to use when rendering:
+                                                //
+                                                //  layout (location = 0) in vec4 vertex;
             GL.VertexAttribPointer(0, 4, DataType.Float, false, (int)(4 * sizeof(float)), (void*)0);
                                                 // reset:
             GL.BindBuffer(BufferTarget.ArrayBuffer, 0); // break the binding.

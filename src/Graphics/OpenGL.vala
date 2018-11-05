@@ -93,6 +93,7 @@ namespace ValaGame.OpenGL
     {
         StreamDraw = 0x88E0,
         StaticDraw = 0x88E4,
+        DynamicDraw = 0x88E8, // decimal value: 35048
     }
 
     internal enum DataType
@@ -473,6 +474,10 @@ namespace ValaGame.OpenGL
         internal static AttachShaderDelegate AttachShader;
 
         [CCode (has_target = false)]
+        internal delegate unowned void DetachShaderDelegate (uint program, uint shader);
+        internal static DetachShaderDelegate DetachShader;
+
+        [CCode (has_target = false)]
         internal delegate unowned void LinkProgramDelegate (uint program);
         internal static LinkProgramDelegate LinkProgram;
 
@@ -552,8 +557,35 @@ namespace ValaGame.OpenGL
         internal delegate unowned void DeleteTexturesDelegate (int n, uint * textures);
         internal static DeleteTexturesDelegate DeleteTextures;
 
+        // Begin Immediate mode:
+        [CCode (has_target = false)]
+        internal delegate unowned void OrthoDelegate (double left, double right, double bottom, double top, double nearVal, double farVal);
+        internal static OrthoDelegate Ortho;
+
+        [CCode (has_target = false)]
+        internal delegate unowned void DisableClientStateDelegate (EnableCap cap);
+        internal static DisableClientStateDelegate DisableClientState;
+        // End Immediate mode:
+
+        
+        [CCode (has_target = false)]
+        internal delegate unowned int GetAttribLocationDelegate (uint program, char* name);
+        internal static GetAttribLocationDelegate GetAttribLocation;
+
+        [CCode (has_target = false)]
+        internal delegate unowned int BindFragDataLocationDelegate (uint program, uint colorNumber, char* name);
+        internal static BindFragDataLocationDelegate BindFragDataLocation;
+
         internal static void LoadEntryPoints ()
         {
+            // Begin Immediate mode:
+            Ortho = LoadEntryPoint<OrthoDelegate> ("glOrtho");
+            DisableClientState = LoadEntryPoint<DisableClientStateDelegate> ("glDisableClientState");
+            // End Immediate mode:
+
+            BindFragDataLocation = LoadEntryPoint<BindFragDataLocationDelegate> ("glBindFragDataLocation");
+            GetAttribLocation = LoadEntryPoint<GetAttribLocationDelegate> ("glGetAttribLocation");
+
             DeleteProgram = LoadEntryPoint<DeleteProgramDelegate> ("glDeleteProgram");
             DeleteTextures = LoadEntryPoint<DeleteTexturesDelegate> ("glDeleteTextures");
 
@@ -573,6 +605,7 @@ namespace ValaGame.OpenGL
             GetProgramInfoLog = LoadEntryPoint<GetProgramInfoLogDelegate> ("glGetProgramInfoLog");
             CreateProgram = LoadEntryPoint<CreateProgramDelegate> ("glCreateProgram");
             AttachShader = LoadEntryPoint<AttachShaderDelegate> ("glAttachShader");
+            DetachShader = LoadEntryPoint<DetachShaderDelegate> ("glDetachShader");
             LinkProgram = LoadEntryPoint<LinkProgramDelegate> ("glLinkProgram");
             DeleteShader = LoadEntryPoint<DeleteShaderDelegate> ("glDeleteShader");
             Uniform1i = LoadEntryPoint<Uniform1iDelegate> ("glUniform1i");
@@ -686,46 +719,46 @@ namespace ValaGame.OpenGL
         //     End();
         // }
 
-        public static void DrawUserArrays(
-            int count, 
-            uint positionsBuffer, 
-            uint texcoordsBuffer
-            )
-        {
-            // TexParameteri(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, (int)TextureWrapMode.ClampToEdge);
-            // TexParameteri(TextureTarget.Texture2D, TextureParameterName.TextureWrapT, (int)TextureWrapMode.ClampToEdge);
+        // public static void DrawUserArrays(
+        //     int count, 
+        //     uint positionsBuffer, 
+        //     uint texcoordsBuffer
+        //     )
+        // {
+        //     TexParameteri(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, (int)TextureWrapMode.ClampToEdge);
+        //     TexParameteri(TextureTarget.Texture2D, TextureParameterName.TextureWrapT, (int)TextureWrapMode.ClampToEdge);
             
-            // EnableClientState(EnableCap.VertexArray);
-            // EnableClientState(EnableCap.TextureCoordArray);
+        //     EnableClientState(EnableCap.VertexArray);
+        //     EnableClientState(EnableCap.TextureCoordArray);
         
-            // BindBuffer(BufferTarget.ArrayBuffer, positionsBuffer);
-            // VertexPointer(3, DataType.Float, 0, (void*)0);
+        //     BindBuffer(BufferTarget.ArrayBuffer, positionsBuffer);
+        //     VertexPointer(3, DataType.Float, 0, (void*)0);
             
-            // BindBuffer(BufferTarget.ArrayBuffer, texcoordsBuffer);
-            // TexCoordPointer(2, DataType.Float, 0, (void*)0);
+        //     BindBuffer(BufferTarget.ArrayBuffer, texcoordsBuffer);
+        //     TexCoordPointer(2, DataType.Float, 0, (void*)0);
             
-            // DrawArrays(PrimitiveType.Triangles, 0, count * 6);
+        //     DrawArrays(PrimitiveType.Triangles, 0, count * 6);
 
-            // BindBuffer(BufferTarget.ArrayBuffer, 0);
-            // DisableClientState(EnableCap.TextureCoordArray);  
-            // DisableClientState(EnableCap.VertexArray);
-        }
-        /**
-         *  Set 2D Camera with Orthographic display
-         *
-         */
-        public static void Use2DCamera(Microsoft.Xna.Framework.Graphics.OrthoCamera? ortho=null) 
-        {
-            // ortho = ortho ?? Microsoft.Xna.Framework.Graphics.OrthoCamera.Default;
+        //     BindBuffer(BufferTarget.ArrayBuffer, 0);
+        //     DisableClientState(EnableCap.TextureCoordArray);  
+        //     DisableClientState(EnableCap.VertexArray);
+        // }
+        // /**
+        //  *  Set 2D Camera with Orthographic display
+        //  *
+        //  */
+        // public static void Use2DCamera(Microsoft.Xna.Framework.Graphics.OrthoCamera? ortho=null) 
+        // {
+        //     ortho = ortho ?? Microsoft.Xna.Framework.Graphics.OrthoCamera.Default;
 
-            // MatrixMode(Mode.Projection);
-            // LoadIdentity();
-            // Ortho(ortho.Left, ortho.Right, ortho.Bottom, ortho.Top, ortho.Near, ortho.Far);
-            // MatrixMode(Mode.ModelView);
-            // LoadIdentity();
-            // Enable(EnableCap.Texture2D);
-            // Enable(EnableCap.Blend);
-            // BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
-        }
+        //     MatrixMode(Mode.Projection);
+        //     LoadIdentity();
+        //     Ortho(ortho.Left, ortho.Right, ortho.Bottom, ortho.Top, ortho.Near, ortho.Far);
+        //     MatrixMode(Mode.ModelView);
+        //     LoadIdentity();
+        //     Enable(EnableCap.Texture2D);
+        //     Enable(EnableCap.Blend);
+        //     BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
+        // }
     }
 }

@@ -48,15 +48,40 @@ namespace Microsoft.Xna.Framework.Content
             Profile = profile;
 
         } // to initialize the static objects
+
+        public static SpriteBatch CreateSpriteBatch(int width, int height)
+        {
+            // var width = graphicsDeviceManager.PreferredBackBufferWidth;
+            // var height = graphicsDeviceManager.PreferredBackBufferHeight;
+
+            if (First) 
+            {
+                new ResourceManager();
+                // Load the default sprite shaders
+                var vertexCode = string.joinv("\n", SpriteBatch.VertexShader);
+                var fragmentCode = string.joinv("\n", SpriteBatch.FragmentShader);
+                Shader shader = new Shader(Version, Profile);
+                shader.Compile(vertexCode, fragmentCode);
+                Shaders["sprite"] = shader; 
+            }
+            var shader = GetShader("sprite");
+            var batch = new SpriteBatch(shader, width, height);
+            batch.Create();
+            return batch;
+        }
         
         public static SpriteRenderer CreateRenderer(int width, int height)
         {
+
             if (First) 
             {
-                // Load the default sprite shaders
                 new ResourceManager();
-                Shaders["sprite"] = defaultShaders();
-                // LoadShader("shaders/sprite.vs", "shaders/sprite.frag", null, "sprite");
+                // Load the default sprite shaders
+                var vertexCode = string.joinv("\n", SpriteRenderer.VertexShader);
+                var fragmentCode = string.joinv("\n", SpriteRenderer.FragmentShader);
+                Shader shader = new Shader(Version, Profile);
+                shader.Compile(vertexCode, fragmentCode);
+                Shaders["sprite"] = shader;
             }
             Matrix projection = new Matrix();
             glm_mat4_identity(projection);
@@ -128,16 +153,6 @@ namespace Microsoft.Xna.Framework.Content
 
         }
 
-        static Shader defaultShaders()
-        {
-
-            Shader shader = new Shader(Version, Profile);
-            var vertexCode = string.joinv("\n", VertexShader);
-            var fragmentCode = string.joinv("\n", FragmentShader);
-            shader.Compile(vertexCode, fragmentCode); 
-            return shader;
-        }
-
         // Loads a single texture from file
         static Texture2D loadTextureFromFile(string file, bool alpha)
         {
@@ -164,34 +179,5 @@ namespace Microsoft.Xna.Framework.Content
             return text;
         }
 
-        static string[] FragmentShader = 
-        {
-            "in vec2 TexCoords;",
-            "out vec4 color;",
-            "",
-            "uniform sampler2D image;",
-            "uniform vec3 spriteColor;",
-            "",
-            "void main()",
-            "{",
-            "    color = vec4(spriteColor, 1.0) * texture(image, TexCoords);",
-            "}"
-        };
-
-        static string[] VertexShader = 
-        {
-            "layout (location = 0) in vec4 vertex;",
-            "",
-            "out vec2 TexCoords;",
-            "",
-            "uniform mat4 model;",
-            "uniform mat4 projection;",
-            "",
-            "void main()",
-            "{",
-            "    TexCoords = vertex.zw;",
-            "    gl_Position = projection * model * vec4(vertex.xy, 0.0, 1.0);",
-            "}"
-        };
     }
 }
