@@ -18,6 +18,14 @@ namespace Microsoft.Xna.Framework.Graphics
     using System;
     using Microsoft.Xna.Framework;
 
+    public enum SpriteFlip
+    {
+        NONE,
+        HORIZONTAL,
+        VERTICAL,
+        BOTH
+    }
+
     public class SpriteBatchItem : Comparable<SpriteBatchItem>
     {
         public uint texture;
@@ -51,10 +59,10 @@ namespace Microsoft.Xna.Framework.Graphics
 
         internal void SetItemModColor(Color rgba)
         {
-            color[0] = (float)rgba.R;
-            color[1] = (float)rgba.G;
-            color[2] = (float)rgba.B;
-            color[3] = (float)rgba.A;
+            color[0] = (float)rgba.R / 255f;
+            color[1] = (float)rgba.G / 255f;
+            color[2] = (float)rgba.B / 255f;
+            color[3] = (float)rgba.A / 255f;
         }
 
         internal void SetItemDefaultClip(Texture2D texture, Rectangle rect)
@@ -65,29 +73,29 @@ namespace Microsoft.Xna.Framework.Graphics
             clip[3] = ((float)rect.Y + (float)rect.Height) / (float)texture.height;
         }
 
-        internal void SetItemFlippedClip(Flip flip, Texture2D texture, Rectangle rect)
+        internal void SetItemFlippedClip(SpriteFlip flip, Texture2D texture, Rectangle rect)
         {
             switch (flip)
             {
-            case Flip.FLIP_NONE:
+            case SpriteFlip.NONE:
                 clip[0] = (float)rect.X / (float)texture.width;
                 clip[1] = (float)rect.Y / (float)texture.height;
                 clip[2] = (float)(rect.X + rect.Width) / (float)texture.width;
                 clip[3] = (float)(rect.Y + rect.Height) / (float)texture.height;
                 break;
-            case Flip.FLIP_HORIZONTAL:
+            case SpriteFlip.HORIZONTAL:
                 clip[0] = (float)(rect.X + rect.Width) / (float)texture.width;
                 clip[1] = (float)rect.Y / (float)texture.height;
                 clip[2] = (float)rect.X / (float)texture.width;
                 clip[3] = (float)(rect.Y + rect.Height) / (float)texture.height;
                 break;
-            case Flip.FLIP_VERTICAL:
+            case SpriteFlip.VERTICAL:
                 clip[0] = (float)rect.X / (float)texture.width;
                 clip[1] = (float)(rect.Y + rect.Height) / (float)texture.height;
                 clip[2] = (float)(rect.X + rect.Width) / (float)texture.width;
                 clip[3] = (float)rect.Y / (float)texture.height;
                 break;
-            case Flip.FLIP_BOTH:
+            case SpriteFlip.BOTH:
                 clip[0] = (float)rect.X / (float)texture.width;
                 clip[1] = (float)rect.Y / (float)texture.height;
                 clip[2] = (float)(rect.X + rect.Width) / (float)texture.width;
