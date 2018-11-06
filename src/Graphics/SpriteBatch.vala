@@ -642,6 +642,7 @@ namespace Microsoft.Xna.Framework.Graphics
         /* Free any resources used by the batch from the GPU and memory. */
         public override void Dispose()
         {
+            print("Why am I here?\n");
             if (!is_initialized) return;
 
             GL.DeleteBuffers(1, &VBO);

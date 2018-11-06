@@ -123,8 +123,10 @@ namespace Microsoft.Xna.Framework.Graphics
                         var rotate = bool.parse(ReadValue(reader));
 
                         ReadTuple(reader);
-                        var left = int.parse(tuple[0]);
-                        var top = int.parse(tuple[1]);
+                        // var left = int.parse(tuple[0]);
+                        // var top = int.parse(tuple[1]);
+                        var top = int.parse(tuple[0]);
+                        var left = int.parse(tuple[1]);
 
                         ReadTuple(reader);
                         var width = int.parse(tuple[0]);

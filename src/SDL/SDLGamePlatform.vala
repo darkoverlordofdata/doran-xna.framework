@@ -295,7 +295,6 @@ namespace Microsoft.Xna.Framework
         {
             // if (Game.GraphicsDevice != null)
             //     Game.GraphicsDevice.Present();
-
             Sdl.GL.SwapWindow(Window.Handle);
             // Sdl.Renderer.Present(Window.Handle);
 

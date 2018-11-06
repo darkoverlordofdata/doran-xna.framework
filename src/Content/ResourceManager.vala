@@ -57,12 +57,7 @@ namespace Microsoft.Xna.Framework.Content
             if (First) 
             {
                 new ResourceManager();
-                // Load the default sprite shaders
-                var vertexCode = string.joinv("\n", SpriteBatch.VertexShader);
-                var fragmentCode = string.joinv("\n", SpriteBatch.FragmentShader);
-                Shader shader = new Shader(Version, Profile);
-                shader.Compile(vertexCode, fragmentCode);
-                Shaders["sprite"] = shader; 
+                Shaders["sprite"] = new BatchShader();
             }
             var shader = GetShader("sprite");
             var batch = new SpriteBatch(shader, width, height);
@@ -77,11 +72,12 @@ namespace Microsoft.Xna.Framework.Content
             {
                 new ResourceManager();
                 // Load the default sprite shaders
-                var vertexCode = string.joinv("\n", SpriteRenderer.VertexShader);
-                var fragmentCode = string.joinv("\n", SpriteRenderer.FragmentShader);
-                Shader shader = new Shader(Version, Profile);
-                shader.Compile(vertexCode, fragmentCode);
-                Shaders["sprite"] = shader;
+                // var vertexCode = string.joinv("\n", SpriteRenderer.VertexShader);
+                // var fragmentCode = string.joinv("\n", SpriteRenderer.FragmentShader);
+                // Shader shader = new Shader(Version, Profile);
+                // shader.Compile(vertexCode, fragmentCode);
+                // Shaders["sprite"] = shader;
+                Shaders["sprite"] = new SpriteShader();
             }
             Matrix projection = new Matrix();
             glm_mat4_identity(projection);
