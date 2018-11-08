@@ -23,11 +23,11 @@ namespace Microsoft.Xna.Framework.Graphics
             "out vec4 color;",
             "",
             "uniform sampler2D tex;",
-            "uniform float global_alpha;",
+            "uniform float Alpha;",
             "",
             "void main(void)",
             "{",
-            "   color = vec4(tint.x, tint.y, tint.z, global_alpha * tint.w) * texture(tex, tex_pos);",
+            "   color = vec4(tint.x, tint.y, tint.z, Alpha * tint.w) * texture(tex, tex_pos);",
             "}"
         };
         const string[] vertexShader = 
@@ -38,11 +38,11 @@ namespace Microsoft.Xna.Framework.Graphics
             "out vec2 tex_pos;",
             "out vec4 tint;",
             "",
-            "uniform mat4 projection;",
+            "uniform mat4 Projection;",
             "",
             "void main(void)",
             "{",
-            "   gl_Position = projection * vec4(position.x, position.y, 0.0f, 1.0f);",
+            "   gl_Position = Projection * vec4(position.x, position.y, 0.0f, 1.0f);",
             "   tex_pos = vec2(position.z, position.w);",
             "   tint = in_tint;",
             "}"

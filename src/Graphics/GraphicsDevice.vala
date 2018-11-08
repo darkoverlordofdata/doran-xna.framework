@@ -359,17 +359,49 @@ namespace Microsoft.Xna.Framework.Graphics
         /// For example value of zero in the array of indices points to the vertex at index <paramref name="vertexOffset"/>
         /// in the array of vertices.</remarks>
         public void DrawUserIndexedPrimitives(
-            ValaGame.OpenGL.PrimitiveType primitiveType, 
-            VertexPositionColorTexture[] vertexData, 
-            int vertexOffset, 
-            int numVertices, 
-            short[] indexData, 
-            int indexOffset, 
-            int primitiveCount, 
+            ValaGame.OpenGL.PrimitiveType primitiveType,// PrimitiveType.Triangles
+            VertexPositionColorTexture2D[] vertexData,  //  _vertexArray
+            int vertexOffset,                           // 0
+            int numVertices,                            // vertexCount
+            int[] indexData,                            // _index
+            int indexOffset,                            // 0
+            int primitiveCount,                         // (vertexCount / 4) * 2
             VertexDeclaration? vertexDeclaration
         )
         {
+            // int size_multip = _count - batch_num * BATCH_SIZE;
+            // if (size_multip > BATCH_SIZE) size_multip = BATCH_SIZE;
 
+            // GL.BufferSubData(BufferTarget.ArrayBuffer,          // Target
+            //                 0,                                  // Offset
+            //                 size_multip * (32 * sizeof(float)), // Size
+            //                 &vertexData[0]);                       // Data
+
+            // uint last_texture = _batchItemList[batch_num * BATCH_SIZE].texture;
+            // int offset = 0;
+
+            // SpriteBatchItem sprite;
+            // for (int i = 0; i < num_batchItemList; ++i)
+            // {
+            //     sprite = _batchItemList[batch_num * BATCH_SIZE + i];
+
+            //     if (sprite.texture != last_texture)
+            //     {
+            //         GL.BindTexture(TextureTarget.Texture2D, last_texture);
+            //         GL.DrawElements(PrimitiveType.Triangles,
+            //                     (i - offset) * 6,
+            //                     DataType.UnsignedInt,
+            //                     (void*)(offset * 6 * sizeof(uint)));
+            //         offset = i;
+            //         last_texture = sprite.texture;
+            //     }
+            // }
+
+            // GL.BindTexture(TextureTarget.Texture2D, last_texture);
+            // GL.DrawElements(PrimitiveType.Triangles,
+            //             (num_batchItemList - offset) * 6,
+            //             DataType.UnsignedInt,
+            //             (void*)(offset * 6 * sizeof(uint)));
         }
     }
 }

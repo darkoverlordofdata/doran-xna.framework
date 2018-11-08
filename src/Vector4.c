@@ -8,6 +8,14 @@
 #include <string.h>
 #include "glm.h"
 
+static int rawcast(float x) {
+  union {
+    float f;
+    int i;
+  } u;
+  u.f = x;
+  return u.i;
+}
 
 /**
  * Constants:
@@ -40,3 +48,13 @@ void  glm_vec4_unref(Vector4* this) {
     else this->ref_count--;
 }
 
+int glm_vec4_hash(Vector4* this) {
+  return abs( rawcast(this->W) ^ rawcast(this->X) ^ rawcast(this->Y) ^ rawcast(this->Z) );
+}
+
+bool glm_vec4_equals(Vector4* this, Vector4* other) {
+    if (this->W == other->W && this->X == other->X && this->Y == other->Y && this->Z == other->Z)
+        return true;
+    else
+        return false;
+}

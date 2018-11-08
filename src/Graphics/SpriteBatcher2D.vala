@@ -19,7 +19,7 @@ namespace Microsoft.Xna.Framework.Graphics
     using ValaGame.OpenGL;
     using Microsoft.Xna.Framework;
 
-    public class SpriteBatcher : Object
+    public class SpriteBatcher2D : Object
     {
         /// <summary>
         /// Initialization size for the batch item list and queue.
@@ -58,9 +58,9 @@ namespace Microsoft.Xna.Framework.Graphics
 
         private VertexPositionColorTexture2D[] _vertexArray;
 
-		public SpriteBatcher (GraphicsDevice device, Shader shader)
+		public SpriteBatcher2D (Shader shader)
 		{
-            _device = device;
+            // _device = device;
             _shader = shader;
 
 			_batchItemList = new GenericArray<SpriteBatchItem2D>(InitialBatchSize);

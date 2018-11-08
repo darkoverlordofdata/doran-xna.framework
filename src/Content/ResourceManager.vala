@@ -51,9 +51,6 @@ namespace Microsoft.Xna.Framework.Content
 
         public static SpriteBatch CreateSpriteBatch(int width, int height)
         {
-            // var width = graphicsDeviceManager.PreferredBackBufferWidth;
-            // var height = graphicsDeviceManager.PreferredBackBufferHeight;
-
             if (First) 
             {
                 new ResourceManager();
@@ -65,6 +62,19 @@ namespace Microsoft.Xna.Framework.Content
             return batch;
         }
         
+        public static SpriteBatch2D CreateSpriteBatch2D(int width, int height)
+        {
+            if (First) 
+            {
+                new ResourceManager();
+                Shaders["sprite"] = new BatchShader();
+            }
+            var shader = GetShader("sprite");
+            var batch = new SpriteBatch2D(shader, width, height);
+            batch.Create();
+            return batch;
+        }
+
         public static SpriteRenderer CreateRenderer(int width, int height)
         {
 

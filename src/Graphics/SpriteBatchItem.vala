@@ -34,22 +34,16 @@ namespace Microsoft.Xna.Framework.Graphics
         public float clip[4];
         public float color[4];
         public float rotation;
-        public float rot_origin[2];
-        public float layer;
+        public float origin[2];
+        public float SortKey;
 
-        internal void SetItemDefaultDimensions(Rectangle clip)
+        internal void SetDimensions(Rectangle clip)
         {
             dimensions[0] = (float)clip.Width;
             dimensions[1] = (float)clip.Height;
         }
 
-        internal void SetItemScaledDimensions(Rectangle clip, Vector2 scale)
-        {
-            dimensions[0] = (float)clip.Width *scale.X;
-            dimensions[1] = (float)clip.Height *scale.Y;
-        }
-
-        internal void SetItemDefaultColor()
+        internal void SetColor()
         {
             color[0] = 1.0f;
             color[1] = 1.0f;
@@ -57,15 +51,7 @@ namespace Microsoft.Xna.Framework.Graphics
             color[3] = 1.0f;
         }
 
-        internal void SetItemModColor(Color rgba)
-        {
-            color[0] = (float)rgba.R / 255f;
-            color[1] = (float)rgba.G / 255f;
-            color[2] = (float)rgba.B / 255f;
-            color[3] = (float)rgba.A / 255f;
-        }
-
-        internal void SetItemDefaultClip(Texture2D texture, Rectangle rect)
+        internal void SetClip(Texture2D texture, Rectangle rect)
         {
             clip[0] = (float)rect.X / (float)texture.width;
             clip[1] = (float)rect.Y / (float)texture.height;
@@ -73,7 +59,28 @@ namespace Microsoft.Xna.Framework.Graphics
             clip[3] = ((float)rect.Y + (float)rect.Height) / (float)texture.height;
         }
 
-        internal void SetItemFlippedClip(SpriteFlip flip, Texture2D texture, Rectangle rect)
+        internal void SetRotation(float rot, int x, int y, Rectangle clip)
+        {
+            rotation = rot;
+            origin[0] = (float)x + (float)clip.Width/2f;
+            origin[1] = (float)y + (float)clip.Height/2f;
+        }
+
+        internal void SetScaledDimensions(Rectangle clip, Vector2 scale)
+        {
+            dimensions[0] = (float)clip.Width *scale.X;
+            dimensions[1] = (float)clip.Height *scale.Y;
+        }
+
+        internal void SetModColor(Color rgba)
+        {
+            color[0] = (float)rgba.R / 255f;
+            color[1] = (float)rgba.G / 255f;
+            color[2] = (float)rgba.B / 255f;
+            color[3] = (float)rgba.A / 255f;
+        }
+
+        internal void SetFlippedClip(SpriteFlip flip, Texture2D texture, Rectangle rect)
         {
             switch (flip)
             {
@@ -105,7 +112,7 @@ namespace Microsoft.Xna.Framework.Graphics
         }
         public override int CompareTo(SpriteBatchItem other)
         {
-            return layer.CompareTo(other.layer);
+            return SortKey.CompareTo(other.SortKey);
         }
 
     }

@@ -150,6 +150,8 @@ bool  glm_vec3_equals(Vector3* this, Vector3* other);
 Vector4* glm_vec4_new(float w, float x, float y, float z);
 Vector4* glm_vec4_ref(Vector4* this);
 void  glm_vec4_unref(Vector4* this);
+int   glm_vec4_hash(Vector4* this);
+bool  glm_vec4_equals(Vector4* this, Vector4* other);
 
 Quaternion* glm_quat_new();
 Quaternion* glm_quat_ref(Quaternion* this);

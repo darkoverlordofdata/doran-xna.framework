@@ -89,8 +89,11 @@ list ( APPEND SOURCE .lib/xna.framework/src/Graphics/PresentationParameters.vala
 list ( APPEND SOURCE .lib/xna.framework/src/Graphics/PresentInterval.vala )
 list ( APPEND SOURCE .lib/xna.framework/src/Graphics/RenderTargetUsage.vala )
 list ( APPEND SOURCE .lib/xna.framework/src/Graphics/SpriteBatch.vala )
+list ( APPEND SOURCE .lib/xna.framework/src/Graphics/SpriteBatch2D.vala )
 list ( APPEND SOURCE .lib/xna.framework/src/Graphics/SpriteBatcher.vala )
+list ( APPEND SOURCE .lib/xna.framework/src/Graphics/SpriteBatcher2D.vala )
 list ( APPEND SOURCE .lib/xna.framework/src/Graphics/SpriteBatchItem.vala )
+list ( APPEND SOURCE .lib/xna.framework/src/Graphics/SpriteBatchItem2D.vala )
 list ( APPEND SOURCE .lib/xna.framework/src/Graphics/SpriteEffects.vala )
 list ( APPEND SOURCE .lib/xna.framework/src/Graphics/SpriteRenderer.vala )
 list ( APPEND SOURCE .lib/xna.framework/src/Graphics/SpriteSortMode.vala )
@@ -120,7 +123,7 @@ list ( APPEND SOURCE .lib/xna.framework/src/Graphics/Vertices/VertexElementUsage
 list ( APPEND SOURCE .lib/xna.framework/src/Graphics/Vertices/VertexDeclaration.vala )
 list ( APPEND SOURCE .lib/xna.framework/src/Graphics/Vertices/VertexPositionColorTexture.vala )
 list ( APPEND SOURCE .lib/xna.framework/src/Graphics/Vertices/VertexPositionTexture.vala )
-list ( APPEND SOURCE .lib/xna.framework/src/Graphics/Vertices/VertexPositionTexture2D.vala )
+list ( APPEND SOURCE .lib/xna.framework/src/Graphics/Vertices/VertexPositionColorTexture2D.vala )
 
 # Vapis: 
 list ( APPEND VAPI .lib/xna.framework/src/emscripten.vapi )

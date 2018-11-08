@@ -165,6 +165,16 @@ namespace Microsoft.Xna.Framework
 		}
 		[CCode (cname = "glm_vec4_print")]
 		public void Print(GLib.FileStream ostream = GLib.stdout);
+
+		[CCode (cname = "glm_vec4_hash")]
+		public int GetHashCode();
+		[CCode (cname = "glm_vec4_equals")]
+		public bool Equals(Vector4 other);
+
+		public string to_string()
+		{
+			return @"{W:$W, X:$X, Y:$Y, Z:$Z}";
+		}
 	}
 
 	/**

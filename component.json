@@ -96,8 +96,11 @@
     "src/Graphics/PresentInterval.vala",
     "src/Graphics/RenderTargetUsage.vala",
     "src/Graphics/SpriteBatch.vala",
+    "src/Graphics/SpriteBatch2D.vala",
     "src/Graphics/SpriteBatcher.vala",
+    "src/Graphics/SpriteBatcher2D.vala",
     "src/Graphics/SpriteBatchItem.vala",
+    "src/Graphics/SpriteBatchItem2D.vala",
     "src/Graphics/SpriteEffects.vala",
     "src/Graphics/SpriteRenderer.vala",
     "src/Graphics/SpriteSortMode.vala",
@@ -128,7 +131,7 @@
     "src/Graphics/Vertices/VertexDeclaration.vala",
     "src/Graphics/Vertices/VertexPositionColorTexture.vala",
     "src/Graphics/Vertices/VertexPositionTexture.vala",
-    "src/Graphics/Vertices/VertexPositionTexture2D.vala"
+    "src/Graphics/Vertices/VertexPositionColorTexture2D.vala"
   ],
   "includes": [
     "./include"
