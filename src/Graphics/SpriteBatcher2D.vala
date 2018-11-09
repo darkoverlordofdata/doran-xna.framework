@@ -22,18 +22,22 @@ namespace Microsoft.Xna.Framework.Graphics
     public class SpriteBatcher2D : Object
     {
         /// <summary>
+        /// Size of each sprite element.
+        /// </summary>
+        const int BlockSize = (int)(sizeof(VertexPositionColorTexture2D));
+        /// <summary>
         /// Initialization size for the batch item list and queue.
         /// </summary>
         private const int InitialBatchSize = 256;
         /// <summary>
         /// The maximum number of batch items that can be processed per iteration
         /// </summary>
-        private const int MaxBatchSize = short.MAX / 6; // 6 = 4 vertices unique and 2 shared, per quad
+        const int MaxBatchSize = 2048;
         /// <summary>
         /// Initialization size for the vertex array, in batch units.
         /// </summary>
-		private const int InitialVertexArraySize = 256;
-
+		private const int InitialVertexArraySize = MaxBatchSize * BlockSize;
+        
         /// <summary>
         /// The list of batch items to process.
         /// Uses GenericArray for sort
@@ -49,29 +53,56 @@ namespace Microsoft.Xna.Framework.Graphics
         /// The target graphics device.
         /// </summary>
         public GraphicsDevice device { get; construct; }
-        public Shader shader { get; construct; }
 
         /// <summary>
         /// Vertex index array. The values in this array never change.
         /// </summary>
         private int[] _index;
 
-        private VertexPositionColorTexture2D[] _vertexArray;
+        private float[] _vertexArray;
 
-		public SpriteBatcher2D (Shader shader)
+        uint _vao;
+        uint _vbo;
+        uint _ebo;
+
+		public SpriteBatcher2D ()
 		{
-            // _device = device;
-            _shader = shader;
-
 			_batchItemList = new GenericArray<SpriteBatchItem2D>(InitialBatchSize);
             _batchItemCount = 0;
 
-            for (int i = 0; i < InitialBatchSize; i++)
-                _batchItemList[i] = new SpriteBatchItem2D();
-
             EnsureArrayCapacity(InitialBatchSize);
+            BindArrayBuffer();
+            BindElementBuffer();
 		}
         
+        void BindArrayBuffer()
+        {
+            GL.GenVertexArrays(1, &_vao);
+            GL.GenBuffers(1, &_vbo);
+            GL.GenBuffers(1, &_ebo);
+
+            GL.BindVertexArray(_vao);
+
+            GL.BindBuffer(BufferTarget.ArrayBuffer, _vbo);
+
+            GL.VertexAttribPointer(0, 4, DataType.Float, false, (int)(8 * sizeof(float)), (void*)0);
+            GL.EnableVertexAttribArray(0);
+
+            GL.VertexAttribPointer(1, 4, DataType.Float, false, (int)(8 * sizeof(float)), (void*)(4 * sizeof(float)));
+            GL.EnableVertexAttribArray(1);
+
+            GL.BufferData(BufferTarget.ArrayBuffer, MaxBatchSize * (BlockSize * sizeof(float)), _vertexArray, BufferUsageHint.DynamicDraw);
+        }
+
+        void BindElementBuffer()
+        {
+            GL.BindBuffer(BufferTarget.ElementArrayBuffer, _ebo);
+            GL.BufferData(BufferTarget.ElementArrayBuffer, MaxBatchSize * 6 * sizeof(int), _index, BufferUsageHint.DynamicDraw);
+
+            GL.BindBuffer(BufferTarget.ArrayBuffer, 0);
+
+            GL.BindVertexArray(0);
+        }
 
         /// <summary>
         /// Reuse a previously allocated SpriteBatchItem from the item pool. 
@@ -80,19 +111,10 @@ namespace Microsoft.Xna.Framework.Graphics
         /// <returns></returns>
         public SpriteBatchItem2D CreateBatchItem()
         {
-            if (_batchItemCount >= _batchItemList.length)
-            {
-                var oldSize = _batchItemList.length;
-                var newSize = oldSize + oldSize/2; // grow by x1.5
-                newSize = (newSize + 63) & (~63); // grow in chunks of 64.
-                // Array.Resize(ref _batchItemList, newSize);
-                _batchItemList.length = newSize;
-                for(int i=oldSize; i<newSize; i++)
-                    _batchItemList[i]=new SpriteBatchItem2D();
-
-                EnsureArrayCapacity((int)Math.fminf(newSize, MaxBatchSize));
-            }
-            var item = _batchItemList[_batchItemCount++];
+            if (_batchItemCount+1 > _batchItemList.length)
+                _batchItemList.add(new SpriteBatchItem2D());
+            var item = _batchItemList[_batchItemCount];
+            ++_batchItemCount;
             return item;
         }
         
@@ -102,38 +124,25 @@ namespace Microsoft.Xna.Framework.Graphics
         /// <param name="numBatchItems"></param>
         private void EnsureArrayCapacity(int numBatchItems)
         {
-            int neededCapacity = 6 * numBatchItems;
-            if (_index != null && neededCapacity <= _index.length)
-            {
-                // Short circuit out of here because we have enough capacity.
-                return;
-            }
-            int start = _index.length / 6;
-            _index.resize(6 * numBatchItems);
-            var indexPtr = (start * 6);
-            for (var i = start; i < numBatchItems; i++, indexPtr += 6)
-            {
-                /*
-                    *  TL    TR
-                    *   0----1 0,1,2,3 = index offsets for vertex indices
-                    *   |   /| TL,TR,BL,BR are vertex references in SpriteBatchItem.
-                    *   |  / |
-                    *   | /  |
-                    *   |/   |
-                    *   2----3
-                    *  BL    BR
-                    */
-                // Triangle 1   
-                _index[indexPtr + 0] = (int)(i * 4);
-                _index[indexPtr + 1] = (int)(i * 4 + 1);
-                _index[indexPtr + 2] = (int)(i * 4 + 2);
-                // Triangle 2
-                _index[indexPtr + 3] = (int)(i * 4 + 2);
-                _index[indexPtr + 4] = (int)(i * 4 + 3);
-                _index[indexPtr + 5] = (int)(i * 4 + 1);
-            }
+            //Element array buffer
+            int[] indices = { 0, 1, 2, 2, 3, 1 };
+            _index = new int[MaxBatchSize * 6];
 
-            _vertexArray = new VertexPositionColorTexture2D[4 * numBatchItems];
+            /*
+             *  TL    TR
+             *   0----1 0,1,2,3 = index offsets for vertex indices
+             *   |   /| TL,TR,BL,BR are vertex references in SpriteBatchItem.
+             *   |  / |
+             *   | /  |
+             *   |/   |
+             *   2----3
+             *  BL    BR
+             */
+            for (int i = 0; i < MaxBatchSize; ++i)
+                for (int j = 0; j < 6; ++j)
+                    _index[i * 6 + j] = indices[j] + i * 4;
+
+            _vertexArray = new float[InitialVertexArraySize];
         }
         
         /// <summary>
@@ -157,61 +166,15 @@ namespace Microsoft.Xna.Framework.Graphics
 				break;
 			}
 
-            // Determine how many iterations through the drawing code we need to make
-            int batchIndex = 0;
-            int batchCount = _batchItemCount;
+            SpriteBatchItem2D sprite;
 
-            
-            _device._graphicsMetrics._spriteCount += batchCount;
-
-            // Iterate through the batches, doing short.MaxValue sets of vertices only.
-            while(batchCount > 0)
+            /** Copy each sorted batch item into the vertex array */
+            for (var i = 0, index = 0; i < _batchItemCount; i++, index+=BlockSize)
             {
-                // setup the vertexArray array
-                var startIndex = 0;
-                var index = 0;
-                Texture2D tex = null;
-
-                int numBatchesToProcess = batchCount;
-                if (numBatchesToProcess > MaxBatchSize)
-                {
-                    numBatchesToProcess = MaxBatchSize;
-                }
-
-                var vertexArrayPtr = 0;
-
-                // Draw the batches
-                for (int i = 0; i < numBatchesToProcess; i++, batchIndex++, index += 4, vertexArrayPtr += 4)
-                {
-                    SpriteBatchItem2D item = _batchItemList[batchIndex];
-                    // if the texture changed, we need to flush and bind the new texture
-                    var shouldFlush = !ReferenceEquals(item.Texture, tex);
-                    if (shouldFlush)
-                    {
-                        FlushVertexArray(startIndex, index, tex);
-
-                        tex = item.Texture;
-                        startIndex = index = 0;
-                        vertexArrayPtr = 0;
-                        _device.Textures[0] = tex;
-                    }
-
-                    // store the SpriteBatchItem data in our vertexArray
-                    _vertexArray[vertexArrayPtr+0] = item.vertexTL;
-                    _vertexArray[vertexArrayPtr+1] = item.vertexTR;
-                    _vertexArray[vertexArrayPtr+2] = item.vertexBL;
-                    _vertexArray[vertexArrayPtr+3] = item.vertexBR;
-
-                    // Release the texture.
-                    item.Texture = null;
-                }
-                // flush the remaining vertexArray data
-                FlushVertexArray(startIndex, index, tex);
-                // Update our batch count to continue the process of culling down
-                // large batches
-                batchCount -= numBatchesToProcess;
+                sprite = _batchItemList[i];
+                Memory.copy(&_vertexArray[index], &sprite.vertexTL, BlockSize * sizeof(float));
             }
-            // return items to the pool.  
+            FlushVertexArray();
             _batchItemCount = 0;
 		}
 
@@ -221,27 +184,56 @@ namespace Microsoft.Xna.Framework.Graphics
         /// <param name="start">Start index of vertices to draw. Not used except to compute the count of vertices to draw.</param>
         /// <param name="end">End index of vertices to draw. Not used except to compute the count of vertices to draw.</param>
         /// <param name="texture">The texture to draw.</param>
-        private void FlushVertexArray(int start, int end, Texture2D? texture)
+        private void FlushVertexArray()
         {
-            if (start == end)
-                return;
+            GL.BindVertexArray(_vao);
+            GL.BindBuffer(BufferTarget.ArrayBuffer, _vbo);
+            GL.BindBuffer(BufferTarget.ElementArrayBuffer, _ebo);
 
-            var vertexCount = end - start;
+            GL.BufferSubData(BufferTarget.ArrayBuffer,          // Target
+                            0,                                  // Offset
+                            _batchItemCount * (BlockSize * sizeof(float)),   // Size
+                            &_vertexArray[0]);                  // Data
 
-            // If no custom effect is defined, then simply render.
-            _device.DrawUserIndexedPrimitives(
-                PrimitiveType.Triangles,
-                _vertexArray,
-                0,
-                vertexCount,
-                _index,
-                0,
-                (vertexCount / 4) * 2,
-                VertexPositionColorTexture.VertexDeclaration);
+            var last_texture = _batchItemList[0].Texture.Handle;
+            var offset = 0;
+
+            for (var i = 0; i < _batchItemCount; i++)
+            {
+                var sprite = _batchItemList[i];
+                if (sprite.Texture.Handle != last_texture)
+                {
+                    GL.BindTexture(TextureTarget.Texture2D, last_texture);
+                    GL.DrawElements(PrimitiveType.Triangles,
+                                (i - offset) * 6,
+                                DataType.UnsignedInt,
+                                (void*)(offset * 6 * sizeof(uint)));
+                    offset = i;
+                    last_texture = sprite.Texture.Handle;
+                }
+            }
+
+            GL.BindTexture(TextureTarget.Texture2D, last_texture);
+            GL.DrawElements(PrimitiveType.Triangles,
+                        (_batchItemCount - offset) * 6,
+                        DataType.UnsignedInt,
+                        (void*)(offset * 6 * sizeof(uint)));
+
+            // Done
+            GL.BindTexture(TextureTarget.Texture2D, 0);
+            GL.BindBuffer(BufferTarget.ArrayBuffer, 0);
+            GL.BindVertexArray(0);
+            GL.UseProgram(0);
         }
 
         public void Dispose() 
         {
+
+            GL.DeleteBuffers(1, &_vbo);
+            GL.DeleteBuffers(1, &_ebo);
+            GL.DeleteVertexArrays(1, &_vao);
+
+            _batchItemList.remove_range(0, _batchItemList.length);
         }
             
     }

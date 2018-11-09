@@ -16,38 +16,24 @@
 namespace Microsoft.Xna.Framework.Graphics
 {
 
-    // based on SpriteRenderer from LearnOpenGL - Breakout
-    
+    public struct Vec2
+    {
+        float X;
+        float Y;
+    }
+
+    public struct Vec4
+    {
+        float W;
+        float X;
+        float Y;
+        float Z;
+    }
+
     public struct VertexPositionColorTexture2D
     {
-        public Vector2 Position;
-        public Vector4 Color;
-        public Vector2 TextureCoordinate;
-        public static VertexDeclaration VertexDeclaration;
-
-        public VertexPositionColorTexture2D(Vector2? position=null, Vector4? color=null, Vector2? textureCoordinate=null)
-        {
-            Position = position ?? new Vector2();
-            Color = color ?? new Vector4();
-            TextureCoordinate = textureCoordinate ?? new Vector2();
-        }
-
-        public int GetHashCode()
-        {
-            var hashCode = Position.GetHashCode();
-            hashCode = (hashCode * 397) ^ Color.GetHashCode();
-            hashCode = (hashCode * 397) ^ TextureCoordinate.GetHashCode();
-            return hashCode;
-        }
-
-        public string ToString()
-        {
-            return @"{{Position: $Position Color: $Color TextureCoordinate: $TextureCoordinate}}";
-        }
-
-        public bool Equals(VertexPositionColorTexture2D obj)
-        {
-            return (Position.Equals(obj.Position) && Color.Equals(obj.Color) && TextureCoordinate.Equals(obj.TextureCoordinate));
-        }
+        Vec2 Position;
+        Vec2 TextureCoordinate;
+        Vec4 Color;
     }
 }

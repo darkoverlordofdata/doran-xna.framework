@@ -332,7 +332,10 @@ namespace Microsoft.Xna.Framework.Graphics
 
             set
             {
+                print("set viewport\n");
                 _viewport = value;
+                if (_viewport == null) print("IS NULL\n"); else print("NOT NULL\n");
+                print("%d\n", _viewport.Height);
                 // PlatformSetViewport(ref value);
             }
         }
