@@ -13,38 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-/**
- * OpenGL delegates
- *
- * Immediate mode is not supported
- * Immediate mode is not compatible with GLES
-
- * partial list of unsupported procs
-
-    // glOrtho
-    // glFrustum
-    // glPushMatrix
-    // glPopMatrix
-    // glVertex3f
-    // glTexCoord2f
-    // glGetTexLevelParameteriv
-    // glDisableClientState
-    // glBegin
-    // glEnd
-    // glBindFragDataLocation
-    // glGetAttribLocation
-    // glMatrixMode
-    // lLoadIdentity
-    // glTexCoordPointer
-    // glVertexPointer
-    // glEnableClientState
-    // glGetString
-
-
- 
- */
-         // Immediate mode is not compatable with GLES
-
 namespace ValaGame.OpenGL
 {
     internal enum Bool
@@ -401,6 +369,18 @@ namespace ValaGame.OpenGL
         internal static DeleteBuffersDelegate DeleteBuffers;
 
         [CCode (has_target = false)]
+        internal delegate void TexCoordPointerDelegate(int size, int type, int stride, void* ptr);
+        internal static TexCoordPointerDelegate TexCoordPointer;
+
+        [CCode (has_target = false)]
+        internal delegate void VertexPointerDelegate(int size, int type, int stride, void* ptr);
+        internal static VertexPointerDelegate VertexPointer;
+
+        [CCode (has_target = false)]
+        internal delegate void EnableClientStateDelegate(EnableCap cap);
+        internal static EnableClientStateDelegate EnableClientState;
+
+        [CCode (has_target = false)]
         internal delegate void DrawElementsDelegate(PrimitiveType mode, int count, DataType type, void* indices);
         internal static DrawElementsDelegate DrawElements;
 
@@ -413,6 +393,14 @@ namespace ValaGame.OpenGL
         internal static DrawArraysDelegate DrawArrays;
 
         [CCode (has_target = false)]
+        internal delegate void MatrixModeDelegate (Mode mode);
+        internal static MatrixModeDelegate MatrixMode;
+
+        [CCode (has_target = false)]
+        internal delegate void LoadIdentityDelegate ();
+        internal static LoadIdentityDelegate LoadIdentity;
+
+        [CCode (has_target = false)]
         internal delegate int EnableDelegate (EnableCap cap);
         internal static EnableDelegate Enable;
 
@@ -423,6 +411,10 @@ namespace ValaGame.OpenGL
         [CCode (has_target = false)]
         internal delegate int BlendFuncDelegate (BlendingFactorSrc sfactor, BlendingFactorDest dfactor);
         internal static BlendFuncDelegate BlendFunc;
+
+        [CCode (has_target = false)]
+        internal delegate unowned string GetStringDelegate (GLString name);
+        internal static GetStringDelegate GetString;
 
         [CCode (has_target = false)]
         internal delegate unowned void ViewportDelegate (int x, int y, int w, int h);
@@ -565,12 +557,34 @@ namespace ValaGame.OpenGL
         internal delegate unowned void DeleteTexturesDelegate (int n, uint * textures);
         internal static DeleteTexturesDelegate DeleteTextures;
 
-        private static bool called = false;
+        // Begin Immediate mode:
+        [CCode (has_target = false)]
+        internal delegate unowned void OrthoDelegate (double left, double right, double bottom, double top, double nearVal, double farVal);
+        internal static OrthoDelegate Ortho;
+
+        [CCode (has_target = false)]
+        internal delegate unowned void DisableClientStateDelegate (EnableCap cap);
+        internal static DisableClientStateDelegate DisableClientState;
+        // End Immediate mode:
+
+        
+        [CCode (has_target = false)]
+        internal delegate unowned int GetAttribLocationDelegate (uint program, char* name);
+        internal static GetAttribLocationDelegate GetAttribLocation;
+
+        [CCode (has_target = false)]
+        internal delegate unowned int BindFragDataLocationDelegate (uint program, uint colorNumber, char* name);
+        internal static BindFragDataLocationDelegate BindFragDataLocation;
+
         internal static void LoadEntryPoints ()
         {
-            if (called == true) return;
-            called = true;
-            print("enter LoadEntryPoints\n");
+            // Begin Immediate mode:
+            Ortho = LoadEntryPoint<OrthoDelegate> ("glOrtho");
+            DisableClientState = LoadEntryPoint<DisableClientStateDelegate> ("glDisableClientState");
+            // End Immediate mode:
+
+            BindFragDataLocation = LoadEntryPoint<BindFragDataLocationDelegate> ("glBindFragDataLocation");
+            GetAttribLocation = LoadEntryPoint<GetAttribLocationDelegate> ("glGetAttribLocation");
 
             DeleteProgram = LoadEntryPoint<DeleteProgramDelegate> ("glDeleteProgram");
             DeleteTextures = LoadEntryPoint<DeleteTexturesDelegate> ("glDeleteTextures");
@@ -626,13 +640,16 @@ namespace ValaGame.OpenGL
             DrawArrays = LoadEntryPoint<DrawArraysDelegate> ("glDrawArrays");
 
             BlendFunc = LoadEntryPoint<BlendFuncDelegate> ("glBlendFunc");
-            print("exit LoadEntryPoints\n");
-
+            MatrixMode = LoadEntryPoint<MatrixModeDelegate> ("glMatrixMode");
+            LoadIdentity = LoadEntryPoint<LoadIdentityDelegate> ("glLoadIdentity");
+            TexCoordPointer = LoadEntryPoint<TexCoordPointerDelegate> ("glTexCoordPointer");
+            VertexPointer = LoadEntryPoint<VertexPointerDelegate> ("glVertexPointer");
+            EnableClientState = LoadEntryPoint<EnableClientStateDelegate> ("glEnableClientState");
+            GetString = LoadEntryPoint<GetStringDelegate> ("glGetString");
         }
 
         internal static T LoadEntryPoint<T>(string proc, bool throwIfNotFound = false)
         {
-            print("LoadEntryPoint: %s\n", proc);
             try
             {
                 var addr = Sdl.SDL_GL_GetProcAddress(proc);
@@ -649,6 +666,8 @@ namespace ValaGame.OpenGL
 
         }
 
+        // *** D E P R E C A T E D ***
+        // Immediate mode is not compatable with GLES
 
         internal static GraphicsContext CreateContext (WindowInfo info)
         {
@@ -656,5 +675,90 @@ namespace ValaGame.OpenGL
             return new GraphicsContext(info);
         }
 
+        // Extensions/Helpers...
+        
+        // public static void Draw(
+        //     Microsoft.Xna.Framework.Vector2 pos, 
+        //     Microsoft.Xna.Framework.Vector2 size, 
+        //     bool reverse = false)
+        // {
+            
+        //     Begin(PrimitiveType.Triangles);
+        //     if (reverse)
+        //     {
+        //         // BR - bottom right
+        //         TexCoord2f(1, 1); Vertex3f(pos.X, pos.Y+size.Y, 0);
+        //         // BL - bottom left
+        //         TexCoord2f(1, 0); Vertex3f(pos.X, pos.Y, 0);
+        //         // TL - top left
+        //         TexCoord2f(0, 0); Vertex3f(pos.X+size.X, pos.Y, 0);
+                
+        //         // BR - bottom right
+        //         TexCoord2f(1, 1); Vertex3f(pos.X, pos.Y+size.Y, 0);
+        //         // TR - top right
+        //         TexCoord2f(0, 1); Vertex3f(pos.X+size.X, pos.Y+size.Y, 0);
+        //         // TL - top left
+        //         TexCoord2f(0, 0); Vertex3f(pos.X+size.X, pos.Y, 0);
+        //     }
+        //     else
+        //     {
+        //         // TR - top right
+        //         TexCoord2f(0, 1); Vertex3f(pos.X, pos.Y+size.Y, 0);
+        //         // TL - top left
+        //         TexCoord2f(0, 0); Vertex3f(pos.X, pos.Y, 0);
+        //         // BL - bottom left
+        //         TexCoord2f(1, 0); Vertex3f(pos.X+size.X, pos.Y, 0);
+                
+        //         // TR - top right
+        //         TexCoord2f(0, 1); Vertex3f(pos.X, pos.Y+size.Y, 0);
+        //         // BR - bottom right
+        //         TexCoord2f(1, 1); Vertex3f(pos.X+size.X, pos.Y+size.Y, 0);
+        //         // BL - bottom left
+        //         TexCoord2f(1, 0); Vertex3f(pos.X+size.X, pos.Y, 0);
+        //     }
+        //     End();
+        // }
+
+        // public static void DrawUserArrays(
+        //     int count, 
+        //     uint positionsBuffer, 
+        //     uint texcoordsBuffer
+        //     )
+        // {
+        //     TexParameteri(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, (int)TextureWrapMode.ClampToEdge);
+        //     TexParameteri(TextureTarget.Texture2D, TextureParameterName.TextureWrapT, (int)TextureWrapMode.ClampToEdge);
+            
+        //     EnableClientState(EnableCap.VertexArray);
+        //     EnableClientState(EnableCap.TextureCoordArray);
+        
+        //     BindBuffer(BufferTarget.ArrayBuffer, positionsBuffer);
+        //     VertexPointer(3, DataType.Float, 0, (void*)0);
+            
+        //     BindBuffer(BufferTarget.ArrayBuffer, texcoordsBuffer);
+        //     TexCoordPointer(2, DataType.Float, 0, (void*)0);
+            
+        //     DrawArrays(PrimitiveType.Triangles, 0, count * 6);
+
+        //     BindBuffer(BufferTarget.ArrayBuffer, 0);
+        //     DisableClientState(EnableCap.TextureCoordArray);  
+        //     DisableClientState(EnableCap.VertexArray);
+        // }
+        // /**
+        //  *  Set 2D Camera with Orthographic display
+        //  *
+        //  */
+        // public static void Use2DCamera(Microsoft.Xna.Framework.Graphics.OrthoCamera? ortho=null) 
+        // {
+        //     ortho = ortho ?? Microsoft.Xna.Framework.Graphics.OrthoCamera.Default;
+
+        //     MatrixMode(Mode.Projection);
+        //     LoadIdentity();
+        //     Ortho(ortho.Left, ortho.Right, ortho.Bottom, ortho.Top, ortho.Near, ortho.Far);
+        //     MatrixMode(Mode.ModelView);
+        //     LoadIdentity();
+        //     Enable(EnableCap.Texture2D);
+        //     Enable(EnableCap.Blend);
+        //     BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
+        // }
     }
 }

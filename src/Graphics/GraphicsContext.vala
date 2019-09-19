@@ -42,6 +42,7 @@ namespace ValaGame.OpenGL
             // GL entry points must be loaded after the GL context creation, otherwise some Windows drivers will return only GL 1.3 compatible functions
             try
             {
+                print("GraphicsContext::GraphicsContext\n");
                 OpenGL.GL.LoadEntryPoints();
             }
             catch (Exception.EntryPointNotFound e)

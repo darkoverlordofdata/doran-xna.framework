@@ -64,6 +64,7 @@ namespace Sdl
             if (Context == null) {
                 print("Could not create SDL Context: %s", SDL_GetError());
             }
+            // print("XnaInit::GraphicsViewportStart\n");
             ValaGame.OpenGL.GL.LoadEntryPoints();
             
             GL.SetSwapInterval(1);

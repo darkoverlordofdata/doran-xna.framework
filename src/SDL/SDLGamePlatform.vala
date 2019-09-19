@@ -80,6 +80,20 @@ namespace Microsoft.Xna.Framework
             // GamePad.InitDatabase();
             Window = _view = new SdlGameWindow(_game);
 
+            /* Request opengl 3.3 context.
+            * SDL doesn't have the ability to choose which profile at this time of writing,
+            * but it should default to the core profile */
+            Sdl.GL.SetAttribute(Sdl.GL.ContextMajorVersion, 3);
+            #if (__EMSCRIPTEN__)
+            Sdl.GL.SetAttribute(Sdl.GL.ContextMinorVersion, 0);
+            #else
+            Sdl.GL.SetAttribute(Sdl.GL.ContextMinorVersion, 3);
+            #endif
+
+            /* Turn on double buffering with a 24bit Z buffer.
+            * You may need to change this to 16 or 32 for your system */
+            Sdl.GL.SetAttribute(Sdl.GL.DoubleBuffer, 1);
+            Sdl.GL.SetAttribute(Sdl.GL.DepthSize, 24);
             // try
             // {
             //     _soundControllerInstance = OpenALSoundController.GetInstance;

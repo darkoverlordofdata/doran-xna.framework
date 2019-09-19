@@ -137,7 +137,7 @@
     "./include"
   ],
   "libraries": [
-    "GL",
+    "opengl32",
     "SDL2main",
     "SDL2"
   ],

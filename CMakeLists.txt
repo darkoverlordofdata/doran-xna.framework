@@ -140,7 +140,7 @@ set ( C_SOURCES "${C_SOURCES};${CSOURCE}" PARENT_SCOPE )
 set ( VALA_SOURCES "${VALA_SOURCES};${SOURCE}" PARENT_SCOPE )
 set ( CUSTOM_VAPIS "${CUSTOM_VAPIS};${VAPI}" PARENT_SCOPE )
 
-set ( DEPS_LIBRARIES "${DEPS_LIBRARIES};-lopengl32 -lSDL2main -lSDL2" PARENT_SCOPE)
+set ( DEPS_LIBRARIES "${DEPS_LIBRARIES};-lGL -lSDL2main -lSDL2" PARENT_SCOPE)
 
 
 # (generated from template: package. Do not modify. )
