@@ -32,7 +32,7 @@ namespace Microsoft.Xna.Framework
         private int _height;
         private bool _wasMoved;
         private bool _supressMoved;
-        private IntPtr _icon;
+        private Sdl.Surface? _icon;
         private bool _resizable;
         private bool _borderless;
         private bool _willBeFullScreen;
@@ -62,6 +62,16 @@ namespace Microsoft.Xna.Framework
             //     // GraphicsDeviceManager.DefaultBackBufferWidth, GraphicsDeviceManager.DefaultBackBufferHeight,
             //     Sdl.Window.State.Hidden);
             _handle = Sdl.GetCurrentWindow();
+
+            // #if (__EMSCRIPTEN__)
+            // var img_flags = Sdl.ImgInitFlags.Png;
+            // #else
+            // var img_flags = Sdl.ImgInitFlags.Png | Sdl.ImgInitFlags.Jpg;
+            // #endif
+            // if (Sdl.ImgInit(img_flags) != img_flags) {
+            //     print("Init image");
+            // }
+
         }
 
         internal void CreateWindow() 

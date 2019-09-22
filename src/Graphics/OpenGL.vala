@@ -642,6 +642,7 @@ namespace ValaGame.OpenGL
             }
             catch (Exception e)
             {
+                print("%s not found\n", proc);
                 if (throwIfNotFound)
                     throw new Exception.EntryPointNotFound("Unable to load "+proc);
                 return null;

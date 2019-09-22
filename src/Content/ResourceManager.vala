@@ -8,7 +8,7 @@
 ******************************************************************/
 namespace Microsoft.Xna.Framework.Content
 {
-    using Stb;
+    // using Stb;
     using System;
     using System.IO;
     using System.Collections.Generic;
@@ -167,6 +167,7 @@ namespace Microsoft.Xna.Framework.Content
             Texture2D texture = new Texture2D();
             texture.SetData(Root+file);
             return texture;
+
         }
 
         static string? readTextFile(string path)

@@ -24,7 +24,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
-[CCode (cheader_filename = "SDL2/SDL.h")]
+[CCode (cheader_filename = "SDL2/SDL.h,SDL2/SDL_image.h,SDL2/SDL_mixer.h,SDL2/SDL_ttf.h")]
 namespace Sdl 
 {
 	[CCode (cname = "SDL_GL_GetProcAddress")]
@@ -76,6 +76,23 @@ namespace Sdl
 		GameController
 	}
 
+	[Flags]
+	public enum ImgInitFlags 
+	{
+		[CCode (cname = "IMG_INIT_PNG")]
+		Png,
+		[CCode (cname = "IMG_INIT_JPG")]
+		Jpg
+	}
+
+	[CCode (cname = "SDL_PixelFormatEnum")]
+	public enum PixelFormatEnum 
+	{
+		[CCode (cname = "SDL_PIXELFORMAT_ABGR8888")]
+		PIXELFORMAT_ABGR8888,
+		[CCode (cname = "SDL_PIXELFORMAT_BGR888")]
+		PIXELFORMAT_BGR888
+	}
 
 	[CCode (cname = "SDL_EventType")]
 	public enum EventType 
@@ -254,7 +271,64 @@ namespace Sdl
 		[CCode (cname = "type")]
 		public uint32 Type;
 	}
-	
+
+	[SimpleType, CCode (cname = "SDL_PixelFormat")]
+	public struct PixelFormat 
+	{
+		[CCode (cname = "format")]
+		public uint32 Format;
+		[CCode (cname = "palette")]
+		public IntPtr Palette;
+		[CCode (cname = "BitsPerPixel")]
+		public uint8 BitsPerPixel;
+		[CCode (cname = "BytesPerPixel")]
+		public uint8 BytesPerPixel;
+		[CCode (cname = "Rmask")]
+		public uint32 Rmask;
+		[CCode (cname = "Gmask")]
+		public uint32 Gmask;
+		[CCode (cname = "Bmask")]
+		public uint32 Bmask;
+		[CCode (cname = "Amask")]
+		public uint32 Amask;
+
+	}
+
+	[Compact, CCode (cname="SDL_Surface", ref_function = "", unref_function = "SDL_FreeSurface")]
+	public class Surface
+	{
+		private uint32 flags;
+		[CCode (cname = "format")]
+		public PixelFormat* Format;
+		[CCode (cname = "w")]
+		public int Width;
+		[CCode (cname = "h")]
+		public int Height;
+		[CCode (cname = "pitch")]
+		public int Pitch;
+		[CCode (cname = "pixels")]
+		public IntPtr Pixels;
+		[CCode (cname = "userdata")]
+		public IntPtr UserData;
+		[CCode (cname = "locked")]
+		public int Locked;
+		[CCode (cname = "lock_data")]
+		public IntPtr LockData;
+		[CCode (cname = "clip_rect")]
+		public Rect ClipRect;
+		[CCode (cname = "map")]
+		public IntPtr Map;
+		[CCode (cname = "refcount")]
+		public int RefCount;
+	}
+
+	[CCode (cname = "SDL_GetPixelFormatName")]
+	public static char* GetPixelFormatName(uint32 format);
+
+	[CCode (cname = "IMG_Init")]
+	public static int ImgInit(int flags);
+
+
 	[CCode (cname = "SDL_Init")]
 	private static int SDL_Init(int flags);
 	
@@ -294,7 +368,7 @@ namespace Sdl
 		int pitch, uint32 rMask, uint32 gMask, uint32 bMask, uint32 aMask);
 
 	[CCode (cname = "SDL_FreeSurface")]
-		public void FreeSurface(IntPtr surface);
+	public void FreeSurface(Surface surface);
 
 	[CCode (cname = "SDL_GetTicks")]
 	public static uint32 GetTicks();
@@ -328,13 +402,29 @@ namespace Sdl
 	public static unowned string GetHint (string name);
 
 	[CCode (cname = "SDL_LoadBMP_RW")]
-	public IntPtr LoadBMP_RW (IntPtr src, int freesrc = 0);
+	public Surface LoadBMP_RW (IntPtr src, int freesrc = 0);
 
 	[CCode (cname = "SDL_Quit")]
 	public static void Quit ();
 
 	[CCode (cname = "SDL_LoadBMP")]
-	public static IntPtr LoadBMP (char* src);
+	public static Surface LoadBMP (char* src);
+
+	[CCode (cname = "IMG_Load")]
+	public static Surface IMG_Load (char* file);
+
+	[CCode (cname = "SDL_MUSTLOCK")]
+	public static bool MustLock (Surface surface);
+
+	[CCode (cname = "SDL_LockSurface")]
+	public static int LockSurface (Surface surface);
+
+	[CCode (cname = "SDL_UnlockSurface")]
+	public static int UnlockSurface (Surface surface);
+
+	// [CCode (cname = "SDL_FreeSurface")]
+	// public static void FreeSurface (IntPtr surface);
+
 
 	[CCode (cname = "SDL_RWFromMem")]
 	public static RWops* RWFromMem (void* mem, int size);
@@ -514,7 +604,7 @@ namespace Sdl
 		public static uint32 GetWindowFlags (IntPtr window);
 	
 		[CCode (cname = "SDL_SetWindowIcon")]
-		public static void SetIcon (IntPtr window, IntPtr icon);
+		public static void SetIcon (IntPtr window, Surface icon);
 
 		[CCode (cname = "SDL_GetWindowPosition")]
 		public static void GetPosition (IntPtr window, out int x, out int y);
@@ -668,6 +758,18 @@ namespace Sdl
 	
 	public class GL 
 	{
+		[CCode (cname = "SDL_GLcontextFlag")]
+		public enum ContextFlag
+		{
+			[CCode (cname = "SDL_GL_CONTEXT_DEBUG_FLAG")]
+			ContextDebug,
+			[CCode (cname = "SDL_GL_CONTEXT_FORWARD_COMPATIBLE_FLAG")]
+			ForwardCompat,
+			[CCode (cname = "SDL_GL_CONTEXT_ROBUST_ACCESS_FLAG")]
+			RobustAccess,
+			[CCode (cname = "SDL_GL_CONTEXT_RESET_ISOLATION_FLAG")]	
+			ResetIsolation
+		}
 		[CCode (cname = "SDL_GLattr")]
 		public enum Attribute
 		{

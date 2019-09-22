@@ -54,9 +54,9 @@ namespace Sdl
                 print("Could not create SDL window: %s", SDL_GetError());
             }
 
-            IntPtr windowIcon = LoadBMP("./assets/d16a.bmp");
+            Sdl.Surface windowIcon = LoadBMP("./assets/d16a.bmp");
             Window.SetIcon(Screen, windowIcon);
-            FreeSurface(windowIcon);
+            // FreeSurface(windowIcon);
             
             GL.SetAttribute(GL.Attribute.ShareWithCurrentContext, 1);
             Context = GL.CreateContext(Screen);
@@ -64,11 +64,13 @@ namespace Sdl
             if (Context == null) {
                 print("Could not create SDL Context: %s", SDL_GetError());
             }
-            // print("XnaInit::GraphicsViewportStart\n");
+            print("ValaGame.OpenGL.GL.LoadEntryPoints();");
             ValaGame.OpenGL.GL.LoadEntryPoints();
-            
+            print("GL.SetSwapInterval(1);");       
             GL.SetSwapInterval(1);
+            print("ValaGame.OpenGL.GL.Viewport(0, 0, 800, 600);");
             ValaGame.OpenGL.GL.Viewport(0, 0, 800, 600);
+            print("GraphicsViewportStart - return");
         }
         
         public void Finish() 

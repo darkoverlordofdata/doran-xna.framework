@@ -17,7 +17,7 @@ namespace Microsoft.Xna.Framework.Graphics
 {
     using System;
     using ValaGame.OpenGL;
-    using Stb;
+    // using Stb;
     // using System.IO;
     // using System.Runtime.InteropServices;
     // using Microsoft.Xna.Framework.Utilities;
@@ -66,6 +66,8 @@ namespace Microsoft.Xna.Framework.Graphics
         /// <param name="path"></param>
         public override void SetData(string path)
         {
+
+            print(@"Texture2d::SetData $path\n");
             GL.GenTextures(1, ref Handle);
             GL.BindTexture(TextureTarget.Texture2D, Handle); 
             // all upcoming TextureTarget.Texture2D operations now have effect on this texture object
@@ -77,27 +79,39 @@ namespace Microsoft.Xna.Framework.Graphics
             GL.TexParameteri(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Linear);
             GL.TexParameteri(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Linear);
 
-            Image pixels = Image.Load(path, out width, out height, out channels, SurfaceFormat.Auto);
-
-            print("%s %d %d %d\n", path, width, height, channels);
-            switch (channels)
+            Sdl.Surface? surface = Sdl.IMG_Load(path);
+            if (Sdl.MustLock(surface)) 
+                Sdl.LockSurface(surface);
+            this.width = surface.Width;
+            this.height = surface.Height;
+            
+            switch (surface.Format->Format)
             {
-                case 4:
-                    GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, width, height, 0, PixelFormat.Rgba, PixelType.UnsignedByte, pixels);
+                case Sdl.PixelFormatEnum.PIXELFORMAT_ABGR8888:
+                    GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, width, height, 0, PixelFormat.Rgba, PixelType.UnsignedByte, surface.Pixels);
                     break;
-                case 3:
-                    GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgb, width, height, 0, PixelFormat.Rgb, PixelType.UnsignedByte, pixels);
+
+                case Sdl.PixelFormatEnum.PIXELFORMAT_BGR888:
+                    GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgb, width, height, 0, PixelFormat.Rgb, PixelType.UnsignedByte, surface.Pixels);
                     break;
-                case 2:
-                    GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.LuminanceAlpha, width, height, 0, PixelFormat.LuminanceAlpha, PixelType.UnsignedByte, pixels);
+
+            //     case 2:
+            //         print("PixelInternalFormat.LuminanceAlpha\n");
+            //         GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.LuminanceAlpha, width, height, 0, PixelFormat.LuminanceAlpha, PixelType.UnsignedByte, surface.Pixels);
+            //         break;
+            //     case 1:
+            //         print("PixelInternalFormat.Luminance\n");
+            //         GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Luminance, width, height, 0, PixelFormat.Luminance, PixelType.UnsignedByte, surface.Pixels);
+            //         break;
+
+                default: // assert_not_reached ();
+                    print("PixelType not found : %s\n", (string)Sdl.GetPixelFormatName(surface.Format->Format));
                     break;
-                case 1:
-                    GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Luminance, width, height, 0, PixelFormat.Luminance, PixelType.UnsignedByte, pixels);
-                    break;
-                default: assert_not_reached ();
             }
+
             GL.GenerateMipmap(GenerateMipmapTarget.Texture2D);
-            pixels.Dispose();
+            if (Sdl.MustLock(surface)) 
+                Sdl.UnlockSurface(surface);
             this.TexelWidth = 1f / (float)this.width;
             this.TexelHeight = 1f / (float)this.height;
         }

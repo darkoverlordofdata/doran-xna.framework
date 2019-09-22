@@ -124,23 +124,6 @@ namespace Microsoft.Xna.Framework.Content
 			return result;
 		}
 
-		/// <summary>
-		/// This API is an extension to XNA.
-		/// loads all assets from an asset folder
-		/// </summary>
-		/// <returns>Loads a typed assets.</returns>
-		public virtual T LoadAsset<T>(string assetName)
-		{
-			if (assetName == null || assetName == "")
-			{
-				throw new Exception.ArgumentNullException("assetName");
-			}
-			if (disposed)
-			{
-				throw new Exception.ObjectDisposedException("ContentManager");
-			}
-			return (T)ReadAsset<T>(@"$_rootDirectory/$assetName");
-		}
 
 		public virtual void Unload()
 		{

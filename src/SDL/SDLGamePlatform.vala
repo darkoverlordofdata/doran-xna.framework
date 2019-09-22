@@ -90,6 +90,8 @@ namespace Microsoft.Xna.Framework
             Sdl.GL.SetAttribute(Sdl.GL.ContextMinorVersion, 3);
             #endif
 
+            Sdl.GL.SetAttribute(Sdl.GL.ContextFlags, Sdl.GL.ContextFlag.ForwardCompat);
+
             /* Turn on double buffering with a 24bit Z buffer.
             * You may need to change this to 16 or 32 for your system */
             Sdl.GL.SetAttribute(Sdl.GL.DoubleBuffer, 1);
