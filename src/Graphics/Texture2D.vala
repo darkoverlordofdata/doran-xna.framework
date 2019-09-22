@@ -95,15 +95,6 @@ namespace Microsoft.Xna.Framework.Graphics
                     GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgb, width, height, 0, PixelFormat.Rgb, PixelType.UnsignedByte, surface.Pixels);
                     break;
 
-            //     case 2:
-            //         print("PixelInternalFormat.LuminanceAlpha\n");
-            //         GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.LuminanceAlpha, width, height, 0, PixelFormat.LuminanceAlpha, PixelType.UnsignedByte, surface.Pixels);
-            //         break;
-            //     case 1:
-            //         print("PixelInternalFormat.Luminance\n");
-            //         GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Luminance, width, height, 0, PixelFormat.Luminance, PixelType.UnsignedByte, surface.Pixels);
-            //         break;
-
                 default: // assert_not_reached ();
                     print("PixelType not found : %s\n", (string)Sdl.GetPixelFormatName(surface.Format->Format));
                     break;

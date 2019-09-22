@@ -46,7 +46,7 @@ namespace Microsoft.Xna.Framework.Graphics
             int[] length;
             var version = VERSION.printf(Version, Profile);
 
-            print("%s\n%s\n%s\n", version, HEADER, vertexSource);
+            // print("%s\n%s\n%s\n", version, HEADER, vertexSource);
 
             // Vertex Shader
             source = { version, HEADER, vertexSource };
@@ -57,7 +57,7 @@ namespace Microsoft.Xna.Framework.Graphics
             checkCompileErrors(sVertex, ShaderType.VertexShader);
             // Fragment Shader
 
-            print("%s\n%s\n%s\n", version, HEADER, fragmentSource);
+            // print("%s\n%s\n%s\n", version, HEADER, fragmentSource);
             source = { version, HEADER, fragmentSource };
             length = { version.length, HEADER.length, fragmentSource.length };
             sFragment = GL.CreateShader(ShaderType.FragmentShader);

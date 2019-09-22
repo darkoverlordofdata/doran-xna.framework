@@ -77,6 +77,7 @@ namespace Sdl
 	}
 
 	[Flags]
+	[CCode (cname = "IMG_InitFlags")]
 	public enum ImgInitFlags 
 	{
 		[CCode (cname = "IMG_INIT_PNG")]

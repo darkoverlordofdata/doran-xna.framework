@@ -63,31 +63,23 @@ namespace Microsoft.Xna.Framework
             //     Sdl.Window.State.Hidden);
             _handle = Sdl.GetCurrentWindow();
 
-            // #if (__EMSCRIPTEN__)
-            // var img_flags = Sdl.ImgInitFlags.Png;
-            // #else
-            // var img_flags = Sdl.ImgInitFlags.Png | Sdl.ImgInitFlags.Jpg;
-            // #endif
-            // if (Sdl.ImgInit(img_flags) != img_flags) {
-            //     print("Init image");
-            // }
+            #if (__EMSCRIPTEN__)
+            var img_flags = Sdl.ImgInitFlags.Png;
+            #else
+            var img_flags = Sdl.ImgInitFlags.Png | Sdl.ImgInitFlags.Jpg;
+            #endif
+            if (Sdl.ImgInit(img_flags) != img_flags) {
+                print("ERR: SdlInit image");
+            }
 
         }
 
         internal void CreateWindow() 
         {
-            // var initflags =
-            //     Sdl.Window.State.OpenGL |
-            //     Sdl.Window.State.Hidden |
-            //     Sdl.Window.State.InputFocus |
-            //     Sdl.Window.State.MouseFocus;
-            
             var winx = Sdl.Window.PosCentered;
             var winy = Sdl.Window.PosCentered;
             
-            // _handle = Sdl.Window.Create(_title, winx, winy, _width, _height, initflags);
             _handle = Sdl.GetCurrentWindow();
-            // Sdl.Window.SetPosition(Handle, 100, 100);
             if (_icon != null) Sdl.Window.SetIcon(_handle, _icon);
             
         }

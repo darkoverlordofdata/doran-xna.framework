@@ -570,7 +570,7 @@ namespace ValaGame.OpenGL
         {
             if (called == true) return;
             called = true;
-            print("enter LoadEntryPoints\n");
+            // print("enter LoadEntryPoints\n");
 
             DeleteProgram = LoadEntryPoint<DeleteProgramDelegate> ("glDeleteProgram");
             DeleteTextures = LoadEntryPoint<DeleteTexturesDelegate> ("glDeleteTextures");
@@ -626,13 +626,13 @@ namespace ValaGame.OpenGL
             DrawArrays = LoadEntryPoint<DrawArraysDelegate> ("glDrawArrays");
 
             BlendFunc = LoadEntryPoint<BlendFuncDelegate> ("glBlendFunc");
-            print("exit LoadEntryPoints\n");
+            // print("exit LoadEntryPoints\n");
 
         }
 
         internal static T LoadEntryPoint<T>(string proc, bool throwIfNotFound = false)
         {
-            print("LoadEntryPoint: %s\n", proc);
+            // print("LoadEntryPoint: %s\n", proc);
             try
             {
                 var addr = Sdl.SDL_GL_GetProcAddress(proc);
